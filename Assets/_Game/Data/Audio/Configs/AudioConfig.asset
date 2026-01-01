@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bab328afedc7254c9faea20ec28a618, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: 
+  sceneAudios:
+  - sceneType: 0
+    startBGMData: []
+    startSFXData: []
+  - sceneType: 1
+    startBGMData:
+    - audioClip: {fileID: 8300000, guid: d10a683a4ed3e10478b4ff104ff70ba4, type: 3}
+    startSFXData: []
+  - sceneType: 2
+    startBGMData: []
+    startSFXData: []
+  - sceneType: 3
+    startBGMData:
+    - audioClip: {fileID: 8300000, guid: 201c1a831820d8f4b8f261e38bfe648b, type: 3}
+    startSFXData: []

@@ -1,0 +1,455 @@
+fileFormatVersion: 2
+guid: 71e74e806b396344b948103070541ead
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4277990413934903171
+    second: Scavenger_AtkS_Animation_0
+  - first:
+      213: 8854654848493112512
+    second: Scavenger_AtkS_Animation_1
+  - first:
+      213: -6456830212301921803
+    second: Scavenger_AtkS_Animation_2
+  - first:
+      213: -5414074091326783407
+    second: Scavenger_AtkS_Animation_3
+  - first:
+      213: -7743574604418764036
+    second: Scavenger_AtkS_Animation_4
+  - first:
+      213: -4337011145977516777
+    second: Scavenger_AtkS_Animation_5
+  - first:
+      213: 7368467225343205053
+    second: Scavenger_AtkS_Animation_6
+  - first:
+      213: -4374785620056429079
+    second: Scavenger_AtkS_Animation_7
+  - first:
+      213: -6709750774838251074
+    second: Scavenger_AtkS_Animation_8
+  - first:
+      213: -7411731919472355230
+    second: Scavenger_AtkS_Animation_9
+  - first:
+      213: -3360669467741655969
+    second: Scavenger_AtkS_Animation_10
+  - first:
+      213: 1295633298463915737
+    second: Scavenger_AtkS_Animation_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 1
+        width: 423
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38fbd1f9d997e5b30800000000000000
+      internalID: 4277990413934903171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_1
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 1
+        width: 423
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc4f15bbad02ea70800000000000000
+      internalID: 8854654848493112512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_2
+      rect:
+        serializedVersion: 2
+        x: 933
+        y: 1
+        width: 423
+        height: 412
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f1ebb4b12bb466a0800000000000000
+      internalID: -6456830212301921803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_3
+      rect:
+        serializedVersion: 2
+        x: 1365
+        y: 1
+        width: 446
+        height: 412
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15042d68c485dd4b0800000000000000
+      internalID: -5414074091326783407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_4
+      rect:
+        serializedVersion: 2
+        x: 1843
+        y: 1
+        width: 423
+        height: 410
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf232ebaceb498490800000000000000
+      internalID: -7743574604418764036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_5
+      rect:
+        serializedVersion: 2
+        x: 2274
+        y: 1
+        width: 447
+        height: 410
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71da9195757dfc3c0800000000000000
+      internalID: -4337011145977516777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_6
+      rect:
+        serializedVersion: 2
+        x: 2759
+        y: 1
+        width: 417
+        height: 409
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe90b1d6ed024660800000000000000
+      internalID: 7368467225343205053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_7
+      rect:
+        serializedVersion: 2
+        x: 3214
+        y: 1
+        width: 417
+        height: 411
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9edac0c38a3a943c0800000000000000
+      internalID: -4374785620056429079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_8
+      rect:
+        serializedVersion: 2
+        x: 3663
+        y: 1
+        width: 423
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb13d56583d22e2a0800000000000000
+      internalID: -6709750774838251074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_9
+      rect:
+        serializedVersion: 2
+        x: 4118
+        y: 1
+        width: 423
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2681d69961d342990800000000000000
+      internalID: -7411731919472355230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_10
+      rect:
+        serializedVersion: 2
+        x: 4573
+        y: 1
+        width: 423
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5ce1c7bce08c51d0800000000000000
+      internalID: -3360669467741655969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_AtkS_Animation_11
+      rect:
+        serializedVersion: 2
+        x: 5028
+        y: 1
+        width: 423
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9defb12de930bf110800000000000000
+      internalID: 1295633298463915737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Scavenger_AtkS_Animation_0: 4277990413934903171
+      Scavenger_AtkS_Animation_1: 8854654848493112512
+      Scavenger_AtkS_Animation_10: -3360669467741655969
+      Scavenger_AtkS_Animation_11: 1295633298463915737
+      Scavenger_AtkS_Animation_2: -6456830212301921803
+      Scavenger_AtkS_Animation_3: -5414074091326783407
+      Scavenger_AtkS_Animation_4: -7743574604418764036
+      Scavenger_AtkS_Animation_5: -4337011145977516777
+      Scavenger_AtkS_Animation_6: 7368467225343205053
+      Scavenger_AtkS_Animation_7: -4374785620056429079
+      Scavenger_AtkS_Animation_8: -6709750774838251074
+      Scavenger_AtkS_Animation_9: -7411731919472355230
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

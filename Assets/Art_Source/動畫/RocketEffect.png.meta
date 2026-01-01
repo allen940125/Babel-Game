@@ -1,0 +1,5863 @@
+fileFormatVersion: 2
+guid: 83b08490a44aee54ca6e0b9ecf48e619
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -80546382431806256
+    second: RocketEffect_0
+  - first:
+      213: -1280658318784840254
+    second: RocketEffect_1
+  - first:
+      213: -4245188003902902051
+    second: RocketEffect_2
+  - first:
+      213: 27610749095560150
+    second: RocketEffect_3
+  - first:
+      213: -7494645335262050336
+    second: RocketEffect_4
+  - first:
+      213: 1840096020011665426
+    second: RocketEffect_5
+  - first:
+      213: -1510118607394177418
+    second: RocketEffect_6
+  - first:
+      213: 3171384265230376302
+    second: RocketEffect_7
+  - first:
+      213: -2139145411768928135
+    second: RocketEffect_8
+  - first:
+      213: 4005925366513422439
+    second: RocketEffect_9
+  - first:
+      213: 5872347778457684698
+    second: RocketEffect_10
+  - first:
+      213: -2362684026007309086
+    second: RocketEffect_11
+  - first:
+      213: -5506925125355098686
+    second: RocketEffect_12
+  - first:
+      213: -6070119494717995049
+    second: RocketEffect_13
+  - first:
+      213: 8137776001785220982
+    second: RocketEffect_14
+  - first:
+      213: 7538098911932183388
+    second: RocketEffect_15
+  - first:
+      213: 1285862290851836631
+    second: RocketEffect_16
+  - first:
+      213: -7355588647373881383
+    second: RocketEffect_17
+  - first:
+      213: -1002099281592762455
+    second: RocketEffect_18
+  - first:
+      213: 2596744410059916105
+    second: RocketEffect_19
+  - first:
+      213: -5890132097155817626
+    second: RocketEffect_20
+  - first:
+      213: 5879090835044876586
+    second: RocketEffect_21
+  - first:
+      213: 5683555003429665856
+    second: RocketEffect_22
+  - first:
+      213: -2615221249224235900
+    second: RocketEffect_23
+  - first:
+      213: -3786248381842387856
+    second: RocketEffect_24
+  - first:
+      213: 7861735804633584951
+    second: RocketEffect_25
+  - first:
+      213: -4617873706868441970
+    second: RocketEffect_26
+  - first:
+      213: 8828850617947396119
+    second: RocketEffect_27
+  - first:
+      213: 1298216876174403222
+    second: RocketEffect_28
+  - first:
+      213: -5089273190675000479
+    second: RocketEffect_29
+  - first:
+      213: 445898108028733104
+    second: RocketEffect_30
+  - first:
+      213: 5107491858164749286
+    second: RocketEffect_31
+  - first:
+      213: -5231927340350127411
+    second: RocketEffect_32
+  - first:
+      213: -6802978223492487943
+    second: RocketEffect_33
+  - first:
+      213: 2646028992647310465
+    second: RocketEffect_34
+  - first:
+      213: 3520340825451773702
+    second: RocketEffect_35
+  - first:
+      213: 3363026611836495590
+    second: RocketEffect_36
+  - first:
+      213: -5884873027463340703
+    second: RocketEffect_37
+  - first:
+      213: -3122453795260132370
+    second: RocketEffect_38
+  - first:
+      213: 6067743450317753322
+    second: RocketEffect_39
+  - first:
+      213: -5162735873584344210
+    second: RocketEffect_40
+  - first:
+      213: 1097072014370474369
+    second: RocketEffect_41
+  - first:
+      213: -390203255905235861
+    second: RocketEffect_42
+  - first:
+      213: 6863432547427015948
+    second: RocketEffect_43
+  - first:
+      213: 9142906627815495130
+    second: RocketEffect_44
+  - first:
+      213: -5803027384465093533
+    second: RocketEffect_45
+  - first:
+      213: -1693512697485190819
+    second: RocketEffect_46
+  - first:
+      213: -3609767342277573951
+    second: RocketEffect_47
+  - first:
+      213: 2473382499370257894
+    second: RocketEffect_48
+  - first:
+      213: -7578100064448328161
+    second: RocketEffect_49
+  - first:
+      213: -5419471628877409746
+    second: RocketEffect_50
+  - first:
+      213: 308226004009049547
+    second: RocketEffect_51
+  - first:
+      213: 199349217665198456
+    second: RocketEffect_52
+  - first:
+      213: -91475494669136106
+    second: RocketEffect_53
+  - first:
+      213: 1941291842444899873
+    second: RocketEffect_54
+  - first:
+      213: -6018783135499812265
+    second: RocketEffect_55
+  - first:
+      213: -4498736771236775409
+    second: RocketEffect_56
+  - first:
+      213: 6012420254489935449
+    second: RocketEffect_57
+  - first:
+      213: -8303330565128411696
+    second: RocketEffect_58
+  - first:
+      213: 9199608919073240979
+    second: RocketEffect_59
+  - first:
+      213: 9031555009447366852
+    second: RocketEffect_60
+  - first:
+      213: 136243631627945089
+    second: RocketEffect_61
+  - first:
+      213: 3692547291829460042
+    second: RocketEffect_62
+  - first:
+      213: -8945146940160085122
+    second: RocketEffect_63
+  - first:
+      213: 1145435298507039698
+    second: RocketEffect_64
+  - first:
+      213: -3083220909908278644
+    second: RocketEffect_65
+  - first:
+      213: -8328065891303944167
+    second: RocketEffect_66
+  - first:
+      213: 8786352626839280065
+    second: RocketEffect_67
+  - first:
+      213: 5774121393567581996
+    second: RocketEffect_68
+  - first:
+      213: -1038127210392409411
+    second: RocketEffect_69
+  - first:
+      213: 4402577276289886757
+    second: RocketEffect_70
+  - first:
+      213: 6256522577927636024
+    second: RocketEffect_71
+  - first:
+      213: 6094010743081420348
+    second: RocketEffect_72
+  - first:
+      213: 6529843563806597771
+    second: RocketEffect_73
+  - first:
+      213: -8497319198067374943
+    second: RocketEffect_74
+  - first:
+      213: 9122094808386423348
+    second: RocketEffect_75
+  - first:
+      213: -4547797913126753893
+    second: RocketEffect_76
+  - first:
+      213: -7242694204553894385
+    second: RocketEffect_77
+  - first:
+      213: -5185136151946012353
+    second: RocketEffect_78
+  - first:
+      213: -3218153361708409385
+    second: RocketEffect_79
+  - first:
+      213: 8473603564034599811
+    second: RocketEffect_80
+  - first:
+      213: 2929696387088304481
+    second: RocketEffect_81
+  - first:
+      213: -5856156187513132184
+    second: RocketEffect_82
+  - first:
+      213: -6663262924753227020
+    second: RocketEffect_83
+  - first:
+      213: 1201927333622552929
+    second: RocketEffect_84
+  - first:
+      213: 656374458696530466
+    second: RocketEffect_85
+  - first:
+      213: -5702072512172510424
+    second: RocketEffect_86
+  - first:
+      213: -3681808289935553574
+    second: RocketEffect_87
+  - first:
+      213: 5308824418169074487
+    second: RocketEffect_88
+  - first:
+      213: -5765698014040724637
+    second: RocketEffect_89
+  - first:
+      213: -4350875190998614652
+    second: RocketEffect_90
+  - first:
+      213: 7333134728709485026
+    second: RocketEffect_91
+  - first:
+      213: 741905756578497943
+    second: RocketEffect_92
+  - first:
+      213: 1562310100219834430
+    second: RocketEffect_93
+  - first:
+      213: 3477284611129881451
+    second: RocketEffect_94
+  - first:
+      213: -4821144531388750997
+    second: RocketEffect_95
+  - first:
+      213: -3055424666745454479
+    second: RocketEffect_96
+  - first:
+      213: -5842412838864023555
+    second: RocketEffect_97
+  - first:
+      213: 6677878026327570926
+    second: RocketEffect_98
+  - first:
+      213: -8510314315642088373
+    second: RocketEffect_99
+  - first:
+      213: 552863171603926190
+    second: RocketEffect_100
+  - first:
+      213: -2794219547675735466
+    second: RocketEffect_101
+  - first:
+      213: 4829903101641359105
+    second: RocketEffect_102
+  - first:
+      213: -50388412275109585
+    second: RocketEffect_103
+  - first:
+      213: 1892638073549716807
+    second: RocketEffect_104
+  - first:
+      213: -7428523125677346151
+    second: RocketEffect_105
+  - first:
+      213: 8645421657849900108
+    second: RocketEffect_106
+  - first:
+      213: -1246652161567654399
+    second: RocketEffect_107
+  - first:
+      213: 4138741266844270872
+    second: RocketEffect_108
+  - first:
+      213: 1817699180033513519
+    second: RocketEffect_109
+  - first:
+      213: -1983799425061128086
+    second: RocketEffect_110
+  - first:
+      213: 5022019068790826415
+    second: RocketEffect_111
+  - first:
+      213: 1727283436063298679
+    second: RocketEffect_112
+  - first:
+      213: -8271526751353580126
+    second: RocketEffect_113
+  - first:
+      213: -3660081770300917213
+    second: RocketEffect_114
+  - first:
+      213: -3004334923174673768
+    second: RocketEffect_115
+  - first:
+      213: -1012341846031001729
+    second: RocketEffect_116
+  - first:
+      213: -6390471668696420077
+    second: RocketEffect_117
+  - first:
+      213: 6855727244101942487
+    second: RocketEffect_118
+  - first:
+      213: 6759492742840254891
+    second: RocketEffect_119
+  - first:
+      213: -2294428329035396102
+    second: RocketEffect_120
+  - first:
+      213: -4735904450104527972
+    second: RocketEffect_121
+  - first:
+      213: 762418910145778131
+    second: RocketEffect_122
+  - first:
+      213: -2648911841382574263
+    second: RocketEffect_123
+  - first:
+      213: -904477513000750782
+    second: RocketEffect_124
+  - first:
+      213: -9076651573552959061
+    second: RocketEffect_125
+  - first:
+      213: 8606294699576406638
+    second: RocketEffect_126
+  - first:
+      213: -3802366075918786167
+    second: RocketEffect_127
+  - first:
+      213: 3279049842396173032
+    second: RocketEffect_128
+  - first:
+      213: -3638321249111004052
+    second: RocketEffect_129
+  - first:
+      213: -1073999163939666350
+    second: RocketEffect_130
+  - first:
+      213: -7963076616346087065
+    second: RocketEffect_131
+  - first:
+      213: 5334899293960096048
+    second: RocketEffect_132
+  - first:
+      213: 4587945869625462132
+    second: RocketEffect_133
+  - first:
+      213: -6622133460001330200
+    second: RocketEffect_134
+  - first:
+      213: -916892113979492440
+    second: RocketEffect_135
+  - first:
+      213: -7711358020092659732
+    second: RocketEffect_136
+  - first:
+      213: -1994671084413250783
+    second: RocketEffect_137
+  - first:
+      213: 9148222519771834709
+    second: RocketEffect_138
+  - first:
+      213: 6889975400524640817
+    second: RocketEffect_139
+  - first:
+      213: -1870152532722298724
+    second: RocketEffect_140
+  - first:
+      213: 1024371663747057263
+    second: RocketEffect_141
+  - first:
+      213: 5356112709347525643
+    second: RocketEffect_142
+  - first:
+      213: -6012700283635501213
+    second: RocketEffect_143
+  - first:
+      213: -5477886197218260235
+    second: RocketEffect_144
+  - first:
+      213: -990395114624227345
+    second: RocketEffect_145
+  - first:
+      213: -8355841569985191791
+    second: RocketEffect_146
+  - first:
+      213: 1441179281353007575
+    second: RocketEffect_147
+  - first:
+      213: -4569548243414504355
+    second: RocketEffect_148
+  - first:
+      213: 5441659625211275810
+    second: RocketEffect_149
+  - first:
+      213: -6991203868255946503
+    second: RocketEffect_150
+  - first:
+      213: 4475573388449714003
+    second: RocketEffect_151
+  - first:
+      213: 8237403984588334830
+    second: RocketEffect_152
+  - first:
+      213: 8488496845449077669
+    second: RocketEffect_153
+  - first:
+      213: 833986449391236376
+    second: RocketEffect_154
+  - first:
+      213: -5752086392077758249
+    second: RocketEffect_155
+  - first:
+      213: -1919406199589022797
+    second: RocketEffect_156
+  - first:
+      213: -86013179581692974
+    second: RocketEffect_157
+  - first:
+      213: 5946877393042509912
+    second: RocketEffect_158
+  - first:
+      213: 2715361584410242816
+    second: RocketEffect_159
+  - first:
+      213: 559952196406573898
+    second: RocketEffect_160
+  - first:
+      213: -638213408641915933
+    second: RocketEffect_161
+  - first:
+      213: 8317302951049389566
+    second: RocketEffect_162
+  - first:
+      213: -496418857999979375
+    second: RocketEffect_163
+  - first:
+      213: -8416821226584248933
+    second: RocketEffect_164
+  - first:
+      213: -231610939938242640
+    second: RocketEffect_165
+  - first:
+      213: -4566881301691320159
+    second: RocketEffect_166
+  - first:
+      213: -6606551932927478662
+    second: RocketEffect_167
+  - first:
+      213: 576452991941550898
+    second: RocketEffect_168
+  - first:
+      213: 1296942591361312593
+    second: RocketEffect_169
+  - first:
+      213: 2076983926375117444
+    second: RocketEffect_170
+  - first:
+      213: 8891780048687103463
+    second: RocketEffect_171
+  - first:
+      213: 7170003465942028215
+    second: RocketEffect_172
+  - first:
+      213: 8997689421067143422
+    second: RocketEffect_173
+  - first:
+      213: -5827895206690564391
+    second: RocketEffect_174
+  - first:
+      213: 4396956448651415529
+    second: RocketEffect_175
+  - first:
+      213: 2331267270135275752
+    second: RocketEffect_176
+  - first:
+      213: 7882403860807822493
+    second: RocketEffect_177
+  - first:
+      213: -401483805075416185
+    second: RocketEffect_178
+  - first:
+      213: 2858256222476344286
+    second: RocketEffect_179
+  - first:
+      213: -90849204751261725
+    second: RocketEffect_180
+  - first:
+      213: -2487590060700296620
+    second: RocketEffect_181
+  - first:
+      213: 3665108492146641998
+    second: RocketEffect_182
+  - first:
+      213: -5558197818498823249
+    second: RocketEffect_183
+  - first:
+      213: 8704095069086113098
+    second: RocketEffect_184
+  - first:
+      213: -1578847809437372499
+    second: RocketEffect_185
+  - first:
+      213: -7867322788466165980
+    second: RocketEffect_186
+  - first:
+      213: 2540020653224919720
+    second: RocketEffect_187
+  - first:
+      213: 7210768667289876777
+    second: RocketEffect_188
+  - first:
+      213: -3883790643265305329
+    second: RocketEffect_189
+  - first:
+      213: 3208054428061870632
+    second: RocketEffect_190
+  - first:
+      213: -7090237406083038204
+    second: RocketEffect_191
+  - first:
+      213: 7134444700074888334
+    second: RocketEffect_192
+  - first:
+      213: 6495205919895296364
+    second: RocketEffect_193
+  - first:
+      213: -1479424190202391200
+    second: RocketEffect_194
+  - first:
+      213: -2777847832037137127
+    second: RocketEffect_195
+  - first:
+      213: -723522491323092404
+    second: RocketEffect_196
+  - first:
+      213: -924413940098275044
+    second: RocketEffect_197
+  - first:
+      213: 7267003029722343054
+    second: RocketEffect_198
+  - first:
+      213: -4549018158104538544
+    second: RocketEffect_199
+  - first:
+      213: 4326147892653175060
+    second: RocketEffect_200
+  - first:
+      213: -2540322782375443904
+    second: RocketEffect_201
+  - first:
+      213: 7046195843794460490
+    second: RocketEffect_202
+  - first:
+      213: -9018767149958968519
+    second: RocketEffect_203
+  - first:
+      213: 8792021943222402578
+    second: RocketEffect_204
+  - first:
+      213: 113797597081043499
+    second: RocketEffect_205
+  - first:
+      213: -274309525082294271
+    second: RocketEffect_206
+  - first:
+      213: 1775749778481278310
+    second: RocketEffect_207
+  - first:
+      213: -7555635081592415340
+    second: RocketEffect_208
+  - first:
+      213: -4030663689988063006
+    second: RocketEffect_209
+  - first:
+      213: -8360121089760992073
+    second: RocketEffect_210
+  - first:
+      213: 3174325932045283456
+    second: RocketEffect_211
+  - first:
+      213: 5981223405176881366
+    second: RocketEffect_212
+  - first:
+      213: 5452092061902466481
+    second: RocketEffect_213
+  - first:
+      213: 4046738976581584577
+    second: RocketEffect_214
+  - first:
+      213: 6425683019714110904
+    second: RocketEffect_215
+  - first:
+      213: 5764866440562728769
+    second: RocketEffect_216
+  - first:
+      213: -7391489371852167947
+    second: RocketEffect_217
+  - first:
+      213: 8448983088345350649
+    second: RocketEffect_218
+  - first:
+      213: 2424420538828752951
+    second: RocketEffect_219
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RocketEffect_0
+      rect:
+        serializedVersion: 2
+        x: 6607
+        y: 779
+        width: 40
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dc953fed77d1eef0800000000000000
+      internalID: -80546382431806256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_1
+      rect:
+        serializedVersion: 2
+        x: 7491
+        y: 812
+        width: 40
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cd3e265b003a3ee0800000000000000
+      internalID: -1280658318784840254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_2
+      rect:
+        serializedVersion: 2
+        x: 8370
+        y: 829
+        width: 48
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd03e9e90001615c0800000000000000
+      internalID: -4245188003902902051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_3
+      rect:
+        serializedVersion: 2
+        x: 9257
+        y: 812
+        width: 44
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d3c2db74d7126000800000000000000
+      internalID: 27610749095560150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_4
+      rect:
+        serializedVersion: 2
+        x: 10137
+        y: 804
+        width: 48
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e7ca22a6cbadf790800000000000000
+      internalID: -7494645335262050336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_5
+      rect:
+        serializedVersion: 2
+        x: 11020
+        y: 804
+        width: 48
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 218c769b495598910800000000000000
+      internalID: 1840096020011665426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_6
+      rect:
+        serializedVersion: 2
+        x: 11903
+        y: 804
+        width: 48
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67eff85a02bfa0be0800000000000000
+      internalID: -1510118607394177418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_7
+      rect:
+        serializedVersion: 2
+        x: 12791
+        y: 833
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6dd15fbf25030c20800000000000000
+      internalID: 3171384265230376302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_8
+      rect:
+        serializedVersion: 2
+        x: 13682
+        y: 841
+        width: 23
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9783b98e49a3052e0800000000000000
+      internalID: -2139145411768928135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_9
+      rect:
+        serializedVersion: 2
+        x: 4841
+        y: 696
+        width: 44
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76052c385e7e79730800000000000000
+      internalID: 4005925366513422439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_10
+      rect:
+        serializedVersion: 2
+        x: 5432
+        y: 675
+        width: 73
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ada46840135ce7150800000000000000
+      internalID: 5872347778457684698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_11
+      rect:
+        serializedVersion: 2
+        x: 5728
+        y: 741
+        width: 40
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e43859756f063fd0800000000000000
+      internalID: -2362684026007309086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_12
+      rect:
+        serializedVersion: 2
+        x: 5982
+        y: 675
+        width: 82
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cd298286c87393b0800000000000000
+      internalID: -5506925125355098686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_13
+      rect:
+        serializedVersion: 2
+        x: 6311
+        y: 691
+        width: 61
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d7092dfa7a92cba0800000000000000
+      internalID: -6070119494717995049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_14
+      rect:
+        serializedVersion: 2
+        x: 6882
+        y: 691
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67f4b1868203fe070800000000000000
+      internalID: 8137776001785220982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_15
+      rect:
+        serializedVersion: 2
+        x: 7195
+        y: 704
+        width: 52
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c53f9779505bc9860800000000000000
+      internalID: 7538098911932183388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_16
+      rect:
+        serializedVersion: 2
+        x: 7783
+        y: 704
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d23b44d0fc48d110800000000000000
+      internalID: 1285862290851836631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_17
+      rect:
+        serializedVersion: 2
+        x: 8066
+        y: 704
+        width: 64
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9df3267c813bbe990800000000000000
+      internalID: -7355588647373881383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_18
+      rect:
+        serializedVersion: 2
+        x: 8666
+        y: 704
+        width: 56
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9af3df24304d712f0800000000000000
+      internalID: -1002099281592762455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_19
+      rect:
+        serializedVersion: 2
+        x: 8961
+        y: 683
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9434a16684d790420800000000000000
+      internalID: 2596744410059916105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_20
+      rect:
+        serializedVersion: 2
+        x: 9524
+        y: 683
+        width: 73
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66f96ec901c024ea0800000000000000
+      internalID: -5890132097155817626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_21
+      rect:
+        serializedVersion: 2
+        x: 9849
+        y: 679
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a21ca1937f9b69150800000000000000
+      internalID: 5879090835044876586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_22
+      rect:
+        serializedVersion: 2
+        x: 9854
+        y: 133
+        width: 614
+        height: 610
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04cb1d0b92b00ee40800000000000000
+      internalID: 5683555003429665856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_23
+      rect:
+        serializedVersion: 2
+        x: 10404
+        y: 679
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 484afee312ed4bbd0800000000000000
+      internalID: -2615221249224235900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_24
+      rect:
+        serializedVersion: 2
+        x: 10732
+        y: 679
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07c03e8382b847bc0800000000000000
+      internalID: -3786248381842387856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_25
+      rect:
+        serializedVersion: 2
+        x: 10737
+        y: 133
+        width: 614
+        height: 610
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7359721af0f7a1d60800000000000000
+      internalID: 7861735804633584951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_26
+      rect:
+        serializedVersion: 2
+        x: 11287
+        y: 679
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8c7d7484540aefb0800000000000000
+      internalID: -4617873706868441970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_27
+      rect:
+        serializedVersion: 2
+        x: 11615
+        y: 679
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7181eb91cd0668a70800000000000000
+      internalID: 8828850617947396119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_28
+      rect:
+        serializedVersion: 2
+        x: 11620
+        y: 133
+        width: 614
+        height: 610
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696eac1ee51340210800000000000000
+      internalID: 1298216876174403222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_29
+      rect:
+        serializedVersion: 2
+        x: 12170
+        y: 679
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 163d5e84ff44f59b0800000000000000
+      internalID: -5089273190675000479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_30
+      rect:
+        serializedVersion: 2
+        x: 12504
+        y: 704
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b6421f77f5203600800000000000000
+      internalID: 445898108028733104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_31
+      rect:
+        serializedVersion: 2
+        x: 12754
+        y: 533
+        width: 122
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e31c1bc8c471e640800000000000000
+      internalID: 5107491858164749286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_32
+      rect:
+        serializedVersion: 2
+        x: 13079
+        y: 700
+        width: 47
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc2c6cbcdc57467b0800000000000000
+      internalID: -5231927340350127411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_33
+      rect:
+        serializedVersion: 2
+        x: 13387
+        y: 716
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f423067957f691a0800000000000000
+      internalID: -6802978223492487943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_34
+      rect:
+        serializedVersion: 2
+        x: 13978
+        y: 716
+        width: 31
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18ca02c795598b420800000000000000
+      internalID: 2646028992647310465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_35
+      rect:
+        serializedVersion: 2
+        x: 3715
+        y: 612
+        width: 82
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60fbb554453cad030800000000000000
+      internalID: 3520340825451773702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_36
+      rect:
+        serializedVersion: 2
+        x: 3961
+        y: 629
+        width: 40
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e623b8a2eedbae20800000000000000
+      internalID: 3363026611836495590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_37
+      rect:
+        serializedVersion: 2
+        x: 4153
+        y: 616
+        width: 85
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16d15c1392bb45ea0800000000000000
+      internalID: -5884873027463340703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_38
+      rect:
+        serializedVersion: 2
+        x: 4566
+        y: 646
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee313f111d0daa4d0800000000000000
+      internalID: -3122453795260132370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_39
+      rect:
+        serializedVersion: 2
+        x: 5074
+        y: 646
+        width: 82
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeb84601584f43450800000000000000
+      internalID: 6067743450317753322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_40
+      rect:
+        serializedVersion: 2
+        x: 8162
+        y: 204
+        width: 464
+        height: 464
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e63d6d983174a58b0800000000000000
+      internalID: -5162735873584344210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_41
+      rect:
+        serializedVersion: 2
+        x: 8995
+        y: 154
+        width: 568
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 189039d3f25993f00800000000000000
+      internalID: 1097072014370474369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_42
+      rect:
+        serializedVersion: 2
+        x: 13678
+        y: 662
+        width: 31
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6c4195c438b59af0800000000000000
+      internalID: -390203255905235861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_43
+      rect:
+        serializedVersion: 2
+        x: 2870
+        y: 575
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0ddd31b98fcf3f50800000000000000
+      internalID: 6863432547427015948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_44
+      rect:
+        serializedVersion: 2
+        x: 3007
+        y: 504
+        width: 140
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad5d185032122ee70800000000000000
+      internalID: 9142906627815495130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_45
+      rect:
+        serializedVersion: 2
+        x: 3232
+        y: 575
+        width: 86
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36c081fe651877fa0800000000000000
+      internalID: -5803027384465093533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_46
+      rect:
+        serializedVersion: 2
+        x: 3911
+        y: 562
+        width: 156
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5918cb9c2f6f78e0800000000000000
+      internalID: -1693512697485190819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_47
+      rect:
+        serializedVersion: 2
+        x: 5537
+        y: 558
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c24db14ab787edc0800000000000000
+      internalID: -3609767342277573951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_48
+      rect:
+        serializedVersion: 2
+        x: 5866
+        y: 562
+        width: 85
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6edc1a45748335220800000000000000
+      internalID: 2473382499370257894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_49
+      rect:
+        serializedVersion: 2
+        x: 6420
+        y: 533
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1e4132542e25d690800000000000000
+      internalID: -7578100064448328161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_50
+      rect:
+        serializedVersion: 2
+        x: 6724
+        y: 533
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e225472644b2ac4b0800000000000000
+      internalID: -5419471628877409746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_51
+      rect:
+        serializedVersion: 2
+        x: 7304
+        y: 516
+        width: 135
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcd5f77eae9074400800000000000000
+      internalID: 308226004009049547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_52
+      rect:
+        serializedVersion: 2
+        x: 7591
+        y: 508
+        width: 127
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 879af29ae0b34c200800000000000000
+      internalID: 199349217665198456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_53
+      rect:
+        serializedVersion: 2
+        x: 12604
+        y: 600
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61fc792b5830bbef0800000000000000
+      internalID: -91475494669136106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_54
+      rect:
+        serializedVersion: 2
+        x: 12979
+        y: 604
+        width: 43
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 126ba4235aad0fa10800000000000000
+      internalID: 1941291842444899873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_55
+      rect:
+        serializedVersion: 2
+        x: 13487
+        y: 616
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7520c6c80acf87ca0800000000000000
+      internalID: -6018783135499812265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_56
+      rect:
+        serializedVersion: 2
+        x: 13878
+        y: 616
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0ab17cedb64191c0800000000000000
+      internalID: -4498736771236775409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_57
+      rect:
+        serializedVersion: 2
+        x: 2124
+        y: 566
+        width: 94
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95e7c35cd58607350800000000000000
+      internalID: 6012420254489935449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_58
+      rect:
+        serializedVersion: 2
+        x: 4695
+        y: 404
+        width: 65
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d5a0ec08d4a4cc80800000000000000
+      internalID: -8303330565128411696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_59
+      rect:
+        serializedVersion: 2
+        x: 4833
+        y: 537
+        width: 198
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39730edf1939baf70800000000000000
+      internalID: 9199608919073240979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_60
+      rect:
+        serializedVersion: 2
+        x: 13670
+        y: 596
+        width: 52
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c0928b0e67865d70800000000000000
+      internalID: 9031555009447366852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_61
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 562
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 184c7127cd804e100800000000000000
+      internalID: 136243631627945089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_62
+      rect:
+        serializedVersion: 2
+        x: 1240
+        y: 566
+        width: 40
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4c53dda2309e3330800000000000000
+      internalID: 3692547291829460042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_63
+      rect:
+        serializedVersion: 2
+        x: 5595
+        y: 504
+        width: 60
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e73f51850447cd380800000000000000
+      internalID: -8945146940160085122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_64
+      rect:
+        serializedVersion: 2
+        x: 5812
+        y: 529
+        width: 68
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d3a4b0d55765ef00800000000000000
+      internalID: 1145435298507039698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_65
+      rect:
+        serializedVersion: 2
+        x: 12658
+        y: 512
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c824cd40be23635d0800000000000000
+      internalID: -3083220909908278644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_66
+      rect:
+        serializedVersion: 2
+        x: 12887
+        y: 508
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91018c22234cc6c80800000000000000
+      internalID: -8328065891303944167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_67
+      rect:
+        serializedVersion: 2
+        x: 13541
+        y: 558
+        width: 31
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c9531a79256fe970800000000000000
+      internalID: 8786352626839280065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_68
+      rect:
+        serializedVersion: 2
+        x: 13587
+        y: 558
+        width: 35
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c27449990dcc12050800000000000000
+      internalID: 5774121393567581996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_69
+      rect:
+        serializedVersion: 2
+        x: 13774
+        y: 558
+        width: 35
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbaa4e86dc4d791f0800000000000000
+      internalID: -1038127210392409411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_70
+      rect:
+        serializedVersion: 2
+        x: 13820
+        y: 558
+        width: 31
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a2779f4b8191d30800000000000000
+      internalID: 4402577276289886757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_71
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 504
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 834869ad222a3d650800000000000000
+      internalID: 6256522577927636024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_72
+      rect:
+        serializedVersion: 2
+        x: 1457
+        y: 487
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3648cebb76429450800000000000000
+      internalID: 6094010743081420348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_73
+      rect:
+        serializedVersion: 2
+        x: 2095
+        y: 471
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b82209bef1aae9a50800000000000000
+      internalID: 6529843563806597771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_74
+      rect:
+        serializedVersion: 2
+        x: 2245
+        y: 471
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a44618c535731a80800000000000000
+      internalID: -8497319198067374943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_75
+      rect:
+        serializedVersion: 2
+        x: 2341
+        y: 429
+        width: 39
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43ace45b5e0389e70800000000000000
+      internalID: 9122094808386423348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_76
+      rect:
+        serializedVersion: 2
+        x: 3162
+        y: 383
+        width: 122
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9921dda4e9f2e0c0800000000000000
+      internalID: -4547797913126753893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_77
+      rect:
+        serializedVersion: 2
+        x: 3795
+        y: 371
+        width: 56
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f06e8c09ef7cc7b90800000000000000
+      internalID: -7242694204553894385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_78
+      rect:
+        serializedVersion: 2
+        x: 3874
+        y: 479
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f39d83f4422ba08b0800000000000000
+      internalID: -5185136151946012353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_79
+      rect:
+        serializedVersion: 2
+        x: 4020
+        y: 479
+        width: 64
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dd14aa6192d653d0800000000000000
+      internalID: -3218153361708409385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_80
+      rect:
+        serializedVersion: 2
+        x: 4849
+        y: 491
+        width: 23
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38b24c1eb89489570800000000000000
+      internalID: 8473603564034599811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_81
+      rect:
+        serializedVersion: 2
+        x: 12795
+        y: 504
+        width: 36
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 169c424875f58a820800000000000000
+      internalID: 2929696387088304481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_82
+      rect:
+        serializedVersion: 2
+        x: 13545
+        y: 516
+        width: 27
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86be21689f0cabea0800000000000000
+      internalID: -5856156187513132184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_83
+      rect:
+        serializedVersion: 2
+        x: 13582
+        y: 516
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f2bd056ca55783a0800000000000000
+      internalID: -6663262924753227020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_84
+      rect:
+        serializedVersion: 2
+        x: 13682
+        y: 512
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1699766ba8a1ea010800000000000000
+      internalID: 1201927333622552929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_85
+      rect:
+        serializedVersion: 2
+        x: 13774
+        y: 512
+        width: 35
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22afe32b719eb1900800000000000000
+      internalID: 656374458696530466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_86
+      rect:
+        serializedVersion: 2
+        x: 13820
+        y: 512
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8233074d24b2ed0b0800000000000000
+      internalID: -5702072512172510424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_87
+      rect:
+        serializedVersion: 2
+        x: 2907
+        y: 350
+        width: 119
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adb8d4b0ed697ecc0800000000000000
+      internalID: -3681808289935553574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_88
+      rect:
+        serializedVersion: 2
+        x: 4107
+        y: 346
+        width: 56
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73333e35eabbca940800000000000000
+      internalID: 5308824418169074487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_89
+      rect:
+        serializedVersion: 2
+        x: 7458
+        y: 383
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36b6de644302cffa0800000000000000
+      internalID: -5765698014040724637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_90
+      rect:
+        serializedVersion: 2
+        x: 12504
+        y: 379
+        width: 239
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48db772d0169e93c0800000000000000
+      internalID: -4350875190998614652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_91
+      rect:
+        serializedVersion: 2
+        x: 12745
+        y: 466
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e13fc2ee2784c560800000000000000
+      internalID: 7333134728709485026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_92
+      rect:
+        serializedVersion: 2
+        x: 12841
+        y: 471
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 795cda5da57cb4a00800000000000000
+      internalID: 741905756578497943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_93
+      rect:
+        serializedVersion: 2
+        x: 12883
+        y: 371
+        width: 235
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e30bb9832c07ea510800000000000000
+      internalID: 1562310100219834430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_94
+      rect:
+        serializedVersion: 2
+        x: 13628
+        y: 487
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b63345d2eebc14030800000000000000
+      internalID: 3477284611129881451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_95
+      rect:
+        serializedVersion: 2
+        x: 13745
+        y: 479
+        width: 19
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b63a1cb979ad71db0800000000000000
+      internalID: -4821144531388750997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_96
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 421
+        width: 35
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 170cba43473f895d0800000000000000
+      internalID: -3055424666745454479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_97
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 404
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dff045c3a749beea0800000000000000
+      internalID: -5842412838864023555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_98
+      rect:
+        serializedVersion: 2
+        x: 2045
+        y: 350
+        width: 35
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee934ac1fa69cac50800000000000000
+      internalID: 6677878026327570926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_99
+      rect:
+        serializedVersion: 2
+        x: 2183
+        y: 404
+        width: 60
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b445b31383a45e980800000000000000
+      internalID: -8510314315642088373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_100
+      rect:
+        serializedVersion: 2
+        x: 3062
+        y: 404
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eac09d8102a2ca700800000000000000
+      internalID: 552863171603926190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_101
+      rect:
+        serializedVersion: 2
+        x: 3686
+        y: 421
+        width: 98
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65ac5543020f839d0800000000000000
+      internalID: -2794219547675735466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_102
+      rect:
+        serializedVersion: 2
+        x: 4174
+        y: 416
+        width: 98
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10ff3e0f743470340800000000000000
+      internalID: 4829903101641359105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_103
+      rect:
+        serializedVersion: 2
+        x: 4512
+        y: 416
+        width: 89
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f21db89810cfc4ff0800000000000000
+      internalID: -50388412275109585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_104
+      rect:
+        serializedVersion: 2
+        x: 4758
+        y: 421
+        width: 48
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d7f4edc40044a10800000000000000
+      internalID: 1892638073549716807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_105
+      rect:
+        serializedVersion: 2
+        x: 4920
+        y: 425
+        width: 48
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9923a30439598e890800000000000000
+      internalID: -7428523125677346151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_106
+      rect:
+        serializedVersion: 2
+        x: 4962
+        y: 271
+        width: 69
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4cac914135baf770800000000000000
+      internalID: 8645421657849900108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_107
+      rect:
+        serializedVersion: 2
+        x: 5124
+        y: 416
+        width: 86
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e794fc67003bee0800000000000000
+      internalID: -1246652161567654399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_108
+      rect:
+        serializedVersion: 2
+        x: 5345
+        y: 421
+        width: 94
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 811c0831143cf6930800000000000000
+      internalID: 4138741266844270872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_109
+      rect:
+        serializedVersion: 2
+        x: 5716
+        y: 408
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f289a6e06c3c93910800000000000000
+      internalID: 1817699180033513519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_110
+      rect:
+        serializedVersion: 2
+        x: 6049
+        y: 416
+        width: 94
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a687b9bfee02874e0800000000000000
+      internalID: -1983799425061128086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_111
+      rect:
+        serializedVersion: 2
+        x: 6190
+        y: 416
+        width: 94
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa5e38a3cbbc1b540800000000000000
+      internalID: 5022019068790826415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_112
+      rect:
+        serializedVersion: 2
+        x: 6595
+        y: 404
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77418f0322b88f710800000000000000
+      internalID: 1727283436063298679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_113
+      rect:
+        serializedVersion: 2
+        x: 6970
+        y: 416
+        width: 93
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a5dd6b7e32a53d80800000000000000
+      internalID: -8271526751353580126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_114
+      rect:
+        serializedVersion: 2
+        x: 7074
+        y: 412
+        width: 65
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32ab4589507c43dc0800000000000000
+      internalID: -3660081770300917213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_115
+      rect:
+        serializedVersion: 2
+        x: 7887
+        y: 416
+        width: 64
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8928fd51e457e46d0800000000000000
+      internalID: -3004334923174673768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_116
+      rect:
+        serializedVersion: 2
+        x: 7957
+        y: 408
+        width: 44
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f771f04647073f1f0800000000000000
+      internalID: -1012341846031001729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_117
+      rect:
+        serializedVersion: 2
+        x: 8791
+        y: 412
+        width: 43
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 311f62020eb7057a0800000000000000
+      internalID: -6390471668696420077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_118
+      rect:
+        serializedVersion: 2
+        x: 8840
+        y: 412
+        width: 61
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dcf9a5fa9f642f50800000000000000
+      internalID: 6855727244101942487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_119
+      rect:
+        serializedVersion: 2
+        x: 9653
+        y: 416
+        width: 64
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba103d616da8ecd50800000000000000
+      internalID: 6759492742840254891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_120
+      rect:
+        serializedVersion: 2
+        x: 9724
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afb8045579d8820e0800000000000000
+      internalID: -2294428329035396102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_121
+      rect:
+        serializedVersion: 2
+        x: 10524
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c93f3599effa64eb0800000000000000
+      internalID: -4735904450104527972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_122
+      rect:
+        serializedVersion: 2
+        x: 10607
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d1974595f7a49a00800000000000000
+      internalID: 762418910145778131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_123
+      rect:
+        serializedVersion: 2
+        x: 11407
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 947d01df6bc2d3bd0800000000000000
+      internalID: -2648911841382574263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_124
+      rect:
+        serializedVersion: 2
+        x: 11490
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 241f24a7e76a273f0800000000000000
+      internalID: -904477513000750782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_125
+      rect:
+        serializedVersion: 2
+        x: 12290
+        y: 412
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba1b268eb71490280800000000000000
+      internalID: -9076651573552959061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_126
+      rect:
+        serializedVersion: 2
+        x: 12374
+        y: 416
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6234906e63bf6770800000000000000
+      internalID: 8606294699576406638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_127
+      rect:
+        serializedVersion: 2
+        x: 12762
+        y: 387
+        width: 102
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9816dd223384b3bc0800000000000000
+      internalID: -3802366075918786167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_128
+      rect:
+        serializedVersion: 2
+        x: 13208
+        y: 421
+        width: 39
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e213d06576818d20800000000000000
+      internalID: 3279049842396173032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_129
+      rect:
+        serializedVersion: 2
+        x: 13266
+        y: 425
+        width: 27
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6cabffb916128dc0800000000000000
+      internalID: -3638321249111004052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_130
+      rect:
+        serializedVersion: 2
+        x: 13395
+        y: 421
+        width: 77
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2564f4063736811f0800000000000000
+      internalID: -1073999163939666350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_131
+      rect:
+        serializedVersion: 2
+        x: 13516
+        y: 412
+        width: 23
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 761d873f1087d7190800000000000000
+      internalID: -7963076616346087065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_132
+      rect:
+        serializedVersion: 2
+        x: 13603
+        y: 425
+        width: 15
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03949f074ae590a40800000000000000
+      internalID: 5334899293960096048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_133
+      rect:
+        serializedVersion: 2
+        x: 13662
+        y: 404
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47d0fbfd578abaf30800000000000000
+      internalID: 4587945869625462132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_134
+      rect:
+        serializedVersion: 2
+        x: 13770
+        y: 421
+        width: 19
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eb646524b47914a0800000000000000
+      internalID: -6622133460001330200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_135
+      rect:
+        serializedVersion: 2
+        x: 13853
+        y: 408
+        width: 19
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a735e0fa7b8643f0800000000000000
+      internalID: -916892113979492440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_136
+      rect:
+        serializedVersion: 2
+        x: 13920
+        y: 421
+        width: 77
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce7748cbcb0cbf490800000000000000
+      internalID: -7711358020092659732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_137
+      rect:
+        serializedVersion: 2
+        x: 14099
+        y: 425
+        width: 27
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1231ec987318154e0800000000000000
+      internalID: -1994671084413250783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_138
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 346
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 559aa3199e305fe70800000000000000
+      internalID: 9148222519771834709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_139
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 350
+        width: 27
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13273734f1c1e9f50800000000000000
+      internalID: 6889975400524640817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_140
+      rect:
+        serializedVersion: 2
+        x: 2099
+        y: 321
+        width: 77
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c905a431e22eb06e0800000000000000
+      internalID: -1870152532722298724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_141
+      rect:
+        serializedVersion: 2
+        x: 2245
+        y: 321
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f668e9fc99c473e00800000000000000
+      internalID: 1024371663747057263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_142
+      rect:
+        serializedVersion: 2
+        x: 3045
+        y: 250
+        width: 135
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b044d99912cb45a40800000000000000
+      internalID: 5356112709347525643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_143
+      rect:
+        serializedVersion: 2
+        x: 3870
+        y: 333
+        width: 64
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 367f30dd2f89e8ca0800000000000000
+      internalID: -6012700283635501213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_144
+      rect:
+        serializedVersion: 2
+        x: 4020
+        y: 329
+        width: 60
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fa4ac6d683aaf3b0800000000000000
+      internalID: -5477886197218260235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_145
+      rect:
+        serializedVersion: 2
+        x: 4849
+        y: 333
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe76a8df3e86142f0800000000000000
+      internalID: -990395114624227345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_146
+      rect:
+        serializedVersion: 2
+        x: 5837
+        y: 300
+        width: 60
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 190279dfc561a0c80800000000000000
+      internalID: -8355841569985191791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_147
+      rect:
+        serializedVersion: 2
+        x: 12741
+        y: 366
+        width: 40
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d1e2b2bbe8100410800000000000000
+      internalID: 1441179281353007575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_148
+      rect:
+        serializedVersion: 2
+        x: 12791
+        y: 341
+        width: 35
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5ca4474514b590c0800000000000000
+      internalID: -4569548243414504355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_149
+      rect:
+        serializedVersion: 2
+        x: 12849
+        y: 366
+        width: 32
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22aad451998a48b40800000000000000
+      internalID: 5441659625211275810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_150
+      rect:
+        serializedVersion: 2
+        x: 13624
+        y: 366
+        width: 23
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f874407f114afe90800000000000000
+      internalID: -6991203868255946503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_151
+      rect:
+        serializedVersion: 2
+        x: 13741
+        y: 366
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35f8cb0c84e6c1e30800000000000000
+      internalID: 4475573388449714003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_152
+      rect:
+        serializedVersion: 2
+        x: 5607
+        y: 287
+        width: 69
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee666c4c743215270800000000000000
+      internalID: 8237403984588334830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_153
+      rect:
+        serializedVersion: 2
+        x: 7308
+        y: 229
+        width: 123
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a3240e28e23dc570800000000000000
+      internalID: 8488496845449077669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_154
+      rect:
+        serializedVersion: 2
+        x: 7587
+        y: 229
+        width: 131
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 815347fc14ae29b00800000000000000
+      internalID: 833986449391236376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_155
+      rect:
+        serializedVersion: 2
+        x: 12654
+        y: 283
+        width: 85
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d0d8daf6eb7c20b0800000000000000
+      internalID: -5752086392077758249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_156
+      rect:
+        serializedVersion: 2
+        x: 12887
+        y: 279
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b350dd1b36ec55e0800000000000000
+      internalID: -1919406199589022797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_157
+      rect:
+        serializedVersion: 2
+        x: 13541
+        y: 329
+        width: 31
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d30809087b6ecef0800000000000000
+      internalID: -86013179581692974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_158
+      rect:
+        serializedVersion: 2
+        x: 13582
+        y: 325
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85099172b7d878250800000000000000
+      internalID: 5946877393042509912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_159
+      rect:
+        serializedVersion: 2
+        x: 13682
+        y: 346
+        width: 23
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00fa38379f6eea520800000000000000
+      internalID: 2715361584410242816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_160
+      rect:
+        serializedVersion: 2
+        x: 13770
+        y: 325
+        width: 39
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4b730e4e8955c700800000000000000
+      internalID: 559952196406573898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_161
+      rect:
+        serializedVersion: 2
+        x: 13816
+        y: 325
+        width: 31
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e3e107494c9427f0800000000000000
+      internalID: -638213408641915933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_162
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 287
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef56b9e87fefc6370800000000000000
+      internalID: 8317302951049389566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_163
+      rect:
+        serializedVersion: 2
+        x: 1378
+        y: 279
+        width: 39
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19c2b15cdad5c19f0800000000000000
+      internalID: -496418857999979375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_164
+      rect:
+        serializedVersion: 2
+        x: 2203
+        y: 271
+        width: 94
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9d6a7b40b1713b80800000000000000
+      internalID: -8416821226584248933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_165
+      rect:
+        serializedVersion: 2
+        x: 2870
+        y: 212
+        width: 85
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bff2e6c31729ccf0800000000000000
+      internalID: -231610939938242640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_166
+      rect:
+        serializedVersion: 2
+        x: 3232
+        y: 212
+        width: 90
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8b05907ad2f90c0800000000000000
+      internalID: -4566881301691320159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_167
+      rect:
+        serializedVersion: 2
+        x: 3886
+        y: 254
+        width: 156
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a74ffaf1500d054a0800000000000000
+      internalID: -6606551932927478662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_168
+      rect:
+        serializedVersion: 2
+        x: 4695
+        y: 271
+        width: 198
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 233236621f8fff700800000000000000
+      internalID: 576452991941550898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_169
+      rect:
+        serializedVersion: 2
+        x: 5541
+        y: 229
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1576a245a6aaff110800000000000000
+      internalID: 1296942591361312593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_170
+      rect:
+        serializedVersion: 2
+        x: 5870
+        y: 229
+        width: 81
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482f8cf60ede2dc10800000000000000
+      internalID: 2076983926375117444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_171
+      rect:
+        serializedVersion: 2
+        x: 6424
+        y: 229
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ed76e6f7d2f56b70800000000000000
+      internalID: 8891780048687103463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_172
+      rect:
+        serializedVersion: 2
+        x: 6724
+        y: 229
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bf4bc9f928f08360800000000000000
+      internalID: 7170003465942028215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_173
+      rect:
+        serializedVersion: 2
+        x: 12745
+        y: 129
+        width: 127
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef84ffd4bd63edc70800000000000000
+      internalID: 8997689421067143422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_174
+      rect:
+        serializedVersion: 2
+        x: 13541
+        y: 283
+        width: 31
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d6d101ef282f1fa0800000000000000
+      internalID: -5827895206690564391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_175
+      rect:
+        serializedVersion: 2
+        x: 13582
+        y: 287
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef0bbe0890250d30800000000000000
+      internalID: 4396956448651415529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_176
+      rect:
+        serializedVersion: 2
+        x: 13770
+        y: 283
+        width: 31
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e068e80b335a5020800000000000000
+      internalID: 2331267270135275752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_177
+      rect:
+        serializedVersion: 2
+        x: 13820
+        y: 279
+        width: 31
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9c2e937c8ce36d60800000000000000
+      internalID: 7882403860807822493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_178
+      rect:
+        serializedVersion: 2
+        x: 4157
+        y: 175
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78b586f3b94ad6af0800000000000000
+      internalID: -401483805075416185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_179
+      rect:
+        serializedVersion: 2
+        x: 12604
+        y: 225
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edb90c104e09aa720800000000000000
+      internalID: 2858256222476344286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_180
+      rect:
+        serializedVersion: 2
+        x: 12979
+        y: 225
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ef9cae212d3dbef0800000000000000
+      internalID: -90849204751261725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_181
+      rect:
+        serializedVersion: 2
+        x: 13666
+        y: 258
+        width: 52
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45a9a25050e4a7dd0800000000000000
+      internalID: -2487590060700296620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_182
+      rect:
+        serializedVersion: 2
+        x: 3715
+        y: 175
+        width: 86
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4c0ba941c41dd230800000000000000
+      internalID: 3665108492146641998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_183
+      rect:
+        serializedVersion: 2
+        x: 3957
+        y: 146
+        width: 40
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fabc60d58805dd2b0800000000000000
+      internalID: -5558197818498823249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_184
+      rect:
+        serializedVersion: 2
+        x: 13487
+        y: 229
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4d5b1c59582bc870800000000000000
+      internalID: 8704095069086113098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_185
+      rect:
+        serializedVersion: 2
+        x: 13874
+        y: 229
+        width: 31
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dafe41c484ec61ae0800000000000000
+      internalID: -1578847809437372499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_186
+      rect:
+        serializedVersion: 2
+        x: 4570
+        y: 141
+        width: 81
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42773245b97a1d290800000000000000
+      internalID: -7867322788466165980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_187
+      rect:
+        serializedVersion: 2
+        x: 4841
+        y: 87
+        width: 40
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a280a59357ff3320800000000000000
+      internalID: 2540020653224919720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_188
+      rect:
+        serializedVersion: 2
+        x: 5074
+        y: 141
+        width: 82
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 929745b06ebc11460800000000000000
+      internalID: 7210768667289876777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_189
+      rect:
+        serializedVersion: 2
+        x: 5428
+        y: 121
+        width: 77
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f058f26bcf00a1ac0800000000000000
+      internalID: -3883790643265305329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_190
+      rect:
+        serializedVersion: 2
+        x: 5982
+        y: 121
+        width: 77
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82a2fbc518c458c20800000000000000
+      internalID: 3208054428061870632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_191
+      rect:
+        serializedVersion: 2
+        x: 6311
+        y: 121
+        width: 61
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 404cb3515aa6a9d90800000000000000
+      internalID: -7090237406083038204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_192
+      rect:
+        serializedVersion: 2
+        x: 6882
+        y: 121
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8cc1a1a7a3a20360800000000000000
+      internalID: 7134444700074888334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_193
+      rect:
+        serializedVersion: 2
+        x: 7195
+        y: 121
+        width: 48
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c699f5efe5b932a50800000000000000
+      internalID: 6495205919895296364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_194
+      rect:
+        serializedVersion: 2
+        x: 7779
+        y: 121
+        width: 47
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 065ddde8987087be0800000000000000
+      internalID: -1479424190202391200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_195
+      rect:
+        serializedVersion: 2
+        x: 8066
+        y: 108
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 915665b4d1a1379d0800000000000000
+      internalID: -2777847832037137127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_196
+      rect:
+        serializedVersion: 2
+        x: 8662
+        y: 108
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c427ea5a02885f5f0800000000000000
+      internalID: -723522491323092404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_197
+      rect:
+        serializedVersion: 2
+        x: 8961
+        y: 121
+        width: 73
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c19e5035b62db23f0800000000000000
+      internalID: -924413940098275044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_198
+      rect:
+        serializedVersion: 2
+        x: 9524
+        y: 116
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e86a948d0c499d460800000000000000
+      internalID: 7267003029722343054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_199
+      rect:
+        serializedVersion: 2
+        x: 9849
+        y: 125
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05290614614aed0c0800000000000000
+      internalID: -4549018158104538544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_200
+      rect:
+        serializedVersion: 2
+        x: 10404
+        y: 125
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 411b5636690990c30800000000000000
+      internalID: 4326147892653175060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_201
+      rect:
+        serializedVersion: 2
+        x: 10732
+        y: 125
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0420ead73e5febcd0800000000000000
+      internalID: -2540322782375443904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_202
+      rect:
+        serializedVersion: 2
+        x: 11287
+        y: 125
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4fd33f99cd19c160800000000000000
+      internalID: 7046195843794460490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_203
+      rect:
+        serializedVersion: 2
+        x: 11615
+        y: 125
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93bcbb28f07e6d280800000000000000
+      internalID: -9018767149958968519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_204
+      rect:
+        serializedVersion: 2
+        x: 12170
+        y: 125
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21ef53f0069830a70800000000000000
+      internalID: 8792021943222402578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_205
+      rect:
+        serializedVersion: 2
+        x: 12495
+        y: 129
+        width: 48
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b220f46cf4a449100800000000000000
+      internalID: 113797597081043499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_206
+      rect:
+        serializedVersion: 2
+        x: 13079
+        y: 121
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 108b6f6b0f4713cf0800000000000000
+      internalID: -274309525082294271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_207
+      rect:
+        serializedVersion: 2
+        x: 13382
+        y: 129
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66dea54e30bb4a810800000000000000
+      internalID: 1775749778481278310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_208
+      rect:
+        serializedVersion: 2
+        x: 13678
+        y: 137
+        width: 36
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49b543dbcedf42790800000000000000
+      internalID: -7555635081592415340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_209
+      rect:
+        serializedVersion: 2
+        x: 13974
+        y: 125
+        width: 31
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e04235bab43018c0800000000000000
+      internalID: -4030663689988063006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_210
+      rect:
+        serializedVersion: 2
+        x: 5724
+        y: 37
+        width: 40
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b46b85a922eafb80800000000000000
+      internalID: -8360121089760992073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_211
+      rect:
+        serializedVersion: 2
+        x: 6607
+        y: 0
+        width: 44
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 080bedced987d0c20800000000000000
+      internalID: 3174325932045283456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_212
+      rect:
+        serializedVersion: 2
+        x: 7491
+        y: 0
+        width: 44
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d002d34ff2910350800000000000000
+      internalID: 5981223405176881366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_213
+      rect:
+        serializedVersion: 2
+        x: 8370
+        y: 0
+        width: 52
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bd6c6808d8b9ab40800000000000000
+      internalID: 5452092061902466481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_214
+      rect:
+        serializedVersion: 2
+        x: 9257
+        y: 0
+        width: 44
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c68fdd98a7e82830800000000000000
+      internalID: 4046738976581584577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_215
+      rect:
+        serializedVersion: 2
+        x: 10137
+        y: 4
+        width: 48
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b5a15569ac9c2950800000000000000
+      internalID: 6425683019714110904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_216
+      rect:
+        serializedVersion: 2
+        x: 11020
+        y: 4
+        width: 48
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14fdf4feb7be00050800000000000000
+      internalID: 5764866440562728769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_217
+      rect:
+        serializedVersion: 2
+        x: 11903
+        y: 4
+        width: 48
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f42dadf3972c6990800000000000000
+      internalID: -7391489371852167947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_218
+      rect:
+        serializedVersion: 2
+        x: 12795
+        y: 0
+        width: 36
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f18b1eaa51d04570800000000000000
+      internalID: 8448983088345350649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RocketEffect_219
+      rect:
+        serializedVersion: 2
+        x: 13682
+        y: 8
+        width: 27
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7388c0b82a545a120800000000000000
+      internalID: 2424420538828752951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      RocketEffect_0: -80546382431806256
+      RocketEffect_1: -1280658318784840254
+      RocketEffect_10: 5872347778457684698
+      RocketEffect_100: 552863171603926190
+      RocketEffect_101: -2794219547675735466
+      RocketEffect_102: 4829903101641359105
+      RocketEffect_103: -50388412275109585
+      RocketEffect_104: 1892638073549716807
+      RocketEffect_105: -7428523125677346151
+      RocketEffect_106: 8645421657849900108
+      RocketEffect_107: -1246652161567654399
+      RocketEffect_108: 4138741266844270872
+      RocketEffect_109: 1817699180033513519
+      RocketEffect_11: -2362684026007309086
+      RocketEffect_110: -1983799425061128086
+      RocketEffect_111: 5022019068790826415
+      RocketEffect_112: 1727283436063298679
+      RocketEffect_113: -8271526751353580126
+      RocketEffect_114: -3660081770300917213
+      RocketEffect_115: -3004334923174673768
+      RocketEffect_116: -1012341846031001729
+      RocketEffect_117: -6390471668696420077
+      RocketEffect_118: 6855727244101942487
+      RocketEffect_119: 6759492742840254891
+      RocketEffect_12: -5506925125355098686
+      RocketEffect_120: -2294428329035396102
+      RocketEffect_121: -4735904450104527972
+      RocketEffect_122: 762418910145778131
+      RocketEffect_123: -2648911841382574263
+      RocketEffect_124: -904477513000750782
+      RocketEffect_125: -9076651573552959061
+      RocketEffect_126: 8606294699576406638
+      RocketEffect_127: -3802366075918786167
+      RocketEffect_128: 3279049842396173032
+      RocketEffect_129: -3638321249111004052
+      RocketEffect_13: -6070119494717995049
+      RocketEffect_130: -1073999163939666350
+      RocketEffect_131: -7963076616346087065
+      RocketEffect_132: 5334899293960096048
+      RocketEffect_133: 4587945869625462132
+      RocketEffect_134: -6622133460001330200
+      RocketEffect_135: -916892113979492440
+      RocketEffect_136: -7711358020092659732
+      RocketEffect_137: -1994671084413250783
+      RocketEffect_138: 9148222519771834709
+      RocketEffect_139: 6889975400524640817
+      RocketEffect_14: 8137776001785220982
+      RocketEffect_140: -1870152532722298724
+      RocketEffect_141: 1024371663747057263
+      RocketEffect_142: 5356112709347525643
+      RocketEffect_143: -6012700283635501213
+      RocketEffect_144: -5477886197218260235
+      RocketEffect_145: -990395114624227345
+      RocketEffect_146: -8355841569985191791
+      RocketEffect_147: 1441179281353007575
+      RocketEffect_148: -4569548243414504355
+      RocketEffect_149: 5441659625211275810
+      RocketEffect_15: 7538098911932183388
+      RocketEffect_150: -6991203868255946503
+      RocketEffect_151: 4475573388449714003
+      RocketEffect_152: 8237403984588334830
+      RocketEffect_153: 8488496845449077669
+      RocketEffect_154: 833986449391236376
+      RocketEffect_155: -5752086392077758249
+      RocketEffect_156: -1919406199589022797
+      RocketEffect_157: -86013179581692974
+      RocketEffect_158: 5946877393042509912
+      RocketEffect_159: 2715361584410242816
+      RocketEffect_16: 1285862290851836631
+      RocketEffect_160: 559952196406573898
+      RocketEffect_161: -638213408641915933
+      RocketEffect_162: 8317302951049389566
+      RocketEffect_163: -496418857999979375
+      RocketEffect_164: -8416821226584248933
+      RocketEffect_165: -231610939938242640
+      RocketEffect_166: -4566881301691320159
+      RocketEffect_167: -6606551932927478662
+      RocketEffect_168: 576452991941550898
+      RocketEffect_169: 1296942591361312593
+      RocketEffect_17: -7355588647373881383
+      RocketEffect_170: 2076983926375117444
+      RocketEffect_171: 8891780048687103463
+      RocketEffect_172: 7170003465942028215
+      RocketEffect_173: 8997689421067143422
+      RocketEffect_174: -5827895206690564391
+      RocketEffect_175: 4396956448651415529
+      RocketEffect_176: 2331267270135275752
+      RocketEffect_177: 7882403860807822493
+      RocketEffect_178: -401483805075416185
+      RocketEffect_179: 2858256222476344286
+      RocketEffect_18: -1002099281592762455
+      RocketEffect_180: -90849204751261725
+      RocketEffect_181: -2487590060700296620
+      RocketEffect_182: 3665108492146641998
+      RocketEffect_183: -5558197818498823249
+      RocketEffect_184: 8704095069086113098
+      RocketEffect_185: -1578847809437372499
+      RocketEffect_186: -7867322788466165980
+      RocketEffect_187: 2540020653224919720
+      RocketEffect_188: 7210768667289876777
+      RocketEffect_189: -3883790643265305329
+      RocketEffect_19: 2596744410059916105
+      RocketEffect_190: 3208054428061870632
+      RocketEffect_191: -7090237406083038204
+      RocketEffect_192: 7134444700074888334
+      RocketEffect_193: 6495205919895296364
+      RocketEffect_194: -1479424190202391200
+      RocketEffect_195: -2777847832037137127
+      RocketEffect_196: -723522491323092404
+      RocketEffect_197: -924413940098275044
+      RocketEffect_198: 7267003029722343054
+      RocketEffect_199: -4549018158104538544
+      RocketEffect_2: -4245188003902902051
+      RocketEffect_20: -5890132097155817626
+      RocketEffect_200: 4326147892653175060
+      RocketEffect_201: -2540322782375443904
+      RocketEffect_202: 7046195843794460490
+      RocketEffect_203: -9018767149958968519
+      RocketEffect_204: 8792021943222402578
+      RocketEffect_205: 113797597081043499
+      RocketEffect_206: -274309525082294271
+      RocketEffect_207: 1775749778481278310
+      RocketEffect_208: -7555635081592415340
+      RocketEffect_209: -4030663689988063006
+      RocketEffect_21: 5879090835044876586
+      RocketEffect_210: -8360121089760992073
+      RocketEffect_211: 3174325932045283456
+      RocketEffect_212: 5981223405176881366
+      RocketEffect_213: 5452092061902466481
+      RocketEffect_214: 4046738976581584577
+      RocketEffect_215: 6425683019714110904
+      RocketEffect_216: 5764866440562728769
+      RocketEffect_217: -7391489371852167947
+      RocketEffect_218: 8448983088345350649
+      RocketEffect_219: 2424420538828752951
+      RocketEffect_22: 5683555003429665856
+      RocketEffect_23: -2615221249224235900
+      RocketEffect_24: -3786248381842387856
+      RocketEffect_25: 7861735804633584951
+      RocketEffect_26: -4617873706868441970
+      RocketEffect_27: 8828850617947396119
+      RocketEffect_28: 1298216876174403222
+      RocketEffect_29: -5089273190675000479
+      RocketEffect_3: 27610749095560150
+      RocketEffect_30: 445898108028733104
+      RocketEffect_31: 5107491858164749286
+      RocketEffect_32: -5231927340350127411
+      RocketEffect_33: -6802978223492487943
+      RocketEffect_34: 2646028992647310465
+      RocketEffect_35: 3520340825451773702
+      RocketEffect_36: 3363026611836495590
+      RocketEffect_37: -5884873027463340703
+      RocketEffect_38: -3122453795260132370
+      RocketEffect_39: 6067743450317753322
+      RocketEffect_4: -7494645335262050336
+      RocketEffect_40: -5162735873584344210
+      RocketEffect_41: 1097072014370474369
+      RocketEffect_42: -390203255905235861
+      RocketEffect_43: 6863432547427015948
+      RocketEffect_44: 9142906627815495130
+      RocketEffect_45: -5803027384465093533
+      RocketEffect_46: -1693512697485190819
+      RocketEffect_47: -3609767342277573951
+      RocketEffect_48: 2473382499370257894
+      RocketEffect_49: -7578100064448328161
+      RocketEffect_5: 1840096020011665426
+      RocketEffect_50: -5419471628877409746
+      RocketEffect_51: 308226004009049547
+      RocketEffect_52: 199349217665198456
+      RocketEffect_53: -91475494669136106
+      RocketEffect_54: 1941291842444899873
+      RocketEffect_55: -6018783135499812265
+      RocketEffect_56: -4498736771236775409
+      RocketEffect_57: 6012420254489935449
+      RocketEffect_58: -8303330565128411696
+      RocketEffect_59: 9199608919073240979
+      RocketEffect_6: -1510118607394177418
+      RocketEffect_60: 9031555009447366852
+      RocketEffect_61: 136243631627945089
+      RocketEffect_62: 3692547291829460042
+      RocketEffect_63: -8945146940160085122
+      RocketEffect_64: 1145435298507039698
+      RocketEffect_65: -3083220909908278644
+      RocketEffect_66: -8328065891303944167
+      RocketEffect_67: 8786352626839280065
+      RocketEffect_68: 5774121393567581996
+      RocketEffect_69: -1038127210392409411
+      RocketEffect_7: 3171384265230376302
+      RocketEffect_70: 4402577276289886757
+      RocketEffect_71: 6256522577927636024
+      RocketEffect_72: 6094010743081420348
+      RocketEffect_73: 6529843563806597771
+      RocketEffect_74: -8497319198067374943
+      RocketEffect_75: 9122094808386423348
+      RocketEffect_76: -4547797913126753893
+      RocketEffect_77: -7242694204553894385
+      RocketEffect_78: -5185136151946012353
+      RocketEffect_79: -3218153361708409385
+      RocketEffect_8: -2139145411768928135
+      RocketEffect_80: 8473603564034599811
+      RocketEffect_81: 2929696387088304481
+      RocketEffect_82: -5856156187513132184
+      RocketEffect_83: -6663262924753227020
+      RocketEffect_84: 1201927333622552929
+      RocketEffect_85: 656374458696530466
+      RocketEffect_86: -5702072512172510424
+      RocketEffect_87: -3681808289935553574
+      RocketEffect_88: 5308824418169074487
+      RocketEffect_89: -5765698014040724637
+      RocketEffect_9: 4005925366513422439
+      RocketEffect_90: -4350875190998614652
+      RocketEffect_91: 7333134728709485026
+      RocketEffect_92: 741905756578497943
+      RocketEffect_93: 1562310100219834430
+      RocketEffect_94: 3477284611129881451
+      RocketEffect_95: -4821144531388750997
+      RocketEffect_96: -3055424666745454479
+      RocketEffect_97: -5842412838864023555
+      RocketEffect_98: 6677878026327570926
+      RocketEffect_99: -8510314315642088373
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

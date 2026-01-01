@@ -1,0 +1,455 @@
+fileFormatVersion: 2
+guid: bd0e8d9fa87a63841b7609c5e1cc66a6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3251475308603741553
+    second: Scavenger_BAnimation_0
+  - first:
+      213: -2717704647752672171
+    second: Scavenger_BAnimation_1
+  - first:
+      213: 8315224493528038220
+    second: Scavenger_BAnimation_2
+  - first:
+      213: 679228105106291698
+    second: Scavenger_BAnimation_3
+  - first:
+      213: 7706708185249881778
+    second: Scavenger_BAnimation_4
+  - first:
+      213: 544040417915008544
+    second: Scavenger_BAnimation_5
+  - first:
+      213: -5963026745119629829
+    second: Scavenger_BAnimation_6
+  - first:
+      213: -5203388000236647000
+    second: Scavenger_BAnimation_7
+  - first:
+      213: -4381634806679576672
+    second: Scavenger_BAnimation_8
+  - first:
+      213: 3674312357071341755
+    second: Scavenger_BAnimation_9
+  - first:
+      213: 5563312790877211772
+    second: Scavenger_BAnimation_10
+  - first:
+      213: 5244611123870396714
+    second: Scavenger_BAnimation_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_0
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 1
+        width: 385
+        height: 418
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8a68b21f6070e2d0800000000000000
+      internalID: -3251475308603741553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_1
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 1
+        width: 385
+        height: 418
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55c164a9506c84ad0800000000000000
+      internalID: -2717704647752672171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_2
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 1
+        width: 385
+        height: 416
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4bbd54fe9c956370800000000000000
+      internalID: 8315224493528038220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_3
+      rect:
+        serializedVersion: 2
+        x: 1406
+        y: 1
+        width: 385
+        height: 416
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fb7256ec5a1d6900800000000000000
+      internalID: 679228105106291698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_4
+      rect:
+        serializedVersion: 2
+        x: 1861
+        y: 1
+        width: 385
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be1a69334ab3fa60800000000000000
+      internalID: 7706708185249881778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_5
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 1
+        width: 385
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 026774da0e1dc8700800000000000000
+      internalID: 544040417915008544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_6
+      rect:
+        serializedVersion: 2
+        x: 2771
+        y: 1
+        width: 385
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfd9dfec4c21f3da0800000000000000
+      internalID: -5963026745119629829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_7
+      rect:
+        serializedVersion: 2
+        x: 3226
+        y: 1
+        width: 385
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ad4d59be2ad9c7b0800000000000000
+      internalID: -5203388000236647000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_8
+      rect:
+        serializedVersion: 2
+        x: 3681
+        y: 1
+        width: 385
+        height: 417
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0af5064bb5e4133c0800000000000000
+      internalID: -4381634806679576672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_9
+      rect:
+        serializedVersion: 2
+        x: 4136
+        y: 1
+        width: 385
+        height: 417
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb8c0151f97cdf230800000000000000
+      internalID: 3674312357071341755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_10
+      rect:
+        serializedVersion: 2
+        x: 4591
+        y: 1
+        width: 385
+        height: 417
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7c8f92f18bd43d40800000000000000
+      internalID: 5563312790877211772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scavenger_BAnimation_11
+      rect:
+        serializedVersion: 2
+        x: 5046
+        y: 1
+        width: 385
+        height: 417
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a217b5fa70a98c840800000000000000
+      internalID: 5244611123870396714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Scavenger_BAnimation_0: -3251475308603741553
+      Scavenger_BAnimation_1: -2717704647752672171
+      Scavenger_BAnimation_10: 5563312790877211772
+      Scavenger_BAnimation_11: 5244611123870396714
+      Scavenger_BAnimation_2: 8315224493528038220
+      Scavenger_BAnimation_3: 679228105106291698
+      Scavenger_BAnimation_4: 7706708185249881778
+      Scavenger_BAnimation_5: 544040417915008544
+      Scavenger_BAnimation_6: -5963026745119629829
+      Scavenger_BAnimation_7: -5203388000236647000
+      Scavenger_BAnimation_8: -4381634806679576672
+      Scavenger_BAnimation_9: 3674312357071341755
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
