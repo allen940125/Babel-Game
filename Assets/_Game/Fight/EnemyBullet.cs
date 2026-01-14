@@ -1,62 +1,65 @@
 using UnityEngine;
+using System.Collections.Generic; // 需要引用 List
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(LineRenderer))] // 1. 強制要求 LineRenderer 元件
+[RequireComponent(typeof(LineRenderer))]
 public class EnemyBullet : MonoBehaviour
 {
     [Header("隨機參數設定 (序列化)")]
     [SerializeField] private Vector2 speedRange = new Vector2(5f, 12f);
     [SerializeField] private Vector2 lifeTimeRange = new Vector2(3f, 6f);
     
-    [Header("反彈設定")]
-    [SerializeField] private LayerMask collisionLayer;
-    [SerializeField] private bool showDebugLine = true; 
+    [Header("反彈與穿透設定")]
+    [SerializeField] private LayerMask collisionLayer; 
+    [SerializeField] private bool showDebugLine = true;
+    
+    // --- 控制穿透 ---
+    [Tooltip("如果打勾，就會穿過 PlayerButton；如果沒打勾，就會反彈")]
+    public bool canPenetratePlayerButton = false; 
 
-    // --- 新增：線條外觀設定 ---
+    // --- 新增：特效設定 ---
+    [Header("特效設定")]
+    [Tooltip("撞到牆壁反彈時要生成的特效 Prefab")]
+    public GameObject hitEffectPrefab; 
+
     [Header("視覺射線設定")]
-    [SerializeField] private float rayLength = 1.5f; // 線要畫多長
+    [SerializeField] private float rayLength = 5.0f; // 總長度建議拉長一點，才看得到多次反彈
     [SerializeField] private Color rayColor = Color.yellow;
     [SerializeField] private float rayWidth = 0.05f;
+    
+    // --- 新增：反彈預測次數 ---
+    [Tooltip("射線要預測幾次反彈？")]
+    [SerializeField] private int maxPredictionBounces = 2; 
 
     private Vector2 _currentDirection;
     private float _currentSpeed;
     private Rigidbody2D _rb;
-    private LineRenderer _lineRenderer; // 快取元件
+    private LineRenderer _lineRenderer;
 
-    public void Initialize(Vector2 startDirection , float finalSpeedMultiple)
+    public void Initialize(Vector2 startDirection, float finalSpeedMultiple)
     {
         _rb = GetComponent<Rigidbody2D>();
-        _lineRenderer = GetComponent<LineRenderer>(); // 抓取 LineRenderer
+        _lineRenderer = GetComponent<LineRenderer>();
 
-        // 初始化隨機數值
+        // 不需要再設定 canPenetratePlayerButton，直接用 Inspector 的設定
+
         _currentSpeed = Random.Range(speedRange.x, speedRange.y);
         _currentSpeed *= finalSpeedMultiple;
         float lifeTime = Random.Range(lifeTimeRange.x, lifeTimeRange.y);
         _currentDirection = startDirection.normalized;
         
         Destroy(gameObject, lifeTime);
-
-        // --- 初始化 LineRenderer 設定 (也可以在 Inspector 手動調) ---
         SetupLineRenderer();
     }
 
     private void SetupLineRenderer()
     {
         if (_lineRenderer == null) return;
-
-        // 設定寬度
         _lineRenderer.startWidth = rayWidth;
         _lineRenderer.endWidth = rayWidth;
-        
-        // 設定顏色 (需要材質支援 Vertex Color，通常用 Sprites-Default 材質即可)
         _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         _lineRenderer.startColor = rayColor;
         _lineRenderer.endColor = rayColor;
-
-        // 設定點數 (起點跟終點)
-        _lineRenderer.positionCount = 2;
-        
-        // 如果不想讓線擋住子彈，可以調整 Sorting Order
         _lineRenderer.sortingOrder = 10; 
     }
 
@@ -64,7 +67,6 @@ public class EnemyBullet : MonoBehaviour
     {
         MoveAndBounce();
         
-        // 更新線的位置
         if (showDebugLine)
         {
             UpdateDebugLine();
@@ -75,50 +77,111 @@ public class EnemyBullet : MonoBehaviour
         }
     }
 
+    // --- 修改重點 1: 多重反彈預測邏輯 ---
     private void UpdateDebugLine()
     {
         if (_lineRenderer == null) return;
         _lineRenderer.enabled = true;
 
-        Vector3 startPos = transform.position;
-        // 預設終點：子彈前方 rayLength 的距離
-        Vector3 endPos = startPos + (Vector3)_currentDirection * rayLength;
+        // 用來存儲所有路徑點 (起點 -> 撞擊點1 -> 撞擊點2 -> 終點)
+        List<Vector3> points = new List<Vector3>();
+        
+        Vector2 currentPosition = transform.position;
+        Vector2 currentDir = _currentDirection;
+        float remainingLength = rayLength;
 
-        // --- 修改重點：發射一條射線去檢查有沒有撞到牆 ---
-        // 使用與移動邏輯相同的 LayerMask (collisionLayer)
-        RaycastHit2D hit = Physics2D.Raycast(startPos, _currentDirection, rayLength, collisionLayer);
+        // 加入起點
+        points.Add(currentPosition);
 
-        if (hit.collider != null)
+        // 模擬迴圈
+        for (int i = 0; i <= maxPredictionBounces; i++)
         {
-            // 如果撞到了牆壁 (或其他在 LayerMask 裡的東西)
-            // 將線的終點「截斷」在撞擊點上
-            endPos = hit.point;
+            // 發射射線，長度為「剩餘長度」
+            RaycastHit2D hit = Physics2D.Raycast(currentPosition, currentDir, remainingLength, collisionLayer);
+
+            if (hit.collider != null)
+            {
+                // 如果撞到了...
+                
+                // 1. 加入撞擊點
+                points.Add(hit.point);
+
+                // 2. 扣除已經走過的距離
+                float distanceTraveled = Vector2.Distance(currentPosition, hit.point);
+                remainingLength -= distanceTraveled;
+
+                // 如果剩餘長度歸零，就結束預測
+                if (remainingLength <= 0) break;
+
+                // 3. 判斷是否需要反彈 (如果是穿透，就不用改變方向，但要更新位置)
+                if (ShouldBounce(hit.collider))
+                {
+                    // 計算反射方向
+                    currentDir = Vector2.Reflect(currentDir, hit.normal);
+                }
+                
+                // 4. 更新下一次發射的起點 (稍微往前推一點點 0.01f，避免射線卡在牆壁裡自己撞自己)
+                currentPosition = hit.point + (currentDir * 0.01f);
+            }
+            else
+            {
+                // 如果沒撞到，就畫到剩餘長度的盡頭
+                points.Add(currentPosition + (currentDir * remainingLength));
+                break; // 沒撞到東西，預測結束
+            }
         }
 
-        _lineRenderer.SetPosition(0, startPos);
-        _lineRenderer.SetPosition(1, endPos);
+        // 更新 LineRenderer
+        _lineRenderer.positionCount = points.Count;
+        _lineRenderer.SetPositions(points.ToArray());
     }
 
     private void MoveAndBounce()
     {
         float stepDistance = _currentSpeed * Time.fixedDeltaTime;
         
-        // 射線檢測
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _currentDirection, stepDistance, collisionLayer);
 
         if (hit.collider != null)
         {
-            if (hit.collider.CompareTag("Wall"))
+            if (ShouldBounce(hit.collider))
             {
-                // 反射邏輯
+                // --- 修改重點 2: 生成撞擊特效 ---
+                SpawnHitEffect(hit.point, hit.normal);
+
+                // 反射方向
                 _currentDirection = Vector2.Reflect(_currentDirection, hit.normal);
             }
         }
 
-        // 移動與旋轉
         _rb.linearVelocity = _currentDirection * _currentSpeed;
+
         float angle = Mathf.Atan2(_currentDirection.y, _currentDirection.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
+    }
+
+    // --- 新增：生成特效的方法 ---
+    private void SpawnHitEffect(Vector2 position, Vector2 normal)
+    {
+        if (hitEffectPrefab != null)
+        {
+            // 生成特效
+            // Quaternion.identity 代表不旋轉
+            // 如果你的特效需要「背對牆壁噴發」，可以用 Quaternion.FromToRotation(Vector3.up, normal)
+            Instantiate(hitEffectPrefab, position, Quaternion.identity);
+        }
+    }
+
+    private bool ShouldBounce(Collider2D collider)
+    {
+        if (collider.CompareTag("Wall")) return true;
+
+        if (collider.CompareTag("PlayerButton"))
+        {
+            return !canPenetratePlayerButton; 
+        }
+
+        return true; 
     }
 
     private void OnTriggerEnter2D(Collider2D other)

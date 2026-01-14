@@ -312,9 +312,9 @@ GameObject:
   - component: {fileID: 260611188}
   - component: {fileID: 260611189}
   - component: {fileID: 260611190}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: "TALK\u6309\u92151_0"
-  m_TagString: Wall
+  m_TagString: PlayerButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -880,9 +880,9 @@ GameObject:
   - component: {fileID: 1025398797}
   - component: {fileID: 1025398798}
   - component: {fileID: 1025398799}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: "RUN\u6309\u92151_0"
-  m_TagString: Wall
+  m_TagString: PlayerButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1273,9 +1273,9 @@ GameObject:
   - component: {fileID: 1579077045}
   - component: {fileID: 1579077046}
   - component: {fileID: 1579077047}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: "ITEM\u6309\u92151_0"
-  m_TagString: Wall
+  m_TagString: PlayerButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1579,7 +1579,7 @@ Transform:
   m_GameObject: {fileID: 1812076111}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1983,7 +1983,7 @@ Transform:
   m_GameObject: {fileID: 1842308558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.94, y: 3.89, z: 0}
+  m_LocalPosition: {x: -0.65, y: 3.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2008,40 +2008,50 @@ MonoBehaviour:
   maxHealth: 6
   hitsPerDamage: 10
   firePosition: {fileID: 1461063357}
+  specialTimer: 5
   healthBarContainer: {fileID: 34359288}
-  healthIconPrefab: {fileID: 0}
-  phaseDataList:
+  phaseConfigs:
   - label: 
-    bulletCount: 1
-    fireInterval: 0.5
-    bulletSpeedMultiple: 1
+    waveList: []
   - label: 
-    bulletCount: 2
-    fireInterval: 0.5
-    bulletSpeedMultiple: 1.2
+    waveList:
+    - note: 
+      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      count: 1
+      interval: 1
+      speed: 1
+    - note: 
+      bulletPrefab: {fileID: 8034763294956535289, guid: 408571406712abb4aab8ca63cc53ac55, type: 3}
+      count: 1
+      interval: 2
+      speed: 1
   - label: 
-    bulletCount: 4
-    fireInterval: 0.5
-    bulletSpeedMultiple: 1.4
+    waveList:
+    - note: 
+      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      count: 3
+      interval: 1
+      speed: 1
   - label: 
-    bulletCount: 6
-    fireInterval: 0.5
-    bulletSpeedMultiple: 1.6
-  - label: 
-    bulletCount: 8
-    fireInterval: 0.5
-    bulletSpeedMultiple: 1.8
-  - label: 
-    bulletCount: 10
-    fireInterval: 1
-    bulletSpeedMultiple: 2
+    waveList:
+    - note: 
+      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      count: 3
+      interval: 1
+      speed: 1
+    - note: 
+      bulletPrefab: {fileID: 8034763294956535289, guid: 408571406712abb4aab8ca63cc53ac55, type: 3}
+      count: 1
+      interval: 1
+      speed: 1
   _currentPhase: 0
   _phaseTimerDisplay: 0
   _currentHealthDisplay: 0
   _currentHitCountDisplay: 0
   _wasLastSpecialBlocked: 0
-  laserPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  eyePrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
+  SpecialPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
+  spawnPadding: 2
+  minObjectDistance: 5
 --- !u!1 &1878551334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2208,7 +2218,7 @@ GameObject:
   - component: {fileID: 1930160318}
   - component: {fileID: 1930160320}
   m_Layer: 8
-  m_Name: Square (1)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2346,7 +2356,7 @@ GameObject:
   - component: {fileID: 1999466288}
   - component: {fileID: 1999466290}
   m_Layer: 8
-  m_Name: Square (3)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2484,7 +2494,7 @@ GameObject:
   - component: {fileID: 2013094090}
   - component: {fileID: 2013094092}
   m_Layer: 8
-  m_Name: Square
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2623,9 +2633,9 @@ GameObject:
   - component: {fileID: 2037063781}
   - component: {fileID: 2037063783}
   - component: {fileID: 2037063784}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: "FIGHT\u6309\u92151_0"
-  m_TagString: Wall
+  m_TagString: PlayerButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2909,7 +2919,7 @@ GameObject:
   - component: {fileID: 2139161504}
   - component: {fileID: 2139161506}
   m_Layer: 8
-  m_Name: Square (2)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
