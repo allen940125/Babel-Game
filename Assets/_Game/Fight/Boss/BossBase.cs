@@ -11,11 +11,14 @@ public abstract class BossBase : MonoBehaviour
     [System.Serializable]
     public struct BulletWaveData
     {
+        [Tooltip("只是備註，方便你自己看 (例如：螺旋丸)")]
         public string note;
-        public GameObject bulletPrefab;
-        public int count;
-        public float interval;
-        public float speed;
+        
+        [Tooltip("請拖入掛有 AttackPatternBase 的 Prefab")]
+        public GameObject patternPrefab; 
+        
+        [Tooltip("這波子彈全清空後，要休息多久才放下一招？")]
+        public float delayBeforeNext;    
     }
 
     // --- 定義：每個血量階段的設定 (包含多個波次) ---
@@ -31,20 +34,25 @@ public abstract class BossBase : MonoBehaviour
     public int maxHealth = 6;
     public int hitsPerDamage = 10;
     public Transform firePosition;
-    public float specialTimer;
+    
+    [Tooltip("特殊機制 (Special Phase) 的倒數時間")]
+    public float specialTimer = 15.0f;
 
     [Header("UI 血量顯示")]
     public GameObject healthBarContainer; 
-    //public GameObject healthIconPrefab;
+    public GameObject healthIconPrefab;
 
     [Header("攻擊階段參數設定 (依照血量損失順序)")]
     public List<BossPhaseConfig> phaseConfigs; 
 
     // --- 內部運作變數 ---
-    protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>(); // 攻擊波次佇列
-    protected BulletWaveData _currentWave; // 當前正在執行的波次
-    protected int _currentWaveRemainingCount; // 當前波次還剩幾發
-    protected float _fireTimer; // 射擊計時器
+    
+    // 子彈管理 (核心修改：由 Boss 追蹤場上所有子彈)
+    protected List<GameObject> _activeBullets = new List<GameObject>(); 
+    
+    // 攻擊排程
+    protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>(); 
+    protected float _waveDelayTimer; // 波次間的休息計時器
 
     // 特殊機制管理 (通用)
     protected List<BossSpecialMechanism> _activeSpecialMechanisms = new List<BossSpecialMechanism>();
@@ -80,12 +88,21 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
+    // 測試用：如果想讓遊戲一開始就直接進戰鬥，可以在這裡呼叫
+    protected virtual void Start()
+    {
+        // StartBattle(); // 如果需要自動開始，把這行解開
+    }
+
     public virtual void StartBattle() 
     {
         currentHealth = maxHealth;
-        //InitHealthBar();
+        InitHealthBar(); // 初始化血條
         UpdateDebugData(); 
-        EnterPhase(BossPhase.Idle); 
+        
+        // 設定一開始就直接進入攻擊狀態 (下馬威)
+        // 注意：如果你希望一開始是特殊機制，這裡改 BossPhase.Special
+        EnterPhase(BossPhase.Attacking); 
     }
 
     // UI 按鈕觸發
@@ -99,6 +116,16 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
+    // --- 提供給 Pattern Prefab 呼叫的方法 ---
+    // 當發射器生成子彈時，必須呼叫這個方法，把子彈交給 Boss 管理
+    public void RegisterActiveBullet(GameObject bullet)
+    {
+        if (bullet != null)
+        {
+            _activeBullets.Add(bullet);
+        }
+    }
+
     protected virtual void Update()
     {
         _phaseTimerDisplay = phaseTimer;
@@ -108,7 +135,17 @@ public abstract class BossBase : MonoBehaviour
         {
             phaseTimer -= Time.deltaTime;
 
-            // 情況 2: 時間到
+            // 1. 檢查是否提早全部隱藏 (成功)
+            if (CheckSpecialPhaseSuccess())
+            {
+                Debug.Log("玩家提早破解特殊機制！");
+                _wasLastSpecialBlocked = true; 
+                ClearActiveSpecialMechanisms();
+                EnterPhase(BossPhase.Vulnerable); 
+                return;
+            }
+
+            // 2. 時間到
             if (phaseTimer <= 0)
             {
                 bool success = CheckSpecialPhaseSuccess();
@@ -123,10 +160,8 @@ public abstract class BossBase : MonoBehaviour
                     _wasLastSpecialBlocked = false;
                 }
                 
-                // --- 新增：清理場上機關 ---
-                // 不管成功還是失敗，時間到了都要把剩下的機關清掉
+                // 不管成功失敗，清理場上機關
                 ClearActiveSpecialMechanisms();
-
                 EnterPhase(BossPhase.Vulnerable); 
             }
         }
@@ -138,6 +173,7 @@ public abstract class BossBase : MonoBehaviour
         }
         else if (_currentPhase == BossPhase.WaitingForBullets)
         {
+            // 雙重確認 (雖然 ExecuteAttackSequence 已經會檢查，但這裡是保險)
             if (CheckBulletsCleared())
             {
                 EnterPhase(BossPhase.Idle);
@@ -160,10 +196,10 @@ public abstract class BossBase : MonoBehaviour
                 break;
 
             case BossPhase.Special:
-                phaseTimer = specialTimer; // 特殊機制時間
+                phaseTimer = specialTimer; 
                 _wasLastSpecialBlocked = false; 
-                ClearActiveSpecialMechanisms(); // 清空上一輪的機關
-                EnterSpecialPhase(); // 生成新機關
+                ClearActiveSpecialMechanisms(); 
+                EnterSpecialPhase(); // 生成新機關 (子類別實作)
                 break;
 
             case BossPhase.Vulnerable:
@@ -180,11 +216,12 @@ public abstract class BossBase : MonoBehaviour
                 break;
 
             case BossPhase.WaitingForBullets:
+                // 這個狀態只是過渡，用來確認場上真的乾淨了
                 break;
         }
     }
 
-    // --- 攻擊邏輯 (Wave System) ---
+    // --- 攻擊邏輯 (Pattern System) ---
 
     private void LoadAttackPhaseConfig()
     {
@@ -193,7 +230,7 @@ public abstract class BossBase : MonoBehaviour
         if (phaseConfigs == null || phaseConfigs.Count == 0)
         {
             Debug.LogError("請在 Inspector 設定 Phase Configs！");
-            EnterPhase(BossPhase.WaitingForBullets); // 沒設定就跳過
+            EnterPhase(BossPhase.WaitingForBullets); 
             return;
         }
 
@@ -205,59 +242,71 @@ public abstract class BossBase : MonoBehaviour
         {
             _waveQueue.Enqueue(wave);
         }
+        
+        _activeBullets.Clear(); // 確保清單乾淨
+        _waveDelayTimer = 0f;   // 第一波不需要等待，立刻發射
 
         Debug.Log($"載入階段 {index} ({config.label})，共有 {_waveQueue.Count} 波攻擊");
-        PrepareNextWave();
-    }
-
-    private void PrepareNextWave()
-    {
-        if (_waveQueue.Count > 0)
-        {
-            _currentWave = _waveQueue.Dequeue();
-            _currentWaveRemainingCount = _currentWave.count;
-            _fireTimer = 0f; // 立即開始
-            Debug.Log($"執行波次: {_currentWave.note}");
-        }
-        else
-        {
-            // 所有波次結束
-            EnterPhase(BossPhase.WaitingForBullets);
-        }
     }
 
     private void ExecuteAttackSequence()
     {
-        if (_currentWaveRemainingCount <= 0)
+        // 1. 清理已經銷毀的子彈 (移除 null)
+        _activeBullets.RemoveAll(b => b == null);
+
+        // 2. 如果場上還有子彈，Boss 就發呆等待玩家清完
+        if (_activeBullets.Count > 0) return;
+
+        // --- 以下邏輯代表：場上無子彈 (或是剛開始) ---
+
+        // 3. 處理波次間的休息時間
+        if (_waveDelayTimer > 0)
         {
-            PrepareNextWave();
+            _waveDelayTimer -= Time.deltaTime;
             return;
         }
 
-        _fireTimer -= Time.deltaTime;
-
-        if (_fireTimer <= 0)
+        // 4. 準備發射下一波
+        if (_waveQueue.Count > 0)
         {
-            // 計算參數 (狂暴判定)
-            float finalSpeed = _currentWave.speed;
-            float finalInterval = _currentWave.interval;
-            Color finalColor = Color.white;
-
-            if (!_wasLastSpecialBlocked) // 失敗懲罰
+            BulletWaveData nextWave = _waveQueue.Dequeue();
+            Debug.Log($"執行波次: {nextWave.note}");
+            
+            // 生成並執行 Pattern Prefab
+            if (nextWave.patternPrefab != null)
             {
-                finalSpeed *= 1.5f;
-                finalInterval *= 0.5f;
-                finalColor = Color.red;
+                // 生成發射器
+                GameObject patternObj = Instantiate(nextWave.patternPrefab, firePosition.position, Quaternion.identity);
+                var patternScript = patternObj.GetComponent<AttackPatternBase>();
+                
+                if (patternScript != null)
+                {
+                    // 根據是否憤怒傳遞參數
+                    // 如果上一輪 Special 失敗 (_wasLastSpecialBlocked = false)，就是憤怒狀態
+                    bool isAngry = !_wasLastSpecialBlocked;
+                    float speedMult = 1.0f; 
+
+                    // 執行發射 (子彈會被註冊進 _activeBullets)
+                    patternScript.Execute(this, speedMult, isAngry);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("波次設定中缺少 Pattern Prefab！");
             }
 
-            // 呼叫子類別生成
-            if (_currentWave.bulletPrefab != null)
-            {
-                FireBulletInstance(_currentWave.bulletPrefab, finalSpeed, finalColor);
-            }
+            // 設定下一波前的休息時間
+            // 如果是憤怒狀態，休息時間減半
+            float finalDelay = nextWave.delayBeforeNext;
+            if (!_wasLastSpecialBlocked) finalDelay *= 0.5f;
 
-            _currentWaveRemainingCount--;
-            _fireTimer = finalInterval;
+            _waveDelayTimer = finalDelay;
+        }
+        else
+        {
+            // 5. 佇列空了 -> 代表這個階段的所有攻擊都結束了
+            Debug.Log("所有波次結束，準備回到 Idle");
+            EnterPhase(BossPhase.WaitingForBullets);
         }
     }
 
@@ -266,11 +315,11 @@ public abstract class BossBase : MonoBehaviour
     protected bool CheckSpecialPhaseSuccess()
     {
         _activeSpecialMechanisms.RemoveAll(item => item == null);
-        if (_activeSpecialMechanisms.Count == 0 && _activeSpecialMechanisms.Capacity != 0) return true; // 全空視為成功
+        if (_activeSpecialMechanisms.Count == 0 && _activeSpecialMechanisms.Capacity != 0) return true; 
 
         foreach (var mechanism in _activeSpecialMechanisms)
         {
-            if (!mechanism.IsCleared) return false; // 只要有一個沒隱藏就算失敗
+            if (!mechanism.IsCleared) return false; 
         }
         return true;
     }
@@ -283,20 +332,37 @@ public abstract class BossBase : MonoBehaviour
         }
         _activeSpecialMechanisms.Clear();
     }
+    
+    // 子類別需要實作：檢查自己生成的子彈是否清空 (如果還有其他來源的話)
+    // 但因為現在統一用 _activeBullets 管理，這裡可以簡單實作
+    protected virtual bool CheckBulletsCleared()
+    {
+        _activeBullets.RemoveAll(b => b == null);
+        return _activeBullets.Count == 0;
+    }
 
     // --- UI 與受傷邏輯 ---
 
-    // private void InitHealthBar()
-    // {
-    //     if (!healthBarContainer || !healthIconPrefab) return;
-    //     foreach (Transform child in healthBarContainer.transform) Destroy(child.gameObject);
-    //     for (int i = 0; i < maxHealth; i++) Instantiate(healthIconPrefab, healthBarContainer.transform);
-    // }
+    private void InitHealthBar()
+    {
+        if (healthBarContainer == null || healthIconPrefab == null) return;
+        
+        // 清除舊圖示
+        foreach (Transform child in healthBarContainer.transform) Destroy(child.gameObject);
+        
+        // 生成新圖示
+        for (int i = 0; i < maxHealth; i++) 
+        {
+            Instantiate(healthIconPrefab, healthBarContainer.transform);
+        }
+    }
 
     private void RemoveOneHealthIcon()
     {
         if (healthBarContainer && healthBarContainer.transform.childCount > 0)
+        {
             Destroy(healthBarContainer.transform.GetChild(healthBarContainer.transform.childCount - 1).gameObject);
+        }
     }
 
     public void TakeHit()
@@ -310,7 +376,7 @@ public abstract class BossBase : MonoBehaviour
         {
             currentHitCount = 0;
             currentHealth--;
-            RemoveOneHealthIcon(); // UI 更新
+            RemoveOneHealthIcon(); 
             UpdateDebugData(); 
             
             if(currentHealth <= 0) 
@@ -319,7 +385,8 @@ public abstract class BossBase : MonoBehaviour
             }
             else
             {
-                EnterPhase(BossPhase.Attacking); // 被打痛了 -> 反擊
+                // 被打痛了 -> 進入攻擊狀態反擊
+                EnterPhase(BossPhase.Attacking); 
             }
         }
     }
@@ -336,8 +403,7 @@ public abstract class BossBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // --- 抽象方法 (子類別實作) ---
-    protected abstract void FireBulletInstance(GameObject prefab, float speed, Color color);
+    // --- 抽象方法 ---
+    // 因為攻擊邏輯已經移到 Pattern Prefab，這裡不再需要 FireBulletInstance
     protected abstract void EnterSpecialPhase();
-    protected abstract bool CheckBulletsCleared(); 
 }

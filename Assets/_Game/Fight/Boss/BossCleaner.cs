@@ -4,39 +4,16 @@ using System.Collections.Generic;
 public class BossCleaner : BossBase
 {
     [Header("Cleaner 專屬設定")]
-    public GameObject SpecialPrefab; // 必須掛有 BossSpecialMechanism 腳本
+    [Tooltip("必須掛有 BossSpecialMechanism 腳本")]
+    public GameObject SpecialPrefab; 
     
     [Header("生成設定")]
     [Tooltip("生成時距離螢幕邊緣的安全距離")]
     public float spawnPadding = 1.0f;
     [Tooltip("物件之間的最小距離 (防重疊)")]
-    public float minObjectDistance = 2.0f; // 建議設為 Prefab 的直徑或更大一點
+    public float minObjectDistance = 2.0f; 
     
-    private List<GameObject> _activeBullets = new List<GameObject>();
-
-    // 1. 實作發射子彈 (參數由父類別傳入)
-    protected override void FireBulletInstance(GameObject prefab, float speed, Color color)
-    {
-        // 生成子彈
-        GameObject bulletObj = Instantiate(prefab, firePosition.position, Quaternion.identity);
-        
-        // 設定顏色
-        var sprite = bulletObj.GetComponentInChildren<SpriteRenderer>();
-        if(sprite) sprite.color = color;
-        
-        // 設定物理/邏輯
-        EnemyBullet bulletScript = bulletObj.GetComponent<EnemyBullet>();
-        if (bulletScript != null)
-        {
-            Vector2 randomDir = Random.insideUnitCircle.normalized;
-            // 初始化 (使用傳入的速度)
-            bulletScript.Initialize(randomDir, speed); 
-        }
-
-        _activeBullets.Add(bulletObj);
-    }
-
-    // 2. 實作生成特殊機關
+    // --- 保留：這才是 Cleaner 獨有的特色 (生成特殊機關) ---
     protected override void EnterSpecialPhase()
     {
         // 1. 計算螢幕邊界 (世界座標)
@@ -50,26 +27,28 @@ public class BossCleaner : BossBase
         minScreen += new Vector2(spawnPadding, spawnPadding);
         maxScreen -= new Vector2(spawnPadding, spawnPadding);
 
+        // 用來記錄這一輪已經生成的座標 (防重疊)
         List<Vector2> spawnedPositions = new List<Vector2>();
 
+        // 生成 3 個機關 (你可以把 3 改成變數)
         for (int i = 0; i < 3; i++)
         {
             Vector2 finalPos = transform.position;
             bool foundValidPosition = false;
             int maxAttempts = 20;
 
+            // 嘗試尋找合法位置
             for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                // --- 修改重點 A: 改成全螢幕隨機 ---
-                // 不再參考 transform.position，而是直接在螢幕範圍內隨機
+                // A. 全螢幕隨機座標
                 float randomX = Random.Range(minScreen.x, maxScreen.x);
                 float randomY = Random.Range(minScreen.y, maxScreen.y);
                 Vector2 candidatePos = new Vector2(randomX, randomY);
 
-                // --- 修改重點 B: 防重疊檢查 ---
+                // B. 防重疊檢查
                 bool isTooClose = false;
 
-                // 1. 檢查有沒有跟「其他機關」太近
+                // 檢查跟其他機關的距離
                 foreach (Vector2 existingPos in spawnedPositions)
                 {
                     if (Vector2.Distance(candidatePos, existingPos) < minObjectDistance)
@@ -79,8 +58,7 @@ public class BossCleaner : BossBase
                     }
                 }
 
-                // 2. (選用) 檢查有沒有跟「Boss 本體」太近？
-                // 如果你不希望機關直接生在 Boss 臉上，這段很重要
+                // 檢查跟 Boss 本體的距離 (選用，避免生在 Boss 臉上)
                 if (!isTooClose)
                 {
                      if (Vector2.Distance(candidatePos, transform.position) < minObjectDistance)
@@ -89,7 +67,7 @@ public class BossCleaner : BossBase
                      }
                 }
 
-                // 合法位置確認
+                // 合法確認
                 if (!isTooClose)
                 {
                     finalPos = candidatePos;
@@ -97,15 +75,14 @@ public class BossCleaner : BossBase
                     break;
                 }
             }
-
-            // 萬一隨機 20 次都失敗 (極低機率)，還是要生出來，就用最後一次算出的點
-            // (雖然這裡 finalPos 預設是 Boss 位置，但理論上 randomX/Y 會覆蓋它，除非 min>max)
             
+            // 記錄位置
             spawnedPositions.Add(finalPos);
 
             // 生成物件
             GameObject obj = Instantiate(SpecialPrefab, finalPos, Quaternion.identity);
 
+            // 加入父類別清單
             var mechanism = obj.GetComponent<BossSpecialMechanism>();
             if (mechanism != null)
             {
@@ -116,12 +93,5 @@ public class BossCleaner : BossBase
                 Debug.LogError("SpecialPrefab 缺少 BossSpecialMechanism 腳本！");
             }
         }
-    }
-
-    // 3. 實作檢查子彈是否清空
-    protected override bool CheckBulletsCleared()
-    {
-        _activeBullets.RemoveAll(item => item == null);
-        return _activeBullets.Count == 0;
     }
 }

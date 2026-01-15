@@ -297,7 +297,9 @@ MonoBehaviour:
     m_Bits: 768
   showDebugLine: 1
   canPenetratePlayerButton: 0
+  showHitEffect: 1
   hitEffectPrefab: {fileID: 8955939593327333646, guid: 2ae136026fbcbc84a8980a6d8b606a83, type: 3}
+  effectRotationMode: 1
   rayLength: 100
   rayColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   rayWidth: 0.05

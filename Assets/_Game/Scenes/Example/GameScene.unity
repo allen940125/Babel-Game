@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375c6b5c1fea3ed48a849f9c6ba5c91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
-  isDraggable: 1
+  isDraggable: 0
   dragThreshold: 0.1
 --- !u!50 &260611190
 Rigidbody2D:
@@ -776,6 +776,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &725395644
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882232641607372702, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_Name
+      value: "\u6CE2\u6B213"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
 --- !u!1 &884991698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375c6b5c1fea3ed48a849f9c6ba5c91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
-  isDraggable: 1
+  isDraggable: 0
   dragThreshold: 0.1
 --- !u!50 &1025398799
 Rigidbody2D:
@@ -1273,6 +1334,7 @@ GameObject:
   - component: {fileID: 1579077045}
   - component: {fileID: 1579077046}
   - component: {fileID: 1579077047}
+  - component: {fileID: 1579077048}
   m_Layer: 9
   m_Name: "ITEM\u6309\u92151_0"
   m_TagString: PlayerButton
@@ -1460,7 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375c6b5c1fea3ed48a849f9c6ba5c91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
-  isDraggable: 1
+  isDraggable: 0
   dragThreshold: 0.1
 --- !u!50 &1579077047
 Rigidbody2D:
@@ -1489,6 +1551,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &1579077048
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579077042}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b2047153cd304048a3f403d35603e33, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1685729202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2010,40 +2094,38 @@ MonoBehaviour:
   firePosition: {fileID: 1461063357}
   specialTimer: 5
   healthBarContainer: {fileID: 34359288}
+  healthIconPrefab: {fileID: 0}
   phaseConfigs:
   - label: 
-    waveList: []
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 4989275966189868475, guid: b78250e7f60830d449f4af7b35f424e7, type: 3}
+      delayBeforeNext: 0
   - label: 
     waveList:
     - note: 
-      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-      count: 1
-      interval: 1
-      speed: 1
-    - note: 
-      bulletPrefab: {fileID: 8034763294956535289, guid: 408571406712abb4aab8ca63cc53ac55, type: 3}
-      count: 1
-      interval: 2
-      speed: 1
+      patternPrefab: {fileID: 4989275966189868475, guid: 61c77f1fd292cf04c88eca12bb0dd57d, type: 3}
+      delayBeforeNext: 0
   - label: 
     waveList:
     - note: 
-      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-      count: 3
-      interval: 1
-      speed: 1
+      patternPrefab: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      delayBeforeNext: 0
   - label: 
     waveList:
     - note: 
-      bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-      count: 3
-      interval: 1
-      speed: 1
+      patternPrefab: {fileID: 4989275966189868475, guid: f04dd16b82d1a244483340cba2862599, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    waveList:
     - note: 
-      bulletPrefab: {fileID: 8034763294956535289, guid: 408571406712abb4aab8ca63cc53ac55, type: 3}
-      count: 1
-      interval: 1
-      speed: 1
+      patternPrefab: {fileID: 4989275966189868475, guid: 4e013e5195379f84e846d33c08d3e36b, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 4989275966189868475, guid: a06fbbdd46ba20745a85d9e6c8a2d230, type: 3}
+      delayBeforeNext: 0
   _currentPhase: 0
   _phaseTimerDisplay: 0
   _currentHealthDisplay: 0
@@ -2859,7 +2941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e0fa534da65a944a94c5e085a5f229a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FightDraggableObject
-  isDraggable: 1
+  isDraggable: 0
   dragThreshold: 0.1
 --- !u!1 &2046034633
 GameObject:
@@ -3127,3 +3209,4 @@ SceneRoots:
   - {fileID: 1930160319}
   - {fileID: 2139161505}
   - {fileID: 1999466289}
+  - {fileID: 725395644}

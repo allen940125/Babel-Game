@@ -1,10 +1,18 @@
 using UnityEngine;
-using System.Collections.Generic; // 需要引用 List
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(LineRenderer))]
 public class EnemyBullet : MonoBehaviour
 {
+    // --- 新增：特效旋轉模式列舉 ---
+    public enum EffectRotationMode
+    {
+        Fixed,              // 固定不旋轉 (Quaternion.identity)
+        AlignWithNormal,    // 背對牆壁 (法線方向)
+        AlignWithReflection // 跟隨子彈反彈後的方向
+    }
+
     [Header("隨機參數設定 (序列化)")]
     [SerializeField] private Vector2 speedRange = new Vector2(5f, 12f);
     [SerializeField] private Vector2 lifeTimeRange = new Vector2(3f, 6f);
@@ -17,17 +25,22 @@ public class EnemyBullet : MonoBehaviour
     [Tooltip("如果打勾，就會穿過 PlayerButton；如果沒打勾，就會反彈")]
     public bool canPenetratePlayerButton = false; 
 
-    // --- 新增：特效設定 ---
+    // --- 修改：特效設定 ---
     [Header("特效設定")]
+    [Tooltip("是否顯示撞擊特效")]
+    public bool showHitEffect = true; // 1. 控制開關
+
     [Tooltip("撞到牆壁反彈時要生成的特效 Prefab")]
     public GameObject hitEffectPrefab; 
 
+    [Tooltip("特效的旋轉方式")]
+    public EffectRotationMode effectRotationMode = EffectRotationMode.AlignWithNormal; // 2. 控制旋轉
+
     [Header("視覺射線設定")]
-    [SerializeField] private float rayLength = 5.0f; // 總長度建議拉長一點，才看得到多次反彈
+    [SerializeField] private float rayLength = 5.0f;
     [SerializeField] private Color rayColor = Color.yellow;
     [SerializeField] private float rayWidth = 0.05f;
     
-    // --- 新增：反彈預測次數 ---
     [Tooltip("射線要預測幾次反彈？")]
     [SerializeField] private int maxPredictionBounces = 2; 
 
@@ -40,8 +53,6 @@ public class EnemyBullet : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
-
-        // 不需要再設定 canPenetratePlayerButton，直接用 Inspector 的設定
 
         _currentSpeed = Random.Range(speedRange.x, speedRange.y);
         _currentSpeed *= finalSpeedMultiple;
@@ -61,6 +72,9 @@ public class EnemyBullet : MonoBehaviour
         _lineRenderer.startColor = rayColor;
         _lineRenderer.endColor = rayColor;
         _lineRenderer.sortingOrder = 10; 
+        
+        // 建議加上這行防止射線抖動 (如果你之前有採納的話)
+        // _lineRenderer.useWorldSpace = false; 
     }
 
     private void FixedUpdate()
@@ -77,61 +91,46 @@ public class EnemyBullet : MonoBehaviour
         }
     }
 
-    // --- 修改重點 1: 多重反彈預測邏輯 ---
     private void UpdateDebugLine()
     {
         if (_lineRenderer == null) return;
         _lineRenderer.enabled = true;
 
-        // 用來存儲所有路徑點 (起點 -> 撞擊點1 -> 撞擊點2 -> 終點)
         List<Vector3> points = new List<Vector3>();
         
         Vector2 currentPosition = transform.position;
         Vector2 currentDir = _currentDirection;
         float remainingLength = rayLength;
 
-        // 加入起點
         points.Add(currentPosition);
 
-        // 模擬迴圈
         for (int i = 0; i <= maxPredictionBounces; i++)
         {
-            // 發射射線，長度為「剩餘長度」
             RaycastHit2D hit = Physics2D.Raycast(currentPosition, currentDir, remainingLength, collisionLayer);
 
             if (hit.collider != null)
             {
-                // 如果撞到了...
-                
-                // 1. 加入撞擊點
                 points.Add(hit.point);
 
-                // 2. 扣除已經走過的距離
                 float distanceTraveled = Vector2.Distance(currentPosition, hit.point);
                 remainingLength -= distanceTraveled;
 
-                // 如果剩餘長度歸零，就結束預測
                 if (remainingLength <= 0) break;
 
-                // 3. 判斷是否需要反彈 (如果是穿透，就不用改變方向，但要更新位置)
                 if (ShouldBounce(hit.collider))
                 {
-                    // 計算反射方向
                     currentDir = Vector2.Reflect(currentDir, hit.normal);
                 }
                 
-                // 4. 更新下一次發射的起點 (稍微往前推一點點 0.01f，避免射線卡在牆壁裡自己撞自己)
                 currentPosition = hit.point + (currentDir * 0.01f);
             }
             else
             {
-                // 如果沒撞到，就畫到剩餘長度的盡頭
                 points.Add(currentPosition + (currentDir * remainingLength));
-                break; // 沒撞到東西，預測結束
+                break;
             }
         }
 
-        // 更新 LineRenderer
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(points.ToArray());
     }
@@ -146,11 +145,14 @@ public class EnemyBullet : MonoBehaviour
         {
             if (ShouldBounce(hit.collider))
             {
-                // --- 修改重點 2: 生成撞擊特效 ---
-                SpawnHitEffect(hit.point, hit.normal);
+                // 計算反射方向
+                Vector2 reflectionDir = Vector2.Reflect(_currentDirection, hit.normal);
 
-                // 反射方向
-                _currentDirection = Vector2.Reflect(_currentDirection, hit.normal);
+                // --- 生成特效 (傳入撞擊點、法線、反射方向) ---
+                SpawnHitEffect(hit.point, hit.normal, reflectionDir);
+
+                // 套用反射方向
+                _currentDirection = reflectionDir;
             }
         }
 
@@ -160,16 +162,37 @@ public class EnemyBullet : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
     }
 
-    // --- 新增：生成特效的方法 ---
-    private void SpawnHitEffect(Vector2 position, Vector2 normal)
+    // --- 修改：生成特效的方法 ---
+    private void SpawnHitEffect(Vector2 position, Vector2 normal, Vector2 reflectionDir)
     {
-        if (hitEffectPrefab != null)
+        // 1. 檢查開關 & Prefab 是否存在
+        if (!showHitEffect || hitEffectPrefab == null) return;
+
+        Quaternion rotation = Quaternion.identity;
+
+        // 2. 根據設定決定旋轉角度
+        switch (effectRotationMode)
         {
-            // 生成特效
-            // Quaternion.identity 代表不旋轉
-            // 如果你的特效需要「背對牆壁噴發」，可以用 Quaternion.FromToRotation(Vector3.up, normal)
-            Instantiate(hitEffectPrefab, position, Quaternion.identity);
+            case EffectRotationMode.Fixed:
+                // 固定不轉 (適合圓形爆炸)
+                //rotation = Quaternion.identity;
+                break;
+
+            case EffectRotationMode.AlignWithNormal:
+                // 特效的 "上方 (Up)" 會朝向法線方向 (也就是背對牆壁)
+                // 適合：撞擊塵土、碎片噴濺
+                rotation = Quaternion.FromToRotation(Vector3.up, normal);
+                break;
+
+            case EffectRotationMode.AlignWithReflection:
+                // 特效的 "上方" 會朝向子彈反彈後飛行的方向
+                // 適合：衝擊波、導向特效
+                float angle = Mathf.Atan2(reflectionDir.y, reflectionDir.x) * Mathf.Rad2Deg;
+                rotation = Quaternion.Euler(0, 0, angle - 90f); // 假設特效圖也是頭朝上
+                break;
         }
+
+        Instantiate(hitEffectPrefab, position, rotation);
     }
 
     private bool ShouldBounce(Collider2D collider)

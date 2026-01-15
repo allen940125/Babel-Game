@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7222599819936142582}
   - component: {fileID: 633357791520949147}
+  - component: {fileID: 3651256703020450549}
   - component: {fileID: 8788324153685406253}
   - component: {fileID: 2880581810094135999}
-  - component: {fileID: 3791941092517529905}
   - component: {fileID: 2628965154637887633}
+  - component: {fileID: 3791941092517529905}
   m_Layer: 0
   m_Name: "\u666E\u901A\u653B\u64CA 1"
   m_TagString: Untagged
@@ -95,6 +96,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &3651256703020450549
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034763294956535289}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 304cbbf30558f9648b19ef56fee2e909, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!120 &8788324153685406253
 LineRenderer:
   serializedVersion: 3
@@ -232,30 +255,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3791941092517529905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8034763294956535289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  speedRange: {x: 5, y: 12}
-  lifeTimeRange: {x: 6, y: 12}
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  showDebugLine: 0
-  canPenetratePlayerButton: 1
-  hitEffectPrefab: {fileID: 8955939593327333646, guid: 2ae136026fbcbc84a8980a6d8b606a83, type: 3}
-  rayLength: 20
-  rayColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  rayWidth: 0.05
-  maxPredictionBounces: 1
 --- !u!60 &2628965154637887633
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -320,3 +319,29 @@ PolygonCollider2D:
       - {x: 0.024999999, y: -0.85499996}
       - {x: 0.024999999, y: 0.265}
   m_UseDelaunayMesh: 1
+--- !u!114 &3791941092517529905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034763294956535289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
+  speedRange: {x: 5, y: 12}
+  lifeTimeRange: {x: 6, y: 12}
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  showDebugLine: 0
+  canPenetratePlayerButton: 1
+  showHitEffect: 0
+  hitEffectPrefab: {fileID: 8955939593327333646, guid: 2ae136026fbcbc84a8980a6d8b606a83, type: 3}
+  effectRotationMode: 0
+  rayLength: 20
+  rayColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  rayWidth: 0.05
+  maxPredictionBounces: 1
