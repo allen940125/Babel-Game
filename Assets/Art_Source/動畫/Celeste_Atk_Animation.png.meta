@@ -165,12 +165,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_0
       rect:
         serializedVersion: 2
-        x: 15
+        x: 0
         y: 0
-        width: 370
+        width: 407
         height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -187,12 +187,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_1
       rect:
         serializedVersion: 2
-        x: 431
+        x: 407
         y: 0
-        width: 354
-        height: 566
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,12 +209,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_2
       rect:
         serializedVersion: 2
-        x: 846
+        x: 814
         y: 0
-        width: 338
-        height: 561
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -231,12 +231,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_3
       rect:
         serializedVersion: 2
-        x: 1259
+        x: 1221
         y: 0
-        width: 328
-        height: 556
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -253,12 +253,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_4
       rect:
         serializedVersion: 2
-        x: 1654
+        x: 1628
         y: 0
-        width: 363
-        height: 551
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -275,12 +275,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_5
       rect:
         serializedVersion: 2
-        x: 2044
+        x: 2035
         y: 0
-        width: 396
-        height: 547
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -297,12 +297,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_6
       rect:
         serializedVersion: 2
-        x: 2458
-        y: 403
-        width: 90
-        height: 85
+        x: 2442
+        y: 0
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -319,12 +319,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_7
       rect:
         serializedVersion: 2
-        x: 2464
+        x: 2849
         y: 0
-        width: 368
-        height: 531
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -341,12 +341,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_8
       rect:
         serializedVersion: 2
-        x: 2883
+        x: 3256
         y: 0
-        width: 335
-        height: 539
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -363,12 +363,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_9
       rect:
         serializedVersion: 2
-        x: 3301
+        x: 3663
         y: 0
-        width: 305
-        height: 546
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -385,12 +385,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_10
       rect:
         serializedVersion: 2
-        x: 3707
+        x: 4070
         y: 0
-        width: 315
-        height: 554
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -407,12 +407,12 @@ TextureImporter:
       name: Celeste_Atk_Animation_11
       rect:
         serializedVersion: 2
-        x: 4101
+        x: 4477
         y: 0
-        width: 340
-        height: 562
+        width: 407
+        height: 570
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -425,33 +425,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Celeste_Atk_Animation_12
-      rect:
-        serializedVersion: 2
-        x: 4495
-        y: 0
-        width: 365
-        height: 569
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b8144a06fec09fd0800000000000000
-      internalID: -2337140650475775819
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8654370d69c698b41b4dc84a68442a93
     internalID: 0
     vertices: []
     indices: 
@@ -459,13 +437,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":12.0,"y":1.0},"gridSpriteSize":{"x":407.0,"y":570.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Celeste_Atk_Animation_0: -3099748123214148383
       Celeste_Atk_Animation_1: 4832921164838942387
       Celeste_Atk_Animation_10: 9090256755150512978
       Celeste_Atk_Animation_11: 2266639299098396403
-      Celeste_Atk_Animation_12: -2337140650475775819
       Celeste_Atk_Animation_2: -8525345587583291244
       Celeste_Atk_Animation_3: -6881913686328738188
       Celeste_Atk_Animation_4: 241166829296076514

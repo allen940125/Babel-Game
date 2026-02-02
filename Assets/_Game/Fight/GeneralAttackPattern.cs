@@ -1,159 +1,269 @@
 using UnityEngine;
+using System.Collections;
 
 public class GeneralAttackPattern : AttackPatternBase
 {
     public enum PatternType
     {
-        Circle,     // 全方位圓形擴散
-        Shotgun,    // 扇形散彈 (瞄準玩家)
-        Sniper,     // 精準狙擊 (單發或多發直線)
-        RandomSpray // 隨機亂噴
+        Circle, Shotgun, Sniper, RandomSpray, RandomRain, LinearLine, Simple
     }
 
     [Header("攻擊模式選擇")]
     public PatternType patternType = PatternType.Circle;
 
     [Header("彈幕參數")]
-    public GameObject bulletPrefab; // 子彈 Prefab
-    public int bulletCount = 10;    // 射幾發
-    public float baseSpeed = 5f;    // 基礎速度
-    
-    [Header("扇形/散彈專用參數")]
-    [Tooltip("散開的角度 (例如 90度)")]
-    public float spreadAngle = 90f; 
+    public GameObject bulletPrefab;
+    public int bulletCount = 20; 
+    public float baseSpeed = 5f;
 
-    // 實作父類別的方法
+    [Header("生成範圍設定")]
+    public Vector2 spawnAreaSize = new Vector2(5, 5); 
+
+    [Header("時間間隔設定")]
+    [Tooltip("每顆子彈發射的間隔時間 (秒)")]
+    public float spawnInterval = 0.05f; 
+
+    // --- ★ 新增：圓形/螺旋專用參數 ---
+    [Header("圓形/螺旋專用參數")]
+    [Tooltip("圓形半徑 (0 = 從中心點發射, >0 = 從圓周上發射)")]
+    public float circleRadius = 0f; 
+
+    [Tooltip("起始角度偏移 (想從哪個角度開始轉?)")]
+    [Range(0, 360)]
+    public float circleStartAngle = 0f;
+
+    [Header("扇形/散彈專用參數")]
+    public float spreadAngle = 90f;
+
+    [Header("方向控制 (Simple / RandomSpray)")]
+    public bool useRandomDirection = true; 
+    public bool aimAtPlayer = false;
+    [Range(0, 360)]
+    public float fixedAngle = 270f;
+
+    // --- 右鍵測試 ---
+    [ContextMenu("👉 測試發射 (Debug Test)")]
+    public void DebugTest()
+    {
+        if (!Application.isPlaying) { Debug.LogError("⛔ 請先按 Play！"); return; }
+        if (spawnInterval > 0f) StartCoroutine(FireRoutine(null, baseSpeed));
+        else FireAllPatterns(null, baseSpeed);
+    }
+
+    // --- 實作父類別 ---
     protected override void OnExecute(BossBase boss, float speedMultiplier, bool isAngry)
     {
-        // 1. 計算最終速度 (包含憤怒加成)
         float finalSpeed = baseSpeed * speedMultiplier;
         if (isAngry) finalSpeed *= 1.5f;
 
-        // 2. 根據 Enum 決定怎麼射
+        // 這裡如果你希望圓形跟著 Boss 移動，就不要 SetParent(null)
+        // 但如果你希望它是「原地設置一個法陣」，就要 SetParent(null)
+        // 配合我們之前加的開關 (這裡假設你要獨立)
+        transform.SetParent(null); 
+        
+        if (boss != null) boss.RegisterActivePattern(this.gameObject);
+
+        if (spawnInterval > 0f) StartCoroutine(FireRoutine(boss, finalSpeed));
+        else {
+            FireAllPatterns(boss, finalSpeed);
+            Destroy(gameObject, 0.1f);
+        }
+    }
+
+    // --- Coroutine ---
+    private IEnumerator FireRoutine(BossBase boss, float speed)
+    {
+        if (patternType == PatternType.LinearLine)
+        {
+            yield return StartCoroutine(FireLinearLineRoutine(boss, speed));
+        }
+        else
+        {
+            for (int i = 0; i < bulletCount; i++)
+            {
+                FireSingleBulletByPattern(boss, speed, i);
+                yield return new WaitForSeconds(spawnInterval);
+            }
+        }
+        if (boss != null) Destroy(gameObject);
+        else Debug.Log("✅ [測試結束]");
+    }
+
+    // --- 單發邏輯 ---
+    private void FireSingleBulletByPattern(BossBase boss, float speed, int index)
+    {
+        Vector2 dir = Vector2.down; 
+        Vector2 spawnPos = transform.position; // 預設生成點
+
         switch (patternType)
         {
             case PatternType.Circle:
-                FireCircle(boss, finalSpeed);
-                break;
-
-            case PatternType.Shotgun:
-                FireShotgun(boss, finalSpeed, true); // true = 瞄準玩家
-                break;
+                // 1. 計算每顆子彈的角度間距
+                float angleStep = 360f / bulletCount;
                 
-            case PatternType.Sniper:
-                FireSniper(boss, finalSpeed);
+                // 2. 計算當前這顆子彈的角度 (起始角度 + 第幾顆 * 間距)
+                float currentAngle = circleStartAngle + (index * angleStep);
+                
+                // 3. 算出方向向量
+                dir = AngleToVector(currentAngle);
+                
+                // 4. ★ 關鍵：如果有半徑，生成點要往外推
+                if (circleRadius > 0)
+                {
+                    spawnPos = (Vector2)transform.position + (dir * circleRadius);
+                }
+                
+                CreateBullet(boss, spawnPos, dir, speed);
                 break;
 
+            // ... (其他模式保持原本邏輯，這裡省略以節省篇幅) ...
+            case PatternType.Simple:
+                dir = GetDesiredDirection();
+                CreateBullet(boss, transform.position, dir, speed);
+                break;
             case PatternType.RandomSpray:
-                FireRandom(boss, finalSpeed);
+                dir = useRandomDirection ? Random.insideUnitCircle.normalized : GetDesiredDirection();
+                CreateBullet(boss, GetRandomSpawnPos(), dir, speed);
+                break;
+            case PatternType.RandomRain:
+                CreateBullet(boss, GetRandomSpawnPos(), Vector2.down, speed);
+                break;
+            case PatternType.Sniper:
+                CreateBullet(boss, transform.position, GetDirToPlayer(), speed);
+                break;
+            case PatternType.Shotgun:
+                CreateBullet(boss, transform.position, GetDirToPlayer(), speed);
                 break;
         }
-        
-        //--- 新增：射完就自我銷毀 ---
-        Destroy(gameObject, 0.1f);
     }
 
-    // --- 具體的發射邏輯 ---
-
-    // 1. 圓形擴散
-    private void FireCircle(BossBase boss, float speed)
+    // --- 一次性全射邏輯 ---
+    private void FireAllPatterns(BossBase boss, float speed)
     {
-        float angleStep = 360f / bulletCount;
-        
-        for (int i = 0; i < bulletCount; i++)
+        switch (patternType)
         {
-            float angle = i * angleStep;
-            // 數學公式：角度轉向量
-            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
-            
-            CreateBullet(boss, dir, speed);
-        }
-    }
+            case PatternType.Circle:
+                // 呼叫修正後的函式
+                FireCircle(boss, speed); 
+                break;
 
-    // 2. 扇形/散彈 (可瞄準玩家)
-    private void FireShotgun(BossBase boss, float speed, bool aimAtPlayer)
-    {
-        float startAngle = 0f;
-        Vector2 baseDir = Vector2.down; // 預設向下
-
-        // 如果要瞄準玩家，先算出「朝向玩家的角度」
-        if (aimAtPlayer)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                baseDir = (player.transform.position - transform.position).normalized;
-            }
-        }
-
-        // 算出基礎角度 (Atan2 回傳的是弧度，要轉度數)
-        float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
-        
-        // 扇形的起點角度 = 中心角度 - (總角度 / 2)
-        startAngle = baseAngle - (spreadAngle / 2f);
-        
-        // 每顆子彈的間隔角度
-        float angleStep = (bulletCount > 1) ? spreadAngle / (bulletCount - 1) : 0;
-
-        for (int i = 0; i < bulletCount; i++)
-        {
-            float currentAngle = startAngle + (angleStep * i);
-            Vector2 dir = new Vector2(Mathf.Cos(currentAngle * Mathf.Deg2Rad), Mathf.Sin(currentAngle * Mathf.Deg2Rad));
-            
-            CreateBullet(boss, dir, speed);
-        }
-    }
-
-    // 3. 狙擊 (單點連射)
-    private void FireSniper(BossBase boss, float speed)
-    {
-        // 找出玩家方向
-        Vector2 targetDir = Vector2.down;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            targetDir = (player.transform.position - transform.position).normalized;
-        }
-
-        // 這邊示範稍微有一點點隨機偏移，才不會每次都重疊在一起
-        for (int i = 0; i < bulletCount; i++)
-        {
-            // 稍微偏移一點點角度 (例如 -5度 到 5度 之間)
-            float randomOffset = Random.Range(-5f, 5f);
-            float baseAngle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
-            float finalAngle = baseAngle + randomOffset;
-            
-            Vector2 dir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad));
-            
-            CreateBullet(boss, dir, speed);
+            case PatternType.Simple:
+                Vector2 sDir = GetDesiredDirection();
+                for(int i=0; i<bulletCount; i++) CreateBullet(boss, transform.position, sDir, speed);
+                break;
+            case PatternType.RandomSpray: FireRandomSpray(boss, speed); break;
+            case PatternType.Shotgun:     FireShotgun(boss, speed, true); break;
+            case PatternType.Sniper:      FireSniper(boss, speed); break;
+            case PatternType.RandomRain:  FireRandomRain(boss, speed); break;
+            case PatternType.LinearLine:  if(Application.isPlaying) StartCoroutine(FireLinearLineRoutine(boss, speed)); break;
         }
     }
     
-    // 4. 隨機亂噴
-    private void FireRandom(BossBase boss, float speed)
+    // --- ★ 修改後的 FireCircle (一次性) ---
+    private void FireCircle(BossBase boss, float speed) 
     {
-        for (int i = 0; i < bulletCount; i++)
+        float angleStep = 360f / bulletCount;
+        for (int i = 0; i < bulletCount; i++) 
         {
-            Vector2 dir = Random.insideUnitCircle.normalized;
-            CreateBullet(boss, dir, speed);
+            // 計算角度
+            float currentAngle = circleStartAngle + (i * angleStep);
+            Vector2 dir = AngleToVector(currentAngle);
+            
+            // 計算半徑位置
+            Vector2 spawnPos = transform.position;
+            if (circleRadius > 0)
+            {
+                spawnPos = (Vector2)transform.position + (dir * circleRadius);
+            }
+
+            CreateBullet(boss, spawnPos, dir, speed); 
         }
     }
 
-    // --- 輔助：生成子彈並註冊 ---
-    private void CreateBullet(BossBase boss, Vector2 direction, float speed)
+    // --- 輔助方法 ---
+    private Vector2 GetDesiredDirection()
     {
-        if (bulletPrefab == null) return;
-
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        EnemyBullet script = bullet.GetComponent<EnemyBullet>();
-        
-        if (script != null)
-        {
-            // 這裡可以傳入預設的穿透設定，或是你在這個腳本再加一個 bool 變數來控制
-            script.Initialize(direction, speed); 
+        return aimAtPlayer ? GetDirToPlayer() : AngleToVector(fixedAngle);
+    }
+    private Vector2 AngleToVector(float degrees)
+    {
+        float rad = degrees * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+    }
+    // ... 其他輔助方法 (GetRandomSpawnPos, GetDirToPlayer, CreateBullet) 保持不變 ...
+    private void CreateBullet(BossBase boss, Vector2 spawnPos, Vector2 direction, float speed)
+    {
+        if (bulletPrefab == null) { Debug.LogError("❌ 沒放 Bullet Prefab！"); return; }
+        GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+        EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
+        if (script != null) script.Initialize(direction, speed); 
+        if (boss != null) boss.RegisterActiveBullet(bullet);
+    }
+    private Vector2 GetRandomSpawnPos() {
+        float x = Random.Range(-spawnAreaSize.x / 2f, spawnAreaSize.x / 2f);
+        float y = Random.Range(-spawnAreaSize.y / 2f, spawnAreaSize.y / 2f);
+        return (Vector2)transform.position + (Vector2)transform.right * x + (Vector2)transform.up * y;
+    }
+    private Vector2 GetDirToPlayer() {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) return (player.transform.position - transform.position).normalized;
+        return Vector2.down;
+    }
+    private void FireRandomSpray(BossBase boss, float speed) {
+        for (int i = 0; i < bulletCount; i++) {
+            Vector2 dir = useRandomDirection ? Random.insideUnitCircle.normalized : GetDesiredDirection();
+            CreateBullet(boss, GetRandomSpawnPos(), dir, speed);
         }
+    }
+    private void FireRandomRain(BossBase boss, float speed) {
+        for (int i = 0; i < bulletCount; i++) CreateBullet(boss, GetRandomSpawnPos(), Vector2.down, speed);
+    }
+    private void FireShotgun(BossBase boss, float speed, bool aimAtPlayer) {
+        float startAngle = 0f; Vector2 baseDir = GetDirToPlayer();
+        float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
+        startAngle = baseAngle - (spreadAngle / 2f);
+        float angleStep = (bulletCount > 1) ? spreadAngle / (bulletCount - 1) : 0;
+        for (int i = 0; i < bulletCount; i++) {
+            float currentAngle = startAngle + (angleStep * i);
+            CreateBullet(boss, transform.position, AngleToVector(currentAngle), speed);
+        }
+    }
+    private void FireSniper(BossBase boss, float speed) {
+        Vector2 targetDir = GetDirToPlayer();
+        for (int i = 0; i < bulletCount; i++) {
+            float randomOffset = Random.Range(-5f, 5f);
+            float baseAngle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+            CreateBullet(boss, transform.position, AngleToVector(baseAngle + randomOffset), speed);
+        }
+    }
+    private IEnumerator FireLinearLineRoutine(BossBase boss, float speed) {
+        Vector2 startPos = (Vector2)transform.position - new Vector2(spawnAreaSize.x / 2f, 0);
+        Vector2 endPos = (Vector2)transform.position + new Vector2(spawnAreaSize.x / 2f, 0);
+        for (int i = 0; i < bulletCount; i++) {
+            float t = (bulletCount > 1) ? (float)i / (bulletCount - 1) : 0.5f;
+            Vector2 spawnPos = Vector2.Lerp(startPos, endPos, t);
+            float randomY = Random.Range(-spawnAreaSize.y / 2f, spawnAreaSize.y / 2f);
+            spawnPos.y += randomY;
+            CreateBullet(boss, spawnPos, Vector2.down, speed);
+            if (spawnInterval > 0) yield return new WaitForSeconds(spawnInterval);
+        }
+    }
 
-        // 註冊給 Boss 管理
-        boss.RegisterActiveBullet(bullet);
+    // --- ★ 新增 Gizmos：畫出圓形半徑 ---
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        // 畫出原本的方形範圍
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
+        Gizmos.matrix = rotationMatrix;
+        Gizmos.DrawWireCube(Vector3.zero, new Vector3(spawnAreaSize.x, spawnAreaSize.y, 0));
+
+        // ★ 畫出圓形範圍 (如果是 Circle 模式)
+        if (patternType == PatternType.Circle)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.matrix = Matrix4x4.identity; // 圓形通常不隨方塊旋轉變形
+            Gizmos.DrawWireSphere(transform.position, circleRadius);
+        }
     }
 }

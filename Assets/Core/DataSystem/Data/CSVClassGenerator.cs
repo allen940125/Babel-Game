@@ -25,9 +25,9 @@ namespace Datamanager
         {
             // 使用換行符號分割 CSV 檔案為多行
             string[] data = textAsset.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
-            Debug.Log(data.Length);
-            Debug.Log(data[0]);
-            Debug.Log($"CSV內容：{string.Join(", ", data)}");
+            //Debug.Log(data.Length);
+            //Debug.Log(data[0]);
+            //Debug.Log($"CSV內容：{string.Join(", ", data)}");
             
             // 將每行的內容再以逗號分割成字串陣列
             string[][] tempdata = new string[data.Length][];
@@ -58,7 +58,7 @@ namespace Datamanager
         /// <returns>返回由 CSV 內容生成的物件陣列。</returns>
         public static async Task<object[]> GenClassArrayByCSV(Type type, TextAsset textAsset)
         {
-            Debug.Log(type.Name);
+            //Debug.Log(type.Name);
             // 分割 CSV 文字內容為多行
             string[] data = textAsset.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
             string[][] tempdata = new string[data.Length][];
@@ -195,13 +195,13 @@ namespace Datamanager
         /// <param name="dataText">CSV 中一行以逗號分割後的字串陣列。</param>
         public static async Task SetClassData(Type type, object DataBeSet, string[] dataText)
         {
-            Debug.Log(type.Name);
+            //Debug.Log(type.Name);
             PropertyInfo[] propertyInfo = type.GetProperties();
-            Debug.Log(dataText.ToString());
+            //Debug.Log(dataText.ToString());
             for (int i = 0; i < propertyInfo.Length; i++)
             {
-                Debug.Log(propertyInfo[i].Name);
-                Debug.Log(dataText[i] + "的Type是" + propertyInfo[i].PropertyType);
+                //Debug.Log(propertyInfo[i].Name);
+                //Debug.Log(dataText[i] + "的Type是" + propertyInfo[i].PropertyType);
                 if (propertyInfo[i].PropertyType == typeof(string))
                 {
                     propertyInfo[i].SetValue(DataBeSet, dataText[i].ToString());

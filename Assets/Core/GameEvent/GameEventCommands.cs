@@ -149,4 +149,14 @@ namespace Gamemanager
         
     }
     
+    public class BossTakeDamageEvent : GameEventMessageBase
+    {
+        public float Intensity; // 震動強度
+        public float Duration;  // 震動時間
+    }
+    
+    public class BossLowHealthStateEvent : GameEventMessageBase
+    {
+        public bool IsActive; // true = 開始晃動, false = 停止晃動
+    }
 }

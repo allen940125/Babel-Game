@@ -100,8 +100,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763118943222070551}
-  - component: {fileID: 2742358384010963909}
   - component: {fileID: 7335705562075549749}
+  - component: {fileID: 1602985413835461756}
   m_Layer: 0
   m_Name: "\u89E3\u8B0E\u62DB\u5F0F"
   m_TagString: Untagged
@@ -126,20 +126,6 @@ Transform:
   - {fileID: 5315463617173387307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2742358384010963909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3406084743913943512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0faec800c0bf5d4db56c35ac6e69841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossSpecialMechanism
-  targetTag: PlayerButton
-  visualObject: {fileID: 5367977409979958502}
 --- !u!50 &7335705562075549749
 Rigidbody2D:
   serializedVersion: 5
@@ -167,6 +153,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1602985413835461756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406084743913943512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e3f2cdf10f3cc40b900f0e63f6ebea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossCleanerMechanism
+  targetTag: PlayerButton
+  visualObject: {fileID: 5367977409979958502}
 --- !u!1 &5367977409979958502
 GameObject:
   m_ObjectHideFlags: 0

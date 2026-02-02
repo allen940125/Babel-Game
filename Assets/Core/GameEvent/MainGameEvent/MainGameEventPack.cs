@@ -67,5 +67,10 @@ namespace Gamemanager
         
         public IObservable<BossEnterVulnerablePhaseEvent> OnBossEnterVulnerablePhaseEvent => getSubject<BossEnterVulnerablePhaseEvent>();
         
+        public IObservable<BossTakeDamageEvent> OnBossTakeDamageEvent => getSubject<BossTakeDamageEvent>();
+        
+        public IObservable<BossLowHealthStateEvent> OnBossLowHealthStateEvent => getSubject<BossLowHealthStateEvent>();
+        
+        
     }
 }

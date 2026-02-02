@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic; 
 using Gamemanager; // 引用你的事件系統
 using UnityEngine;
@@ -31,7 +32,7 @@ public abstract class BossBase : MonoBehaviour
     
     [Header("基本設定")]
     public string bossName;
-    public int maxHealth = 6;
+    public int maxHealth = 7;
     public int hitsPerDamage = 10;
     public Transform firePosition;
     
@@ -40,16 +41,29 @@ public abstract class BossBase : MonoBehaviour
 
     [Header("UI 血量顯示")]
     public GameObject healthBarContainer; 
-    public GameObject healthIconPrefab;
 
+    [Header("受傷效果")]
+    public SpriteRenderer bodySprite; // 請在 Inspector 拉入 Boss 的 SpriteRenderer
+    public Color damageColor = Color.red; // 受傷變紅
+    public float flashDuration = 0.1f;    // 閃多久
+    
+    [Header("震動參數")]
+    public float hitShakeIntensity = 0.3f; // 受傷震多大
+    public float hitShakeDuration = 0.2f;  // 受傷震多久
+
+    // 內部變數
+    private bool _isLowHealthActive = false; // 避免重複發送事件
+    
     [Header("攻擊階段參數設定 (依照血量損失順序)")]
     public List<BossPhaseConfig> phaseConfigs; 
 
     // --- 內部運作變數 ---
     
-    // 子彈管理 (核心修改：由 Boss 追蹤場上所有子彈)
+    // 子彈管理
     protected List<GameObject> _activeBullets = new List<GameObject>(); 
     
+    // ★ 新增：發射器管理 (用來追蹤還在運作的 Coroutine 發射器)
+    protected List<GameObject> _activePatterns = new List<GameObject>();
     // 攻擊排程
     protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>(); 
     protected float _waveDelayTimer; // 波次間的休息計時器
@@ -68,6 +82,8 @@ public abstract class BossBase : MonoBehaviour
     protected int currentHealth;
     protected int currentHitCount;
     protected Animator animator;
+    public Camera _mainCamera; // 用於持續震動
+    private Vector3 _cameraOriginalPos; // 記錄攝影機原始位置
 
     // --- 初始化與生命週期 ---
 
@@ -78,6 +94,7 @@ public abstract class BossBase : MonoBehaviour
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnFightButtonClickEvent, OnFightButtonClickEvent);
         }
         animator = GetComponentInChildren<Animator>();
+        if (bodySprite == null) bodySprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void OnDisable()
@@ -97,7 +114,7 @@ public abstract class BossBase : MonoBehaviour
     public virtual void StartBattle() 
     {
         currentHealth = maxHealth;
-        InitHealthBar(); // 初始化血條
+        //InitHealthBar(); // 初始化血條
         UpdateDebugData(); 
         
         // 設定一開始就直接進入攻擊狀態 (下馬威)
@@ -135,6 +152,36 @@ public abstract class BossBase : MonoBehaviour
         {
             phaseTimer -= Time.deltaTime;
 
+            if (currentHealth == 1 && _currentPhase != BossPhase.Idle)
+            {
+                // 1. 閃爍特效
+                if (bodySprite != null)
+                {
+                    float t = Mathf.PingPong(Time.time * 10f, 1f);
+                    bodySprite.color = Color.Lerp(Color.white, damageColor, t);
+                }
+
+                // 2. 發送持續震動事件 (只在狀態改變時發送一次)
+                if (!_isLowHealthActive)
+                {
+                    _isLowHealthActive = true;
+                    GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = true });
+                }
+            }
+            else
+            {
+                // 離開瀕死狀態 (例如補血了，或是剛開始)
+                if (_isLowHealthActive)
+                {
+                    _isLowHealthActive = false;
+                    // 確保身體顏色變回來 (如果不是受傷閃爍中)
+                    if(bodySprite != null) bodySprite.color = Color.white;
+                
+                    // 關閉震動
+                    GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = false });
+                }
+            }
+            
             // 1. 檢查是否提早全部隱藏 (成功)
             if (CheckSpecialPhaseSuccess())
             {
@@ -221,6 +268,14 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
+    public void RegisterActivePattern(GameObject pattern)
+    {
+        if (pattern != null && !_activePatterns.Contains(pattern))
+        {
+            _activePatterns.Add(pattern);
+        }
+    }
+    
     // --- 攻擊邏輯 (Pattern System) ---
 
     private void LoadAttackPhaseConfig()
@@ -251,13 +306,14 @@ public abstract class BossBase : MonoBehaviour
 
     private void ExecuteAttackSequence()
     {
-        // 1. 清理已經銷毀的子彈 (移除 null)
+        // 1. 清理已經銷毀的物件 (移除 null)
         _activeBullets.RemoveAll(b => b == null);
+        _activePatterns.RemoveAll(p => p == null); // ★ 新增：清理已經自殺的發射器
 
-        // 2. 如果場上還有子彈，Boss 就發呆等待玩家清完
-        if (_activeBullets.Count > 0) return;
+        // 2. ★ 關鍵修改：如果場上還有子彈 OR 還有正在運作的發射器，就等待
+        if (_activeBullets.Count > 0 || _activePatterns.Count > 0) return;
 
-        // --- 以下邏輯代表：場上無子彈 (或是剛開始) ---
+        // --- 以下邏輯代表：場上無子彈 且 無發射器 ---
 
         // 3. 處理波次間的休息時間
         if (_waveDelayTimer > 0)
@@ -272,22 +328,25 @@ public abstract class BossBase : MonoBehaviour
             BulletWaveData nextWave = _waveQueue.Dequeue();
             Debug.Log($"執行波次: {nextWave.note}");
             
-            // 生成並執行 Pattern Prefab
             if (nextWave.patternPrefab != null)
             {
                 // 生成發射器
                 GameObject patternObj = Instantiate(nextWave.patternPrefab, firePosition.position, Quaternion.identity);
+                
+                // ★ 新增：將這個發射器加入監控清單
+                // 這樣只要它還沒 Destroy (代表還在射)，Boss 就不會結束攻擊階段
+                _activePatterns.Add(patternObj);
+
                 var patternScript = patternObj.GetComponent<AttackPatternBase>();
                 
                 if (patternScript != null)
                 {
-                    // 根據是否憤怒傳遞參數
-                    // 如果上一輪 Special 失敗 (_wasLastSpecialBlocked = false)，就是憤怒狀態
                     bool isAngry = !_wasLastSpecialBlocked;
-                    float speedMult = 1.0f; 
+                    
+                    // ★ 記得加上這行：讓發射器獨立於 Boss (避免 Boss 轉身時帶著它跑，或被誤刪)
+                    // patternObj.transform.SetParent(null); 
 
-                    // 執行發射 (子彈會被註冊進 _activeBullets)
-                    patternScript.Execute(this, speedMult, isAngry);
+                    patternScript.Execute(this, 1.0f, isAngry);
                 }
             }
             else
@@ -296,7 +355,6 @@ public abstract class BossBase : MonoBehaviour
             }
 
             // 設定下一波前的休息時間
-            // 如果是憤怒狀態，休息時間減半
             float finalDelay = nextWave.delayBeforeNext;
             if (!_wasLastSpecialBlocked) finalDelay *= 0.5f;
 
@@ -304,7 +362,7 @@ public abstract class BossBase : MonoBehaviour
         }
         else
         {
-            // 5. 佇列空了 -> 代表這個階段的所有攻擊都結束了
+            // 5. 佇列空了 -> 真的結束了
             Debug.Log("所有波次結束，準備回到 Idle");
             EnterPhase(BossPhase.WaitingForBullets);
         }
@@ -343,20 +401,6 @@ public abstract class BossBase : MonoBehaviour
 
     // --- UI 與受傷邏輯 ---
 
-    private void InitHealthBar()
-    {
-        if (healthBarContainer == null || healthIconPrefab == null) return;
-        
-        // 清除舊圖示
-        foreach (Transform child in healthBarContainer.transform) Destroy(child.gameObject);
-        
-        // 生成新圖示
-        for (int i = 0; i < maxHealth; i++) 
-        {
-            Instantiate(healthIconPrefab, healthBarContainer.transform);
-        }
-    }
-
     private void RemoveOneHealthIcon()
     {
         if (healthBarContainer && healthBarContainer.transform.childCount > 0)
@@ -368,6 +412,21 @@ public abstract class BossBase : MonoBehaviour
     public void TakeHit()
     {
         if (_currentPhase != BossPhase.Vulnerable) return; 
+
+        // 1. 視覺：閃紅光
+        if (bodySprite != null)
+        {
+            StopCoroutine("FlashRedEffect"); 
+            StartCoroutine("FlashRedEffect");
+        }
+
+        // 2. ★ 震動：發送事件 (帶參數)
+        // 使用 Object Initializer 語法傳入參數
+        GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent() 
+        { 
+            Intensity = hitShakeIntensity, 
+            Duration = hitShakeDuration 
+        });
 
         currentHitCount++;
         UpdateDebugData(); 
@@ -385,12 +444,24 @@ public abstract class BossBase : MonoBehaviour
             }
             else
             {
-                // 被打痛了 -> 進入攻擊狀態反擊
                 EnterPhase(BossPhase.Attacking); 
             }
         }
     }
 
+    // --- 新增：閃紅光 Coroutine ---
+    private IEnumerator FlashRedEffect()
+    {
+        // 變紅
+        bodySprite.color = damageColor;
+
+        // 等待一下
+        yield return new WaitForSeconds(flashDuration);
+
+        // 變回白色 (原色)
+        bodySprite.color = Color.white;
+    }
+    
     protected void UpdateDebugData()
     {
         _currentHealthDisplay = currentHealth;

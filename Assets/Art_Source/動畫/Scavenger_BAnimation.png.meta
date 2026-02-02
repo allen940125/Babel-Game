@@ -162,12 +162,12 @@ TextureImporter:
       name: Scavenger_BAnimation_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 1
-        width: 385
-        height: 418
+        x: 0
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,12 +184,12 @@ TextureImporter:
       name: Scavenger_BAnimation_1
       rect:
         serializedVersion: 2
-        x: 496
-        y: 1
-        width: 385
-        height: 418
+        x: 455
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,12 +206,12 @@ TextureImporter:
       name: Scavenger_BAnimation_2
       rect:
         serializedVersion: 2
-        x: 951
-        y: 1
-        width: 385
-        height: 416
+        x: 910
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,12 +228,12 @@ TextureImporter:
       name: Scavenger_BAnimation_3
       rect:
         serializedVersion: 2
-        x: 1406
-        y: 1
-        width: 385
-        height: 416
+        x: 1365
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,12 +250,12 @@ TextureImporter:
       name: Scavenger_BAnimation_4
       rect:
         serializedVersion: 2
-        x: 1861
-        y: 1
-        width: 385
-        height: 414
+        x: 1820
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,12 +272,12 @@ TextureImporter:
       name: Scavenger_BAnimation_5
       rect:
         serializedVersion: 2
-        x: 2316
-        y: 1
-        width: 385
-        height: 414
+        x: 2275
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,12 +294,12 @@ TextureImporter:
       name: Scavenger_BAnimation_6
       rect:
         serializedVersion: 2
-        x: 2771
-        y: 1
-        width: 385
-        height: 413
+        x: 2730
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -316,12 +316,12 @@ TextureImporter:
       name: Scavenger_BAnimation_7
       rect:
         serializedVersion: 2
-        x: 3226
-        y: 1
-        width: 385
-        height: 414
+        x: 3185
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -338,12 +338,12 @@ TextureImporter:
       name: Scavenger_BAnimation_8
       rect:
         serializedVersion: 2
-        x: 3681
-        y: 1
-        width: 385
-        height: 417
+        x: 3640
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -360,12 +360,12 @@ TextureImporter:
       name: Scavenger_BAnimation_9
       rect:
         serializedVersion: 2
-        x: 4136
-        y: 1
-        width: 385
-        height: 417
+        x: 4095
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -382,12 +382,12 @@ TextureImporter:
       name: Scavenger_BAnimation_10
       rect:
         serializedVersion: 2
-        x: 4591
-        y: 1
-        width: 385
-        height: 417
+        x: 4550
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -404,12 +404,12 @@ TextureImporter:
       name: Scavenger_BAnimation_11
       rect:
         serializedVersion: 2
-        x: 5046
-        y: 1
-        width: 385
-        height: 417
+        x: 5005
+        y: 0
+        width: 455
+        height: 455
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -426,7 +426,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b0c5241207d67e0498cf284cdd56d4be
     internalID: 0
     vertices: []
     indices: 
@@ -434,7 +434,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":12.0,"y":1.0},"gridSpriteSize":{"x":455.0,"y":455.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Scavenger_BAnimation_0: -3251475308603741553
       Scavenger_BAnimation_1: -2717704647752672171

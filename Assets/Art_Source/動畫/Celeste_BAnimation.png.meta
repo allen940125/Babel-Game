@@ -81,7 +81,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -162,12 +162,12 @@ TextureImporter:
       name: Celeste_BAnimation_0
       rect:
         serializedVersion: 2
-        x: 35
+        x: 0
         y: 0
-        width: 293
+        width: 376
         height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,12 +184,12 @@ TextureImporter:
       name: Celeste_BAnimation_1
       rect:
         serializedVersion: 2
-        x: 403
+        x: 376
         y: 0
-        width: 315
-        height: 530
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,12 +206,12 @@ TextureImporter:
       name: Celeste_BAnimation_2
       rect:
         serializedVersion: 2
-        x: 772
+        x: 752
         y: 0
-        width: 337
-        height: 528
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,12 +228,12 @@ TextureImporter:
       name: Celeste_BAnimation_3
       rect:
         serializedVersion: 2
-        x: 1143
+        x: 1128
         y: 0
-        width: 349
-        height: 526
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -253,9 +253,9 @@ TextureImporter:
         x: 1504
         y: 0
         width: 376
-        height: 524
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,12 +272,12 @@ TextureImporter:
       name: Celeste_BAnimation_5
       rect:
         serializedVersion: 2
-        x: 1894
+        x: 1880
         y: 0
-        width: 345
-        height: 523
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,12 +294,12 @@ TextureImporter:
       name: Celeste_BAnimation_6
       rect:
         serializedVersion: 2
-        x: 2273
+        x: 2256
         y: 0
-        width: 337
-        height: 524
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -316,12 +316,12 @@ TextureImporter:
       name: Celeste_BAnimation_7
       rect:
         serializedVersion: 2
-        x: 2653
+        x: 2632
         y: 0
-        width: 340
-        height: 525
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -338,12 +338,12 @@ TextureImporter:
       name: Celeste_BAnimation_8
       rect:
         serializedVersion: 2
-        x: 3031
+        x: 3008
         y: 0
-        width: 331
-        height: 527
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -360,12 +360,12 @@ TextureImporter:
       name: Celeste_BAnimation_9
       rect:
         serializedVersion: 2
-        x: 3410
+        x: 3384
         y: 0
-        width: 320
-        height: 528
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -382,12 +382,12 @@ TextureImporter:
       name: Celeste_BAnimation_10
       rect:
         serializedVersion: 2
-        x: 3790
+        x: 3760
         y: 0
-        width: 308
-        height: 530
+        width: 376
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -404,12 +404,12 @@ TextureImporter:
       name: Celeste_BAnimation_11
       rect:
         serializedVersion: 2
-        x: 4170
+        x: 4136
         y: 0
-        width: 296
+        width: 376
         height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -426,7 +426,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1a44e34027eedaf4aaa039bd6bcf3b02
     internalID: 0
     vertices: []
     indices: 
@@ -434,7 +434,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":12.0,"y":1.0},"gridSpriteSize":{"x":376.0,"y":531.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Celeste_BAnimation_0: -1030095017266434831
       Celeste_BAnimation_1: 4213278477766657473

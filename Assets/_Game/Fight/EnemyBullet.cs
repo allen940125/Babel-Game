@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(LineRenderer))]
-public class EnemyBullet : MonoBehaviour
+public class EnemyBullet : EnemyProjectileBase
 {
     // --- 新增：特效旋轉模式列舉 ---
     public enum EffectRotationMode
@@ -48,8 +50,21 @@ public class EnemyBullet : MonoBehaviour
     private float _currentSpeed;
     private Rigidbody2D _rb;
     private LineRenderer _lineRenderer;
+    
+    [Header("特殊設定")]
+    [SerializeField] private bool isNotNeedInit;
 
-    public void Initialize(Vector2 startDirection, float finalSpeedMultiple)
+    private void Awake()
+    {
+        if (isNotNeedInit)
+        {
+            _rb = GetComponent<Rigidbody2D>();
+            float lifeTime = Random.Range(lifeTimeRange.x, lifeTimeRange.y);
+            Destroy(gameObject, lifeTime);
+        }
+    }
+
+    public override void Initialize(Vector2 startDirection, float finalSpeedMultiple)
     {
         _rb = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
@@ -218,7 +233,6 @@ public class EnemyBullet : MonoBehaviour
             {
                 player.TakeDamage(1);
             }
-            Destroy(gameObject);
         }
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4989275966189868475
+--- !u!1 &5740307588683169567
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,57 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3882232641607372702}
-  - component: {fileID: 64665784086816871}
-  m_Layer: 0
-  m_Name: "\u6CE2\u6B211"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3882232641607372702
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4989275966189868475}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1511765848549581056}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &64665784086816871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4989275966189868475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
-  steps:
-  - pattern: {fileID: 577304817499354446}
-    delayBefore: 0
-  destroyOnFinish: 1
---- !u!1 &9190924547870618662
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1511765848549581056}
-  - component: {fileID: 577304817499354446}
+  - component: {fileID: 6687242886216284363}
+  - component: {fileID: 8456667680948330304}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -66,35 +17,89 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1511765848549581056
+--- !u!4 &6687242886216284363
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9190924547870618662}
+  m_GameObject: {fileID: 5740307588683169567}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.21, y: 6.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3882232641607372702}
+  m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &577304817499354446
+--- !u!114 &8456667680948330304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9190924547870618662}
+  m_GameObject: {fileID: 5740307588683169567}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 2
-  bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  bulletCount: 10
-  baseSpeed: 3
-  spreadAngle: 90
+  patternType: 3
+  bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
+  bulletCount: 200
+  baseSpeed: 5
+  spawnAreaSize: {x: 30.07, y: 1.17}
+  spawnInterval: 0.05
+  spreadAngle: 0
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+--- !u!1 &9036664765759256070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630128575821445075}
+  - component: {fileID: 3794737390528050008}
+  m_Layer: 0
+  m_Name: "\u6CE2\u6B212"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1630128575821445075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9036664765759256070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6687242886216284363}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3794737390528050008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9036664765759256070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
+  steps:
+  - pattern: {fileID: 8456667680948330304}
+    delayBefore: 0
+  destroyOnFinish: 1

@@ -71,7 +71,7 @@ public class CustomShapePattern : AttackPatternBase
             Vector2 dir = GetDirection(point);
 
             // 3. 初始化並註冊
-            EnemyBullet script = bullet.GetComponent<EnemyBullet>();
+            EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
             if (script != null)
             {
                 // 這裡可以選擇是否要穿透，或者讓 EnemyBullet 讀取自己的預設值
