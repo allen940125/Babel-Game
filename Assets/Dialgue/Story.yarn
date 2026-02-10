@@ -1,0 +1,56 @@
+﻿title: Start
+tags:
+position: -86,-164
+--- 
+// ▼▼▼ 請把變數宣告放在這條線的下面 ▼▼▼
+<<declare $gold = 50>>
+<<declare $has_met_merchant = false>>
+
+// 2. 這裡開始寫對話邏輯
+<<if $has_met_merchant is false>>
+    神秘商人: 嘿... 這裡很少看到活人呢。
+    <<set $has_met_merchant to true>>
+<<else>>
+    神秘商人: 又是你啊，這次你想嘛？
+<<endif>>
+
+-> 我想買東西
+    <<jump Shop>>
+-> 沒事，我路過 (離開)
+    <<jump Leave>>
+===
+
+title: Shop
+position: -87,40
+---
+神秘商人: 勇氣藥水售價 30 金幣。
+神秘商人: 你現在身上有 {$gold} 金幣。
+
+-> 好，我買了！ ($30)
+    <<if $gold >= 30>>
+        <<set $gold to $gold - 30>>
+        系統: (購買成功！)
+        神秘商人: 祝你好運。
+    <<else>>
+        神秘商人: 窮鬼！沒錢別來。
+    <<endif>>
+    
+-> 太貴了吧！
+    神秘商人: 沒錢就滾。
+
+<<jump Start>>
+===
+
+title: Leave
+position: 208,-158
+---
+// 1. 基本變色與大小變化
+神秘商人: <color=red>慢走</color> <size=150%>不送</size>。
+
+// 2. 複合樣式 (又粗又斜又變色) + Hex 顏色碼
+神秘商人: 記得，<color=purple><b><i>出門左轉</i></b></color> 有個坑。
+
+<<wait 1>>
+神秘商人:886
+
+===

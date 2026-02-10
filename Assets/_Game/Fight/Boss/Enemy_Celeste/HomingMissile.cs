@@ -164,16 +164,10 @@ public class HomingMissile : EnemyProjectileBase
         }
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
-        
         foreach (var hit in hits)
         {
-            PlayerController2D player = hit.GetComponent<PlayerController2D>();
-            if (player == null) player = hit.GetComponentInParent<PlayerController2D>();
-
-            if (player != null)
-            {
-                player.TakeDamage(damage);
-            }
+            // 直接呼叫父類別方法！
+            TryDealDamage(hit);
         }
 
         Destroy(gameObject);

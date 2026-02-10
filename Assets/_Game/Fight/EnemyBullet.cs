@@ -226,13 +226,8 @@ public class EnemyBullet : EnemyProjectileBase
     {
         if (other.CompareTag("Player")) 
         {
-            PlayerController2D player = other.GetComponent<PlayerController2D>();
-            if (player == null) player = other.GetComponentInParent<PlayerController2D>();
-
-            if (player != null)
-            {
-                player.TakeDamage(1);
-            }
+            // 直接呼叫父類別方法！
+            TryDealDamage(other);
         }
     }
 }
