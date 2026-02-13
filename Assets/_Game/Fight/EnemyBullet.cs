@@ -22,29 +22,18 @@ public class EnemyBullet : EnemyProjectileBase
     [Header("反彈與穿透設定")]
     [SerializeField] private LayerMask collisionLayer; 
     [SerializeField] private bool showDebugLine = true;
-    
-    // --- 控制穿透 ---
-    [Tooltip("如果打勾，就會穿過 PlayerButton；如果沒打勾，就會反彈")]
-    public bool canPenetratePlayerButton = false; 
+    public bool canPenetratePlayerButton = false;
 
-    // --- 修改：特效設定 ---
     [Header("特效設定")]
-    [Tooltip("是否顯示撞擊特效")]
-    public bool showHitEffect = true; // 1. 控制開關
-
-    [Tooltip("撞到牆壁反彈時要生成的特效 Prefab")]
+    public bool showHitEffect = true; 
     public GameObject hitEffectPrefab; 
-
-    [Tooltip("特效的旋轉方式")]
-    public EffectRotationMode effectRotationMode = EffectRotationMode.AlignWithNormal; // 2. 控制旋轉
-
+    public EffectRotationMode effectRotationMode = EffectRotationMode.AlignWithNormal;
+    
     [Header("視覺射線設定")]
     [SerializeField] private float rayLength = 5.0f;
     [SerializeField] private Color rayColor = Color.yellow;
     [SerializeField] private float rayWidth = 0.05f;
-    
-    [Tooltip("射線要預測幾次反彈？")]
-    [SerializeField] private int maxPredictionBounces = 2; 
+    [SerializeField] private int maxPredictionBounces = 2;
 
     private Vector2 _currentDirection;
     private float _currentSpeed;
@@ -87,9 +76,6 @@ public class EnemyBullet : EnemyProjectileBase
         _lineRenderer.startColor = rayColor;
         _lineRenderer.endColor = rayColor;
         _lineRenderer.sortingOrder = 10; 
-        
-        // 建議加上這行防止射線抖動 (如果你之前有採納的話)
-        // _lineRenderer.useWorldSpace = false; 
     }
 
     private void FixedUpdate()
@@ -153,26 +139,19 @@ public class EnemyBullet : EnemyProjectileBase
     private void MoveAndBounce()
     {
         float stepDistance = _currentSpeed * Time.fixedDeltaTime;
-        
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _currentDirection, stepDistance, collisionLayer);
 
         if (hit.collider != null)
         {
             if (ShouldBounce(hit.collider))
             {
-                // 計算反射方向
                 Vector2 reflectionDir = Vector2.Reflect(_currentDirection, hit.normal);
-
-                // --- 生成特效 (傳入撞擊點、法線、反射方向) ---
                 SpawnHitEffect(hit.point, hit.normal, reflectionDir);
-
-                // 套用反射方向
                 _currentDirection = reflectionDir;
             }
         }
 
         _rb.linearVelocity = _currentDirection * _currentSpeed;
-
         float angle = Mathf.Atan2(_currentDirection.y, _currentDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
     }

@@ -469,10 +469,11 @@ MonoBehaviour:
     m_Bits: 256
   lineWidth: 0.1
   lineColor: {r: 1, g: 1, b: 1, a: 1}
-  travelDuration: 5
+  travelDuration: 4.7
   isOneShot: 1
   projectileRadius: 0.3
   explosionPrefab: {fileID: 8406468819089139672, guid: 95a3173e8be6cf14788d546ae667e6f2, type: 3}
+  _timer: 0
 --- !u!1 &3822797820138641783
 GameObject:
   m_ObjectHideFlags: 0
