@@ -10,6 +10,7 @@ using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 #endif
 
 namespace Yarn.Unity.Tests
@@ -36,7 +37,7 @@ namespace Yarn.Unity.Tests
             }
 
             // Add the test scene 
-            var dialogueRunnerTestScene = new EditorBuildSettingsScene(GUID, true);
+            var dialogueRunnerTestScene = new EditorBuildSettingsScene(new GUID(GUID), true);
             EditorBuildSettings.scenes = EditorBuildSettings.scenes.Concat(new[] { dialogueRunnerTestScene }).ToArray();
 #endif
         }
