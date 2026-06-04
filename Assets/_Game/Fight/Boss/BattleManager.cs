@@ -14,7 +14,7 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        ChangeState(BattleState.PlayerFight);
+        ChangeState(BattleState.Dialogue);
     }
 
     public void ChangeState(BattleState newState)
