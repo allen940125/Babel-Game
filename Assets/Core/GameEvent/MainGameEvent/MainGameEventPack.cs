@@ -37,40 +37,42 @@ namespace Gamemanager
         // ======================
         // Input Player Event Streams
         // ======================
-        
+
         public IObservable<FixedUpdateEvent> OnFixedUpdateEvent => getSubject<FixedUpdateEvent>();
-        
+
         public IObservable<MovementKeyPressedEvent> OnMovementKeyPressedEvent => getSubject<MovementKeyPressedEvent>();
         public IObservable<CursorToggledEvent> OnCursorToggledEvent => getSubject<CursorToggledEvent>();
         public IObservable<WalkToggledEvent> OnWalkToggledEvent => getSubject<WalkToggledEvent>();
         public IObservable<RunPressedEvent> OnRunPressedEvent => getSubject<RunPressedEvent>();
         public IObservable<JumpPressedEvent> OnJumpPressedEvent => getSubject<JumpPressedEvent>();
         public IObservable<AttackPressedEvent> OnAttackPressedEvent => getSubject<AttackPressedEvent>();
-        
+
         // ======================
         // Input UI Event Streams
         // ======================
-        
+
         public IObservable<EscapeKeyPressedEvent> OnEscapeKeyPressedEvent => getSubject<EscapeKeyPressedEvent>();
         public IObservable<OpenBackpackKeyPressedEvent> OnOpenBackpackKeyPressedEvent => getSubject<OpenBackpackKeyPressedEvent>();
-        
-        
+
+
         // ======================
         // Battle Event Streams
         // ======================
-        
+
         public IObservable<FightButtonClickEvent> OnFightButtonClickEvent => getSubject<FightButtonClickEvent>();
-        
+
+        public IObservable<ItemButtonClickEvent> OnItemButtonClickEvent => getSubject<ItemButtonClickEvent>();
+
         public IObservable<BossEnterIdlePhaseEvent> OnBossEnterIdlePhaseEvent => getSubject<BossEnterIdlePhaseEvent>();
-        
+
         public IObservable<BossEnterAttackingPhaseEvent> OnBossEnterAttackingPhaseEvent => getSubject<BossEnterAttackingPhaseEvent>();
-        
+
         public IObservable<BossEnterVulnerablePhaseEvent> OnBossEnterVulnerablePhaseEvent => getSubject<BossEnterVulnerablePhaseEvent>();
-        
+
         public IObservable<BossTakeDamageEvent> OnBossTakeDamageEvent => getSubject<BossTakeDamageEvent>();
-        
+
         public IObservable<BossLowHealthStateEvent> OnBossLowHealthStateEvent => getSubject<BossLowHealthStateEvent>();
-        
-        
+
+
     }
 }

@@ -6,16 +6,16 @@ namespace Gamemanager
     // ======================
     // Common Event Streams
     // ======================
-    
+
     public class GameInitializedEvent : GameEventMessageBase
     {
         public int SavePointValue;
     }
-    
+
     // ======================
     // Inventory Event Streams
     // ======================
-    
+
     public class PlayerBagRefreshedEvent : GameEventMessageBase
     {
         public ItemControllerType ItemControllerType;
@@ -25,13 +25,13 @@ namespace Gamemanager
     {
         public InventoryItemRuntimeData StoredInventoryItemRuntimeData;
     }
-    
+
     public class ItemAddedToBagEvent : GameEventMessageBase
     {
         public int ItemID;
         public int Quantity;
     }
-    
+
     // ======================
     // Store Event Streams
     // ======================
@@ -40,7 +40,7 @@ namespace Gamemanager
     {
         public ItemControllerType ItemControllerType;
     }
-    
+
     public class StoreItemClickedEvent : GameEventMessageBase
     {
         public StoreItemRuntimeData StoreItemData;
@@ -48,13 +48,13 @@ namespace Gamemanager
 
     public class PurchaseItemClickedEvent : GameEventMessageBase
     {
-        
+
     }
 
     // ======================
     // Scene Event Streams
     // ======================
-    
+
     public class SceneTransitionStartedEvent : GameEventMessageBase
     {
 
@@ -71,21 +71,21 @@ namespace Gamemanager
             this.SceneType = sceneType;
         }
     }
-    
+
     // ======================
     // Input Player Event Streams
     // ======================
 
     public class FixedUpdateEvent : GameEventMessageBase
     {
-        
+
     }
-    
+
     public class MovementKeyPressedEvent : GameEventMessageBase
     {
         public Vector2 MoveInput;
     }
-    
+
     public class CursorToggledEvent : GameEventMessageBase
     {
         public bool? ShowCursor;
@@ -110,51 +110,57 @@ namespace Gamemanager
     {
         public bool AttackPressed = false;
     }
-    
+
     // ======================
     // Input UI Event Streams
     // ======================
-    
+
     public class EscapeKeyPressedEvent : GameEventMessageBase
     {
-        
+
     }
 
     public class OpenBackpackKeyPressedEvent : GameEventMessageBase
     {
-        
+
     }
-    
+
     // ======================
     // Battle Event Streams
     // ======================
 
     public class FightButtonClickEvent : GameEventMessageBase
     {
-        
+
+    }
+
+    //當按下物品欄按鈕時，會觸發此事件，並且會鎖定拖曳，直到玩家完成物品欄操作
+    public class ItemButtonClickEvent : GameEventMessageBase
+    {
+
     }
 
     public class BossEnterIdlePhaseEvent : GameEventMessageBase
     {
-        
+
     }
 
     public class BossEnterAttackingPhaseEvent : GameEventMessageBase
     {
-        
+
     }
-    
+
     public class BossEnterVulnerablePhaseEvent : GameEventMessageBase
     {
-        
+
     }
-    
+
     public class BossTakeDamageEvent : GameEventMessageBase
     {
         public float Intensity; // 震動強度
         public float Duration;  // 震動時間
     }
-    
+
     public class BossLowHealthStateEvent : GameEventMessageBase
     {
         public bool IsActive; // true = 開始晃動, false = 停止晃動
