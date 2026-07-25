@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0460e7d8e6e784cb77b4670741f73b, type: 3}
+  m_Name: Cmd_Button_Talk
+  m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
+  commandName: Cmd_Button_Fight
+  description: "\u6230\u9B25\u958B\u59CB"
+  action:
+    rid: 1828852355924230146
+  references:
+    version: 2
+    RefIds:
+    - rid: 1828852355924230146
+      type: {class: ItemAction, ns: , asm: Assembly-CSharp}
+      data:
+        itemId: 0
+        count: 1

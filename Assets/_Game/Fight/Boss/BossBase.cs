@@ -478,3 +478,13 @@ public abstract class BossBase : MonoBehaviour
     // 因為攻擊邏輯已經移到 Pattern Prefab，這裡不再需要 FireBulletInstance
     protected abstract void EnterSpecialPhase();
 }
+
+namespace Gamemanager
+{
+    // 取代原本 BossBase 內部直接 Destroy UI 子物件的糟糕行為
+    public struct BossHealthChangedEvent
+    {
+        public int CurrentHealth;
+        public int MaxHealth;
+    }
+}
