@@ -14,7 +14,7 @@ public class BossCeleste : BossBase
     public float minObjectDistance = 2.0f; 
     
     // --- 保留：這才是 Celeste 獨有的特色 (生成特殊機關) ---
-    protected override void EnterSpecialPhase()
+    protected override void SpawnSpecialMechanisms()
     {
         // 1. 計算螢幕邊界 (世界座標)
         Camera cam = Camera.main;
@@ -86,7 +86,7 @@ public class BossCeleste : BossBase
             var mechanism = obj.GetComponent<BossSpecialMechanism>();
             if (mechanism != null)
             {
-                _activeSpecialMechanisms.Add(mechanism);
+                //_activeSpecialMechanisms.Add(mechanism);
             }
             else
             {

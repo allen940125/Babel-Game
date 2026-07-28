@@ -1,78 +1,70 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CircleCollider2D))]
-// ★ 修改繼承：繼承自 EnemyAttackObject (爺爺)，而不是 EnemyProjectileBase (爸爸)
 public class EnemyTurretAttack : EnemyAttackObject
 {
     [Header("範圍偵測設定")]
     [Tooltip("要攻擊的目標圖層 (必須設定！例如 Player)")]
     public LayerMask targetLayer; 
-    
-    // ★ damageAmount 已經在父類別有了，這裡刪除！
 
     [Header("特效設定")]
     public GameObject hitEffectPrefab;
 
-    private Animator _animator;
     private CircleCollider2D _myCollider;
     private bool _hasExploded = false;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
         _myCollider = GetComponent<CircleCollider2D>();
         
-        // 關閉碰撞器，只用它的數據來做 OverlapCircle
+        // 關閉碰撞器，只用它的物理半徑數據來做 OverlapCircle
         _myCollider.enabled = false;
         _myCollider.isTrigger = true;
+        
+        // ★ 強力鎖死 Z 軸座標為 0，確保 2D 畫面絕對不會前後漂移
+        Vector3 fixedPos = transform.position;
+        fixedPos.z = 0f;
+        transform.position = fixedPos;
     }
 
-    private void Update()
+    // ★ 刪除了浪費效能的 Update！
+    // 請在 Unity 動畫編輯器 (Animation Window) 中，於爆炸動畫的「最後一格」加入 Animation Event 呼叫此方法！
+    public void Explode()
     {
         if (_hasExploded) return;
-        
-        // 檢查動畫進度
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.normalizedTime >= 1.0f)
-        {
-            Explode();
-        }
-    }
-
-    private void Explode()
-    {
         _hasExploded = true;
 
         if (hitEffectPrefab != null)
         {
-            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            // 特效生成時也強制把 Z 軸設為 0
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, 0f);
+            Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
         }
 
-        // ★ 核心邏輯：使用 Physics2D.OverlapCircleAll 進行判定
-        // 使用 Collider 的半徑 * Scale 來取得實際範圍
+        // 取得實際縮放後的偵測半徑
         float radius = _myCollider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
         
+        // 在 2D 平面上做圓形偵測
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
 
         foreach (var hit in hits)
         {
-            // ★ 直接呼叫父類別方法！
-            TryDealDamage(hit);
+            // ★ 修正合約：將 Collider2D 轉為 GameObject 傳入！
+            TryDealDamage(hit.gameObject);
         }
 
         Destroy(gameObject);
     }
     
-    // 這裡還可以加上 Gizmos 來方便在編輯器裡看範圍
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, 0, 0, 0.3f);
-        if (GetComponent<CircleCollider2D>() != null)
+        CircleCollider2D col = GetComponent<CircleCollider2D>();
+        if (col != null)
         {
-            float r = GetComponent<CircleCollider2D>().radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
-            Gizmos.DrawSphere(transform.position, r);
+            float r = col.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
+            Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y, 0f), r);
         }
     }
 }

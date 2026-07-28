@@ -18,8 +18,8 @@ public class HomingMissile : EnemyProjectileBase
     public float explosionRadius = 1.5f;
     public GameObject explosionEffectPrefab;
     
-    public LayerMask targetLayer; // 爆炸時要偵測誰 (Player)
-    public LayerMask wallLayer;   // 誰算牆壁
+    public LayerMask targetLayer; // 爆炸要偵測的目標 (Player)
+    public LayerMask wallLayer;   // 牆壁圖層
 
     [Header("導引優化")]
     public float homingDelay = 0.5f;
@@ -27,24 +27,34 @@ public class HomingMissile : EnemyProjectileBase
     private float _timer = 0f;
     private Rigidbody2D _rb;
     private Transform _target;
+    private bool _hasExploded = false;
     
-    // ★ damageAmount 已經在父類別定義了，這裡不用再寫
-
+    private BossBase _ownerBoss;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        
+        // ★ 第一道防線：在剛體層面直接鎖死 Z 軸移動與 X/Y 軸翻滾！
+        //_rb.constraints = RigidbodyConstraints2D.FreezePositionZ | RigidbodyConstraints2D.FreezeRotation;
+        
+        // 強制歸零 Z 軸座標
+        //transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
-    public override void Initialize(Vector2 startDirection, float incomingSpeed)
+    public override void Initialize(Vector3 startDirection, float incomingSpeed, BossBase _ownerBoss)
     {
         this.speed = incomingSpeed;
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        
+        // 效能優化：改用 FindWithTag，比 FindGameObjectWithTag 更快
+        GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null) _target = playerObj.transform;
 
         float angleOffset = initialArcAngle;
         if (randomArcDirection) angleOffset *= (Random.value > 0.5f) ? 1f : -1f;
         else angleOffset *= arcToRight ? -1f : 1f; 
 
+        // ★ 確保初始發射方向是一個純 2D 向量
         Vector2 initialVelocityDir = RotateVector(startDirection.normalized, angleOffset);
         
         if (_rb == null) _rb = GetComponent<Rigidbody2D>();
@@ -55,41 +65,60 @@ public class HomingMissile : EnemyProjectileBase
 
     private void FixedUpdate()
     {
+        if (_hasExploded) return;
+
         _timer += Time.fixedDeltaTime;
+
+        // ★ 第二道防線：每一幀強力將 Z 軸歸零，防止任何碰撞造成的漂移
+        if (transform.position.z != 0f)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+        }
 
         if (_timer < homingDelay || _target == null)
         {
-            if (_rb.linearVelocity != Vector2.zero)
-            {
-                float angle = Mathf.Atan2(_rb.linearVelocity.y, _rb.linearVelocity.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
-            }
+            UpdateRotationFromVelocity();
             return;
         }
 
-        // 導引邏輯
-        Vector2 directionToTarget = (_target.position - transform.position).normalized;
+        // --- 核心導引邏輯 ---
+        // ★ 第三道防線：計算目標方向時，強力把目標和自己的 Z 軸當作 0 來算！
+        Vector2 targetPos2D = new Vector2(_target.position.x, _target.position.y);
+        Vector2 myPos2D = new Vector2(transform.position.x, transform.position.y);
+        
+        Vector2 directionToTarget = (targetPos2D - myPos2D).normalized;
         Vector2 currentDirection = _rb.linearVelocity.normalized;
+        
         Vector3 newDirection = Vector3.RotateTowards(currentDirection, directionToTarget, homingStrength * Mathf.Deg2Rad * Time.fixedDeltaTime, 0.0f);
-        _rb.linearVelocity = newDirection.normalized * speed;
+        
+        // 確保設定速度時只有 XY 分量
+        _rb.linearVelocity = new Vector2(newDirection.x, newDirection.y).normalized * speed;
 
+        UpdateRotationFromVelocity();
+    }
+
+    private void UpdateRotationFromVelocity()
+    {
         if (_rb.linearVelocity != Vector2.zero)
         {
             float angle = Mathf.Atan2(_rb.linearVelocity.y, _rb.linearVelocity.x) * Mathf.Rad2Deg;
+            // 旋轉時也絕對只轉 Z 軸 (Euler Z)
             transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 1. 撞牆判定 (統一用 LayerMask 位元運算)
+        if (_hasExploded) return;
+
+        // 1. 撞牆判定
         if (((1 << other.gameObject.layer) & wallLayer) != 0)
         {
             if (canPenetrateWalls) return; 
             else Explode(); 
         }
         
-        // 2. 撞人判定 (簡單用 Tag，或者你也可以用 GetComponent)
+        // 2. 撞人判定
         if (other.CompareTag("Player"))
         {
             Explode();
@@ -98,14 +127,22 @@ public class HomingMissile : EnemyProjectileBase
 
     private void Explode()
     {
-        if (explosionEffectPrefab != null)
-            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        if (_hasExploded) return;
+        _hasExploded = true;
 
-        // ★ 使用 Physics2D 抓取範圍內的 Player
+        if (explosionEffectPrefab != null)
+        {
+            // 特效也強制生成在 Z = 0 的平面上
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, 0f);
+            Instantiate(explosionEffectPrefab, spawnPos, Quaternion.identity);
+        }
+
+        // 使用 Physics2D 抓取範圍內的目標
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
         foreach (var hit in hits)
         {
-            TryDealDamage(hit); // 呼叫父類別方法
+            // ★ 修正合約：將 Collider2D 轉為 GameObject 傳入！
+            TryDealDamage(hit.gameObject); 
         }
 
         Destroy(gameObject);
@@ -122,6 +159,6 @@ public class HomingMissile : EnemyProjectileBase
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0f), explosionRadius);
     }
 }

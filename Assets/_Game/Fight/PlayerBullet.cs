@@ -32,7 +32,7 @@ public class PlayerBullet : MonoBehaviour
             
             if (boss != null)
             {
-                boss.TakeHit(); // 呼叫 Boss 受傷
+                //boss.TakeDamage(damage); // 呼叫 Boss 受傷
             }
             else
             {

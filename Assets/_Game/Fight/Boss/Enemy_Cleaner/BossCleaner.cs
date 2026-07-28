@@ -3,71 +3,78 @@ using System.Collections.Generic;
 
 public class BossCleaner : BossBase
 {
-    [Header("Cleaner 專屬設定")]
-    [Tooltip("必須掛有 BossSpecialMechanism 腳本")]
-    public GameObject SpecialPrefab; 
+    [Header("★ Cleaner 專屬特殊攻擊設定")]
+    [Tooltip("請拖入 Cleaner 的特殊大招 Prefab (例如：定時雷射塔、毒氣產生器、追蹤旋轉鋸齒)")]
+    public GameObject specialAttackPrefab; 
     
-    [Header("生成設定")]
+    [Header("生成座標與防重疊設定")]
+    [Tooltip("每次發動特殊攻擊時，要在畫面上隨機生成幾個大招物件？")]
+    [SerializeField] private int spawnCount = 3;
     [Tooltip("生成時距離螢幕邊緣的安全距離")]
     public float spawnPadding = 1.0f;
     [Tooltip("物件之間的最小距離 (防重疊)")]
     public float minObjectDistance = 2.0f; 
     
-    // --- 保留：這才是 Cleaner 獨有的特色 (生成特殊機關) ---
-    protected override void EnterSpecialPhase()
+    // ==========================================
+    // ★ 實作父類別要求：在 Attacking 階段與普通子彈波次同時發動！
+    // ==========================================
+    protected override void SpawnSpecialMechanisms()
     {
-        // 1. 計算螢幕邊界 (世界座標)
+        if (specialAttackPrefab == null)
+        {
+            Debug.LogWarning($"[{bossName}] 未綁定 specialAttackPrefab，略過特殊大招發射！");
+            return;
+        }
+
+        // 1. 取得主攝影機邊界 (嚴格轉換為 3D 世界座標)
         Camera cam = Camera.main;
         if (cam == null) cam = Object.FindFirstObjectByType<Camera>();
 
-        Vector2 minScreen = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector2 maxScreen = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        Vector3 minScreen = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
+        Vector3 maxScreen = cam.ViewportToWorldPoint(new Vector3(1, 1, cam.nearClipPlane));
 
-        // 內縮邊界 (Padding)
-        minScreen += new Vector2(spawnPadding, spawnPadding);
-        maxScreen -= new Vector2(spawnPadding, spawnPadding);
+        // 內縮安全區域 (Padding)
+        float minX = minScreen.x + spawnPadding;
+        float maxX = maxScreen.x - spawnPadding;
+        float minY = minScreen.y + spawnPadding;
+        float maxY = maxScreen.y - spawnPadding;
 
-        // 用來記錄這一輪已經生成的座標 (防重疊)
-        List<Vector2> spawnedPositions = new List<Vector2>();
+        List<Vector3> spawnedPositions = new List<Vector3>();
 
-        // 生成 3 個機關 (你可以把 3 改成變數)
-        for (int i = 0; i < 3; i++)
+        Debug.Log($"<color=cyan>[{bossName}] 發動特殊大招！在場上生成 {spawnCount} 個脅迫物件！</color>");
+
+        // 2. 迴圈生成指定數量的特殊攻擊物件
+        for (int i = 0; i < spawnCount; i++)
         {
-            Vector2 finalPos = transform.position;
+            Vector3 finalPos = transform.position;
             bool foundValidPosition = false;
             int maxAttempts = 20;
 
-            // 嘗試尋找合法位置
             for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                // A. 全螢幕隨機座標
-                float randomX = Random.Range(minScreen.x, maxScreen.x);
-                float randomY = Random.Range(minScreen.y, maxScreen.y);
-                Vector2 candidatePos = new Vector2(randomX, randomY);
+                // ★ 嚴格物理規範：X/Y 隨機，但 Z 軸絕對鎖死在 0f！
+                float randomX = Random.Range(minX, maxX);
+                float randomY = Random.Range(minY, maxY);
+                Vector3 candidatePos = new Vector3(randomX, randomY, 0f);
 
-                // B. 防重疊檢查
                 bool isTooClose = false;
 
-                // 檢查跟其他機關的距離
-                foreach (Vector2 existingPos in spawnedPositions)
+                // 防重疊 A：檢查與已生成大招之間的距離
+                foreach (Vector3 existingPos in spawnedPositions)
                 {
-                    if (Vector2.Distance(candidatePos, existingPos) < minObjectDistance)
+                    if (Vector3.Distance(candidatePos, existingPos) < minObjectDistance)
                     {
                         isTooClose = true;
                         break;
                     }
                 }
 
-                // 檢查跟 Boss 本體的距離 (選用，避免生在 Boss 臉上)
-                if (!isTooClose)
+                // 防重疊 B：檢查與 Boss 本體的距離 (避免大招直接疊在 Boss 臉上)
+                if (!isTooClose && Vector3.Distance(candidatePos, transform.position) < minObjectDistance)
                 {
-                     if (Vector2.Distance(candidatePos, transform.position) < minObjectDistance)
-                     {
-                         isTooClose = true;
-                     }
+                    isTooClose = true;
                 }
 
-                // 合法確認
                 if (!isTooClose)
                 {
                     finalPos = candidatePos;
@@ -76,21 +83,20 @@ public class BossCleaner : BossBase
                 }
             }
             
-            // 記錄位置
             spawnedPositions.Add(finalPos);
 
-            // 生成物件
-            GameObject obj = Instantiate(SpecialPrefab, finalPos, Quaternion.identity);
+            // 3. 生成特殊大招實體 (例如雷射塔、污染區)
+            GameObject specialObj = Instantiate(specialAttackPrefab, finalPos, Quaternion.identity);
 
-            // 加入父類別清單
-            var mechanism = obj.GetComponent<BossSpecialMechanism>();
-            if (mechanism != null)
+            // ★ 4. 關鍵解耦與收斂：
+            // 直接把它註冊進父類別的 _activePatterns 清單裡！
+            // 這樣當 15 秒一到，或 Boss 死亡時，中央的 ClearAllActiveProjectiles() 會自動把它們乾淨銷毀！
+            RegisterActivePattern(specialObj);
+            
+            // 如果你這個特殊大招 Prefab 也有繼承 AttackPatternBase，甚至能直接叫它執行發射
+            if (specialObj.TryGetComponent(out AttackPatternBase patternScript))
             {
-                _activeSpecialMechanisms.Add(mechanism);
-            }
-            else
-            {
-                Debug.LogError("SpecialPrefab 缺少 BossSpecialMechanism 腳本！");
+                patternScript.Execute(this, 1.0f, true);
             }
         }
     }

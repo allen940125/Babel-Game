@@ -13,11 +13,16 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
 
     private Vector3 _offset;
 
+    // ★ 嚴格生命週期同步：當組件被 enabled = false 時，強制同步關閉內部旗標！
+    private void OnEnable() => isDraggable = true;
+    private void OnDisable() => isDraggable = false;
+
     public void OnDragStart(Vector3 hitPoint)
     {
-        if (!isDraggable)
+        // ★ 核心修復：同時檢查 !this.enabled 與 !isDraggable！
+        if (!this.enabled || !isDraggable)
         {
-            Debug.LogWarning($"[權限攔截] {gameObject.name} 被點擊，但 isDraggable = false，拒絕執行拖曳！");
+            Debug.LogWarning($"[權限攔截] {gameObject.name} 被點擊，但組件已停用 (enabled={this.enabled}) 或 isDraggable=false，拒絕拖曳！");
             return;
         }
         _offset = transform.position - hitPoint;
@@ -25,16 +30,17 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
 
     public void OnDrag(Vector3 targetWorldPosition)
     {
-        if (!isDraggable) return;
+        // ★ 核心修復：任何一者關閉，立即中斷位移！
+        if (!this.enabled || !isDraggable) return;
         transform.position = targetWorldPosition + _offset;
     }
 
     public void OnDragEnd()
     {
-        if (!isDraggable) return;
+        if (!this.enabled || !isDraggable) return;
         CheckDropCollision3D();
     }
-
+    
     private void CheckDropCollision3D()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, dropDetectRadius);

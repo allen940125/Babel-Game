@@ -75,7 +75,7 @@ public class CustomShapePattern : AttackPatternBase
             if (script != null)
             {
                 // 這裡可以選擇是否要穿透，或者讓 EnemyBullet 讀取自己的預設值
-                script.Initialize(dir, finalSpeed);
+                script.Initialize(dir, finalSpeed, boss);
             }
             
             boss.RegisterActiveBullet(bullet);

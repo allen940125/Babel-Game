@@ -48,7 +48,14 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   bulletCount: 1
   baseSpeed: 1
+  spawnAreaSize: {x: 5, y: 5}
+  spawnInterval: 0.05
+  circleRadius: 0
+  circleStartAngle: 0
   spreadAngle: 90
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
 --- !u!1 &3443535884927816484
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,10 +101,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   patternType: 2
-  bulletPrefab: {fileID: 8034763294956535289, guid: 408571406712abb4aab8ca63cc53ac55, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
   bulletCount: 1
-  baseSpeed: 1
+  baseSpeed: 3
+  spawnAreaSize: {x: 5, y: 5}
+  spawnInterval: 0.05
+  circleRadius: 0
+  circleStartAngle: 0
   spreadAngle: 90
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
 --- !u!1 &4989275966189868475
 GameObject:
   m_ObjectHideFlags: 0

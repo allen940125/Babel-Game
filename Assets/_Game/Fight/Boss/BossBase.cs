@@ -1,490 +1,269 @@
-using System;
 using System.Collections;
-using System.Collections.Generic; 
-using Gamemanager; // 引用你的事件系統
+using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 
-public abstract class BossBase : MonoBehaviour 
+public abstract class BossBase : MonoBehaviour, IDamageable
 {
-    public enum BossPhase { Idle, Special, Attacking, WaitingForBullets, Vulnerable }
+    // ★ 1. 狀態極限收斂：Idle (休眠/受傷)、Attacking (發招)、WaitingForBullets (等彈幕散去)
+    public enum BossPhase { Idle, Attacking, WaitingForBullets }
 
-    // --- 定義：單一波次的攻擊細節 ---
     [System.Serializable]
-    public struct BulletWaveData
-    {
-        [Tooltip("只是備註，方便你自己看 (例如：螺旋丸)")]
-        public string note;
-        
-        [Tooltip("請拖入掛有 AttackPatternBase 的 Prefab")]
-        public GameObject patternPrefab; 
-        
-        [Tooltip("這波子彈全清空後，要休息多久才放下一招？")]
-        public float delayBeforeNext;    
-    }
+    public struct BulletWaveData { public string note; public GameObject patternPrefab; public float delayBeforeNext; }
+    [System.Serializable]
+    public struct BossPhaseConfig { public string label; public List<BulletWaveData> waveList; }
 
-    // --- 定義：每個血量階段的設定 (包含多個波次) ---
-    [System.Serializable]
-    public struct BossPhaseConfig
-    {
-        public string label; // 例如 "滿血階段"
-        public List<BulletWaveData> waveList; // 這個階段的攻擊排程
-    }
+    [Header("★ 資料庫綁定 (SSOT)")]
+    [SerializeField] protected BaseEntityRuntimeSO bossSO;
     
     [Header("基本設定")]
     public string bossName;
-    public int maxHealth = 7;
-    public int hitsPerDamage = 10;
     public Transform firePosition;
-    
-    [Tooltip("特殊機制 (Special Phase) 的倒數時間")]
-    public float specialTimer = 15.0f;
-
-    [Header("UI 血量顯示")]
-    public GameObject healthBarContainer; 
+    [Tooltip("攻擊階段最長防呆時間 (秒)。若時間內沒打完將強制清空彈幕")]
+    public float attackPhaseDuration = 15.0f;
 
     [Header("受傷效果")]
-    public SpriteRenderer bodySprite; // 請在 Inspector 拉入 Boss 的 SpriteRenderer
-    public Color damageColor = Color.red; // 受傷變紅
-    public float flashDuration = 0.1f;    // 閃多久
+    public SpriteRenderer bodySprite;
+    public Color damageColor = Color.red;
+    public float flashDuration = 0.1f;
+    public float hitShakeIntensity = 0.3f;
+    public float hitShakeDuration = 0.2f;
+
+    [Header("攻擊階段參數設定")]
+    public List<BossPhaseConfig> phaseConfigs;
+
+    [Header("即時觀察數據 (唯讀)")]
+    [SerializeField] protected BossPhase _currentPhase = BossPhase.Attacking;
+    [SerializeField] protected float _phaseTimerDisplay;
+    [SerializeField] protected int _currentHealthDisplay;
     
-    [Header("震動參數")]
-    public float hitShakeIntensity = 0.3f; // 受傷震多大
-    public float hitShakeDuration = 0.2f;  // 受傷震多久
+    [Header("★ 怒火反擊旗標 (唯讀)")]
+    [Tooltip("在 Idle 時為 false，只有被玩家物理痛毆扣血後才會變為 true，隨即反擊！")]
+    [SerializeField] protected bool _isProvoked = false;
 
-    // 內部變數
-    private bool _isLowHealthActive = false; // 避免重複發送事件
-    
-    [Header("攻擊階段參數設定 (依照血量損失順序)")]
-    public List<BossPhaseConfig> phaseConfigs; 
+    // --- 內部資料結構 (O(1) 效能保證) ---
+    protected HashSet<GameObject> _activeBullets = new HashSet<GameObject>();
+    protected HashSet<GameObject> _activePatterns = new HashSet<GameObject>();
+    protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>();
 
-    // --- 內部運作變數 ---
-    
-    // 子彈管理
-    protected List<GameObject> _activeBullets = new List<GameObject>(); 
-    
-    // ★ 新增：發射器管理 (用來追蹤還在運作的 Coroutine 發射器)
-    protected List<GameObject> _activePatterns = new List<GameObject>();
-    // 攻擊排程
-    protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>(); 
-    protected float _waveDelayTimer; // 波次間的休息計時器
-
-    // 特殊機制管理 (通用)
-    protected List<BossSpecialMechanism> _activeSpecialMechanisms = new List<BossSpecialMechanism>();
-
-    [Header("觀察數據 (唯讀)")]
-    [SerializeField] protected BossPhase _currentPhase = BossPhase.Idle; 
-    [SerializeField] protected float _phaseTimerDisplay;                 
-    [SerializeField] protected int _currentHealthDisplay;                
-    [SerializeField] protected int _currentHitCountDisplay;              
-    [SerializeField] protected bool _wasLastSpecialBlocked = false;      
-
+    protected float _waveDelayTimer;
     protected float phaseTimer;
-    protected int currentHealth;
-    protected int currentHitCount;
     protected Animator animator;
-    public Camera _mainCamera; // 用於持續震動
-    private Vector3 _cameraOriginalPos; // 記錄攝影機原始位置
-
-    // --- 初始化與生命週期 ---
+    private bool _isLowHealthActive = false;
 
     protected virtual void Awake()
     {
-        if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
-        {
-            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnFightButtonClickEvent, OnFightButtonClickEvent);
-        }
         animator = GetComponentInChildren<Animator>();
-        if (bodySprite == null) bodySprite = GetComponentInChildren<SpriteRenderer>();
+        bodySprite = GetComponentInChildren<SpriteRenderer>();
+
+        if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
+        UpdateDebugData();
     }
 
-    protected virtual void OnDisable()
+    public virtual void StartBattle()
     {
-        if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
-        {
-            GameManager.Instance.MainGameEvent.Unsubscribe<FightButtonClickEvent>(OnFightButtonClickEvent);
-        }
-    }
-
-    // 測試用：如果想讓遊戲一開始就直接進戰鬥，可以在這裡呼叫
-    protected virtual void Start()
-    {
-        // StartBattle(); // 如果需要自動開始，把這行解開
-    }
-
-    public virtual void StartBattle() 
-    {
-        currentHealth = maxHealth;
-        //InitHealthBar(); // 初始化血條
-        UpdateDebugData(); 
+        if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
+        UpdateDebugData();
         
-        // 設定一開始就直接進入攻擊狀態 (下馬威)
-        // 注意：如果你希望一開始是特殊機制，這裡改 BossPhase.Special
+        // ★ 絕對先手權：開戰直接給予下馬威攻擊！
+        _isProvoked = true;
         EnterPhase(BossPhase.Attacking); 
     }
 
-    // UI 按鈕觸發
-    private void OnFightButtonClickEvent(FightButtonClickEvent cmd) => TriggerBattleStart();
-    
-    public void TriggerBattleStart()
-    {
-        if (_currentPhase == BossPhase.Idle)
-        {
-            EnterPhase(BossPhase.Special);
-        }
-    }
-
-    // --- 提供給 Pattern Prefab 呼叫的方法 ---
-    // 當發射器生成子彈時，必須呼叫這個方法，把子彈交給 Boss 管理
-    public void RegisterActiveBullet(GameObject bullet)
-    {
-        if (bullet != null)
-        {
-            _activeBullets.Add(bullet);
-        }
-    }
+    public void RegisterActiveBullet(GameObject bullet) { if (bullet != null) _activeBullets.Add(bullet); }
+    public void UnregisterActiveBullet(GameObject bullet) { if (bullet != null) _activeBullets.Remove(bullet); }
+    public void RegisterActivePattern(GameObject pattern) { if (pattern != null) _activePatterns.Add(pattern); }
+    public void UnregisterActivePattern(GameObject pattern) { if (pattern != null) _activePatterns.Remove(pattern); }
 
     protected virtual void Update()
     {
         _phaseTimerDisplay = phaseTimer;
         
-        if (_currentPhase == BossPhase.Idle) { /* 等待觸發 */ }
-        else if (_currentPhase == BossPhase.Special)
+        Debug.Log(_activeBullets + "剩餘子彈");
+
+        if (_currentPhase == BossPhase.Attacking)
         {
-            phaseTimer -= Time.deltaTime;
-
-            if (currentHealth == 1 && _currentPhase != BossPhase.Idle)
-            {
-                // 1. 閃爍特效
-                if (bodySprite != null)
-                {
-                    float t = Mathf.PingPong(Time.time * 10f, 1f);
-                    bodySprite.color = Color.Lerp(Color.white, damageColor, t);
-                }
-
-                // 2. 發送持續震動事件 (只在狀態改變時發送一次)
-                if (!_isLowHealthActive)
-                {
-                    _isLowHealthActive = true;
-                    GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = true });
-                }
-            }
-            else
-            {
-                // 離開瀕死狀態 (例如補血了，或是剛開始)
-                if (_isLowHealthActive)
-                {
-                    _isLowHealthActive = false;
-                    // 確保身體顏色變回來 (如果不是受傷閃爍中)
-                    if(bodySprite != null) bodySprite.color = Color.white;
-                
-                    // 關閉震動
-                    GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = false });
-                }
-            }
-            
-            // 1. 檢查是否提早全部隱藏 (成功)
-            if (CheckSpecialPhaseSuccess())
-            {
-                Debug.Log("玩家提早破解特殊機制！");
-                _wasLastSpecialBlocked = true; 
-                ClearActiveSpecialMechanisms();
-                EnterPhase(BossPhase.Vulnerable); 
-                return;
-            }
-
-            // 2. 時間到
-            if (phaseTimer <= 0)
-            {
-                bool success = CheckSpecialPhaseSuccess();
-                if (success)
-                {
-                    Debug.Log("時間到，全部隱藏 -> 成功！");
-                    _wasLastSpecialBlocked = true;
-                }
-                else
-                {
-                    Debug.Log("時間到，失敗 (爆走預定)！");
-                    _wasLastSpecialBlocked = false;
-                }
-                
-                // 不管成功失敗，清理場上機關
-                ClearActiveSpecialMechanisms();
-                EnterPhase(BossPhase.Vulnerable); 
-            }
-        }
-        else if (_currentPhase == BossPhase.Vulnerable) { /* 等待玩家攻擊 TakeHit */ }
-        else if (_currentPhase == BossPhase.Attacking)
-        {
-            // 執行攻擊排程
-            ExecuteAttackSequence();
+            HandleAttackingPhaseUpdate();
         }
         else if (_currentPhase == BossPhase.WaitingForBullets)
         {
-            // 雙重確認 (雖然 ExecuteAttackSequence 已經會檢查，但這裡是保險)
-            if (CheckBulletsCleared())
+            // ★ 當場上所有的發射器與子彈都清空後，正式回到 Idle 讓玩家佈置與痛毆！
+            if (_activeBullets.Count == 0 && _activePatterns.Count == 0)
             {
                 EnterPhase(BossPhase.Idle);
             }
         }
     }
 
-    // --- 狀態切換核心 ---
+    private void HandleAttackingPhaseUpdate()
+    {
+        phaseTimer -= Time.deltaTime;
+        CheckLowHealthVFX();
+
+        // 1. 防呆保護：15 秒時間一到，不管有沒有子彈，強制清空並進入等待！
+        if (phaseTimer <= 0f)
+        {
+            Debug.Log($"<color=orange>[{bossName}] 15 秒防呆上限已到！清空場上殘留彈幕！</color>");
+            ClearAllActiveProjectiles();
+            EnterPhase(BossPhase.WaitingForBullets);
+            return;
+        }
+
+        // ★ 2. 核心優化：如果隊列裡的波次已經全部「發射完畢」，且現在場上「已經沒有任何子彈跟發射器」！
+        if (_waveQueue.Count == 0 && _activeBullets.Count == 0 && _activePatterns.Count == 0)
+        {
+            Debug.Log($"<color=cyan>[{bossName}] 所有子彈提早打完且場上全空！直接進入 Waiting/Idle 狀態！</color>");
+            EnterPhase(BossPhase.WaitingForBullets);
+            return;
+        }
+
+        // 3. 繼續正常執行發射排程
+        ExecuteAttackSequence();
+    }
 
     protected virtual void EnterPhase(BossPhase newPhase)
     {
-        _currentPhase = newPhase; 
+        _currentPhase = newPhase;
         Debug.Log($"<color=yellow>{bossName} 進入階段: {newPhase}</color>");
 
         switch (newPhase)
         {
             case BossPhase.Idle:
+                // ★ 怒火鎖歸零：回到 Idle 絕對休眠，直到受傷才會把 _isProvoked 轉為 true！
+                _isProvoked = false;
                 GameManager.Instance.MainGameEvent.Send(new BossEnterIdlePhaseEvent());
-                if(animator) animator.Play("Idle");
-                break;
-
-            case BossPhase.Special:
-                phaseTimer = specialTimer; 
-                _wasLastSpecialBlocked = false; 
-                ClearActiveSpecialMechanisms(); 
-                EnterSpecialPhase(); // 生成新機關 (子類別實作)
-                break;
-
-            case BossPhase.Vulnerable:
-                GameManager.Instance.MainGameEvent.Send(new BossEnterVulnerablePhaseEvent());
-                if(animator) animator.Play("Idle"); 
-                currentHitCount = 0; 
-                UpdateDebugData();
+                if (animator) animator.Play("Idle");
+                phaseTimer = 0f;
                 break;
 
             case BossPhase.Attacking:
                 GameManager.Instance.MainGameEvent.Send(new BossEnterAttackingPhaseEvent());
-                if(animator) animator.Play("Attack1");
-                LoadAttackPhaseConfig(); // 載入這回合的攻擊波次
+                if (animator) animator.Play("Attack1");
+                phaseTimer = attackPhaseDuration;
+                
+                LoadAttackPhaseConfig();
+                SpawnSpecialMechanisms(); 
                 break;
 
             case BossPhase.WaitingForBullets:
-                // 這個狀態只是過渡，用來確認場上真的乾淨了
+                if (animator) animator.Play("Idle");
                 break;
         }
     }
 
-    public void RegisterActivePattern(GameObject pattern)
-    {
-        if (pattern != null && !_activePatterns.Contains(pattern))
-        {
-            _activePatterns.Add(pattern);
-        }
-    }
-    
-    // --- 攻擊邏輯 (Pattern System) ---
-
     private void LoadAttackPhaseConfig()
     {
-        int lostHealth = maxHealth - currentHealth;
-
-        if (phaseConfigs == null || phaseConfigs.Count == 0)
-        {
-            Debug.LogError("請在 Inspector 設定 Phase Configs！");
-            EnterPhase(BossPhase.WaitingForBullets); 
-            return;
-        }
-
-        int index = Mathf.Clamp(lostHealth, 0, phaseConfigs.Count - 1);
+        if (bossSO == null || phaseConfigs == null || phaseConfigs.Count == 0) return;
+        float lostRatio = 1.0f - ((float)bossSO.CurrentHealth / bossSO.MaxHealth);
+        int index = Mathf.Clamp(Mathf.FloorToInt(lostRatio * phaseConfigs.Count), 0, phaseConfigs.Count - 1);
         BossPhaseConfig config = phaseConfigs[index];
 
         _waveQueue.Clear();
-        foreach (var wave in config.waveList)
-        {
-            _waveQueue.Enqueue(wave);
-        }
-        
-        _activeBullets.Clear(); // 確保清單乾淨
-        _waveDelayTimer = 0f;   // 第一波不需要等待，立刻發射
+        foreach (var wave in config.waveList) _waveQueue.Enqueue(wave);
 
-        Debug.Log($"載入階段 {index} ({config.label})，共有 {_waveQueue.Count} 波攻擊");
+        _activeBullets.Clear();
+        _activePatterns.Clear();
+        _waveDelayTimer = 0f;
     }
 
     private void ExecuteAttackSequence()
     {
-        // 1. 清理已經銷毀的物件 (移除 null)
-        _activeBullets.RemoveAll(b => b == null);
-        _activePatterns.RemoveAll(p => p == null); // ★ 新增：清理已經自殺的發射器
-
-        // 2. ★ 關鍵修改：如果場上還有子彈 OR 還有正在運作的發射器，就等待
         if (_activeBullets.Count > 0 || _activePatterns.Count > 0) return;
+        if (_waveDelayTimer > 0) { _waveDelayTimer -= Time.deltaTime; return; }
 
-        // --- 以下邏輯代表：場上無子彈 且 無發射器 ---
-
-        // 3. 處理波次間的休息時間
-        if (_waveDelayTimer > 0)
-        {
-            _waveDelayTimer -= Time.deltaTime;
-            return;
-        }
-
-        // 4. 準備發射下一波
         if (_waveQueue.Count > 0)
         {
             BulletWaveData nextWave = _waveQueue.Dequeue();
-            Debug.Log($"執行波次: {nextWave.note}");
-            
             if (nextWave.patternPrefab != null)
             {
-                // 生成發射器
                 GameObject patternObj = Instantiate(nextWave.patternPrefab, firePosition.position, Quaternion.identity);
-                
-                // ★ 新增：將這個發射器加入監控清單
-                // 這樣只要它還沒 Destroy (代表還在射)，Boss 就不會結束攻擊階段
-                _activePatterns.Add(patternObj);
-
-                var patternScript = patternObj.GetComponent<AttackPatternBase>();
-                
-                if (patternScript != null)
+                RegisterActivePattern(patternObj);
+                if (patternObj.TryGetComponent(out AttackPatternBase patternScript))
                 {
-                    bool isAngry = !_wasLastSpecialBlocked;
-                    
-                    // ★ 記得加上這行：讓發射器獨立於 Boss (避免 Boss 轉身時帶著它跑，或被誤刪)
-                    // patternObj.transform.SetParent(null); 
-
-                    patternScript.Execute(this, 1.0f, isAngry);
+                    patternScript.Execute(this, 1.0f, true);
                 }
             }
-            else
+            _waveDelayTimer = nextWave.delayBeforeNext;
+        }
+    }
+
+    protected void ClearAllActiveProjectiles()
+    {
+        _waveQueue.Clear();
+        foreach (GameObject pattern in _activePatterns) if (pattern != null) Destroy(pattern);
+        _activePatterns.Clear();
+        foreach (GameObject bullet in _activeBullets) if (bullet != null) Destroy(bullet);
+        _activeBullets.Clear();
+    }
+
+    private void CheckLowHealthVFX()
+    {
+        if (bossSO == null) return;
+        float healthRatio = (float)bossSO.CurrentHealth / bossSO.MaxHealth;
+        if (healthRatio <= 0.2f && bossSO.CurrentHealth > 0)
+        {
+            if (bodySprite != null) bodySprite.color = Color.Lerp(Color.white, damageColor, Mathf.PingPong(Time.time * 10f, 1f));
+            if (!_isLowHealthActive)
             {
-                Debug.LogWarning("波次設定中缺少 Pattern Prefab！");
+                _isLowHealthActive = true;
+                GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = true });
             }
-
-            // 設定下一波前的休息時間
-            float finalDelay = nextWave.delayBeforeNext;
-            if (!_wasLastSpecialBlocked) finalDelay *= 0.5f;
-
-            _waveDelayTimer = finalDelay;
         }
-        else
+        else if (_isLowHealthActive)
         {
-            // 5. 佇列空了 -> 真的結束了
-            Debug.Log("所有波次結束，準備回到 Idle");
-            EnterPhase(BossPhase.WaitingForBullets);
+            _isLowHealthActive = false;
+            if (bodySprite != null) bodySprite.color = Color.white;
+            GameManager.Instance.MainGameEvent.Send(new BossLowHealthStateEvent() { IsActive = false });
         }
     }
 
-    // --- 特殊機制判定 ---
-
-    protected bool CheckSpecialPhaseSuccess()
+    // ==========================================
+    // ★ 核心落實：在 Idle 狀態下挨打，立即轉入攻擊！
+    // ==========================================
+    public void TakeDamage(DamagePayload payload)
     {
-        _activeSpecialMechanisms.RemoveAll(item => item == null);
-        if (_activeSpecialMechanisms.Count == 0 && _activeSpecialMechanisms.Capacity != 0) return true; 
-
-        foreach (var mechanism in _activeSpecialMechanisms)
+        // 嚴格防禦：只有在 Idle 且尚未被激怒的狀態下，才能受傷！
+        if (_currentPhase != BossPhase.Idle || _isProvoked || bossSO == null || bossSO.CurrentHealth <= 0)
         {
-            if (!mechanism.IsCleared) return false; 
+            Debug.Log($"<color=gray>[防禦阻擋] {bossName} 當前在 {_currentPhase} 高壓狀態，處於無敵防護，攻擊無效！</color>");
+            return;
         }
-        return true;
-    }
 
-    protected void ClearActiveSpecialMechanisms()
-    {
-        foreach (var item in _activeSpecialMechanisms)
-        {
-            if (item != null) Destroy(item.gameObject);
-        }
-        _activeSpecialMechanisms.Clear();
-    }
-    
-    // 子類別需要實作：檢查自己生成的子彈是否清空 (如果還有其他來源的話)
-    // 但因為現在統一用 _activeBullets 管理，這裡可以簡單實作
-    protected virtual bool CheckBulletsCleared()
-    {
-        _activeBullets.RemoveAll(b => b == null);
-        return _activeBullets.Count == 0;
-    }
+        int finalDamage = Mathf.Max(1, payload.Damage - bossSO.Defense);
+        bossSO.ModifyHealth(-finalDamage);
+        UpdateDebugData();
 
-    // --- UI 與受傷邏輯 ---
+        Debug.Log($"<color=yellow>[Boss 受傷！] 受到重擊！扣除 {finalDamage} 點血量 | 剩餘:{bossSO.CurrentHealth}/{bossSO.MaxHealth}</color>");
 
-    private void RemoveOneHealthIcon()
-    {
-        if (healthBarContainer && healthBarContainer.transform.childCount > 0)
-        {
-            Destroy(healthBarContainer.transform.GetChild(healthBarContainer.transform.childCount - 1).gameObject);
-        }
-    }
-
-    public void TakeHit()
-    {
-        if (_currentPhase != BossPhase.Vulnerable) return; 
-
-        // 1. 視覺：閃紅光
         if (bodySprite != null)
         {
-            StopCoroutine("FlashRedEffect"); 
-            StartCoroutine("FlashRedEffect");
+            StopCoroutine(nameof(FlashRedEffect));
+            StartCoroutine(nameof(FlashRedEffect));
         }
+        GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent() { Intensity = hitShakeIntensity, Duration = hitShakeDuration });
+        GameManager.Instance.MainGameEvent.Send(new BossHealthChangedEvent() { CurrentHealth = bossSO.CurrentHealth, MaxHealth = bossSO.MaxHealth });
 
-        // 2. ★ 震動：發送事件 (帶參數)
-        // 使用 Object Initializer 語法傳入參數
-        GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent() 
-        { 
-            Intensity = hitShakeIntensity, 
-            Duration = hitShakeDuration 
-        });
-
-        currentHitCount++;
-        UpdateDebugData(); 
-        
-        if(currentHitCount >= hitsPerDamage)
+        if (bossSO.CurrentHealth <= 0)
         {
-            currentHitCount = 0;
-            currentHealth--;
-            RemoveOneHealthIcon(); 
-            UpdateDebugData(); 
-            
-            if(currentHealth <= 0) 
-            {
-                Die();
-            }
-            else
-            {
-                EnterPhase(BossPhase.Attacking); 
-            }
+            Die();
+            return;
         }
+
+        // ★ 核心閉環：挨打後把怒火致能鎖打開，直接進入反擊！
+        _isProvoked = true;
+        Debug.Log($"<color=green>[{bossName}] 休眠中被物理痛毆 (_isProvoked=true)！立刻展開下一輪大範圍攻擊！</color>");
+        EnterPhase(BossPhase.Attacking);
     }
 
-    // --- 新增：閃紅光 Coroutine ---
     private IEnumerator FlashRedEffect()
     {
-        // 變紅
         bodySprite.color = damageColor;
-
-        // 等待一下
         yield return new WaitForSeconds(flashDuration);
-
-        // 變回白色 (原色)
-        bodySprite.color = Color.white;
+        if (bodySprite != null) bodySprite.color = Color.white;
     }
+
+    protected void UpdateDebugData() { if (bossSO != null) _currentHealthDisplay = bossSO.CurrentHealth; }
+    protected virtual void Die() { Debug.Log("Boss 死亡！"); Destroy(gameObject); }
     
-    protected void UpdateDebugData()
-    {
-        _currentHealthDisplay = currentHealth;
-        _currentHitCountDisplay = currentHitCount;
-    }
-
-    protected virtual void Die()
-    {
-        Debug.Log("Boss 死亡！");
-        Destroy(gameObject);
-    }
-
-    // --- 抽象方法 ---
-    // 因為攻擊邏輯已經移到 Pattern Prefab，這裡不再需要 FireBulletInstance
-    protected abstract void EnterSpecialPhase();
-}
-
-namespace Gamemanager
-{
-    // 取代原本 BossBase 內部直接 Destroy UI 子物件的糟糕行為
-    public struct BossHealthChangedEvent
-    {
-        public int CurrentHealth;
-        public int MaxHealth;
-    }
+    protected abstract void SpawnSpecialMechanisms();
 }

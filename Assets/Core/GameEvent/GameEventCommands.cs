@@ -144,6 +144,11 @@ namespace Gamemanager
     {
 
     }
+    
+    public class BossEnterSpecialPhaseEvent : GameEventMessageBase
+    {
+
+    }
 
     public class BossEnterAttackingPhaseEvent : GameEventMessageBase
     {
@@ -160,9 +165,28 @@ namespace Gamemanager
         public float Intensity; // 震動強度
         public float Duration;  // 震動時間
     }
+    
+    public class BossHealthChangedEvent : GameEventMessageBase
+    {
+        public int CurrentHealth;
+        public int MaxHealth;
+    }
 
     public class BossLowHealthStateEvent : GameEventMessageBase
     {
         public bool IsActive; // true = 開始晃動, false = 停止晃動
     }
+    
+    public class PlayerStaminaChangedEvent : GameEventMessageBase
+    {
+        public float CurrentStamina;
+        public float MaxStamina;
+    }
+    
+    public class PlayerHealthChangedEvent : GameEventMessageBase
+    {
+        public int CurrentHealth;
+        public int MaxHealth;
+    }
+    
 }

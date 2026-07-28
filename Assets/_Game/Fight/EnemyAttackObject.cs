@@ -2,22 +2,31 @@ using UnityEngine;
 
 public class EnemyAttackObject : MonoBehaviour
 {
-    [Header("基礎傷害設定 (Base)")]
-    public int damageAmount = 1;
+    [Header("基礎傷害設定")]
+    public int damageAmount = 15; // 建議配合百分比血量 (如 100 滿血)，把數值稍微調大
 
-    // ★ 統一的傷害處理邏輯
-    // 所有的子類別 (子彈、導彈、爆炸) 都只要呼叫這個方法就好
-    protected void TryDealDamage(Collider2D hitCollider)
+    // ★ 升級為標準介面交易：發射 DamagePayload 封包，不再依賴具體的 PlayerController3D！
+    protected void TryDealDamage(GameObject hitObject)
     {
-        // 建議統一用 Component 來判定身分，比 Tag 更穩
-        // 先找自己，再找父物件 (應對碰撞器在子物件的情況)
-        PlayerController2D player = hitCollider.GetComponent<PlayerController2D>();
-        if (player == null) player = hitCollider.GetComponentInParent<PlayerController2D>();
+        if (hitObject == null) return;
 
-        if (player != null)
+        // 1. 嘗試直接在碰撞體、或是其父物件上尋找受擊介面 IDamageable
+        IDamageable damageable = hitObject.GetComponent<IDamageable>();
+        if (damageable == null) damageable = hitObject.GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
         {
-            player.TakeDamage(damageAmount);
-            // Debug.Log($"{name} 造成了傷害！");
+            // 2. 打包標準傷害封包 (這裡如果敵人也有自己的 SO，可在此加入暴擊與加成)
+            DamagePayload payload = new DamagePayload()
+            {
+                Damage = this.damageAmount,
+                IsCrit = false, // 敵方普通彈幕預設無暴擊，或是可以加上亂數判定
+                Source = this.gameObject
+            };
+
+            // 3. 點對點直接交割！
+            damageable.TakeDamage(payload);
+            Debug.Log($"<color=orange>[敵方命中] {gameObject.name} 對 {hitObject.name} 造成 {damageAmount} 點傷害！</color>");
         }
     }
 }

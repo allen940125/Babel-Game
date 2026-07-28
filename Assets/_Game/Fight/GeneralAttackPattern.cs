@@ -196,7 +196,7 @@ public class GeneralAttackPattern : AttackPatternBase
         if (bulletPrefab == null) { Debug.LogError("❌ 沒放 Bullet Prefab！"); return; }
         GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
         EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
-        if (script != null) script.Initialize(direction, speed); 
+        if (script != null) script.Initialize(direction, speed, boss); 
         if (boss != null) boss.RegisterActiveBullet(bullet);
     }
     private Vector2 GetRandomSpawnPos() {
