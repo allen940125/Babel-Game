@@ -253,7 +253,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3eb4203d40406bc4687e15833e8c92fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   canBeRotated: 1
   canBlockBullets: 1
   ignorePhaseLock: 0
-  commandToExecute: {fileID: 0}
+  commandToExecute: {fileID: 11400000, guid: 94a302902e9f27c45bdd7c4e550706e1, type: 2}
   ignorePhaseLock: 0
 --- !u!54 &8033277
 Rigidbody:
@@ -339,7 +339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 34359289}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BossHealthPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -820,6 +820,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52571f68872914e24837210513edea1d, type: 3}
+--- !u!1001 &168782903
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_Name
+      value: "\u666E\u901A\u653B\u64CA"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
 --- !u!1 &173559652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,6 +1188,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.58
@@ -1167,6 +1232,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1187,7 +1256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265968434}
   - component: {fileID: 265968435}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -1278,6 +1347,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.55
@@ -1317,6 +1390,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1432,6 +1509,10 @@ PrefabInstance:
       value: Celeste_BattleEye_0 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1486,6 +1567,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1584,6 +1669,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.58
@@ -1624,6 +1713,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1634,6 +1727,99 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
   m_PrefabInstance: {fileID: 358673064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &393783538
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275297978128791564, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222599819936142582, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_Name
+      value: "\u666E\u901A\u653B\u64CA 1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
 --- !u!1 &405863119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,6 +1986,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Celeste_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -1839,6 +2029,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2448,6 +2642,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Celeste_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -2487,6 +2685,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2598,7 +2800,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 813001293}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2631,6 +2833,10 @@ PrefabInstance:
     - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_Name
       value: Celeste_BattleEye_0 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_IsActive
@@ -2691,6 +2897,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3211,6 +3421,10 @@ PrefabInstance:
       value: Celeste_BattleEye_0
       objectReference: {fileID: 0}
     - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -3254,6 +3468,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 220
       objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3276,7 +3494,7 @@ GameObject:
   - component: {fileID: 1018425094}
   - component: {fileID: 1018425093}
   - component: {fileID: 1018425092}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3483,13 +3701,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050674413}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.86, y: 6.53, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.0480995, y: 8.02561, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 299816441}
-  m_Father: {fileID: 1887124757}
+  m_Father: {fileID: 1363832655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1050674415
 MonoBehaviour:
@@ -3580,6 +3798,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.63
@@ -3619,6 +3841,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3688,6 +3914,10 @@ PrefabInstance:
       value: Celeste_BattleEye_0
       objectReference: {fileID: 0}
     - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -3730,6 +3960,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4091,6 +4325,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Celeste_BattleEye_0 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3041532925307637072, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1
@@ -4142,6 +4380,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4276,6 +4518,8 @@ Transform:
   - {fileID: 8033268}
   - {fileID: 1224916880}
   - {fileID: 865035392}
+  - {fileID: 1930868211}
+  - {fileID: 1050674414}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1369685906
@@ -4288,7 +4532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1369685907}
   - component: {fileID: 1369685908}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BossHealthPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4348,7 +4592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1461063357}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4473,6 +4717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.67
@@ -4513,6 +4761,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4535,7 +4787,7 @@ GameObject:
   - component: {fileID: 1812076113}
   - component: {fileID: 1812076114}
   - component: {fileID: 1812076115}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Scavenger_AtkB_Animation_0
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -4671,7 +4923,7 @@ GameObject:
   - component: {fileID: 1842308560}
   - component: {fileID: 1842308561}
   - component: {fileID: 1842308562}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Cleaner
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -4966,7 +5218,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2d57dec0bac067e4c975bba927481f90, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5172,39 +5424,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59, y: 0.52, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1887124755
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1887124757}
-  m_Layer: 0
-  m_Name: UIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1887124757
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887124755}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1930868211}
-  - {fileID: 1050674414}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1922975574
 GameObject:
   m_ObjectHideFlags: 0
@@ -5217,7 +5436,7 @@ GameObject:
   - component: {fileID: 1922975575}
   - component: {fileID: 1922975577}
   - component: {fileID: 1922975576}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Celeste
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -5732,13 +5951,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930868210}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.02, y: 6.53, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.8319006, y: 8.02561, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2074276600}
-  m_Father: {fileID: 1887124757}
+  m_Father: {fileID: 1363832655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1930868212
 MonoBehaviour:
@@ -6297,6 +6516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Celeste_BattleEye_0 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3041532925307637072, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1
@@ -6348,6 +6571,10 @@ PrefabInstance:
     - target: {fileID: 3823360254559081956, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: f75cd41dd872fe24c8426daeec34c640, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6489,6 +6716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scavenger_BattleEye_0
       objectReference: {fileID: 0}
+    - target: {fileID: 236678210251049744, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3823360254559081956, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.78
@@ -6529,6 +6760,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136463817728048521, guid: 7130c04f480a1aa41bf85ea51dcf5ff4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6568,5 +6803,6 @@ SceneRoots:
   - {fileID: 137330320}
   - {fileID: 173559655}
   - {fileID: 524398912}
-  - {fileID: 1887124757}
   - {fileID: 1018425095}
+  - {fileID: 168782903}
+  - {fileID: 393783538}

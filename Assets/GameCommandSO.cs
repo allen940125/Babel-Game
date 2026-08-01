@@ -37,6 +37,7 @@ public class ItemAction : ICommandAction
         // GameManager.Instance.MainGameEvent.Send(new ItemEvent(itemId, count));
     }
 }
+
 [CreateAssetMenu(fileName = "Cmd_New", menuName = "Commands/Game Command")]
 public class GameCommandSO : ScriptableObject
 {

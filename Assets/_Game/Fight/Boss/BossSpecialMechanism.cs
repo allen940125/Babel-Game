@@ -1,14 +1,20 @@
 using UnityEngine;
 
-public abstract class BossSpecialMechanism : MonoBehaviour
+// ★ 徹底移除了 2D 語法！全面支援 3D Collider 與 O(1) SO 減秒！
+[RequireComponent(typeof(Collider))]
+public class BossSpecialMechanism : MonoBehaviour
 {
-    [Header("共用設定")]
+    [Header("道具與減秒設定")]
     [Tooltip("誰撞到我才算數？")]
     public string targetTag = "PlayerButton";
+    [Tooltip("被碰到時，要扣除 Boss 幾秒攻擊時間？")]
+    public float timeReduction = 3.0f;
     
-    [Tooltip("視覺物件 (要隱藏/顯示的東西)")]
+    [Tooltip("視覺物件 (被吃掉後隱藏)")]
     public GameObject visualObject;
 
+    // ★ 綁定 Boss 資料庫以執行減秒
+    protected BossRuntimeSO _targetBossSO;
     public bool IsCleared => visualObject != null && !visualObject.activeSelf;
 
     protected virtual void Awake()
@@ -19,47 +25,58 @@ public abstract class BossSpecialMechanism : MonoBehaviour
             if (sr) visualObject = sr.gameObject;
         }
         
-        Collider2D col = GetComponentInChildren<Collider2D>();
+        // ★ 強行改為 3D Trigger，杜絕實體碰撞阻礙
+        Collider col = GetComponent<Collider>();
         if (col != null) col.isTrigger = true;
+    }
+
+    // 由生成端 (BossCleaner) 傳入 SO 參照
+    public void InitializeMechanism(BossRuntimeSO bossSO)
+    {
+        _targetBossSO = bossSO;
     }
 
     public virtual void ResetMechanism()
     {
-        if(visualObject) visualObject.SetActive(true);
+        if (visualObject) visualObject.SetActive(true);
     }
 
-    // --- ★ 修改 1：原本的 OnTriggerEnter2D ---
-    // 這是給「子彈」或是「非拖曳物體」用的
-    protected virtual void OnTriggerStay2D(Collider2D other)
+    // ★ 嚴格修正：必須是 OnTriggerEnter (3D)！
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        // 如果撞到的是目標 Tag，就觸發
         if (other.CompareTag(targetTag))
         {
             TriggerThisMechanism();
         }
     }
 
-    // --- ★ 修改 2：提供一個公開方法讓外部(拖曳物體)手動觸發 ---
     public void ManualTrigger(GameObject obj)
     {
-        // 雙重確認：傳進來的物件 Tag 是對的才執行
         if (obj.CompareTag(targetTag))
         {
             TriggerThisMechanism();
         }
     }
 
-    // --- ★ 修改 3：把核心邏輯抽出來 ---
     protected void TriggerThisMechanism()
     {
-        // 執行關閉邏輯
+        if (visualObject != null && !visualObject.activeSelf) return; // 避免重複吃
+        
         if (visualObject != null) visualObject.SetActive(false);
         
-        // 如果這機關有 LineRenderer (Celeste版)，這裡最好也廣播或是由子類處理
-        // 為了通用性，你可以把具體關閉邏輯保持在原本位置，或是讓子類別 override TriggerThisMechanism
+        // ★ 呼叫 SO 扣除攻擊秒數！
+        if (_targetBossSO != null)
+        {
+            _targetBossSO.ReduceTimer(timeReduction);
+            Debug.Log($"<color=green>[道具生效] 成功吃掉機關！Boss 攻擊時間減少 {timeReduction} 秒！</color>");
+        }
+        else
+        {
+            Debug.LogWarning($"[{gameObject.name}] 尚未綁定 BossRuntimeSO，無法執行時間扣除！");
+        }
+
         OnMechanismTriggered(); 
     }
 
-    // 讓子類別 (如 BossCelesteMechanism) 去實作額外的關閉邏輯 (如關閉線條)
     protected virtual void OnMechanismTriggered() { }
 }

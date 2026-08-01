@@ -11,6 +11,10 @@ public abstract class BaseEntityRuntimeSO : ScriptableObject
     [SerializeField] protected int defense = 3;
     [Range(0f, 1f)] [SerializeField] protected float critRate = 0.2f;
     [SerializeField] protected float critMultiplier = 1.5f;
+    
+    [Header("★ 戰鬥狀態限制旗標")]
+    [Tooltip("記錄此實體在本次戰鬥中是否已經接受過回血")]
+    public bool HasHealedInThisFight = false;
 
     // 唯讀屬性封裝
     public int MaxHealth => maxHealth;
@@ -32,5 +36,10 @@ public abstract class BaseEntityRuntimeSO : ScriptableObject
     public virtual void ModifyHealth(int delta)
     {
         currentHealth = Mathf.Clamp(currentHealth + delta, 0, maxHealth);
+    }
+    
+    public virtual void ResetFightStates()
+    {
+        HasHealedInThisFight = false;
     }
 }

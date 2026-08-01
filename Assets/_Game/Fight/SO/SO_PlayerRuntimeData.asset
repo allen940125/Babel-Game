@@ -18,6 +18,7 @@ MonoBehaviour:
   defense: 3
   critRate: 0.2
   critMultiplier: 1.5
+  HasHealedInThisFight: 0
   maxStamina: 100
   currentStamina: 100
   moveSpeed: 5

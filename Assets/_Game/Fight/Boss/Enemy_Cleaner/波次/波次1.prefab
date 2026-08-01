@@ -99,4 +99,9 @@ MonoBehaviour:
   baseSpeed: 1.5
   spawnAreaSize: {x: 5, y: 5}
   spawnInterval: 0.1
+  circleRadius: 0
+  circleStartAngle: 0
   spreadAngle: 90
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270

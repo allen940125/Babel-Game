@@ -14,7 +14,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     public struct BossPhaseConfig { public string label; public List<BulletWaveData> waveList; }
 
     [Header("★ 資料庫綁定 (SSOT)")]
-    [SerializeField] protected BaseEntityRuntimeSO bossSO;
+    [SerializeField] protected BossRuntimeSO bossSO; // ★ 嚴格改為 BossRuntimeSO！
     
     [Header("基本設定")]
     public string bossName;
@@ -40,12 +40,15 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     [Header("★ 怒火反擊旗標 (唯讀)")]
     [Tooltip("在 Idle 時為 false，只有被玩家物理痛毆扣血後才會變為 true，隨即反擊！")]
     [SerializeField] protected bool _isProvoked = false;
+    private bool _isBattleActive = false;
 
     // --- 內部資料結構 (O(1) 效能保證) ---
     protected HashSet<GameObject> _activeBullets = new HashSet<GameObject>();
     protected HashSet<GameObject> _activePatterns = new HashSet<GameObject>();
     protected Queue<BulletWaveData> _waveQueue = new Queue<BulletWaveData>();
 
+    protected List<GameObject> _activeMapMechanisms = new List<GameObject>();
+    
     protected float _waveDelayTimer;
     protected float phaseTimer;
     protected Animator animator;
@@ -56,17 +59,20 @@ public abstract class BossBase : MonoBehaviour, IDamageable
         animator = GetComponentInChildren<Animator>();
         bodySprite = GetComponentInChildren<SpriteRenderer>();
 
+        _isBattleActive = false;     // 鎖住 Update 與受傷判定_isProvoked = true;
+        
         if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
         UpdateDebugData();
     }
 
     public virtual void StartBattle()
     {
+        _isBattleActive = true;        // 解開 AI 鎖
+        _isProvoked = true;            // 確保下馬威狀態
+        
         if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
         UpdateDebugData();
         
-        // ★ 絕對先手權：開戰直接給予下馬威攻擊！
-        _isProvoked = true;
         EnterPhase(BossPhase.Attacking); 
     }
 
@@ -77,6 +83,8 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (!_isBattleActive) return;
+        
         _phaseTimerDisplay = phaseTimer;
         
         Debug.Log(_activeBullets + "剩餘子彈");
@@ -97,27 +105,41 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
     private void HandleAttackingPhaseUpdate()
     {
-        phaseTimer -= Time.deltaTime;
         CheckLowHealthVFX();
 
-        // 1. 防呆保護：15 秒時間一到，不管有沒有子彈，強制清空並進入等待！
-        if (phaseTimer <= 0f)
+        // ★ 1. 將計時器交給 SO 運算，接收歸零訊號
+        bool isTimeUp = false;
+        if (bossSO != null)
         {
-            Debug.Log($"<color=orange>[{bossName}] 15 秒防呆上限已到！清空場上殘留彈幕！</color>");
+            isTimeUp = bossSO.TickTimer(Time.deltaTime);
+            _phaseTimerDisplay = bossSO.CurrentTimer;
+        }
+        else
+        {
+            phaseTimer -= Time.deltaTime;
+            _phaseTimerDisplay = phaseTimer;
+            isTimeUp = (phaseTimer <= 0f);
+        }
+
+        // ★ 2. 當時間到（或被道具扣到 0）時，安全且乾淨地結束！
+        if (isTimeUp)
+        {
+            Debug.Log($"<color=orange>[{bossName}] 攻擊倒數歸零（被道具加速或超時）！清空全場彈幕與殘留道具！</color>");
             ClearAllActiveProjectiles();
+            ClearAllMapMechanisms(); 
             EnterPhase(BossPhase.WaitingForBullets);
             return;
         }
 
-        // ★ 2. 核心優化：如果隊列裡的波次已經全部「發射完畢」，且現在場上「已經沒有任何子彈跟發射器」！
+        // 3. 子彈打完且場上清空的提早結束邏輯
         if (_waveQueue.Count == 0 && _activeBullets.Count == 0 && _activePatterns.Count == 0)
         {
-            Debug.Log($"<color=cyan>[{bossName}] 所有子彈提早打完且場上全空！直接進入 Waiting/Idle 狀態！</color>");
+            Debug.Log($"<color=cyan>[{bossName}] 子彈提早打完且場上全空！直接進入 Waiting/Idle！</color>");
+            ClearAllMapMechanisms(); 
             EnterPhase(BossPhase.WaitingForBullets);
             return;
         }
 
-        // 3. 繼續正常執行發射排程
         ExecuteAttackSequence();
     }
 
@@ -129,19 +151,22 @@ public abstract class BossBase : MonoBehaviour, IDamageable
         switch (newPhase)
         {
             case BossPhase.Idle:
-                // ★ 怒火鎖歸零：回到 Idle 絕對休眠，直到受傷才會把 _isProvoked 轉為 true！
                 _isProvoked = false;
                 GameManager.Instance.MainGameEvent.Send(new BossEnterIdlePhaseEvent());
                 if (animator) animator.Play("Idle");
-                phaseTimer = 0f;
+                if (bossSO != null) bossSO.StartTimer(0f);
                 break;
 
             case BossPhase.Attacking:
                 GameManager.Instance.MainGameEvent.Send(new BossEnterAttackingPhaseEvent());
                 if (animator) animator.Play("Attack1");
-                phaseTimer = attackPhaseDuration;
                 
+                if (bossSO != null) bossSO.StartTimer(attackPhaseDuration);
+                else phaseTimer = attackPhaseDuration;
+                
+                // ★ 雙管齊下：載入子彈波次 + 呼叫子類別生成地圖機關！兩者互不相擾！
                 LoadAttackPhaseConfig();
+                ClearAllMapMechanisms();
                 SpawnSpecialMechanisms(); 
                 break;
 
@@ -190,10 +215,48 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     protected void ClearAllActiveProjectiles()
     {
         _waveQueue.Clear();
-        foreach (GameObject pattern in _activePatterns) if (pattern != null) Destroy(pattern);
+        foreach (GameObject pattern in _activePatterns)
+        {
+            if (pattern != null) 
+            {
+                pattern.SetActive(false);
+                Destroy(pattern);
+            }
+        }
         _activePatterns.Clear();
-        foreach (GameObject bullet in _activeBullets) if (bullet != null) Destroy(bullet);
+
+        foreach (GameObject bullet in _activeBullets)
+        {
+            if (bullet != null) 
+            {
+                bullet.SetActive(false);
+                Destroy(bullet);
+            }
+        }
         _activeBullets.Clear();
+    }
+
+    // ★ 4. 新增：專門清空地圖機關的方法
+    protected void ClearAllMapMechanisms()
+    {
+        if (_activeMapMechanisms == null || _activeMapMechanisms.Count == 0) return;
+
+        for (int i = _activeMapMechanisms.Count - 1; i >= 0; i--)
+        {
+            if (_activeMapMechanisms[i] != null)
+            {
+                // 先關閉物件互動，再行銷毀，徹底杜絕銷毀當下的射線或碰撞殘留報錯
+                _activeMapMechanisms[i].SetActive(false);
+                Destroy(_activeMapMechanisms[i]);
+            }
+        }
+        _activeMapMechanisms.Clear();
+    }
+
+    // ★ 5. 提供給子類別 (Cleaner) 註冊地圖道具的介面
+    public void RegisterMapMechanism(GameObject obj)
+    {
+        if (obj != null) _activeMapMechanisms.Add(obj);
     }
 
     private void CheckLowHealthVFX()
@@ -222,6 +285,13 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     // ==========================================
     public void TakeDamage(DamagePayload payload)
     {
+        // 對話中或戰鬥未啟動，直接忽略所有傷害
+        if (!_isBattleActive) 
+        {
+            Debug.Log($"<color=grey>[{bossName}] 還在對話階段，無敵狀態，攻擊無效！</color>");
+            return;
+        }
+        
         // 嚴格防禦：只有在 Idle 且尚未被激怒的狀態下，才能受傷！
         if (_currentPhase != BossPhase.Idle || _isProvoked || bossSO == null || bossSO.CurrentHealth <= 0)
         {
