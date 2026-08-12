@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 107671655}
   - component: {fileID: 107671654}
   - component: {fileID: 107671656}
+  - component: {fileID: 107671657}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -521,6 +522,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d97535ca5fc781418926c5e91ba726d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityCombatComponent
+  entityData: {fileID: 11400000, guid: ee200cc659666ff4e859f2eedfa712ac, type: 2}
+  showDebugLogs: 1
+--- !u!114 &107671657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107671652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
   entityData: {fileID: 11400000, guid: ee200cc659666ff4e859f2eedfa712ac, type: 2}
   showDebugLogs: 1
 --- !u!1 &125339821

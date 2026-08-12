@@ -13,6 +13,10 @@ public class PlayerRuntimeSO : BaseEntityRuntimeSO
     [SerializeField] private float dashCost = 30f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 0.5f;
+    
+    // ★ 執行期錨點 (供 Command 或 UI 呼叫，不存硬碟)
+    [System.NonSerialized] private IHealable activePlayerHealable;
+    [System.NonSerialized] private IDamageable activePlayerDamageable;
 
     // 唯讀封裝：供 PlayerController3D 在 Update/FixedUpdate 直接讀取！
     public float MaxStamina => maxStamina;
@@ -40,5 +44,23 @@ public class PlayerRuntimeSO : BaseEntityRuntimeSO
     public void RegenStamina(float amountPerSec, float deltaTime)
     {
         currentStamina = Mathf.Min(maxStamina, currentStamina + (amountPerSec * deltaTime));
+    }
+    
+    public void RegisterPlayer(GameObject playerObj)
+    {
+        activePlayerHealable = playerObj.GetComponent<IHealable>();
+        activePlayerDamageable = playerObj.GetComponent<IDamageable>();
+    }
+
+    public void TryHealPlayer(HealPayload payload)
+    {
+        if (activePlayerHealable != null) activePlayerHealable.ReceiveHeal(payload);
+        else Debug.LogWarning("嘗試治療玩家，但場景中無玩家實體！");
+    }
+
+    public void TryDamagePlayer(DamagePayload payload)
+    {
+        if (activePlayerDamageable != null) activePlayerDamageable.TakeDamage(payload);
+        else Debug.LogWarning("嘗試傷害玩家，但場景中無玩家實體！");
     }
 }

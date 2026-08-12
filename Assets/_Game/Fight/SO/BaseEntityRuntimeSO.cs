@@ -13,8 +13,10 @@ public abstract class BaseEntityRuntimeSO : ScriptableObject
     [SerializeField] protected float critMultiplier = 1.5f;
     
     [Header("★ 戰鬥狀態限制旗標")]
-    [Tooltip("記錄此實體在本次戰鬥中是否已經接受過回血")]
-    public bool HasHealedInThisFight = false;
+    [SerializeField] private bool hasHealedInThisFight = false;
+    
+    // 改為唯讀屬性，外部只能看，不能隨意改！
+    public bool HasHealedInThisFight => hasHealedInThisFight;
 
     // 唯讀屬性封裝
     public int MaxHealth => maxHealth;
@@ -38,8 +40,7 @@ public abstract class BaseEntityRuntimeSO : ScriptableObject
         currentHealth = Mathf.Clamp(currentHealth + delta, 0, maxHealth);
     }
     
-    public virtual void ResetFightStates()
-    {
-        HasHealedInThisFight = false;
-    }
+    // 新增：由內部或受控的狀態重置方法來修改
+    public void LockHealing() => hasHealedInThisFight = true;
+    public virtual void ResetFightStates() => hasHealedInThisFight = false;
 }

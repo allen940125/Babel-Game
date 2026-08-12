@@ -74,7 +74,7 @@ public class EntityCombatComponent : MonoBehaviour, IDamageable
             }
 
             finalValue = payload.Damage; // 保持負數 (例如 -20)
-            entityData.HasHealedInThisFight = true; // ★ 寫入 SO 上鎖！整場戰鬥只能用一次！
+            entityData.LockHealing();
 
             if (showDebugLogs)
             {

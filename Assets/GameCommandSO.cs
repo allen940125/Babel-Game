@@ -38,6 +38,99 @@ public class ItemAction : ICommandAction
     }
 }
 
+[Serializable]
+public class PlayerHealAction : ICommandAction
+{
+    public PlayerRuntimeSO playerSO; // 指定要對哪個 SO 執行
+    public int healAmount = 30;
+
+    public void Invoke()
+    {
+        if (playerSO == null) return;
+        
+        HealPayload payload = new HealPayload()
+        {
+            HealAmount = this.healAmount,
+            Source = null // 來自系統指令，無具體 GameObject 來源
+        };
+        
+        playerSO.TryHealPlayer(payload);
+    }
+}
+
+[Serializable]
+public class PlayerDamageAction : ICommandAction
+{
+    public PlayerRuntimeSO playerSO;
+    public int damageAmount = 50;
+    public bool ignoreDefense = true; // 指令專屬設定：是否為真實傷害 (無視防禦)
+
+    public void Invoke()
+    {
+        if (playerSO == null) return;
+        
+        // 如果是無視防禦的真實傷害，可直接修改 SO 的血量 (跳過 EntityHealthComponent 的防禦計算)
+        if (ignoreDefense)
+        {
+            playerSO.ModifyHealth(-damageAmount);
+            Debug.Log($"[指令] 對玩家造成 {damageAmount} 點真實傷害");
+        }
+        else
+        {
+            DamagePayload payload = new DamagePayload() { Damage = this.damageAmount };
+            playerSO.TryDamagePlayer(payload);
+        }
+    }
+}
+
+[Serializable]
+public class ModifyPlayerStatAction : ICommandAction
+{
+    public enum StatType 
+    { 
+        MaxHealth, 
+        MaxStamina, 
+        MoveSpeed, 
+        AttackPower,
+        Defense
+    }
+
+    public enum ModifyType
+    {
+        Add,
+        SetTo
+    }
+
+    public PlayerRuntimeSO playerSO;
+    public StatType statToModify;
+    public ModifyType modifyType;
+    public float value;
+
+    public void Invoke()
+    {
+        if (playerSO == null) return;
+
+        switch (statToModify)
+        {
+            case StatType.MoveSpeed:
+                // 這裡你需要先在 SO 裡寫好 SetMoveSpeed 方法
+                // 否則無法修改 private 變數
+                float newSpeed = modifyType == ModifyType.Add ? playerSO.MoveSpeed + value : value;
+                //playerSO.SetMoveSpeed(newSpeed); 
+                break;
+                
+            case StatType.AttackPower:
+                int newAtk = modifyType == ModifyType.Add ? playerSO.AttackPower + (int)value : (int)value;
+                //playerSO.SetAttackPower(newAtk);
+                break;
+                
+            // ... 依此類推擴充其他 Switch Case ...
+        }
+
+        Debug.Log($"[指令] 玩家狀態已變更：{statToModify} {(modifyType == ModifyType.Add ? "+" : "=")} {value}");
+    }
+}
+
 [CreateAssetMenu(fileName = "Cmd_New", menuName = "Commands/Game Command")]
 public class GameCommandSO : ScriptableObject
 {
