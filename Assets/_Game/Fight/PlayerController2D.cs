@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 // ★ 徹底升級為純 3D Rigidbody！
 // ★ 職責精簡：主角只負責「移動、衝刺、管理體力與承受傷害」，攻擊全權交給 Meta 介面按鈕！
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController3D : MonoBehaviour, IDamageable
+public class PlayerController3D : MonoBehaviour
 {
     // ==========================================
     // 第一部分：GAS-Lite 狀態標籤系統
@@ -28,16 +28,15 @@ public class PlayerController3D : MonoBehaviour, IDamageable
     [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
 
     [Header("★ 資料庫綁定 (SSOT)")]
-    [Tooltip("請拖入 SO_CurrentPlayer_Runtime.asset")]
-    [SerializeField] private PlayerRuntimeSO playerSO;
+    [SerializeField] private EntityRuntimeSO playerSO;
     
+    // ★ 新增：用來快取 (Cache) 體力特徵的變數
+    private StaminaTrait _staminaTrait;
+
     [Header("操控與硬核生存參數")]
     public float smoothTime = 0.08f;
-    [Tooltip("消耗體力後，需等待幾秒才開始回復")]
     public float staminaRegenDelay = 0.8f;
-    public float invincibilityDuration = 1.5f;
-    public Color damageColor = Color.red;
-
+    
     // --- 內部物理與狀態暫存 ---
     private bool _isDashCooldown = false;
     private float _lastStaminaConsumeTime;
@@ -54,34 +53,35 @@ public class PlayerController3D : MonoBehaviour, IDamageable
         _rb = GetComponent<Rigidbody>();
         _sr = GetComponentInChildren<SpriteRenderer>();
 
-        // ★ 核心物理規範：強力鎖死 Z 軸空間移動與 X/Y 軸旋轉
         _rb.useGravity = false;
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
-        if (playerSO == null) Debug.LogError($"[致命錯誤] {gameObject.name} 未指派 PlayerRuntimeSO！");
+        if (playerSO == null) 
+        {
+            Debug.LogError($"[致命錯誤] {gameObject.name} 未指派 EntityRuntimeSO！");
+            return;
+        }
+
+        // ==========================================
+        // ★ 核心變更：在 Awake 階段索取並快取特徵！
+        // ==========================================
+        if (!playerSO.TryGetTrait(out _staminaTrait))
+        {
+            Debug.LogWarning($"[系統警告] {gameObject.name} 的 SO 沒有掛載 StaminaTrait！將無法使用體力與衝刺系統！");
+        }
     }
 
-    // ==========================================
-    // 第二部分：行為閘門判定 (Action Gates)
-    // ==========================================
-    
     private bool CanMove() => !currentState.HasFlag(PlayerStateFlags.Dashing) && 
                               !currentState.HasFlag(PlayerStateFlags.Stunned) && 
                               !currentState.HasFlag(PlayerStateFlags.Dead);
 
-    // ★ 檢查體力時，直接向 playerSO 查詢！
+    // ★ 核心變更：直接向快取好的 _staminaTrait 詢問數值
     private bool CanDash() => CanMove() && 
                               !_isDashCooldown && 
-                              playerSO != null && playerSO.CurrentStamina >= playerSO.DashCost && 
+                              _staminaTrait != null && // 確保有拿到特徵
+                              _staminaTrait.currentStamina >= _staminaTrait.dashCost && 
                               _currentInput != Vector3.zero;
-
-    private bool CanTakeDamage() => !currentState.HasFlag(PlayerStateFlags.Invincible) && 
-                                    !currentState.HasFlag(PlayerStateFlags.Dead);
-
-    // ==========================================
-    // 第三部分：遊戲主循環與輸入
-    // ==========================================
 
     private void Update()
     {
@@ -94,19 +94,20 @@ public class PlayerController3D : MonoBehaviour, IDamageable
 
     private void HandleStaminaRegen()
     {
-        if (playerSO == null) return;
+        // ★ 核心變更：防呆檢查
+        if (_staminaTrait == null) return; 
 
-        // ★ 硬核延遲回復：距離上次消耗體力超過 staminaRegenDelay 秒，才叫 SO 回復體力
         if (!currentState.HasFlag(PlayerStateFlags.Dashing) && 
-            playerSO.CurrentStamina < playerSO.MaxStamina && 
+            _staminaTrait.currentStamina < _staminaTrait.maxStamina && 
             Time.time >= _lastStaminaConsumeTime + staminaRegenDelay)
         {
-            playerSO.RegenStamina(20f, Time.deltaTime); // 20f 可進一步封裝入 SO
+            // 向特徵呼叫回復體力
+            _staminaTrait.RegenStamina(20f, Time.deltaTime); 
 
             GameManager.Instance.MainGameEvent.Send(new PlayerStaminaChangedEvent()
             {
-                CurrentStamina = playerSO.CurrentStamina,
-                MaxStamina = playerSO.MaxStamina
+                CurrentStamina = _staminaTrait.currentStamina,
+                MaxStamina = _staminaTrait.maxStamina
             });
         }
     }
@@ -140,12 +141,15 @@ public class PlayerController3D : MonoBehaviour, IDamageable
 
         if (currentState.HasFlag(PlayerStateFlags.Dashing))
         {
-            _rb.linearVelocity = _dashDirection * (playerSO != null ? playerSO.DashSpeed : 20f);
+            // ★ 核心變更：讀取特徵的 dashSpeed
+            float dashSpd = _staminaTrait != null ? _staminaTrait.dashSpeed : 20f;
+            _rb.linearVelocity = _dashDirection * dashSpd;
         }
         else if (CanMove())
         {
-            float speed = playerSO != null ? playerSO.MoveSpeed : 5f;
-            Vector3 targetVelocity = _currentInput * speed;
+            // ★ 核心變更：讀取特徵的 moveSpeed
+            float moveSpd = _staminaTrait != null ? _staminaTrait.moveSpeed : 5f;
+            Vector3 targetVelocity = _currentInput * moveSpd;
             _rb.linearVelocity = Vector3.SmoothDamp(_rb.linearVelocity, targetVelocity, ref _currentVelocity, smoothTime);
         }
         else
@@ -154,111 +158,51 @@ public class PlayerController3D : MonoBehaviour, IDamageable
         }
     }
 
-    // ==========================================
-    // 第四部分：生存動作實作 (Actions)
-    // ==========================================
-
     private IEnumerator DashRoutine()
     {
         currentState |= PlayerStateFlags.Dashing;
         _isDashCooldown = true;
         _lastStaminaConsumeTime = Time.time;
 
-        if (playerSO != null) playerSO.ConsumeStamina(playerSO.DashCost);
-
-        GameManager.Instance.MainGameEvent.Send(new PlayerStaminaChangedEvent()
+        // ★ 核心變更：呼叫特徵扣除體力
+        if (_staminaTrait != null) 
         {
-            CurrentStamina = playerSO.CurrentStamina,
-            MaxStamina = playerSO.MaxStamina
-        });
+            _staminaTrait.ConsumeStamina(_staminaTrait.dashCost);
+
+            GameManager.Instance.MainGameEvent.Send(new PlayerStaminaChangedEvent()
+            {
+                CurrentStamina = _staminaTrait.currentStamina,
+                MaxStamina = _staminaTrait.maxStamina
+            });
+        }
 
         _dashDirection = _currentInput;
 
-        yield return new WaitForSeconds(playerSO != null ? playerSO.DashDuration : 0.2f);
+        float duration = _staminaTrait != null ? _staminaTrait.dashDuration : 0.2f;
+        yield return new WaitForSeconds(duration);
 
         currentState &= ~PlayerStateFlags.Dashing;
         _rb.linearVelocity = Vector3.zero;
 
-        yield return new WaitForSeconds(playerSO != null ? playerSO.DashCooldown : 0.5f);
+        float cooldown = _staminaTrait != null ? _staminaTrait.dashCooldown : 0.5f;
+        yield return new WaitForSeconds(cooldown);
         _isDashCooldown = false;
-    }
-
-    // ==========================================
-    // 第五部分：受擊委託與狀態反饋
-    // ==========================================
-
-    // ★ 實作 IDamageable：既然沒有戰鬥攻擊組件了，直接跟 playerSO 索取防禦力並結算！
-    public void TakeDamage(DamagePayload payload)
-    {
-        if (!CanTakeDamage() || playerSO == null) return;
-
-        // 1. 標準減傷公式：實際扣血 = max(1, 傳入傷害 - 自身防禦力)
-        int finalDamage = Mathf.Max(1, payload.Damage - playerSO.Defense);
-        playerSO.ModifyHealth(-finalDamage);
-
-        Debug.Log($"<color=red>[玩家受傷] 來自 {payload.Source.name} | 承受傷害:{finalDamage} | 剩餘血量:{playerSO.CurrentHealth}/{playerSO.MaxHealth}</color>");
-
-        // 2. 廣播 UI 事件
-        GameManager.Instance.MainGameEvent.Send(new PlayerHealthChangedEvent()
-        {
-            CurrentHealth = playerSO.CurrentHealth,
-            MaxHealth = playerSO.MaxHealth
-        });
-
-        // 3. 裁定生死
-        if (playerSO.CurrentHealth <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            StartCoroutine(InvincibilityRoutine());
-        }
-    }
-
-    private IEnumerator InvincibilityRoutine()
-    {
-        currentState |= PlayerStateFlags.Invincible;
-        
-        float flashInterval = 0.15f;
-        float timer = 0;
-        while (timer < invincibilityDuration)
-        {
-            if (_sr != null)
-            {
-                Color c = damageColor;
-                c.a = (Mathf.FloorToInt(timer / flashInterval) % 2 == 0) ? 0.4f : 1f;
-                _sr.color = c;
-            }
-            yield return null;
-            timer += Time.deltaTime;
-        }
-
-        currentState &= ~PlayerStateFlags.Invincible;
-    }
-
-    private void Die()
-    {
-        Debug.Log("玩家死亡！");
-        currentState = PlayerStateFlags.Dead;
-        if (_sr != null) _sr.color = Color.gray;
-        _rb.linearVelocity = Vector3.zero;
-        this.enabled = false;
     }
 
     private void UpdateVisualColor()
     {
         if (_sr == null || currentState.HasFlag(PlayerStateFlags.Invincible) || playerSO == null) return;
 
-        // ★ 瀕死判定：當前血量小於或等於最大血量的 20%
+        // 瀕死判定：核心血量依然在 EntityRuntimeSO 裡，所以直接用 playerSO 讀取
         if ((float)playerSO.CurrentHealth / playerSO.MaxHealth <= 0.2f)
         {
             float t = Mathf.PingPong(Time.time * 8f, 1f);
-            _sr.color = Color.Lerp(Color.white, damageColor, t);
+            //_sr.color = Color.Lerp(Color.white, damageColor, t);
         }
-        else
+        // ★ 核心變更：體力比例向 _staminaTrait 讀取
+        else if (_staminaTrait != null)
         {
-            _sr.color = Color.Lerp(Color.red, Color.white, playerSO.StaminaRatio);
+            _sr.color = Color.Lerp(Color.red, Color.white, _staminaTrait.StaminaRatio);
         }
     }
 }

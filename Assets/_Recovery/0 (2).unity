@@ -303,7 +303,6 @@ MonoBehaviour:
   ignorePhaseLock: 0
   commandToExecute: {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
   ignorePhaseLock: 0
-  maxUsesPerPhase: 1
 --- !u!54 &8033277
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -522,6 +521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d97535ca5fc781418926c5e91ba726d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityCombatComponent
+  entityData: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+  showDebugLogs: 1
 --- !u!114 &107671657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3141,7 +3142,6 @@ MonoBehaviour:
   ignorePhaseLock: 0
   commandToExecute: {fileID: 0}
   ignorePhaseLock: 0
-  maxUsesPerPhase: 0
 --- !u!54 &865035401
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3927,7 +3927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedBakingSet: {fileID: 11400000, guid: a20efb99b019be24097b68a77b8c8ab2, type: 2}
-  sceneGUID: fe75f4cdb9c089a4c9090421ba5e4ce3
+  sceneGUID: a00ecac15df77b24d92aca33112ce897
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
   obsoleteCellSupportDataAsset: {fileID: 0}
@@ -4205,7 +4205,6 @@ MonoBehaviour:
   ignorePhaseLock: 0
   commandToExecute: {fileID: 0}
   ignorePhaseLock: 0
-  maxUsesPerPhase: 0
 --- !u!54 &1224916889
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5068,6 +5067,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d97535ca5fc781418926c5e91ba726d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityCombatComponent
+  entityData: {fileID: 11400000, guid: 9bfb5b73d5df8814d904f32df4818a27, type: 2}
+  showDebugLogs: 1
 --- !u!54 &1842308562
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5333,7 +5334,6 @@ MonoBehaviour:
   ignorePhaseLock: 0
   commandToExecute: {fileID: 0}
   ignorePhaseLock: 0
-  maxUsesPerPhase: 0
 --- !u!54 &1867977216
 Rigidbody:
   m_ObjectHideFlags: 0

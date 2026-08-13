@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0460e7d8e6e784cb77b4670741f73b, type: 3}
   m_Name: Cmd_Button_Heal
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
-  commandName: Cmd_GetItem
-  description: "\u7372\u5F97\u7269\u54C1"
+  commandName: Cmd_Heal
+  description: "\u56DE\u8840"
   action:
-    rid: 1828852355924230145
+    rid: 1686755571317866577
   references:
     version: 2
     RefIds:
-    - rid: 1828852355924230145
-      type: {class: ItemAction, ns: , asm: Assembly-CSharp}
+    - rid: 1686755571317866577
+      type: {class: PlayerHealAction, ns: , asm: Assembly-CSharp}
       data:
-        itemId: 0
-        count: 1
+        playerSO: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+        healAmount: 30

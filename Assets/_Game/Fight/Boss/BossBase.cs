@@ -14,7 +14,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     public struct BossPhaseConfig { public string label; public List<BulletWaveData> waveList; }
 
     [Header("★ 資料庫綁定 (SSOT)")]
-    [SerializeField] protected BossRuntimeSO bossSO; // ★ 嚴格改為 BossRuntimeSO！
+    [SerializeField] protected EntityRuntimeSO bossSO; // ★ 嚴格改為 BossRuntimeSO！
     
     [Header("基本設定")]
     public string bossName;
@@ -109,13 +109,14 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
         // ★ 1. 將計時器交給 SO 運算，接收歸零訊號
         bool isTimeUp = false;
-        if (bossSO != null)
+        if (bossSO != null && bossSO.TryGetTrait(out TimerTrait timerTrait))
         {
-            isTimeUp = bossSO.TickTimer(Time.deltaTime);
-            _phaseTimerDisplay = bossSO.CurrentTimer;
+            isTimeUp = timerTrait.TickTimer(Time.deltaTime);
+            _phaseTimerDisplay = timerTrait.currentTimer;
         }
         else
         {
+            // 防呆備用機制：如果企劃忘記掛載 TimerTrait，退回使用本地計時器
             phaseTimer -= Time.deltaTime;
             _phaseTimerDisplay = phaseTimer;
             isTimeUp = (phaseTimer <= 0f);
@@ -154,17 +155,28 @@ public abstract class BossBase : MonoBehaviour, IDamageable
                 _isProvoked = false;
                 GameManager.Instance.MainGameEvent.Send(new BossEnterIdlePhaseEvent());
                 if (animator) animator.Play("Idle");
-                if (bossSO != null) bossSO.StartTimer(0f);
+                
+                // ★ 索取並重置計時器特徵
+                if (bossSO != null && bossSO.TryGetTrait(out TimerTrait idleTimer)) 
+                {
+                    idleTimer.StartTimer(0f);
+                }
                 break;
 
             case BossPhase.Attacking:
                 GameManager.Instance.MainGameEvent.Send(new BossEnterAttackingPhaseEvent());
                 if (animator) animator.Play("Attack1");
                 
-                if (bossSO != null) bossSO.StartTimer(attackPhaseDuration);
-                else phaseTimer = attackPhaseDuration;
+                // ★ 索取並啟動計時器特徵
+                if (bossSO != null && bossSO.TryGetTrait(out TimerTrait attackTimer)) 
+                {
+                    attackTimer.StartTimer(attackPhaseDuration);
+                }
+                else 
+                {
+                    phaseTimer = attackPhaseDuration;
+                }
                 
-                // ★ 雙管齊下：載入子彈波次 + 呼叫子類別生成地圖機關！兩者互不相擾！
                 LoadAttackPhaseConfig();
                 ClearAllMapMechanisms();
                 SpawnSpecialMechanisms(); 
