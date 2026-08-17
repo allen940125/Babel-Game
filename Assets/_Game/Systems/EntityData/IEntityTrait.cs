@@ -46,6 +46,25 @@ public class StaminaTrait : IEntityTrait
     }
 }
 
+// ★ 大世界專屬的移動特徵 (掌管跳躍、攀爬等非戰鬥移動)
+[Serializable]
+public class ExplorationTrait : IEntityTrait
+{
+    [Header("大世界移動參數")]
+    public float adventureWalkSpeed = 6f; 
+    public float adventureSprintSpeed = 12f;
+    
+    [Header("跳躍與物理參數")]
+    public float jumpForce = 8f;
+    public float gravityMultiplier = 2f; // 讓大世界跳躍手感更好的重力加成
+    public float fallDamageThreshold = 10f; 
+
+    public void Initialize()
+    {
+        // 這裡通常不需要初始化邏輯
+    }
+}
+
 // ==========================================
 // 特徵 B：計時器模組 (取代原本的 Boss 專屬變數)
 // ==========================================

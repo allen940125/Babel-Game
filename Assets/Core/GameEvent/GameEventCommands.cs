@@ -129,6 +129,12 @@ namespace Gamemanager
     // Battle Event Streams
     // ======================
 
+    public class StartBattleEvent : GameEventMessageBase
+    {
+        public EntityRuntimeSO EnemyData; 
+        public SceneType BattleScene; // 使用你已定義的 SceneType
+    }
+    
     public class FightButtonClickEvent : GameEventMessageBase
     {
 

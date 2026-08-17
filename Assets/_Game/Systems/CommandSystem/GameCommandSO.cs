@@ -1,4 +1,5 @@
 using System;
+using Game.SceneManagement;
 using Gamemanager; // 依賴你的事件系統
 using UnityEngine;
 
@@ -37,6 +38,20 @@ public class ItemAction : ICommandAction
         // GameManager.Instance.MainGameEvent.Send(new ItemEvent(itemId, count));
     }
 }
+
+[Serializable]
+public class SwitchSceneAction : ICommandAction
+{
+    // 道具需要參數，所以宣告在此
+    public SceneType LoadSceneType;
+
+    public void Invoke()
+    {
+        Debug.Log($"發送：切換場景{LoadSceneType}");
+        GameManager.Instance.SceneTransitionManager.LoadScene(LoadSceneType);
+    }
+}
+
 
 [Serializable]
 public class PlayerHealAction : ICommandAction

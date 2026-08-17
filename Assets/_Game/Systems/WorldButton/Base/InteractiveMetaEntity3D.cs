@@ -103,7 +103,8 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
     // ==========================================
     // ★ 核心落實：階段切換自動仲裁
     // ==========================================
-    private void OnBossAttacking(BossEnterAttackingPhaseEvent evt)
+    // ★ 改成 protected virtual，開放給子類別擴充
+    protected virtual void OnBossAttacking(BossEnterAttackingPhaseEvent evt)
     {
         if (!ignorePhaseLock)
         {
@@ -112,11 +113,12 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
         }
     }
 
-    private void OnBossIdle(BossEnterIdlePhaseEvent evt)
+    // ★ 改成 protected virtual
+    protected virtual void OnBossIdle(BossEnterIdlePhaseEvent evt)
     {
         if (!ignorePhaseLock)
         {
-            Debug.Log($"<color=cyan>[武器解鎖] {gameObject.name} 進入休眠態，開啟拖曳與攻擊權限！</color>");
+            Debug.Log($"<color=cyan>[武器解鎖] {gameObject.name} 進入休眠態，開啟權限！</color>");
             SetInteractable(true, true);
         }
     }

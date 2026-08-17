@@ -15,12 +15,11 @@ MonoBehaviour:
   commandName: Cmd_Button_Fight
   description: "\u6230\u9B25\u958B\u59CB"
   action:
-    rid: 1828852355924230147
+    rid: 1686755681458978911
   references:
     version: 2
     RefIds:
-    - rid: 1828852355924230147
-      type: {class: ItemAction, ns: , asm: Assembly-CSharp}
+    - rid: 1686755681458978911
+      type: {class: SwitchSceneAction, ns: , asm: Assembly-CSharp}
       data:
-        itemId: 0
-        count: 1
+        LoadSceneType: 4

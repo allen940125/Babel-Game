@@ -58,6 +58,8 @@ namespace Gamemanager
         // ======================
         // Battle Event Streams
         // ======================
+        
+        public IObservable<StartBattleEvent> OnStartBattleEvent => getSubject<StartBattleEvent>();
 
         public IObservable<FightButtonClickEvent> OnFightButtonClickEvent => getSubject<FightButtonClickEvent>();
 

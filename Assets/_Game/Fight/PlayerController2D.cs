@@ -10,20 +10,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController3D : MonoBehaviour
 {
-    // ==========================================
-    // 第一部分：GAS-Lite 狀態標籤系統
-    // ==========================================
-    [Flags]
-    public enum PlayerStateFlags
-    {
-        None = 0,
-        Normal = 1 << 0,
-        Dashing = 1 << 1,     // 衝刺中 (鎖定一般移動)
-        Invincible = 1 << 2,  // 無敵狀態
-        Stunned = 1 << 3,     // 眩暈/被控制
-        Dead = 1 << 4         // 死亡
-    }
-
     [Header("即時狀態監控 (唯讀)")]
     [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
 
@@ -205,4 +191,21 @@ public class PlayerController3D : MonoBehaviour
             _sr.color = Color.Lerp(Color.red, Color.white, _staminaTrait.StaminaRatio);
         }
     }
+}
+
+// ==========================================
+// 第一部分：GAS-Lite 狀態標籤系統
+// ==========================================
+[Flags]
+public enum PlayerStateFlags
+{
+    None = 0,
+    Normal = 1 << 0,
+    Dashing = 1 << 1,     // 衝刺中 (鎖定一般移動)
+    Invincible = 1 << 2,  // 無敵狀態
+    Stunned = 1 << 3,     // 眩暈/被控制
+    Dead = 1 << 4,         // 死亡
+    // ★ 大地圖專屬擴充標籤
+    Airborne = 1 << 5,    // 浮空中 (鎖死再次跳躍)
+    Climbing = 1 << 6     // 攀爬中 (鎖死重力)
 }
