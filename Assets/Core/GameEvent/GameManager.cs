@@ -122,20 +122,22 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public async UniTask InitializeAsync()
     {
-        if (IsInitialized) return;
-        
-        IsInitialized = true;
+        if (IsInitialized) return; // 這裡可以改成 if (isInitializing) 防重複呼叫
         
         Debug.Log("[GameManager] 開始載入核心數據...");
 
-        // 1. 等待 DataManager 載入 (假設 InitDataMananger 回傳 UniTask 或 Task)
-        // 既然使用了 async/await，就不需要訂閱 OnDataLoaded 事件了，直接等待即可
+        // 1. 等待 SO 載入
         await GameContainer.Get<DataManager>().InitDataMananger();
         
-        // 2. 等待 UI 必要資源載入
+        // 2. SO 載入完畢後，才讓 UI 去抓資料生成
         await UIManager.LoadDataDependentAssets();
+        
+        // (如果 MainGameMediator 需要資料，請在這裡開一個方法給它)
+        // await MainGameMediator.LoadDataAsync();
 
-        Debug.Log("[GameManager] 核心數據與資源載入完成。");
+        // ★ 正確位置：全部都徹底載完、UI 也生好了，才掛上綠燈！
+        IsInitialized = true; 
+        Debug.Log("[GameManager] 核心數據與資源載入完成，開放通行！");
     }
     
     public void SetPlayer(GameObject newPlayer)
