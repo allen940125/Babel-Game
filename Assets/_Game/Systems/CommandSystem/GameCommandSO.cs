@@ -2,6 +2,7 @@ using System;
 using Game.SceneManagement;
 using Gamemanager; // 依賴你的事件系統
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // ==========================================
 // 第一部分：定義介面 (這只是抽象合約，不是 SO)
@@ -56,12 +57,12 @@ public class SwitchSceneAction : ICommandAction
 [Serializable]
 public class PlayerHealAction : ICommandAction
 {
-    public EntityRuntimeSO playerSO; // 指定要對哪個 SO 執行
+    [FormerlySerializedAs("playerSO")] public EntityRuntime player; // 指定要對哪個 SO 執行
     public int healAmount = 30;
 
     public void Invoke()
     {
-        if (playerSO == null) return;
+        if (player == null) return;
         
         HealPayload payload = new HealPayload()
         {
@@ -69,7 +70,7 @@ public class PlayerHealAction : ICommandAction
             Source = null // 來自系統指令，無具體 GameObject 來源
         };
         
-        if (playerSO.TryGetTrait(out RuntimeAnchorTrait anchor))
+        if (player.TryGetTrait(out RuntimeAnchorTrait anchor))
         {
             anchor.TryHeal(payload);
         }
@@ -79,24 +80,24 @@ public class PlayerHealAction : ICommandAction
 [Serializable]
 public class PlayerDamageAction : ICommandAction
 {
-    public EntityRuntimeSO playerSO;
+    [FormerlySerializedAs("playerSO")] public EntityRuntime player;
     public int damageAmount = 50;
     public bool ignoreDefense = true; // 指令專屬設定：是否為真實傷害 (無視防禦)
 
     public void Invoke()
     {
-        if (playerSO == null) return;
+        if (player == null) return;
         
         // 如果是無視防禦的真實傷害，可直接修改 SO 的血量 (跳過 EntityHealthComponent 的防禦計算)
         if (ignoreDefense)
         {
-            //playerSO.ModifyHealth(-damageAmount);
+            //player.ModifyHealth(-damageAmount);
             Debug.Log($"[指令] 對玩家造成 {damageAmount} 點真實傷害");
         }
         else
         {
             DamagePayload payload = new DamagePayload() { Damage = this.damageAmount };
-            //playerSO.TryDamagePlayer(payload);
+            //player.TryDamagePlayer(payload);
         }
     }
 }
@@ -119,27 +120,27 @@ public class ModifyPlayerStatAction : ICommandAction
         SetTo
     }
 
-    public EntityRuntimeSO playerSO;
+    [FormerlySerializedAs("playerSO")] public EntityRuntime player;
     public StatType statToModify;
     public ModifyType modifyType;
     public float value;
 
     public void Invoke()
     {
-        if (playerSO == null) return;
+        if (player == null) return;
 
         switch (statToModify)
         {
             case StatType.MoveSpeed:
                 // 這裡你需要先在 SO 裡寫好 SetMoveSpeed 方法
                 // 否則無法修改 private 變數
-                //float newSpeed = modifyType == ModifyType.Add ? playerSO.MoveSpeed + value : value;
-                //playerSO.SetMoveSpeed(newSpeed); 
+                //float newSpeed = modifyType == ModifyType.Add ? player.MoveSpeed + value : value;
+                //player.SetMoveSpeed(newSpeed); 
                 break;
                 
             case StatType.AttackPower:
-                //int newAtk = modifyType == ModifyType.Add ? playerSO.AttackPower + (int)value : (int)value;
-                //playerSO.SetAttackPower(newAtk);
+                //int newAtk = modifyType == ModifyType.Add ? player.TotalAttackPower + (int)value : (int)value;
+                //player.SetAttackPower(newAtk);
                 break;
                 
             // ... 依此類推擴充其他 Switch Case ...

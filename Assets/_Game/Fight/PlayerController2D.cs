@@ -3,6 +3,7 @@ using System.Collections;
 using Gamemanager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 // ★ 徹底移除了 using UnityEngine.UI！
 // ★ 徹底升級為純 3D Rigidbody！
@@ -13,8 +14,9 @@ public class PlayerController3D : MonoBehaviour
     [Header("即時狀態監控 (唯讀)")]
     [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
 
+    [FormerlySerializedAs("playerSO")]
     [Header("★ 資料庫綁定 (SSOT)")]
-    [SerializeField] private EntityRuntimeSO playerSO;
+    [SerializeField] private EntityRuntime player;
     
     // ★ 新增：用來快取 (Cache) 體力特徵的變數
     private StaminaTrait _staminaTrait;
@@ -43,16 +45,16 @@ public class PlayerController3D : MonoBehaviour
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
-        if (playerSO == null) 
+        if (player == null) 
         {
-            Debug.LogError($"[致命錯誤] {gameObject.name} 未指派 EntityRuntimeSO！");
+            Debug.LogError($"[致命錯誤] {gameObject.name} 未指派 EntityRuntime！");
             return;
         }
 
         // ==========================================
         // ★ 核心變更：在 Awake 階段索取並快取特徵！
         // ==========================================
-        if (!playerSO.TryGetTrait(out _staminaTrait))
+        if (!player.TryGetTrait(out _staminaTrait))
         {
             Debug.LogWarning($"[系統警告] {gameObject.name} 的 SO 沒有掛載 StaminaTrait！將無法使用體力與衝刺系統！");
         }
@@ -177,10 +179,10 @@ public class PlayerController3D : MonoBehaviour
 
     private void UpdateVisualColor()
     {
-        if (_sr == null || currentState.HasFlag(PlayerStateFlags.Invincible) || playerSO == null) return;
+        if (_sr == null || currentState.HasFlag(PlayerStateFlags.Invincible) || player == null) return;
 
-        // 瀕死判定：核心血量依然在 EntityRuntimeSO 裡，所以直接用 playerSO 讀取
-        if ((float)playerSO.CurrentHealth / playerSO.MaxHealth <= 0.2f)
+        // 瀕死判定：核心血量依然在 EntityRuntime 裡，所以直接用 player 讀取
+        if ((float)player.CurrentHealth / player.MaxHealth <= 0.2f)
         {
             float t = Mathf.PingPong(Time.time * 8f, 1f);
             //_sr.color = Color.Lerp(Color.white, damageColor, t);

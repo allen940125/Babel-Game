@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
 {
     [Header("★ 資料來源綁定")]
-    [SerializeField] private EntityRuntimeSO entityData;
+    [SerializeField] private EntityRuntime entityData;
 
     [Header("★ 無敵時間設定")]
     [Tooltip("受傷後的無敵時間。設為 0 代表沒有無敵時間 (如：木箱、小怪)")]
@@ -51,7 +51,7 @@ public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
         if (payload.Damage < 0) return; // 防呆
 
         // 2. 結算扣血
-        int finalDamage = Mathf.Max(1, payload.Damage - entityData.Defense);
+        int finalDamage = Mathf.Max(1, payload.Damage - entityData.TotalDefense);
         entityData.ModifyHealth(-finalDamage);
 
         // 3. 廣播受傷事件 (讓另外掛載的視覺腳本去發光發亮)

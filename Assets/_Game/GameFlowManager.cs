@@ -8,7 +8,7 @@ using Game.SceneManagement; // 引入 Core 的 Scene 系統
 public class GameFlowManager : MonoBehaviour
 {
     // 跨場景暫存區 (Gameplay 專用)
-    public static EntityRuntimeSO PendingBattleEnemyData { get; private set; }
+    public static EntityRuntime PendingBattleEnemyData { get; private set; }
 
     // 這裡我們不需要被 Core 初始化，我們利用 Unity 的生命週期自己啟動
     private void Start()
@@ -35,7 +35,7 @@ public class GameFlowManager : MonoBehaviour
 
     private void HandleStartBattle(StartBattleEvent evt)
     {
-        Debug.Log($"[GameFlow] 準備切換至 {evt.BattleScene}，目標 Boss: {evt.EnemyData.name}");
+        Debug.Log($"[GameFlow] 準備切換至 {evt.BattleScene}，目標 Boss: {evt.EnemyData.Blueprint.name}");
 
         PendingBattleEnemyData = evt.EnemyData;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Gamemanager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BossBase : MonoBehaviour, IDamageable
 {
@@ -13,8 +14,9 @@ public abstract class BossBase : MonoBehaviour, IDamageable
     [System.Serializable]
     public struct BossPhaseConfig { public string label; public List<BulletWaveData> waveList; }
 
+    [FormerlySerializedAs("bossSO")]
     [Header("★ 資料庫綁定 (SSOT)")]
-    [SerializeField] protected EntityRuntimeSO bossSO; // ★ 嚴格改為 BossRuntimeSO！
+    [SerializeField] protected EntityRuntime boss; // ★ 嚴格改為 BossRuntimeSO！
     
     [Header("基本設定")]
     public string bossName;
@@ -61,7 +63,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
         _isBattleActive = false;     // 鎖住 Update 與受傷判定_isProvoked = true;
         
-        if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
+        if (boss != null) boss.Initialize(boss.Blueprint);
         UpdateDebugData();
     }
 
@@ -70,7 +72,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
         _isBattleActive = true;        // 解開 AI 鎖
         _isProvoked = true;            // 確保下馬威狀態
         
-        if (bossSO != null) bossSO.Initialize(bossSO.MaxHealth, bossSO.AttackPower, bossSO.Defense);
+        if (boss != null) boss.Initialize(boss.Blueprint);
         UpdateDebugData();
         
         EnterPhase(BossPhase.Attacking); 
@@ -109,7 +111,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
         // ★ 1. 將計時器交給 SO 運算，接收歸零訊號
         bool isTimeUp = false;
-        if (bossSO != null && bossSO.TryGetTrait(out TimerTrait timerTrait))
+        if (boss != null && boss.TryGetTrait(out TimerTrait timerTrait))
         {
             isTimeUp = timerTrait.TickTimer(Time.deltaTime);
             _phaseTimerDisplay = timerTrait.currentTimer;
@@ -157,7 +159,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
                 if (animator) animator.Play("Idle");
                 
                 // ★ 索取並重置計時器特徵
-                if (bossSO != null && bossSO.TryGetTrait(out TimerTrait idleTimer)) 
+                if (boss != null && boss.TryGetTrait(out TimerTrait idleTimer)) 
                 {
                     idleTimer.StartTimer(0f);
                 }
@@ -168,7 +170,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
                 if (animator) animator.Play("Attack1");
                 
                 // ★ 索取並啟動計時器特徵
-                if (bossSO != null && bossSO.TryGetTrait(out TimerTrait attackTimer)) 
+                if (boss != null && boss.TryGetTrait(out TimerTrait attackTimer)) 
                 {
                     attackTimer.StartTimer(attackPhaseDuration);
                 }
@@ -190,8 +192,8 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
     private void LoadAttackPhaseConfig()
     {
-        if (bossSO == null || phaseConfigs == null || phaseConfigs.Count == 0) return;
-        float lostRatio = 1.0f - ((float)bossSO.CurrentHealth / bossSO.MaxHealth);
+        if (boss == null || phaseConfigs == null || phaseConfigs.Count == 0) return;
+        float lostRatio = 1.0f - ((float)boss.CurrentHealth / boss.MaxHealth);
         int index = Mathf.Clamp(Mathf.FloorToInt(lostRatio * phaseConfigs.Count), 0, phaseConfigs.Count - 1);
         BossPhaseConfig config = phaseConfigs[index];
 
@@ -273,9 +275,9 @@ public abstract class BossBase : MonoBehaviour, IDamageable
 
     private void CheckLowHealthVFX()
     {
-        if (bossSO == null) return;
-        float healthRatio = (float)bossSO.CurrentHealth / bossSO.MaxHealth;
-        if (healthRatio <= 0.2f && bossSO.CurrentHealth > 0)
+        if (boss == null) return;
+        float healthRatio = (float)boss.CurrentHealth / boss.MaxHealth;
+        if (healthRatio <= 0.2f && boss.CurrentHealth > 0)
         {
             if (bodySprite != null) bodySprite.color = Color.Lerp(Color.white, damageColor, Mathf.PingPong(Time.time * 10f, 1f));
             if (!_isLowHealthActive)
@@ -305,17 +307,17 @@ public abstract class BossBase : MonoBehaviour, IDamageable
         }
         
         // 嚴格防禦：只有在 Idle 且尚未被激怒的狀態下，才能受傷！
-        if (_currentPhase != BossPhase.Idle || _isProvoked || bossSO == null || bossSO.CurrentHealth <= 0)
+        if (_currentPhase != BossPhase.Idle || _isProvoked || boss == null || boss.CurrentHealth <= 0)
         {
             Debug.Log($"<color=gray>[防禦阻擋] {bossName} 當前在 {_currentPhase} 高壓狀態，處於無敵防護，攻擊無效！</color>");
             return;
         }
 
-        int finalDamage = Mathf.Max(1, payload.Damage - bossSO.Defense);
-        bossSO.ModifyHealth(-finalDamage);
+        int finalDamage = Mathf.Max(1, payload.Damage - boss.TotalDefense);
+        boss.ModifyHealth(-finalDamage);
         UpdateDebugData();
 
-        Debug.Log($"<color=yellow>[Boss 受傷！] 受到重擊！扣除 {finalDamage} 點血量 | 剩餘:{bossSO.CurrentHealth}/{bossSO.MaxHealth}</color>");
+        Debug.Log($"<color=yellow>[Boss 受傷！] 受到重擊！扣除 {finalDamage} 點血量 | 剩餘:{boss.CurrentHealth}/{boss.MaxHealth}</color>");
 
         if (bodySprite != null)
         {
@@ -323,9 +325,9 @@ public abstract class BossBase : MonoBehaviour, IDamageable
             StartCoroutine(nameof(FlashRedEffect));
         }
         GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent() { Intensity = hitShakeIntensity, Duration = hitShakeDuration });
-        GameManager.Instance.MainGameEvent.Send(new BossHealthChangedEvent() { CurrentHealth = bossSO.CurrentHealth, MaxHealth = bossSO.MaxHealth });
+        GameManager.Instance.MainGameEvent.Send(new BossHealthChangedEvent() { CurrentHealth = boss.CurrentHealth, MaxHealth = boss.MaxHealth });
 
-        if (bossSO.CurrentHealth <= 0)
+        if (boss.CurrentHealth <= 0)
         {
             Die();
             return;
@@ -344,7 +346,7 @@ public abstract class BossBase : MonoBehaviour, IDamageable
         if (bodySprite != null) bodySprite.color = Color.white;
     }
 
-    protected void UpdateDebugData() { if (bossSO != null) _currentHealthDisplay = bossSO.CurrentHealth; }
+    protected void UpdateDebugData() { if (boss != null) _currentHealthDisplay = boss.CurrentHealth; }
     protected virtual void Die() { Debug.Log("Boss 死亡！"); Destroy(gameObject); }
     
     protected abstract void SpawnSpecialMechanisms();

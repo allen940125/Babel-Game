@@ -3,7 +3,7 @@
 // public class EntityCombatComponent : MonoBehaviour, IDamageable
 // {
 //     [Header("★ 資料來源綁定")]
-//     [SerializeField] private EntityRuntimeSO entityData;
+//     [SerializeField] private EntityRuntime entityData;
 //     [SerializeField] private bool showDebugLogs = true;
 //
 //     private void Awake()
@@ -24,11 +24,11 @@
 //         if (damageable != null)
 //         {
 //             // 如果外部沒有傳入自訂數值，就使用 SO 原本的攻擊力；否則使用外部指定數值(支援負數回血)
-//             int baseValue = (customValue != 0) ? customValue : entityData.AttackPower;
+//             int baseValue = (customValue != 0) ? customValue : entityData.TotalAttackPower;
 //
 //             // 只有「傷害 (正數)」才計算暴擊；「治療 (負數)」絕不暴擊！
-//             bool isCrit = (baseValue > 0) && (Random.value <= entityData.CritRate);
-//             int rawValue = isCrit ? Mathf.RoundToInt(baseValue * entityData.CritMultiplier) : baseValue;
+//             bool isCrit = (baseValue > 0) && (Random.value <= entityData.TotalCritRate);
+//             int rawValue = isCrit ? Mathf.RoundToInt(baseValue * entityData.TotalCritMultiplier) : baseValue;
 //
 //             DamagePayload payload = new DamagePayload()
 //             {
@@ -84,7 +84,7 @@
 //         // ★ 路由分流 B：正數 = 物理傷害 (計算防禦)
 //         else
 //         {
-//             finalValue = Mathf.Max(1, payload.Damage - entityData.Defense);
+//             finalValue = Mathf.Max(1, payload.Damage - entityData.TotalDefense);
 //
 //             if (showDebugLogs)
 //             {

@@ -4,7 +4,7 @@ public class DamageDealer : MonoBehaviour
 {
     [Header("★ 動態數據來源 (選填)")]
     [Tooltip("若綁定 SO，則優先使用 SO 內的攻擊力與暴擊率結算。適用於玩家武器或 Boss 攻擊。")]
-    [SerializeField] private EntityRuntimeSO sourceEntityData;
+    [SerializeField] private EntityRuntime sourceEntityData;
 
     [Header("★ 靜態固定數值 (當 SO 為空時生效)")]
     [Tooltip("若無綁定 SO，則使用此固定數值。適用於一般敵人子彈、環境陷阱。")]
@@ -30,8 +30,8 @@ public class DamageDealer : MonoBehaviour
         // 模式 A：動態 SO 結算 (玩家、精英怪)
         if (sourceEntityData != null)
         {
-            bool isCrit = Random.value <= sourceEntityData.CritRate;
-            int finalRawDamage = isCrit ? Mathf.RoundToInt(sourceEntityData.AttackPower * sourceEntityData.CritMultiplier) : sourceEntityData.AttackPower;
+            bool isCrit = Random.value <= sourceEntityData.TotalCritRate;
+            int finalRawDamage = isCrit ? Mathf.RoundToInt(sourceEntityData.TotalAttackPower * sourceEntityData.TotalCritMultiplier) : sourceEntityData.TotalAttackPower;
 
             return new DamagePayload()
             {

@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
 {
     // ★ 將 HUDType 降級為只區分「要看哪種數值」，不再區分「是誰的數值」
     public enum DisplayMode { Health, Stamina }
 
+    [FormerlySerializedAs("targetSO")]
     [Header("資料來源 (SSOT)")]
     [Tooltip("把你想監看的對象 SO 拖進來，不管是玩家還是 Boss 都可以！")]
-    [SerializeField] private EntityRuntimeSO targetSO;
+    [SerializeField] private EntityRuntime target;
     [SerializeField] private DisplayMode displayMode = DisplayMode.Health;
 
     [Header("儀表板屬性")]
@@ -29,23 +31,23 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
         base.Awake(); 
 
         if (fillSpriteRenderer != null) _cachedInitialScaleX = fillSpriteRenderer.transform.localScale.x;
-        if (targetSO == null) Debug.LogError($"[錯誤] {gameObject.name} 未綁定目標 SO！");
+        if (target == null) Debug.LogError($"[錯誤] {gameObject.name} 未綁定目標 SO！");
     }
 
     private void OnEnable()
     {
-        if (targetSO == null) return;
+        if (target == null) return;
 
         // ★ 核心：直接訂閱特定 SO 的資料變化事件！不再透過 GameManager！
         if (displayMode == DisplayMode.Health)
         {
-            targetSO.OnHealthRatioChanged += UpdateTargetRatio;
+            target.OnHealthRatioChanged += UpdateTargetRatio;
             // 啟用時強制同步一次當前畫面
-            UpdateTargetRatio(targetSO.MaxHealth > 0 ? (float)targetSO.CurrentHealth / targetSO.MaxHealth : 0f);
+            UpdateTargetRatio(target.MaxHealth > 0 ? (float)target.CurrentHealth / target.MaxHealth : 0f);
         }
         else if (displayMode == DisplayMode.Stamina)
         {
-            if (targetSO.TryGetTrait(out _cachedStaminaTrait))
+            if (target.TryGetTrait(out _cachedStaminaTrait))
             {
                 _cachedStaminaTrait.OnStaminaRatioChanged += UpdateTargetRatio;
                 UpdateTargetRatio(_cachedStaminaTrait.StaminaRatio);
@@ -55,12 +57,12 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
 
     private void OnDisable()
     {
-        if (targetSO == null) return;
+        if (target == null) return;
 
         // ★ 解除訂閱，防止記憶體洩漏
         if (displayMode == DisplayMode.Health)
         {
-            targetSO.OnHealthRatioChanged -= UpdateTargetRatio;
+            target.OnHealthRatioChanged -= UpdateTargetRatio;
         }
         else if (displayMode == DisplayMode.Stamina && _cachedStaminaTrait != null)
         {

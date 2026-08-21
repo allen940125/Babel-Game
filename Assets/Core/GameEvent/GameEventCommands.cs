@@ -131,7 +131,7 @@ namespace Gamemanager
 
     public class StartBattleEvent : GameEventMessageBase
     {
-        public EntityRuntimeSO EnemyData; 
+        public EntityRuntime EnemyData; 
         public SceneType BattleScene; // 使用你已定義的 SceneType
     }
     

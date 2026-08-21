@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // ★ 1. 確保引入新版 InputSystem
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization; // ★ 1. 確保引入新版 InputSystem
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerAdventureController : MonoBehaviour
@@ -7,8 +8,9 @@ public class PlayerAdventureController : MonoBehaviour
     [Header("即時狀態監控 (GAS-Lite 閘門)")]
     [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
 
+    [FormerlySerializedAs("playerSO")]
     [Header("資料庫綁定 (SSOT)")]
-    [SerializeField] private EntityRuntimeSO playerSO;
+    [SerializeField] private EntityRuntime player;
     
     private StaminaTrait _stamina;
     private ExplorationTrait _exploration;
@@ -24,10 +26,10 @@ public class PlayerAdventureController : MonoBehaviour
         _rb.useGravity = true; 
         _rb.constraints = RigidbodyConstraints.FreezeRotation; 
 
-        if (playerSO != null)
+        if (player != null)
         {
-            playerSO.TryGetTrait(out _stamina);
-            playerSO.TryGetTrait(out _exploration);
+            player.TryGetTrait(out _stamina);
+            player.TryGetTrait(out _exploration);
         }
     }
 

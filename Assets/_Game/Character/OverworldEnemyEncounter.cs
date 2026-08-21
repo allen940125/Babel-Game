@@ -1,11 +1,12 @@
 using UnityEngine;
 using Gamemanager;
 using Game.SceneManagement;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Collider))]
 public class OverworldEnemyEncounter : MonoBehaviour
 {
-    [SerializeField] private EntityRuntimeSO enemySO;
+    [FormerlySerializedAs("enemySO")] [SerializeField] private EntityRuntime enemy;
     [SerializeField] private SceneType battleScene = SceneType.GameScene; // 直接選擇 Enum
     
     private bool _hasTriggered = false;
@@ -23,7 +24,7 @@ public class OverworldEnemyEncounter : MonoBehaviour
             // 將事件丟向天空
             GameManager.Instance.MainGameEvent.Send(new StartBattleEvent()
             {
-                EnemyData = enemySO,
+                EnemyData = enemy,
                 BattleScene = battleScene
             });
         }

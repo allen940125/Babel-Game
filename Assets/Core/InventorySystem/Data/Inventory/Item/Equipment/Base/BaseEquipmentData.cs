@@ -28,7 +28,7 @@
 //
 //     public float Health => health;
 //     public float Attack => attack;
-//     public float Defense => defense;
+//     public float TotalDefense => defense;
 //     public float Speed => speed;
 //
 //     public GameObject AttackCollisionPrefab => attackCollisionPrefab;

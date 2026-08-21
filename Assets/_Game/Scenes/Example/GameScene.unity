@@ -479,9 +479,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController2D
   currentState: 1
-  playerSO: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+  player:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   smoothTime: 0.08
   staminaRegenDelay: 0.8
+  references:
+    version: 2
+    RefIds: []
 --- !u!54 &107671655
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -533,7 +541,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
-  entityData: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+  entityData:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
@@ -551,6 +564,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   showDebugLogs: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &107671658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,7 +1077,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e939eedc7f06a43b57a6836e28bbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossCeleste
-  bossSO: {fileID: 0}
+  boss:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   bossName: 
   firePosition: {fileID: 813001293}
   attackPhaseDuration: 15
@@ -1103,6 +1124,9 @@ MonoBehaviour:
   SpecialPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
   spawnPadding: 4
   minObjectDistance: 5
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &292644842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3145,12 +3169,20 @@ MonoBehaviour:
   canBeRotated: 0
   canBlockBullets: 1
   ignorePhaseLock: 0
-  targetSO: {fileID: 11400000, guid: efc1599ca90f39449aa73416ec6bfd2c, type: 2}
+  target:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   displayMode: 0
   fillSpriteRenderer: {fileID: 299816442}
   smoothSpeed: 10
   fullColor: {r: 0, g: 1, b: 0, a: 1}
   emptyColor: {r: 1, g: 0, b: 0, a: 1}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1050674416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4437,7 +4469,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5330a98f5754fc47a34715497606d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanerBoss
-  bossSO: {fileID: 11400000, guid: efc1599ca90f39449aa73416ec6bfd2c, type: 2}
+  boss:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   bossName: 
   firePosition: {fileID: 1461063357}
   attackPhaseDuration: 15
@@ -4485,6 +4522,9 @@ MonoBehaviour:
   spawnCount: 3
   spawnPadding: 4
   minObjectDistance: 5
+  references:
+    version: 2
+    RefIds: []
 --- !u!54 &1842308562
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4524,12 +4564,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
-  entityData: {fileID: 11400000, guid: efc1599ca90f39449aa73416ec6bfd2c, type: 2}
+  entityData:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
       m_Calls: []
   showDebugLogs: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1857364874
 GameObject:
   m_ObjectHideFlags: 0
@@ -4805,9 +4853,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
-  sourceEntityData: {fileID: 0}
+  sourceEntityData:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   flatDamage: 15
   canCrit: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1878551334
 GameObject:
   m_ObjectHideFlags: 0
@@ -5472,12 +5528,20 @@ MonoBehaviour:
   canBeRotated: 0
   canBlockBullets: 1
   ignorePhaseLock: 0
-  targetSO: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+  target:
+    Blueprint: {fileID: 0}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
   displayMode: 0
   fillSpriteRenderer: {fileID: 2074276601}
   smoothSpeed: 10
   fullColor: {r: 0, g: 1, b: 0, a: 1}
   emptyColor: {r: 1, g: 0, b: 0, a: 1}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1930868213
 MonoBehaviour:
   m_ObjectHideFlags: 0

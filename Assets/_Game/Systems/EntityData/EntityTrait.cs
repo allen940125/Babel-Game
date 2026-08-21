@@ -1,20 +1,29 @@
 using System;
 using UnityEngine;
 
-// 特徵的共同合約
-public interface IEntityTrait 
+// ★ 將 interface 改為 abstract class
+[Serializable]
+public abstract class EntityTrait 
 {
-    void Initialize();
+    // 基底預設提供淺拷貝能力
+    public virtual EntityTrait Clone()
+    {
+        // 呼叫底層的淺拷貝
+        return (EntityTrait)this.MemberwiseClone();
+    }
+
+    // 將 Initialize 變成虛擬方法，讓子類別決定要不要覆寫
+    public virtual void Initialize(EntityRuntime owner) { }
 }
 
 // ==========================================
-// 特徵 A：體力與移動模組 (取代原本的 Player 專屬變數)
+// 特徵 A：體力與移動模組
 // ==========================================
 [Serializable]
-public class StaminaTrait : IEntityTrait
+public class StaminaTrait : EntityTrait
 {
     public float maxStamina = 100f;
-    [NonSerialized] public float currentStamina; // 不存硬碟
+    [NonSerialized] public float currentStamina; 
     
     public float moveSpeed = 5f;
     public float dashSpeed = 20f;
@@ -23,10 +32,19 @@ public class StaminaTrait : IEntityTrait
     public float dashCooldown = 0.5f;
 
     public float StaminaRatio => maxStamina > 0 ? Mathf.Clamp01(currentStamina / maxStamina) : 0f;
-
     public event Action<float> OnStaminaRatioChanged;
     
-    public void Initialize()
+    // ★ 必須加上 override
+    public override EntityTrait Clone()
+    {
+        var copy = (StaminaTrait)base.Clone();
+        copy.currentStamina = 0; 
+        copy.OnStaminaRatioChanged = null; 
+        return copy;
+    }
+    
+    // ★ 必須加上 override 與參數 (即使你目前沒用到 owner，簽名也必須對齊)
+    public override void Initialize(EntityRuntime owner)
     {
         currentStamina = maxStamina;
     }
@@ -35,20 +53,22 @@ public class StaminaTrait : IEntityTrait
     {
         if (currentStamina < amount) return false;
         currentStamina -= amount;
-        OnStaminaRatioChanged?.Invoke(StaminaRatio); // ★ 廣播
+        OnStaminaRatioChanged?.Invoke(StaminaRatio); 
         return true;
     }
 
     public void RegenStamina(float amountPerSec, float deltaTime)
     {
         currentStamina = Mathf.Min(maxStamina, currentStamina + (amountPerSec * deltaTime));
-        OnStaminaRatioChanged?.Invoke(StaminaRatio); // ★ 廣播
+        OnStaminaRatioChanged?.Invoke(StaminaRatio); 
     }
 }
 
-// ★ 大世界專屬的移動特徵 (掌管跳躍、攀爬等非戰鬥移動)
+// ==========================================
+// 特徵 B：大世界專屬的移動特徵
+// ==========================================
 [Serializable]
-public class ExplorationTrait : IEntityTrait
+public class ExplorationTrait : EntityTrait
 {
     [Header("大世界移動參數")]
     public float adventureWalkSpeed = 6f; 
@@ -56,20 +76,19 @@ public class ExplorationTrait : IEntityTrait
     
     [Header("跳躍與物理參數")]
     public float jumpForce = 8f;
-    public float gravityMultiplier = 2f; // 讓大世界跳躍手感更好的重力加成
+    public float gravityMultiplier = 2f;
     public float fallDamageThreshold = 10f; 
 
-    public void Initialize()
-    {
-        // 這裡通常不需要初始化邏輯
-    }
+    // ★ 錯誤指正：這個特徵完全沒有「執行期狀態 (沒有 NonSerialized)」
+    // 所以你「根本不需要」寫 Clone() 和 Initialize()！
+    // 直接刪除！基底的 MemberwiseClone 會完美幫你把這五個參數淺拷貝過去。
 }
 
 // ==========================================
-// 特徵 B：計時器模組 (取代原本的 Boss 專屬變數)
+// 特徵 C：計時器模組
 // ==========================================
 [Serializable]
-public class TimerTrait : IEntityTrait
+public class TimerTrait : EntityTrait
 {
     [NonSerialized] public float currentTimer;
     [NonSerialized] public float maxTimer;
@@ -77,13 +96,21 @@ public class TimerTrait : IEntityTrait
 
     public float TimerRatio => maxTimer > 0 ? Mathf.Clamp01(currentTimer / maxTimer) : 0f;
 
-    public void Initialize()
+    // ★ 必須加上 override
+    public override EntityTrait Clone()
+    {
+        return new TimerTrait();
+    }
+    
+    // ★ 必須加上 override 與參數
+    public override void Initialize(EntityRuntime owner)
     {
         currentTimer = 0;
         maxTimer = 0;
         _isTimerFinished = false;
     }
 
+    // ... 其他計時器方法保持不變 (StartTimer, ReduceTimer, TickTimer) ...
     public void StartTimer(float duration)
     {
         maxTimer = duration;
@@ -119,20 +146,28 @@ public class TimerTrait : IEntityTrait
 }
 
 // ==========================================
-// 特徵 C：執行期實體錨點 (解決外部指令尋找目標的問題)
+// 特徵 D：執行期實體錨點
 // ==========================================
 [Serializable]
-public class RuntimeAnchorTrait : IEntityTrait
+public class RuntimeAnchorTrait : EntityTrait
 {
     [NonSerialized] private IHealable activeHealable;
     [NonSerialized] private IDamageable activeDamageable;
 
-    public void Initialize()
+    // ★ 必須加上 override
+    public override EntityTrait Clone()
+    {
+        return new RuntimeAnchorTrait();
+    }
+    
+    // ★ 必須加上 override 與參數
+    public override void Initialize(EntityRuntime owner)
     {
         activeHealable = null;
         activeDamageable = null;
     }
 
+    // ... 註冊與觸發邏輯保持不變 ...
     public void RegisterEntity(GameObject entityObj)
     {
         activeHealable = entityObj.GetComponent<IHealable>();

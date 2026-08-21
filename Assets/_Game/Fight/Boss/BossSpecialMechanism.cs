@@ -14,7 +14,7 @@ public class BossSpecialMechanism : MonoBehaviour
     public GameObject visualObject;
 
     // ★ 綁定 Boss 資料庫以執行減秒
-    protected EntityRuntimeSO _targetBossSO;
+    protected EntityRuntime TargetBoss;
     public bool IsCleared => visualObject != null && !visualObject.activeSelf;
 
     protected virtual void Awake()
@@ -31,9 +31,9 @@ public class BossSpecialMechanism : MonoBehaviour
     }
 
     // 由生成端 (BossCleaner) 傳入 SO 參照
-    public void InitializeMechanism(EntityRuntimeSO bossSO)
+    public void InitializeMechanism(EntityRuntime boss)
     {
-        _targetBossSO = bossSO;
+        TargetBoss = boss;
     }
 
     public virtual void ResetMechanism()
@@ -65,9 +65,9 @@ public class BossSpecialMechanism : MonoBehaviour
         if (visualObject != null) visualObject.SetActive(false);
         
         // ★ 核心變更：不要直接呼叫 SO，而是向 SO 索取「計時器特徵 (TimerTrait)」
-        if (_targetBossSO != null)
+        if (TargetBoss != null)
         {
-            TimerTrait timerTrait = _targetBossSO.GetTrait<TimerTrait>();
+            TimerTrait timerTrait = TargetBoss.GetTrait<TimerTrait>();
             
             if (timerTrait != null)
             {
@@ -83,7 +83,7 @@ public class BossSpecialMechanism : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[{gameObject.name}] 尚未綁定 EntityRuntimeSO，無法執行時間扣除！");
+            Debug.LogWarning($"[{gameObject.name}] 尚未綁定 EntityRuntime，無法執行時間扣除！");
         }
 
         OnMechanismTriggered(); 
