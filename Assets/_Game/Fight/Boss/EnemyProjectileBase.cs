@@ -1,8 +1,15 @@
 using UnityEngine;
 
-// 繼承 EnemyAttackObject，所以它也有 TryDealDamage 功能
-public abstract class EnemyProjectileBase : EnemyAttackObject
+// 1. 直接繼承 MonoBehaviour，剝離繼承樹
+[RequireComponent(typeof(DamageDealer))] // 強制掛載傷害發送器
+public abstract class EnemyProjectileBase : MonoBehaviour
 {
-    // 強制子類別必須實作初始化 (因為你是投射物，你必須要會飛)
+    protected DamageDealer damageDealer;
+
+    protected virtual void Awake()
+    {
+        damageDealer = GetComponent<DamageDealer>();
+    }
+
     public abstract void Initialize(Vector3 direction, float speed, BossBase ownerBoss);
 }

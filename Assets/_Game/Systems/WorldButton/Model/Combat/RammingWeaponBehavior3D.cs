@@ -3,6 +3,8 @@ using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+// ★ 強制要求這個武器必須掛載 DamageDealer (傷害發送器)
+[RequireComponent(typeof(DamageDealer))] 
 public class RammingWeaponBehavior3D : MonoBehaviour
 {
     [Header("★ 物理撞擊設定 (只管物理，不管數值！)")]
@@ -11,8 +13,8 @@ public class RammingWeaponBehavior3D : MonoBehaviour
     [SerializeField] private float rammingCooldown = 0.8f;
     [SerializeField] private bool isArmed = false;
 
-    // ★ 綁定生物身上的通用戰鬥組件
-    [SerializeField] private EntityCombatComponent combatComponent;
+    // ★ 徹底替換：武器只需要 DamageDealer 來發送傷害，不需要知道 Health
+    [SerializeField] private DamageDealer damageDealer;
 
     private Vector3 _lastPosition;
     private float _currentInstantSpeed;
@@ -21,16 +23,15 @@ public class RammingWeaponBehavior3D : MonoBehaviour
 
     private void Awake()
     {
-        // 1. 自動抓取組件
-        if (combatComponent == null) combatComponent = GetComponentInParent<EntityCombatComponent>();
+        // 1. 自動抓取本物件上的傷害發送器
+        if (damageDealer == null) damageDealer = GetComponent<DamageDealer>();
         _glow = GetComponent<GlowBehavior3D>();
         _lastPosition = transform.position;
 
-        // ★ 2. 致命錯誤修復：必須在 Awake 裡向 GameManager 註冊訂閱事件！否則底部的底層回調永遠不會被觸發！
+        // 2. 訂閱事件
         if (GameManager.Instance?.MainGameEvent != null)
         {
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterAttackingPhaseEvent, OnBossAttacking);
-            // ★ 嚴格替換：監聽 Idle 事件來開啟武裝！
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterIdlePhaseEvent, OnBossIdle);
         }
         else
@@ -39,7 +40,6 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         }
     }
 
-    // ★ 3. 記憶體管理鐵律：有訂閱 (Subscribe) 就必須在物件銷毀時解除訂閱 (Unsubscribe)！
     private void OnDestroy()
     {
         if (GameManager.Instance?.MainGameEvent != null)
@@ -60,19 +60,22 @@ public class RammingWeaponBehavior3D : MonoBehaviour
 
     private void TryExecuteRamming(GameObject target)
     {
+        // ★ 物理過濾：不要打到自己，也不要打到沒有實體的東西
+        if (target == this.gameObject) return;
+
         Debug.Log($"<color=white>[物理接觸] 撞擊到了: {target.name} | 當前甩動速度: {_currentInstantSpeed:.00} m/s</color>");
 
         // 檢查閘門 1：武裝狀態
         if (!isArmed)
         {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 1] {gameObject.name} 目前並未武裝 (isArmed = false)！請檢查 Boss 是否已進入 Idle 階段！</color>");
+            Debug.LogWarning($"<color=gray>[攻擊攔截 1] {gameObject.name} 目前並未武裝！請檢查 Boss 是否已進入 Idle 階段！</color>");
             return;
         }
 
         // 檢查閘門 2：攻擊冷卻中
         if (_isOnCooldown)
         {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 2] {gameObject.name} 目前正在撞擊冷卻中 (_isOnCooldown = true)！</color>");
+            Debug.LogWarning($"<color=gray>[攻擊攔截 2] {gameObject.name} 目前正在撞擊冷卻中！</color>");
             return;
         }
 
@@ -83,16 +86,19 @@ public class RammingWeaponBehavior3D : MonoBehaviour
             return;
         }
 
-        // 檢查閘門 4：是否有綁定戰鬥組件
-        if (combatComponent == null)
+        // 檢查閘門 4：確保有傷害發送器
+        if (damageDealer == null)
         {
-            Debug.LogError($"<color=red>[致命錯誤 4] {gameObject.name} 找不到 EntityCombatComponent！請檢查 Inspector 的欄位綁定！</color>");
+            Debug.LogError($"<color=red>[致命錯誤 4] {gameObject.name} 找不到 DamageDealer 組件！</color>");
             return;
         }
 
-        // --- 進入 DealDamageTo 前的最後確認 ---
-        Debug.Log($"<color=green>[條件全過！] 準備調用 combatComponent.DealDamageTo({target.name})！</color>");
-        combatComponent.DealDamageTo(target);
+        // --- 進入結算 ---
+        Debug.Log($"<color=green>[條件全過！] 準備調用 damageDealer.DealDamageTo({target.name})！</color>");
+        
+        // ★ 核心執行：由 DamageDealer 把傷害封包砸在目標身上！
+        damageDealer.DealDamageTo(target);
+        
         StartCoroutine(CooldownRoutine());
     }
 
@@ -105,19 +111,13 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         if (isArmed && _glow != null) _glow.enabled = true;
     }
 
-    // ==========================================
-    // ★ 核心修復：嚴格對應新的快節奏戰鬥階段
-    // ==========================================
     private void OnBossAttacking(BossEnterAttackingPhaseEvent evt) 
     {
-        Debug.Log($"[{gameObject.name}] 收到 Boss 攻擊廣播 -> 卸除武裝 (isArmed = false)");
         SetArmedState(false);
     }
 
-    // ★ 徹底廢除舊版的 OnBossVulnerable，改為 OnBossIdle！
     private void OnBossIdle(BossEnterIdlePhaseEvent evt) 
     {
-        Debug.Log($"<color=cyan>[{gameObject.name}] 收到 Boss 休眠廣播 -> 開啟重擊武裝！ (isArmed = true)</color>");
         SetArmedState(true);
     }
 

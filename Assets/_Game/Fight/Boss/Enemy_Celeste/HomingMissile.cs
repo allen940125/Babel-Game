@@ -142,7 +142,7 @@ public class HomingMissile : EnemyProjectileBase
         foreach (var hit in hits)
         {
             // ★ 修正合約：將 Collider2D 轉為 GameObject 傳入！
-            TryDealDamage(hit.gameObject); 
+            //TryDealDamage(hit.gameObject); 
         }
 
         Destroy(gameObject);

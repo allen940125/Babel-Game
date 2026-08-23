@@ -35,6 +35,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a1b663b1a3af6541bdf05858fdf4c2a
+    m_Address: GameDataDatabase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c823d349513d81046ad6ca8ee5376e40
     m_Address: CSV/UIDatabase
     m_ReadOnly: 0

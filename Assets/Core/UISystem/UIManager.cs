@@ -202,34 +202,38 @@ namespace Game.UI
         #region 事件訂閱與處理
 
         // 修正後的版本
+        // 確保這裡有加上 async 關鍵字
         private async void OnSceneLoadedEvent(SceneLoadedEvent cmd)
         {
-            Debug.Log("場景載入完成準備處理UI");
+            Debug.Log("[UIManager] 接收到場景載入事件，準備處理 UI...");
+
+            // ==========================================
+            // ★ 絕對防禦閘門：如果 GameManager 還沒亮綠燈 (IsInitialized = true)
+            // 這個事件就會在這裡「暫停等待」，直到資料全部載完才放行！
+            // ==========================================
+            await UniTask.WaitUntil(() => GameManager.Instance != null && GameManager.Instance.IsInitialized);
+
+            Debug.Log("[UIManager] 核心資料已就緒，開始生成場景 UI。");
+
             // 1. 換場景時，關閉所有「非持久化」的 UI
             CloseAllPanels(); 
 
-            // 2. 從事件參數中獲取強型別的 SceneType (這才是解耦的關鍵！)
-            //    (您必須確保您的 SceneLoader 在發送事件時，把 SceneType 放入 cmd 中)
+            // 2. 從事件參數中獲取強型別的 SceneType
             SceneType currentSceneType = cmd.SceneType; 
 
             // 3. 根據 SceneType 獲取該場景需要「啟動時開啟」的 UI 列表
             List<UIType> startPanels = GameManager.Instance.GameSo.uiConfig.GetUIPanelForScene(currentSceneType.ToString());
 
-            // 4. (這是您缺失的關鍵邏輯) 遍歷列表，並開啟所有 UI
+            // 4. 遍歷列表，並開啟所有 UI
             if (startPanels != null && startPanels.Count > 0)
             {
-                Debug.Log($"[UIManager] 根據配置，為場景 {currentSceneType} 加載 {startPanels.Count} 個 UI...");
-        
                 foreach (var uiType in startPanels)
                 {
-                    // 使用 OpenPanel 來加載、實例化、並正確管理堆疊
-                    // 因為我們在 (async) void 方法中，所以使用 .Forget()
                     OpenPanel<BasePanel>(uiType).Forget(); 
                 }
             }
 
             // 5. 根據「強型別」決定是否顯示 HUD
-            // (我們假設 SceneType 的名稱可以安全地用於此判斷)
             string sceneNameStr = currentSceneType.ToString();
             bool shouldShowHUD = !sceneNameStr.Contains("Menu") && !sceneNameStr.Contains("Load");
     

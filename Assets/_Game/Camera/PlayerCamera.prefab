@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7522247111663242659}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
+  m_LocalRotation: {x: -0.3535534, y: 0.3535534, z: -0.14644665, w: -0.85355335}
   m_LocalPosition: {x: 0, y: 1.4, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -195,14 +195,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7522247111663242659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4597c6ea99d13c8498bde9a027bc4166, type: 3}
+  m_Script: {fileID: 11500000, guid: b301113fcc4eaff4a8c13013e525fd42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDistance: 8
   minimumDistance: 1
   maximumDistance: 8
   smoothing: 4
-  zoomSensitivity: 3
+  scrollSensitivity: 1
+  touchSensitivity: 0.01
+  invertScroll: 0
   zoomInputAction: {fileID: -4368943136927329417, guid: 158d8626e394ccc4ca636277c975f762, type: 3}
 --- !u!114 &7522247111663242661
 MonoBehaviour:
@@ -213,7 +215,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7522247111663242659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 285c078db447b0c4f845ba5eb492931b, type: 3}
+  m_Script: {fileID: 11500000, guid: bcc89a15a21ce8b49bf50eef6a0b1391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraToggleInputAction: {fileID: 8032452027836931026, guid: 158d8626e394ccc4ca636277c975f762, type: 3}
@@ -224,6 +226,8 @@ MonoBehaviour:
   disableCameraZoomOnCursorVisible: 1
   fixedCinemachineVersion: 0
   lookAction: {fileID: -1288459982424990127, guid: 158d8626e394ccc4ca636277c975f762, type: 3}
+  onlyRotateOnRightSide: 1
+  rightSideRatio: 0.5
 --- !u!114 &3987064234615391787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,9 +237,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7522247111663242659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a9eb0a22e377e344bcd987c3eda24d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0594ccbe357abc24a8268fd1ecb9a417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultHitIntensity: 0.3
+  defaultHitDuration: 0.2
+  lowHealthIntensity: 0.05
+  lowHealthSpeed: 10
 --- !u!114 &2394728885726460905
 MonoBehaviour:
   m_ObjectHideFlags: 0

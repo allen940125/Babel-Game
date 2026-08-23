@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14192e86ceee4a344b15c43dfbe5d57a, type: 3}
+  m_Name: GameDataDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::GameDataDatabaseSO
+  UIDatabase:
+  - <Id>k__BackingField: 110
+    <Name>k__BackingField: MainMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 8519210034115118960, guid: 7a6001c1fba321f468ba56a7ba25753d, type: 3}
+  - <Id>k__BackingField: 120
+    <Name>k__BackingField: BagMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 8358064576781498555, guid: 2825bb02648282548b2c4040072bc336, type: 3}
+  - <Id>k__BackingField: 130
+    <Name>k__BackingField: StoreMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 8358064576781498555, guid: b55abf812f61b9e4589725aa86bd46e7, type: 3}
+  - <Id>k__BackingField: 140
+    <Name>k__BackingField: GameOverMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 8358064576781498555, guid: 0cd802370d60a3f4aaeaf7e0eb222566, type: 3}
+  - <Id>k__BackingField: 150
+    <Name>k__BackingField: GameEndMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 8358064576781498555, guid: 02d113cfa826e7f49a89f815d4987141, type: 3}
+  - <Id>k__BackingField: 210
+    <Name>k__BackingField: SceneLoadingTransitionPanel
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: {fileID: 2004453498747819903, guid: f2af65fc87d4059478817aa39f763b26, type: 3}
+  - <Id>k__BackingField: 220
+    <Name>k__BackingField: GameStartTransitionPanel
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: {fileID: 2004453498747819903, guid: 5017933b8b30a4545aa0f33f26843ea2, type: 3}
+  - <Id>k__BackingField: 310
+    <Name>k__BackingField: SettingsWindow
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: {fileID: 483782690466299384, guid: 7379f7e4ca415834f845afcdccf29dd7, type: 3}
+  - <Id>k__BackingField: 320
+    <Name>k__BackingField: DialogueWindow
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: {fileID: 6041841623352928900, guid: 031861522898a594c8112ee942302839, type: 3}
+  - <Id>k__BackingField: 330
+    <Name>k__BackingField: FadeInOutWindow
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: {fileID: 1392409017873903030, guid: 6eb427ba76e6ec84f8ee4b56d6dd4097, type: 3}
+  - <Id>k__BackingField: 340
+    <Name>k__BackingField: StoryTextDisplayWindow
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: {fileID: 6863124906080554653, guid: 53125f183105f8a4296b657f2022cffa, type: 3}
+  - <Id>k__BackingField: 410
+    <Name>k__BackingField: GameHUD
+    <UIGroup>k__BackingField: Persistent
+    <PrefabPath>k__BackingField: {fileID: 8219167494754172598, guid: cd0e42d67d45be5459d287b6dc40f6a1, type: 3}
+  ItemDatabase:
+  - <Id>k__BackingField: 100
+    <Name>k__BackingField: Money
+    <PrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: ab8d136d204c1d9438962fe08ee23cac, type: 3}
+    <ItemIconPath>k__BackingField: {fileID: 21300000, guid: 4ad494b2b1b664949b3bb8bf2ee11439, type: 3}
+    <ItemDescription>k__BackingField: "\u4E16\u754C\u901A\u7528\u8CA8\u5E63"
+    <ItemControllerType>k__BackingField: 30
+    <ItemRarityType>k__BackingField: 20
+    <ItemUseTimes>k__BackingField: 0
+    <LifeTime>k__BackingField: 0
+    <BaseValue>k__BackingField: 1
+    <BuffPrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: ef24b5221de51234a8d61e9aa1f46b3d, type: 3}
+  - <Id>k__BackingField: 101
+    <Name>k__BackingField: HealthPotion
+    <PrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: 5a02e3cf22020994983a71109225f8bb, type: 3}
+    <ItemIconPath>k__BackingField: {fileID: 21300000, guid: 1a47bdc34223e5a44add86548fc87b9b, type: 3}
+    <ItemDescription>k__BackingField: "\u7D05\u85E5\u6C34\u7528\u65BC\u56DE\u5FA9\u8840\u91CF"
+    <ItemControllerType>k__BackingField: 20
+    <ItemRarityType>k__BackingField: 20
+    <ItemUseTimes>k__BackingField: 1
+    <LifeTime>k__BackingField: 10
+    <BaseValue>k__BackingField: 50
+    <BuffPrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: ef24b5221de51234a8d61e9aa1f46b3d, type: 3}
+  - <Id>k__BackingField: 102
+    <Name>k__BackingField: ManaPotion
+    <PrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: 7078da32127ee9842bf02e7625220973, type: 3}
+    <ItemIconPath>k__BackingField: {fileID: 21300000, guid: a24aa0685dccdfd4fbd633210d29dc31, type: 3}
+    <ItemDescription>k__BackingField: "\u85CD\u85E5\u6C34\u7528\u65BC\u56DE\u5FA9\u9B54\u529B"
+    <ItemControllerType>k__BackingField: 20
+    <ItemRarityType>k__BackingField: 10
+    <ItemUseTimes>k__BackingField: 1
+    <LifeTime>k__BackingField: 10
+    <BaseValue>k__BackingField: 30
+    <BuffPrefabPath>k__BackingField: {fileID: 3170700057143689205, guid: 6646022200ce6ea42badf4bf17758aec, type: 3}
+  StoreDatabase: []

@@ -68,7 +68,7 @@ public class BossCleaner : BossBase
             // ★ 3. 綁定 SO 減秒：如果這個道具上面有 BossSpecialMechanism，把 SO 傳給它
             if (specialObj.TryGetComponent(out BossSpecialMechanism mechanism))
             {
-                mechanism.InitializeMechanism(this.bossSO);
+                mechanism.InitializeMechanism(this.boss);
             }
         }
     }

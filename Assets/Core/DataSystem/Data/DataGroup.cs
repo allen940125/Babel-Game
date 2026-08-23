@@ -6,15 +6,21 @@ using UnityEngine;
 
 namespace Datamanager
 {
+    [Serializable]
     public class DataGroup
     {
         //public DataBase<GameEffectTemplete> GameEffectDataBase => TryGetDataBase<GameEffectTemplete>(); 
         //public DataBase<PlayerDataBaseTemplete> PlayerDataBase => TryGetDataBase<PlayerDataBaseTemplete>(); //最重要
         //public DataBase<MapDataStringTemplete> MapDataBase => TryGetDataBase<MapDataStringTemplete>(); //遊戲
         //public DataBase<CubeDataTemplete> CubeDataBase => TryGetDataBase<CubeDataTemplete>(); //遊戲
-        public DataBase<UIDataBaseTemplete> UIDataBase => TryGetDataBase<UIDataBaseTemplete>();
-        public DataBase<ItemDataBaseTemplete> ItemDataBase => TryGetDataBase<ItemDataBaseTemplete>(); //遊戲
-        public DataBase<StoreDataBaseTemplete> StoreDataBase => TryGetDataBase<StoreDataBaseTemplete>();//商店
+        [Header("UI 介面資料庫")]
+        public List<UIDataBaseTemplete> UIDatabase = new List<UIDataBaseTemplete>();
+
+        [Header("道具資料庫")]
+        public List<ItemDataBaseTemplete> ItemDatabase = new List<ItemDataBaseTemplete>();
+
+        [Header("商店資料庫")]
+        public List<StoreDataBaseTemplete> StoreDatabase = new List<StoreDataBaseTemplete>();
         //public DataBase<SoundEffectDatabaseTemplete> SoundEffectDatabase => TryGetDataBase<SoundEffectDatabaseTemplete>(); //最重要
         //public DataBase<AnimationDetailDatabaseTemplete> AnimationDetailDatabase => TryGetDataBase<AnimationDetailDatabaseTemplete>(); //遊戲
         //public DataBase<GameEndConditionTemplete> GameEndConditionDatabase => TryGetDataBase<GameEndConditionTemplete>(); //遊戲
@@ -109,12 +115,13 @@ public enum UIGroup
     Popup       // 彈出式窗口 (不隱藏 HUD)
 }
 
+[Serializable]
 public class UIDataBaseTemplete :IWithIdData, IWithNameData
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string UIGroup { get; set; }
-    public GameObject PrefabPath { get; set; }
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public string UIGroup { get; set; }
+    [field: SerializeField] public GameObject PrefabPath { get; set; }
 
     public UIDataBaseTemplete Clone()
     {
@@ -192,19 +199,22 @@ public enum ItemRarityType
     [Description("稀有")]
     Rare = 40,
 }
+
+[Serializable]
 public class ItemDataBaseTemplete :IWithIdData, IWithNameData
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public GameObject PrefabPath { get; set; }
-    public Sprite ItemIconPath { get; set; }
-    public string ItemDescription { get; set; }
-    public ItemControllerType ItemControllerType { get; set; }
-    public ItemRarityType ItemRarityType { get; set; }
-    public int ItemUseTimes { get; set; }
-    public float LifeTime { get; set; }
-    public int BaseValue { get; set; }
-    public GameObject BuffPrefabPath { get; set; }
+    // ★ 必須加上 [field: SerializeField]，否則 Unity 不會存，你也看不到！
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public GameObject PrefabPath { get; set; }
+    [field: SerializeField] public Sprite ItemIconPath { get; set; }
+    [field: SerializeField] public string ItemDescription { get; set; }
+    [field: SerializeField] public ItemControllerType ItemControllerType { get; set; }
+    [field: SerializeField] public ItemRarityType ItemRarityType { get; set; }
+    [field: SerializeField] public int ItemUseTimes { get; set; }
+    [field: SerializeField] public float LifeTime { get; set; }
+    [field: SerializeField] public int BaseValue { get; set; }
+    [field: SerializeField] public GameObject BuffPrefabPath { get; set; }
 
     public ItemDataBaseTemplete Clone()
     {
@@ -225,6 +235,7 @@ public class ItemDataBaseTemplete :IWithIdData, IWithNameData
     }
 }
 
+[Serializable]
 public class StoreDataBaseTemplete :IWithIdData, IWithNameData
 {
     public int Id { get; set; }

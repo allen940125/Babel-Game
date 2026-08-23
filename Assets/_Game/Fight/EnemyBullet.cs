@@ -143,10 +143,14 @@ public class EnemyBullet : EnemyProjectileBase
     {
         if (enableDebugLog) Debug.Log($"<color=green>[傷害端觸發]</color> 命中目標: {target.name}");
         
-        TryDealDamage(target); // 繼承自父類別的扣血邏輯
+        // ★ 直接使用掛載在同一物件上的 DamageDealer 進行點對點交割
+        if (damageDealer != null)
+        {
+            damageDealer.DealDamageTo(target);
+        }
+        
         SpawnHitEffect(hitPoint, normal, Vector3.zero);
     }
-
     // ==========================================
     // [反彈端專區] 只處理幾何運算、動能反射與轉向
     // ==========================================

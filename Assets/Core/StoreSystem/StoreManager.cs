@@ -104,7 +104,7 @@ public class StoreManager : Singleton<StoreManager>
     
     // 從 CSV 獲取該商店所有商品
     var csvStoreItems = GameContainer.Get<DataManager>()
-        .DataGroup.StoreDataBase.DataArray
+        .Database.StoreDatabase.ToList()
         .Cast<StoreDataBaseTemplete>()
         .Where(item => item.StoreId == storeId)
         .ToList();

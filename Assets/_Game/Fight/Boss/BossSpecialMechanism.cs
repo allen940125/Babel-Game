@@ -14,7 +14,7 @@ public class BossSpecialMechanism : MonoBehaviour
     public GameObject visualObject;
 
     // ★ 綁定 Boss 資料庫以執行減秒
-    protected BossRuntimeSO _targetBossSO;
+    protected EntityRuntime TargetBoss;
     public bool IsCleared => visualObject != null && !visualObject.activeSelf;
 
     protected virtual void Awake()
@@ -31,9 +31,9 @@ public class BossSpecialMechanism : MonoBehaviour
     }
 
     // 由生成端 (BossCleaner) 傳入 SO 參照
-    public void InitializeMechanism(BossRuntimeSO bossSO)
+    public void InitializeMechanism(EntityRuntime boss)
     {
-        _targetBossSO = bossSO;
+        TargetBoss = boss;
     }
 
     public virtual void ResetMechanism()
@@ -64,15 +64,26 @@ public class BossSpecialMechanism : MonoBehaviour
         
         if (visualObject != null) visualObject.SetActive(false);
         
-        // ★ 呼叫 SO 扣除攻擊秒數！
-        if (_targetBossSO != null)
+        // ★ 核心變更：不要直接呼叫 SO，而是向 SO 索取「計時器特徵 (TimerTrait)」
+        if (TargetBoss != null)
         {
-            _targetBossSO.ReduceTimer(timeReduction);
-            Debug.Log($"<color=green>[道具生效] 成功吃掉機關！Boss 攻擊時間減少 {timeReduction} 秒！</color>");
+            TimerTrait timerTrait = TargetBoss.GetTrait<TimerTrait>();
+            
+            if (timerTrait != null)
+            {
+                // 確定有拿到特徵，才執行扣秒
+                timerTrait.ReduceTimer(timeReduction);
+                Debug.Log($"<color=green>[道具生效] 成功吃掉機關！Boss 攻擊時間減少 {timeReduction} 秒！</color>");
+            }
+            else
+            {
+                // 防呆：如果企劃忘記在 Boss 的 SO 裡加上 TimerTrait，這裡會精準報錯
+                Debug.LogWarning($"[{gameObject.name}] 目標 Boss 的 SO 並未掛載 TimerTrait，無法執行時間扣除！請檢查 Inspector！");
+            }
         }
         else
         {
-            Debug.LogWarning($"[{gameObject.name}] 尚未綁定 BossRuntimeSO，無法執行時間扣除！");
+            Debug.LogWarning($"[{gameObject.name}] 尚未綁定 EntityRuntime，無法執行時間扣除！");
         }
 
         OnMechanismTriggered(); 
