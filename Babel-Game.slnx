@@ -1,0 +1,26 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="UniRx.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="UnityHFSM.csproj" />
+  <Project Path="UniTask.csproj" />
+  <Project Path="UniTask.Linq.csproj" />
+  <Project Path="YarnSpinner.Editor.Tests.csproj" />
+  <Project Path="UnityHFSM.Tests.csproj" />
+  <Project Path="Ink-Libraries.csproj" />
+  <Project Path="InkEditor.csproj" />
+  <Project Path="YarnSpinner.Unity.Editor.csproj" />
+  <Project Path="UniTask.Addressables.csproj" />
+  <Project Path="YarnSpinner.Unity.csproj" />
+  <Project Path="UniRx.Examples.csproj" />
+  <Project Path="YarnSpinnerTests.Shared.csproj" />
+  <Project Path="UniTask.TextMeshPro.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
+  <Project Path="YarnSpinnerTests.csproj" />
+  <Project Path="Sirenix.OdinInspector.Modules.Unity.Addressables.csproj" />
+  <Project Path="YarnSpinnerTests.CommandsInAnAssemblyDefinition.csproj" />
+  <Project Path="UniTask.Editor.csproj" />
+  <Project Path="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" />
+  <Project Path="UniTask.DOTween.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>
