@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sky_Distorted
+  m_Shader: {fileID: 4800000, guid: b82cbc6fb3548d84792c9d0dda6c18c5, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1f173d8037ad2b649a2b352da59e08a8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 55826772952f87543a3590ccdc9f3dc2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayMask:
+        m_Texture: {fileID: 2800000, guid: 17530ed8de7e1e34fb6b0268d4e25b89, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondTex:
+        m_Texture: {fileID: 2800000, guid: 234e3dcf1e794e149b43a13447e56748, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DistortAmount: 0.083
+    - _Exposure: 0.62
+    - _NoiseScale: 3.31
+    - _NoiseSpeedX: 0.02
+    - _NoiseSpeedY: 0.02
+    - _RGBShift: 0.0311
+    - _Rotation: 0.01
+    m_Colors:
+    - _Tint: {r: 0.6603774, g: 0.6167675, b: 0.6167675, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
