@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexture:
-        m_Texture: {fileID: 2800000, guid: 9e7426bc8f601cb44850e2ddb518a4df, type: 3}
+        m_Texture: {fileID: 2800000, guid: 55826772952f87543a3590ccdc9f3dc2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainNormalMap:
@@ -67,26 +67,27 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DepthEdge1: 0
-    - _DepthEdge2: 3
-    - _FoamPow: 1.27
-    - _FoamScale: 8.68
-    - _FoamSpeed: 3
-    - _Metallic: 0.24
+    - _DepthEdge1: -0.07
+    - _DepthEdge2: 0.81
+    - _Float: 0.0001
+    - _FoamPow: 7.99
+    - _FoamScale: 10
+    - _FoamSpeed: 5
+    - _Metallic: 0.124
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RefractionPow: 0.1
     - _RefractionScale: 0.3
     - _RefractionSpeed: 0.075
-    - _Smoothness: 0.168
-    - _WaveHight: 0.1
-    - _WaveSpeed: 0.088
+    - _Smoothness: 0.247
+    - _WaveHight: 0.05
+    - _WaveSpeed: 0.044
     m_Colors:
-    - _DeepColor: {r: 0.33018857, g: 1, b: 0.9330189, a: 0.2}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DeepColor: {r: 0.03693123, g: 0.5018867, b: 0.4104201, a: 1}
+    - _FoamColor: {r: 0.54901963, g: 0.6901961, b: 0.64705884, a: 1}
     - _MainNormalScale: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _SecondNormalScale: {r: 1, g: 1, b: 0, a: 0}
-    - _ShallowColor: {r: 0.3754716, g: 1, b: 0.8545402, a: 0.14901961}
+    - _ShallowColor: {r: 0.36470586, g: 0.5882353, b: 0.5402827, a: 0.64705884}
     - _WaveDir: {r: -0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -113,18 +113,18 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hidden_Color_Strength: 0
-    - _Hidden_Shadow_Power: 0.5
-    - _Highlight_Amount: 1
-    - _Highlight_Power: 6.2
+    - _Hidden_Color_Strength: 0.64
+    - _Hidden_Shadow_Power: 5.35
+    - _Highlight_Amount: 1.719
+    - _Highlight_Power: 8.75
     - _Highlight_Strength: 1
     - _Metallic: 0
     - _Mode: 0
     - _Normal_Strength: 1
     - _OcclusionStrength: 1
     - _Original_Smooth_Mask: 0
-    - _Original_Smoothness: 0
-    - _Paint_Smoothness: 0
+    - _Original_Smoothness: 1
+    - _Paint_Smoothness: 0.027
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -139,9 +139,9 @@ Material:
     - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Hidden_Shadow_Color: {r: 0.25490198, g: 0.41176468, b: 0.882353, a: 1}
+    - _Hidden_Shadow_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Highlight_Color: {r: 1, g: 0.92, b: 0.65, a: 1}
-    - _Light_Tint: {r: 1, g: 1, b: 1, a: 1}
-    - _Shadow_Tint: {r: 0.45, g: 0.45, b: 0.45, a: 1}
+    - _Light_Tint: {r: 0.7283019, g: 0.21003692, b: 0.020612193, a: 1}
+    - _Shadow_Tint: {r: 0.3433962, g: 0.14811277, b: 0.0874688, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
