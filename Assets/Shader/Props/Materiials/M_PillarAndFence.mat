@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Brush_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 17530ed8de7e1e34fb6b0268d4e25b89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -71,7 +71,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask_Map:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a7ace22918c5d1e42b453bf45bbcfed6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -79,7 +79,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8de7a657a3bcd384991f161d175c5f15, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -113,18 +113,18 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hidden_Color_Strength: 0.08
-    - _Hidden_Shadow_Power: 3
+    - _Hidden_Color_Strength: 0
+    - _Hidden_Shadow_Power: 0.5
     - _Highlight_Amount: 1
-    - _Highlight_Power: 5
+    - _Highlight_Power: 6.2
     - _Highlight_Strength: 1
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Strength: 0
+    - _Normal_Strength: 1
     - _OcclusionStrength: 1
-    - _Original_Smooth_Mask: 1
+    - _Original_Smooth_Mask: 0
     - _Original_Smoothness: 0
-    - _Paint_Smoothness: 0.12
+    - _Paint_Smoothness: 0
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0

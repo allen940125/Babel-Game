@@ -259,9 +259,6 @@
             "m_Id": "e9557e75c8114d47865df4eadc526c11"
         },
         {
-            "m_Id": "c51753ec20cc4d6fabc5b22c9ca4c2f3"
-        },
-        {
             "m_Id": "af3a56bf64ea459cad28789dff38808d"
         },
         {
@@ -335,6 +332,9 @@
         },
         {
             "m_Id": "3af280ccbd214672a77024bc14afbb2d"
+        },
+        {
+            "m_Id": "da7b97b305d5458da56e1c5c4cf090ad"
         }
     ],
     "m_GroupDatas": [
@@ -1561,7 +1561,7 @@
                 "m_Id": "808b26bae996456ba15ad0d4cc3b1b42"
             },
             {
-                "m_Id": "c51753ec20cc4d6fabc5b22c9ca4c2f3"
+                "m_Id": "da7b97b305d5458da56e1c5c4cf090ad"
             }
         ]
     },
@@ -1866,7 +1866,7 @@
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.CategoryData",
     "m_ObjectId": "07ab479558244bc9ac05f80e698d7bb4",
-    "m_Name": "Foam",
+    "m_Name": "浮沫設置",
     "m_ChildObjectList": [
         {
             "m_Id": "f4a84dd9248c4bb3a146086297317f98"
@@ -2045,7 +2045,7 @@
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.CategoryData",
     "m_ObjectId": "0a6cd407bdd5461483791867aabf2104",
-    "m_Name": "Wave",
+    "m_Name": "波浪設置",
     "m_ChildObjectList": [
         {
             "m_Id": "2fa3ff6112e54ec8bb915e6cb4f71ae1"
@@ -3040,6 +3040,7 @@
     "isMainTexture": false,
     "useTilingAndOffset": false,
     "useTexelSize": true,
+    "isHDR": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -3092,7 +3093,7 @@
     "m_Title": "Wave",
     "m_Position": {
         "x": -1731.9998779296875,
-        "y": -1121.5999755859375
+        "y": -1121.60009765625
     }
 }
 
@@ -3436,12 +3437,13 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"d05da071190590b4b8131bab72d5ccf4\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
     "useTilingAndOffset": false,
     "useTexelSize": true,
+    "isHDR": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -3999,6 +4001,22 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "41772c01fd7e4a1f97627372a634335a",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Alpha",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 1.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
 }
 
 {
@@ -5515,6 +5533,7 @@
     "isMainTexture": false,
     "useTilingAndOffset": false,
     "useTexelSize": true,
+    "isHDR": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -5561,7 +5580,7 @@
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.CategoryData",
     "m_ObjectId": "6fb48f9a38184a96b1e45515bb7389a5",
-    "m_Name": "Base",
+    "m_Name": "基礎設置",
     "m_ChildObjectList": [
         {
             "m_Id": "aeea8bbd6b6746998998f2373a42313f"
@@ -6501,7 +6520,7 @@
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.CategoryData",
     "m_ObjectId": "85b9f4bd08b84139bf520be8726b1968",
-    "m_Name": "Refraction",
+    "m_Name": "折射",
     "m_ChildObjectList": [
         {
             "m_Id": "6765ba555683461ba5bf298cb254241d"
@@ -7406,22 +7425,6 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "a0dafac194b14320b1e8f8cce27c80e1",
-    "m_Id": 0,
-    "m_DisplayName": "Alpha",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Alpha",
-    "m_StageCapability": 2,
-    "m_Value": 1.0,
-    "m_DefaultValue": 1.0,
-    "m_Labels": [],
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "a1eec92a0d554915888066eafcf88ca3",
     "m_Id": 3,
     "m_DisplayName": "B",
@@ -7916,8 +7919,8 @@
     "m_ObjectId": "adf9cf16a5ea4c92be21235c5b429f8e",
     "m_Title": "Position",
     "m_Position": {
-        "x": -741.599853515625,
-        "y": -1696.0
+        "x": -741.5999755859375,
+        "y": -1696.0001220703125
     }
 }
 
@@ -8517,40 +8520,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "c51753ec20cc4d6fabc5b22c9ca4c2f3",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.Alpha",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "a0dafac194b14320b1e8f8cce27c80e1"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "c563be0380244115b2749c3b697cf730",
     "m_Id": 4,
@@ -8638,7 +8607,7 @@
     "m_ObjectId": "cc080881973b4197ae26f678587ba3d0",
     "m_Title": "Foam",
     "m_Position": {
-        "x": -1140.7998046875,
+        "x": -1140.8001708984375,
         "y": 573.6002197265625
     }
 }
@@ -9370,6 +9339,40 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "da7b97b305d5458da56e1c5c4cf090ad",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.Alpha",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "41772c01fd7e4a1f97627372a634335a"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
 }
 
 {
@@ -10355,7 +10358,7 @@
     "m_ObjectId": "ed8f3e6f403f41508dbf47b3606ff0fe",
     "m_Title": "Refraction",
     "m_Position": {
-        "x": -2463.999755859375,
+        "x": -2464.000244140625,
         "y": -465.5999755859375
     }
 }
@@ -10366,7 +10369,7 @@
     "m_ObjectId": "eddcc8d48cce4ee0be29d690b9926117",
     "m_Title": "Color&Alpha",
     "m_Position": {
-        "x": -1235.1998291015625,
+        "x": -1235.2001953125,
         "y": 188.800048828125
     }
 }
