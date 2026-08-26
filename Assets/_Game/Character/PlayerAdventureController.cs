@@ -6,7 +6,7 @@ using UnityEngine.Serialization; // ★ 1. 確保引入新版 InputSystem
 public class PlayerAdventureController : MonoBehaviour
 {
     [Header("即時狀態監控 (GAS-Lite 閘門)")]
-    [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
+    [SerializeField] private EntityStateFlags currentState = EntityStateFlags.Normal;
 
     [FormerlySerializedAs("playerSO")]
     [Header("資料庫綁定 (SSOT)")]
@@ -37,16 +37,16 @@ public class PlayerAdventureController : MonoBehaviour
     // ★ GAS-Lite 核心：行為閘門 (Action Gates)
     // ==========================================
     
-    private bool CanMove() => !currentState.HasFlag(PlayerStateFlags.Dead) && 
-                              !currentState.HasFlag(PlayerStateFlags.Stunned) &&
-                              !currentState.HasFlag(PlayerStateFlags.Dashing);
+    private bool CanMove() => !currentState.HasFlag(EntityStateFlags.Dead) && 
+                              !currentState.HasFlag(EntityStateFlags.Stunned) &&
+                              !currentState.HasFlag(EntityStateFlags.Dashing);
 
     private bool CanJump() => CanMove() && 
-                              !currentState.HasFlag(PlayerStateFlags.Airborne);
+                              !currentState.HasFlag(EntityStateFlags.Airborne);
 
     private void Update()
     {
-        if (currentState.HasFlag(PlayerStateFlags.Dead)) return;
+        if (currentState.HasFlag(EntityStateFlags.Dead)) return;
 
         // ★ 3. 嚴格執行順序：先讀取輸入 -> 檢查環境 -> 執行動作
         ReadInput();         
@@ -90,11 +90,11 @@ public class PlayerAdventureController : MonoBehaviour
 
         if (isGrounded)
         {
-            currentState &= ~PlayerStateFlags.Airborne;
+            currentState &= ~EntityStateFlags.Airborne;
         }
         else
         {
-            currentState |= PlayerStateFlags.Airborne;
+            currentState |= EntityStateFlags.Airborne;
         }
     }
 
@@ -120,7 +120,7 @@ public class PlayerAdventureController : MonoBehaviour
             {
                 _rb.AddForce(Vector3.up * _exploration.jumpForce, ForceMode.Impulse);
                 
-                currentState |= PlayerStateFlags.Airborne;
+                currentState |= EntityStateFlags.Airborne;
                 Debug.Log("消耗體力進行跳躍！");
             }
         }

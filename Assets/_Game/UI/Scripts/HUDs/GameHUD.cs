@@ -32,9 +32,9 @@ namespace Game.UI
         }
         private void Update()
         {
-            playerDrunkennessValue = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerDrunkennessValue;
-            playerCurWineBottle = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottle;
-            playerCurWineBottleRemainingAlcohol = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottleRemainingAlcohol;
+            // playerDrunkennessValue = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerDrunkennessValue;
+            // playerCurWineBottle = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottle;
+            // playerCurWineBottleRemainingAlcohol = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottleRemainingAlcohol;
             
             UpdateText();
         }

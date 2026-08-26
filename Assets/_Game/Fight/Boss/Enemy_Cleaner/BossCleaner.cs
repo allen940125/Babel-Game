@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BossCleaner : BossBase
+public class BossCleaner : BossStateMachine
 {
     [Header("★ Cleaner 專屬地圖道具設定")]
     [Tooltip("請拖入會在地上隨機出現、讓玩家靠近或用按鈕撞擊來扣秒的道具 Prefab")]
@@ -68,7 +68,7 @@ public class BossCleaner : BossBase
             // ★ 3. 綁定 SO 減秒：如果這個道具上面有 BossSpecialMechanism，把 SO 傳給它
             if (specialObj.TryGetComponent(out BossSpecialMechanism mechanism))
             {
-                mechanism.InitializeMechanism(this.boss);
+                mechanism.InitializeMechanism(this.BossData);
             }
         }
     }

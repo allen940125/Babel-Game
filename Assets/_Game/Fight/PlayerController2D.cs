@@ -11,12 +11,9 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController3D : MonoBehaviour
 {
-    [Header("即時狀態監控 (唯讀)")]
-    [SerializeField] private PlayerStateFlags currentState = PlayerStateFlags.Normal;
-
     [FormerlySerializedAs("playerSO")]
     [Header("★ 資料庫綁定 (SSOT)")]
-    [SerializeField] private EntityRuntime player;
+    private EntityRuntime _entityData;
     
     // ★ 新增：用來快取 (Cache) 體力特徵的變數
     private StaminaTrait _staminaTrait;
@@ -44,25 +41,41 @@ public class PlayerController3D : MonoBehaviour
         _rb.useGravity = false;
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+    }
 
-        if (player == null) 
+    private void Start()
+    {
+        // ==========================================
+        // ★ 核心修正 1：區域依賴注入 (向大腦借資料)
+        // ==========================================
+        var core = GetComponent<EntityCore>();
+        if (core != null)
         {
-            Debug.LogError($"[致命錯誤] {gameObject.name} 未指派 EntityRuntime！");
+            _entityData = core.RuntimeData;
+        }
+        
+        if (_entityData == null) 
+        {
+            Debug.LogError($"[致命錯誤] {gameObject.name} 缺少 EntityCore 大腦！");
             return;
         }
 
         // ==========================================
-        // ★ 核心變更：在 Awake 階段索取並快取特徵！
+        // ★ 核心修正 2：索取並快取特徵
         // ==========================================
-        if (!player.TryGetTrait(out _staminaTrait))
+        if (!_entityData.TryGetTrait(out _staminaTrait))
         {
             Debug.LogWarning($"[系統警告] {gameObject.name} 的 SO 沒有掛載 StaminaTrait！將無法使用體力與衝刺系統！");
         }
     }
 
-    private bool CanMove() => !currentState.HasFlag(PlayerStateFlags.Dashing) && 
-                              !currentState.HasFlag(PlayerStateFlags.Stunned) && 
-                              !currentState.HasFlag(PlayerStateFlags.Dead);
+    private bool CanMove()
+    {
+        if (_entityData == null) return false;
+        return !_entityData.HasState(EntityStateFlags.Dashing) && 
+               !_entityData.HasState(EntityStateFlags.Stunned) && 
+               !_entityData.HasState(EntityStateFlags.Dead);
+    }
 
     // ★ 核心變更：直接向快取好的 _staminaTrait 詢問數值
     private bool CanDash() => CanMove() && 
@@ -73,7 +86,7 @@ public class PlayerController3D : MonoBehaviour
 
     private void Update()
     {
-        if (currentState.HasFlag(PlayerStateFlags.Dead)) return;
+        if (_entityData == null || _entityData.HasState(EntityStateFlags.Dead)) return;
 
         HandleStaminaRegen();
         HandleInput();
@@ -82,16 +95,16 @@ public class PlayerController3D : MonoBehaviour
 
     private void HandleStaminaRegen()
     {
-        // ★ 核心變更：防呆檢查
         if (_staminaTrait == null) return; 
 
-        if (!currentState.HasFlag(PlayerStateFlags.Dashing) && 
+        // 檢查狀態時也是向 _entityData 問
+        if (!_entityData.HasState(EntityStateFlags.Dashing) && 
             _staminaTrait.currentStamina < _staminaTrait.maxStamina && 
             Time.time >= _lastStaminaConsumeTime + staminaRegenDelay)
         {
-            // 向特徵呼叫回復體力
             _staminaTrait.RegenStamina(20f, Time.deltaTime); 
-
+            
+            // 注意：這裡其實未來也可以改用特徵內部的 OnStaminaRatioChanged 事件，但先保留你的廣播邏輯
             GameManager.Instance.MainGameEvent.Send(new PlayerStaminaChangedEvent()
             {
                 CurrentStamina = _staminaTrait.currentStamina,
@@ -113,7 +126,6 @@ public class PlayerController3D : MonoBehaviour
             _currentInput = new Vector3(x, y, 0f).normalized;
         }
 
-        // 僅保留衝刺輸入，已移除所有攻擊與射擊監聽
         if (Keyboard.current.leftShiftKey.wasPressedThisFrame && CanDash())
         {
             StartCoroutine(DashRoutine());
@@ -127,15 +139,13 @@ public class PlayerController3D : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
         }
 
-        if (currentState.HasFlag(PlayerStateFlags.Dashing))
+        if (_entityData != null && _entityData.HasState(EntityStateFlags.Dashing))
         {
-            // ★ 核心變更：讀取特徵的 dashSpeed
             float dashSpd = _staminaTrait != null ? _staminaTrait.dashSpeed : 20f;
             _rb.linearVelocity = _dashDirection * dashSpd;
         }
         else if (CanMove())
         {
-            // ★ 核心變更：讀取特徵的 moveSpeed
             float moveSpd = _staminaTrait != null ? _staminaTrait.moveSpeed : 5f;
             Vector3 targetVelocity = _currentInput * moveSpd;
             _rb.linearVelocity = Vector3.SmoothDamp(_rb.linearVelocity, targetVelocity, ref _currentVelocity, smoothTime);
@@ -148,15 +158,18 @@ public class PlayerController3D : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
-        currentState |= PlayerStateFlags.Dashing;
+        // ==========================================
+        // ★ 核心修正 4：向大腦貼上標籤 (鎖定移動 + 賦予無敵)
+        // 這樣 EntityHealthComponent 看到 Invincible 標籤就會自動免傷了！
+        // ==========================================
+        _entityData.AddState(EntityStateFlags.Dashing | EntityStateFlags.Invincible);
+        
         _isDashCooldown = true;
         _lastStaminaConsumeTime = Time.time;
 
-        // ★ 核心變更：呼叫特徵扣除體力
         if (_staminaTrait != null) 
         {
             _staminaTrait.ConsumeStamina(_staminaTrait.dashCost);
-
             GameManager.Instance.MainGameEvent.Send(new PlayerStaminaChangedEvent()
             {
                 CurrentStamina = _staminaTrait.currentStamina,
@@ -169,7 +182,11 @@ public class PlayerController3D : MonoBehaviour
         float duration = _staminaTrait != null ? _staminaTrait.dashDuration : 0.2f;
         yield return new WaitForSeconds(duration);
 
-        currentState &= ~PlayerStateFlags.Dashing;
+        // ==========================================
+        // ★ 核心修正 5：衝刺結束，向大腦撕掉標籤
+        // ==========================================
+        _entityData.RemoveState(EntityStateFlags.Dashing | EntityStateFlags.Invincible);
+        
         _rb.linearVelocity = Vector3.zero;
 
         float cooldown = _staminaTrait != null ? _staminaTrait.dashCooldown : 0.5f;
@@ -179,35 +196,16 @@ public class PlayerController3D : MonoBehaviour
 
     private void UpdateVisualColor()
     {
-        if (_sr == null || currentState.HasFlag(PlayerStateFlags.Invincible) || player == null) return;
+        if (_sr == null || _entityData == null || _entityData.HasState(EntityStateFlags.Invincible)) return;
 
-        // 瀕死判定：核心血量依然在 EntityRuntime 裡，所以直接用 player 讀取
-        if ((float)player.CurrentHealth / player.MaxHealth <= 0.2f)
+        if ((float)_entityData.CurrentHealth / _entityData.MaxHealth <= 0.2f)
         {
             float t = Mathf.PingPong(Time.time * 8f, 1f);
             //_sr.color = Color.Lerp(Color.white, damageColor, t);
         }
-        // ★ 核心變更：體力比例向 _staminaTrait 讀取
         else if (_staminaTrait != null)
         {
             _sr.color = Color.Lerp(Color.red, Color.white, _staminaTrait.StaminaRatio);
         }
     }
-}
-
-// ==========================================
-// 第一部分：GAS-Lite 狀態標籤系統
-// ==========================================
-[Flags]
-public enum PlayerStateFlags
-{
-    None = 0,
-    Normal = 1 << 0,
-    Dashing = 1 << 1,     // 衝刺中 (鎖定一般移動)
-    Invincible = 1 << 2,  // 無敵狀態
-    Stunned = 1 << 3,     // 眩暈/被控制
-    Dead = 1 << 4,         // 死亡
-    // ★ 大地圖專屬擴充標籤
-    Airborne = 1 << 5,    // 浮空中 (鎖死再次跳躍)
-    Climbing = 1 << 6     // 攀爬中 (鎖死重力)
 }

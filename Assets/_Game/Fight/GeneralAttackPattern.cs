@@ -51,7 +51,7 @@ public class GeneralAttackPattern : AttackPatternBase
     }
 
     // --- 實作父類別 ---
-    protected override void OnExecute(BossBase boss, float speedMultiplier, bool isAngry)
+    protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
         float finalSpeed = baseSpeed * speedMultiplier;
         if (isAngry) finalSpeed *= 1.5f;
@@ -71,7 +71,7 @@ public class GeneralAttackPattern : AttackPatternBase
     }
 
     // --- Coroutine ---
-    private IEnumerator FireRoutine(BossBase boss, float speed)
+    private IEnumerator FireRoutine(BossStateMachine boss, float speed)
     {
         if (patternType == PatternType.LinearLine)
         {
@@ -90,7 +90,7 @@ public class GeneralAttackPattern : AttackPatternBase
     }
 
     // --- 單發邏輯 ---
-    private void FireSingleBulletByPattern(BossBase boss, float speed, int index)
+    private void FireSingleBulletByPattern(BossStateMachine boss, float speed, int index)
     {
         Vector2 dir = Vector2.down; 
         Vector2 spawnPos = transform.position; // 預設生成點
@@ -138,7 +138,7 @@ public class GeneralAttackPattern : AttackPatternBase
     }
 
     // --- 一次性全射邏輯 ---
-    private void FireAllPatterns(BossBase boss, float speed)
+    private void FireAllPatterns(BossStateMachine boss, float speed)
     {
         switch (patternType)
         {
@@ -160,7 +160,7 @@ public class GeneralAttackPattern : AttackPatternBase
     }
     
     // --- ★ 修改後的 FireCircle (一次性) ---
-    private void FireCircle(BossBase boss, float speed) 
+    private void FireCircle(BossStateMachine boss, float speed) 
     {
         float angleStep = 360f / bulletCount;
         for (int i = 0; i < bulletCount; i++) 
@@ -191,7 +191,7 @@ public class GeneralAttackPattern : AttackPatternBase
         return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
     }
     // ... 其他輔助方法 (GetRandomSpawnPos, GetDirToPlayer, CreateBullet) 保持不變 ...
-    private void CreateBullet(BossBase boss, Vector2 spawnPos, Vector2 direction, float speed)
+    private void CreateBullet(BossStateMachine boss, Vector2 spawnPos, Vector2 direction, float speed)
     {
         if (bulletPrefab == null) { Debug.LogError("❌ 沒放 Bullet Prefab！"); return; }
         GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
@@ -209,16 +209,16 @@ public class GeneralAttackPattern : AttackPatternBase
         if (player != null) return (player.transform.position - transform.position).normalized;
         return Vector2.down;
     }
-    private void FireRandomSpray(BossBase boss, float speed) {
+    private void FireRandomSpray(BossStateMachine boss, float speed) {
         for (int i = 0; i < bulletCount; i++) {
             Vector2 dir = useRandomDirection ? Random.insideUnitCircle.normalized : GetDesiredDirection();
             CreateBullet(boss, GetRandomSpawnPos(), dir, speed);
         }
     }
-    private void FireRandomRain(BossBase boss, float speed) {
+    private void FireRandomRain(BossStateMachine boss, float speed) {
         for (int i = 0; i < bulletCount; i++) CreateBullet(boss, GetRandomSpawnPos(), Vector2.down, speed);
     }
-    private void FireShotgun(BossBase boss, float speed, bool aimAtPlayer) {
+    private void FireShotgun(BossStateMachine boss, float speed, bool aimAtPlayer) {
         float startAngle = 0f; Vector2 baseDir = GetDirToPlayer();
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
         startAngle = baseAngle - (spreadAngle / 2f);
@@ -228,7 +228,7 @@ public class GeneralAttackPattern : AttackPatternBase
             CreateBullet(boss, transform.position, AngleToVector(currentAngle), speed);
         }
     }
-    private void FireSniper(BossBase boss, float speed) {
+    private void FireSniper(BossStateMachine boss, float speed) {
         Vector2 targetDir = GetDirToPlayer();
         for (int i = 0; i < bulletCount; i++) {
             float randomOffset = Random.Range(-5f, 5f);
@@ -236,7 +236,7 @@ public class GeneralAttackPattern : AttackPatternBase
             CreateBullet(boss, transform.position, AngleToVector(baseAngle + randomOffset), speed);
         }
     }
-    private IEnumerator FireLinearLineRoutine(BossBase boss, float speed) {
+    private IEnumerator FireLinearLineRoutine(BossStateMachine boss, float speed) {
         Vector2 startPos = (Vector2)transform.position - new Vector2(spawnAreaSize.x / 2f, 0);
         Vector2 endPos = (Vector2)transform.position + new Vector2(spawnAreaSize.x / 2f, 0);
         for (int i = 0; i < bulletCount; i++) {
