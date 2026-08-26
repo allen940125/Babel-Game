@@ -48,10 +48,10 @@ public class EnemyBullet : EnemyProjectileBase
     private Rigidbody _rb;
     private LineRenderer _lineRenderer;
     private bool _isInitialized = false;
-    private BossBase _ownerBoss;
+    private BossStateMachine _ownerBoss;
     private readonly RaycastHit[] _hitBuffer = new RaycastHit[16];
 
-    public override void Initialize(Vector3 startDirection, float finalSpeedMultiple, BossBase ownerBoss)
+    public override void Initialize(Vector3 startDirection, float finalSpeedMultiple, BossStateMachine ownerBoss)
     {
         _ownerBoss = ownerBoss;
         if (_ownerBoss != null) _ownerBoss.RegisterActiveBullet(this.gameObject);

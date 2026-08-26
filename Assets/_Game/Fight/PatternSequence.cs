@@ -37,7 +37,7 @@ public class PatternSequence : AttackPatternBase
         }
     }
 
-    protected override void OnExecute(BossBase boss, float speedMultiplier, bool isAngry)
+    protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
         // 1. 重要：把自己註冊給 Boss
         // 這樣 Boss 就會把這個「序列發射器」當作是一個「還在場上的子彈」
@@ -48,7 +48,7 @@ public class PatternSequence : AttackPatternBase
         StartCoroutine(RunSequenceRoutine(boss, speedMultiplier, isAngry));
     }
 
-    private IEnumerator RunSequenceRoutine(BossBase boss, float speedMultiplier, bool isAngry)
+    private IEnumerator RunSequenceRoutine(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
         foreach (var step in steps)
         {

@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    [Header("★ 動態數據來源 (選填)")]
-    [Tooltip("若綁定 SO，則優先使用 SO 內的攻擊力與暴擊率結算。適用於玩家武器或 Boss 攻擊。")]
-    [SerializeField] private EntityRuntime sourceEntityData;
+    // ★ 拔除 SerializeField，改為私有變數
+    private EntityRuntime _sourceEntityData;
 
     [Header("★ 靜態固定數值 (當 SO 為空時生效)")]
-    [Tooltip("若無綁定 SO，則使用此固定數值。適用於一般敵人子彈、環境陷阱。")]
     [SerializeField] private int flatDamage = 15;
-    [SerializeField] private bool canCrit = false; // 靜態傷害是否允許暴擊
+    [SerializeField] private bool canCrit = false;
+
+    // ==========================================
+    // ★ 核心：開放給外部注入資料的接口
+    // ==========================================
+    public void BindSourceData(EntityRuntime runtime)
+    {
+        _sourceEntityData = runtime;
+        Debug.Log($"<color=cyan>[DamageDealer] 已成功綁定資料來源！</color>");
+    }
 
     public void DealDamageTo(GameObject target)
     {
@@ -27,11 +34,10 @@ public class DamageDealer : MonoBehaviour
 
     private DamagePayload ConstructPayload()
     {
-        // 模式 A：動態 SO 結算 (玩家、精英怪)
-        if (sourceEntityData != null)
+        if (_sourceEntityData != null)
         {
-            bool isCrit = Random.value <= sourceEntityData.TotalCritRate;
-            int finalRawDamage = isCrit ? Mathf.RoundToInt(sourceEntityData.TotalAttackPower * sourceEntityData.TotalCritMultiplier) : sourceEntityData.TotalAttackPower;
+            bool isCrit = Random.value <= _sourceEntityData.TotalCritRate;
+            int finalRawDamage = isCrit ? Mathf.RoundToInt(_sourceEntityData.TotalAttackPower * _sourceEntityData.TotalCritMultiplier) : _sourceEntityData.TotalAttackPower;
 
             return new DamagePayload()
             {
@@ -41,7 +47,6 @@ public class DamageDealer : MonoBehaviour
             };
         }
         
-        // 模式 B：靜態數值結算 (普通子彈、陷阱)
         return new DamagePayload()
         {
             Damage = flatDamage,

@@ -11,5 +11,5 @@ public abstract class EnemyProjectileBase : MonoBehaviour
         damageDealer = GetComponent<DamageDealer>();
     }
 
-    public abstract void Initialize(Vector3 direction, float speed, BossBase ownerBoss);
+    public abstract void Initialize(Vector3 direction, float speed, BossStateMachine ownerBoss);
 }

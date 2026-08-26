@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 8788324153685406253}
   - component: {fileID: 3791941092517529905}
   - component: {fileID: 8433968155808799934}
+  - component: {fileID: 7005765909813318066}
   m_Layer: 0
   m_Name: "\u666E\u901A\u653B\u64CA 1"
   m_TagString: Untagged
@@ -327,7 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  damageAmount: 20
   stats:
     speedRange: {x: 5, y: 12}
     lifeTimeRange: {x: 3, y: 6}
@@ -372,3 +372,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &7005765909813318066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034763294956535289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  sourceEntityData:
+    Blueprint: {fileID: 11400000, guid: 1215c0d69b9ebef45849462743aaacfc, type: 2}
+    _currentHealth: 0
+    _bonusAttackPower: 0
+    _bonusDefense: 0
+    _runtimeTraits: []
+  flatDamage: 15
+  canCrit: 0
+  references:
+    version: 2
+    RefIds: []

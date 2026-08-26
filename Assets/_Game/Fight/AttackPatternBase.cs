@@ -2,10 +2,10 @@ using UnityEngine;
 
 public abstract class AttackPatternBase : MonoBehaviour
 {
-    protected BossBase _ownerBoss;
+    protected BossStateMachine _ownerBoss;
     
     // 讓 Boss 呼叫的方法
-    public void Execute(BossBase boss, float speedMultiplier, bool isAngry)
+    public void Execute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
         _ownerBoss = boss;
         OnExecute(boss, speedMultiplier, isAngry);
@@ -15,7 +15,7 @@ public abstract class AttackPatternBase : MonoBehaviour
         // 普通的發射器射完就可以 Destroy，但序列發射器需要存活一段時間
     }
 
-    protected abstract void OnExecute(BossBase boss, float speedMultiplier, bool isAngry);
+    protected abstract void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry);
     
     protected virtual void OnDestroy()
     {

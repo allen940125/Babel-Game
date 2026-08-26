@@ -29,7 +29,7 @@ public class HomingMissile : EnemyProjectileBase
     private Transform _target;
     private bool _hasExploded = false;
     
-    private BossBase _ownerBoss;
+    private BossStateMachine _ownerBoss;
     
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class HomingMissile : EnemyProjectileBase
         //transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
-    public override void Initialize(Vector3 startDirection, float incomingSpeed, BossBase _ownerBoss)
+    public override void Initialize(Vector3 startDirection, float incomingSpeed, BossStateMachine _ownerBoss)
     {
         this.speed = incomingSpeed;
         

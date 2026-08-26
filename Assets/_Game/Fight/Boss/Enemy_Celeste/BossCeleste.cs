@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BossCeleste : BossBase
+public class BossCeleste : BossStateMachine
 {
     [Header("Celeste 專屬設定")]
     [Tooltip("必須掛有 BossSpecialMechanism 腳本")]

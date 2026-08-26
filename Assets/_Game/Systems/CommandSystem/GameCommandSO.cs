@@ -1,5 +1,6 @@
 using System;
 using Game.SceneManagement;
+using Game.UI;
 using Gamemanager; // 依賴你的事件系統
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -41,6 +42,17 @@ public class ItemAction : ICommandAction
 }
 
 [Serializable]
+public class OpenBagpackAction : ICommandAction
+{
+    public void Invoke()
+    {
+        Debug.Log($"發送：背包打開指令");
+        GameManager.Instance.UIManager.OpenPanel<BagMenu>(UIType.BagMenu);
+    }
+}
+
+
+[Serializable]
 public class SwitchSceneAction : ICommandAction
 {
     // 道具需要參數，所以宣告在此
@@ -62,6 +74,7 @@ public class PlayerHealAction : ICommandAction
 
     public void Invoke()
     {
+        player = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
         if (player == null) return;
         
         HealPayload payload = new HealPayload()

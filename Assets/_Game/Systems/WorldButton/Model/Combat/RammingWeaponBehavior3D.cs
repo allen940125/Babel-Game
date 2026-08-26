@@ -39,6 +39,24 @@ public class RammingWeaponBehavior3D : MonoBehaviour
             Debug.LogWarning($"[{gameObject.name}] 找不到 GameManager.Instance.MainGameEvent，事件訂閱失敗！");
         }
     }
+    
+    private void Start()
+    {
+        // ★ 核心：向全域中繼站索取玩家資料，並注入給 DamageDealer
+        if (damageDealer != null)
+        {
+            var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+            
+            if (playerRuntime != null)
+            {
+                damageDealer.BindSourceData(playerRuntime);
+            }
+            else
+            {
+                Debug.LogWarning($"[{gameObject.name}] 在 Start 階段找不到玩家資料，將使用固定傷害！");
+            }
+        }
+    }
 
     private void OnDestroy()
     {

@@ -38,7 +38,7 @@ public class SaveManager : Singleton<SaveManager>
     {
         #region 測試用
         
-        if (Keyboard.current != null && Keyboard.current.oKey.wasPressedThisFrame)
+        if (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame)
         {
             Debug.Log("鍵盤上的 P 鍵被按下了 (Was Pressed This Frame)！");
             SaveGame(); // 統一保存存檔

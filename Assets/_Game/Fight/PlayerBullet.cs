@@ -28,7 +28,7 @@ public class PlayerBullet : MonoBehaviour
         {
             // --- 修改重點 ---
             // 改用 GetComponentInParent，這樣就算 Collider 在子物件，也能找到父物件的腳本
-            BossBase boss = other.GetComponentInParent<BossBase>();
+            BossStateMachine boss = other.GetComponentInParent<BossStateMachine>();
             
             if (boss != null)
             {
@@ -37,7 +37,7 @@ public class PlayerBullet : MonoBehaviour
             else
             {
                 // Debug 用的，萬一 Tag 對了但找不到腳本，會報錯提醒你
-                Debug.LogWarning($"撞到了 Tag 為 Boss 的物件 {other.name}，但在其父層找不到 BossBase 腳本！");
+                Debug.LogWarning($"撞到了 Tag 為 Boss 的物件 {other.name}，但在其父層找不到 BossStateMachine 腳本！");
             }
 
             Destroy(gameObject); // 撞到敵人後銷毀子彈

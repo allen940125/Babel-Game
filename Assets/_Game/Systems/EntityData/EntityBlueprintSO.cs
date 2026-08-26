@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEntityData", menuName = "Game/Runtime Data/Entity Blueprint")]
 public class EntityBlueprintSO : ScriptableObject
 {
+    [Header("戰鬥生成設定")]
+    [Tooltip("進入戰鬥場景時，要生成的實際 Boss Prefab")]
+    public GameObject battlePrefab;
+    
     [Header("★ 絕對核心數據 (所有生物共用)")]
     public int maxHealth = 100;
     public int attackPower = 20;
@@ -15,6 +19,19 @@ public class EntityBlueprintSO : ScriptableObject
     [Header("★ 動態特徵插槽 (由企劃自由組合)")]
     [SerializeReference]
     public List<EntityTrait> traits = new List<EntityTrait>();
+}
+
+[Flags]
+public enum EntityStateFlags
+{
+    None = 0,
+    Normal = 1 << 0,
+    Dashing = 1 << 1,     
+    Invincible = 1 << 2,  // 通用的無敵標籤！
+    Stunned = 1 << 3,     
+    Dead = 1 << 4,        
+    Airborne = 1 << 5,    
+    Climbing = 1 << 6     
 }
 
 [Serializable]
@@ -54,6 +71,24 @@ public class EntityRuntime
     public float TotalCritRate => Blueprint.critRate;
     public float TotalCritMultiplier => Blueprint.critMultiplier;
 
+    // ★ 全實體共用的狀態標籤
+    public EntityStateFlags CurrentState = EntityStateFlags.Normal;
+    
+    public bool HasState(EntityStateFlags state)
+    {
+        return (CurrentState & state) == state;
+    }
+
+    public void AddState(EntityStateFlags state)
+    {
+        CurrentState |= state;
+    }
+
+    public void RemoveState(EntityStateFlags state)
+    {
+        CurrentState &= ~state;
+    }
+    
     public void Initialize(EntityBlueprintSO blueprint)
     {
         Blueprint = blueprint;

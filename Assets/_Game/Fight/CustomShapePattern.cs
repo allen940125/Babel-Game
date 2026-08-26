@@ -54,7 +54,7 @@ public class CustomShapePattern : AttackPatternBase
         }
     }
 
-    protected override void OnExecute(BossBase boss, float speedMultiplier, bool isAngry)
+    protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
         float finalSpeed = baseSpeed * speedMultiplier;
         if (isAngry) finalSpeed *= 1.5f;

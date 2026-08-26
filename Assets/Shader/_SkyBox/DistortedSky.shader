@@ -65,7 +65,7 @@ Shader "Custom/DistortedSky"
                 return o;
             }
 
-            // 把方向向量轉成球面 UV（skybox本質是採樣方向）
+            // 把方向向量轉成球面UV
             float2 DirToUV(float3 dir)
             {
                 float2 uv;
