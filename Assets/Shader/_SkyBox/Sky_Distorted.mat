@@ -41,7 +41,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortAmount: 0.083
+    - _DistortAmount: 0.1
     - _Exposure: 0.62
     - _NoiseScale: 3.31
     - _NoiseSpeedX: 0.02
