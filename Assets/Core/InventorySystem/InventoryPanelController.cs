@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic; // 必須引用
+using System.Linq;                // 必須引用 (用於 OrderBy)
 using Game.UI;
 using Gamemanager;
 using UnityEngine;
@@ -8,31 +10,28 @@ public class InventoryPanelController
     [Header("背包UI位置")]
     private GameObject _uiPanel;
     private GameObject _slotGrid;
-
-    private GameObject _emptySlot;//空位
+    private GameObject _emptySlot;
     
     public InventoryPanelController()
     {
-        SubscribeEvents(); // 抽成獨立方法
+        SubscribeEvents();
     }
 
     public void Dispose()
     {
-        UnsubscribeEvents(); // 手動呼叫解除訂閱
-        GC.SuppressFinalize(this); // 避免重複清理
+        UnsubscribeEvents();
+        GC.SuppressFinalize(this);
     }
     
     #region 初始化
     
     private void SubscribeEvents()
     {
-        Debug.Log("設置訂閱");
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBagRefreshedEvent, OnPlayerBagRefreshedEvent);
     }
 
     private void UnsubscribeEvents()
     {
-        Debug.Log("解除訂閱");
         GameManager.Instance.MainGameEvent.Unsubscribe<PlayerBagRefreshedEvent>();
     }
 
@@ -45,51 +44,62 @@ public class InventoryPanelController
     
     #region 背包更新
 
-    /// <summary>
-    /// 設置BagMenu的背包資訊
-    /// </summary>
-    /// <param name="uiPanel"></param>
-    /// <param name="grid"></param>
     public void SetBagInfo(GameObject uiPanel, GameObject grid, GameObject emptySlot)
     {
         this._uiPanel = uiPanel;
         _slotGrid = grid;
         _emptySlot = emptySlot;
-        
-        Debug.Log(_slotGrid.name + "跟" + _emptySlot.name);
     }
     
-    /// <summary>
-    /// 重新整理玩家背包物品
-    /// </summary>
-    /// <param name="itemControllerType"></param>
     private void RefreshPlayerBagItem(ItemControllerType itemControllerType)
     {
-        Debug.Log(_slotGrid);
         InventoryManager.Instance.ClearChildObjects(_slotGrid.transform);
-
-        // 使用 LINQ 或 Find 方法直接取得符合分類
-        var category = SaveManager.Instance.CurrentSaveData.InventoryData.categoryGroups
-            .Find(c => c.categoryName == itemControllerType);
-
-        if (category == null)
-        {
-            Debug.LogWarning("沒有找到符合的背包分類: " + itemControllerType);
-            return;
-        }
-    
-        // 更新當前分類名稱（如果需要）
         InventoryManager.Instance.curCategoryTypeName = itemControllerType;
 
-        Debug.Log(category.items.Count + " 生成格子");
+        // 核心修正：將動態型別 (dynamic) 替換為真實的資料型別 InventoryItemRuntimeData
+        var itemsToDisplay = new List<InventoryItemRuntimeData>(); 
+
+        if (itemControllerType == ItemControllerType.All)
+        {
+            // 指令為 All：無視分類，將所有 categoryGroups 內的 items 合併至單一清單
+            foreach (var group in SaveManager.Instance.CurrentSaveData.InventoryData.categoryGroups)
+            {
+                if (group.items != null)
+                {
+                    itemsToDisplay.AddRange(group.items);
+                }
+            }
         
-        // 根據該分類的 Items 數量生成格子
-        for (int i = 0; i < category.items.Count; i++)
+            // 將所有物品按照 itemId 排序
+            itemsToDisplay = itemsToDisplay.OrderBy(item => item.itemId).ToList();
+        }
+        else
+        {
+            // 指令為具體分類：尋找對應的分類群組
+            var category = SaveManager.Instance.CurrentSaveData.InventoryData.categoryGroups
+                .Find(c => c.categoryName == itemControllerType);
+
+            if (category != null)
+            {
+                itemsToDisplay.AddRange(category.items);
+            }
+            else
+            {
+                Debug.LogWarning("沒有找到符合的背包分類: " + itemControllerType);
+                return;
+            }
+        }
+
+        Debug.Log(itemsToDisplay.Count + " 生成格子");
+    
+        // 依據整併後的 itemsToDisplay 數量生成格子
+        for (int i = 0; i < itemsToDisplay.Count; i++)
         {
             GameObject curGameObject = GameManager.Instance.InstantiateFromManager(_emptySlot);
             curGameObject.transform.SetParent(_slotGrid.transform);
-            Debug.Log(category.items[i].itemId);
-            curGameObject.GetComponent<SlotItem>().Initialize(category.items[i]);
+        
+            // 傳遞正確的型別 InventoryItemRuntimeData 給 Initialize
+            curGameObject.GetComponent<SlotItem>().Initialize(itemsToDisplay[i]);
         }
     }
     #endregion

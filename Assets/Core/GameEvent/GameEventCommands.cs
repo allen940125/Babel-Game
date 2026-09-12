@@ -26,6 +26,11 @@ namespace Gamemanager
         public InventoryItemRuntimeData StoredInventoryItemRuntimeData;
     }
 
+    public class InventoryItemHoveredEvent : GameEventMessageBase
+    {
+        public InventoryItemRuntimeData StoredInventoryItemRuntimeData;
+    }
+
     public class ItemAddedToBagEvent : GameEventMessageBase
     {
         public int ItemID;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -125,6 +126,11 @@ public class EnemyBullet : EnemyProjectileBase
                 if (tag == "Wall")
                 {
                     ProcessBounceTarget(targetObj, hit);
+                    GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent 
+                    { 
+                        Intensity = 0.1f, 
+                        Duration = 0.04f 
+                    });
                     break; // 反彈端完畢後，方向已改變，立刻中斷本幀後續偵測！
                 }
 

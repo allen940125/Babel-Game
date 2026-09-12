@@ -90,7 +90,7 @@ public class ExplorationTrait : EntityTrait
 [Serializable]
 public class TimerTrait : EntityTrait
 {
-    [NonSerialized] public float currentTimer;
+    public float currentTimer;
     [NonSerialized] public float maxTimer;
     [NonSerialized] private bool _isTimerFinished = false;
 

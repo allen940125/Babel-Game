@@ -1,5 +1,6 @@
 using UnityEngine;
 using Gamemanager;
+using UnityEngine.Events;
 
 public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHandler
 {
@@ -8,6 +9,10 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
 
     [Tooltip("此按鈕在每個階段可以使用的次數 (0 代表無限次)")]
     [SerializeField] protected int maxUsesPerPhase = 1; 
+    
+    [Header("★ 視覺與狀態事件")]
+    public UnityEvent OnExhausted; // 新增：次數耗盡時觸發
+    public UnityEvent OnReset;     // 新增：階段重置時觸發
     
     private bool _isPhaseLocked = false;
     private int _currentUses = 0; 
@@ -36,6 +41,7 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
             if (maxUsesPerPhase > 0 && _currentUses >= maxUsesPerPhase)
             {
                 SetInteractable(false, false); 
+                OnExhausted?.Invoke();
             }
         }
     }

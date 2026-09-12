@@ -175,6 +175,8 @@ public class GameEffectTemplete : IWithIdData, IWithNameData
 /// </summary>
 public enum ItemControllerType
 {
+    [Description("全部")]
+    All = 0,            // 新增：用於 UI 請求顯示全部
     [Description("裝備")]
     Equipment = 10,
     [Description("消耗品")]
