@@ -22,5 +22,5 @@ MonoBehaviour:
     - rid: 1828852355924230145
       type: {class: ItemAction, ns: , asm: Assembly-CSharp}
       data:
-        itemId: 0
-        count: 1
+        itemId: 103
+        count: 10

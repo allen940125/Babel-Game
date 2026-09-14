@@ -35,6 +35,9 @@ public class InventoryManager : Singleton<InventoryManager>
 
     private void OnDestroy()
     {
+        // ★ 絕對防禦：如果我不是真正的單例（代表我是被銷毀的複製人），我不准執行全域清理！
+        if (_instance != this) return;
+        
         InventoryPanelController?.Dispose(); // 手動觸發清理
         UnsubscribeFromEvents();
     }
@@ -56,8 +59,8 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
         {
-            GameManager.Instance.MainGameEvent.Unsubscribe<ItemAddedToBagEvent>();
-            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>();
+            GameManager.Instance.MainGameEvent.Unsubscribe<ItemAddedToBagEvent>(OnItemAddedToBagEvent);
+            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>(OnInventoryItemClickedEvent);
         }
     }
     

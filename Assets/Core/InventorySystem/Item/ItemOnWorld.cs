@@ -22,7 +22,8 @@ public class ItemOnWorld : MonoBehaviour
         this.itemData = itemData;
         this.quantity = quantity;
 
-        GetComponent<SpriteRenderer>().sprite = itemData.ItemIconPath;
+        GetComponent<SpriteRenderer>().LoadSpriteAsync(itemData.ItemIconPath);
+        
     }
 
     private void OnTriggerEnter(Collider other)

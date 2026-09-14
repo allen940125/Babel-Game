@@ -116,12 +116,13 @@ public enum UIGroup
 }
 
 [Serializable]
-public class UIDataBaseTemplete :IWithIdData, IWithNameData
+public class UIDataBaseTemplete : IWithIdData, IWithNameData
 {
     [field: SerializeField] public int Id { get; set; }
     [field: SerializeField] public string Name { get; set; }
     [field: SerializeField] public string UIGroup { get; set; }
-    [field: SerializeField] public GameObject PrefabPath { get; set; }
+    // 嚴格修正：只存 Addressable Key 字串
+    [field: SerializeField] public string PrefabPath { get; set; } 
 
     public UIDataBaseTemplete Clone()
     {
@@ -134,7 +135,6 @@ public class UIDataBaseTemplete :IWithIdData, IWithNameData
         };
     }
 }
-
 public class MapDataStringTemplete : IWithIdData, IWithNameData
 {
     public string Name { get; set; }
@@ -203,20 +203,21 @@ public enum ItemRarityType
 }
 
 [Serializable]
-public class ItemDataBaseTemplete :IWithIdData, IWithNameData
+public class ItemDataBaseTemplete : IWithIdData, IWithNameData
 {
-    // ★ 必須加上 [field: SerializeField]，否則 Unity 不會存，你也看不到！
     [field: SerializeField] public int Id { get; set; }
     [field: SerializeField] public string Name { get; set; }
-    [field: SerializeField] public GameObject PrefabPath { get; set; }
-    [field: SerializeField] public Sprite ItemIconPath { get; set; }
+    // 嚴格修正：全部改為字串
+    [field: SerializeField] public string PrefabPath { get; set; }
+    [field: SerializeField] public string ItemIconPath { get; set; }
     [field: SerializeField] public string ItemDescription { get; set; }
     [field: SerializeField] public ItemControllerType ItemControllerType { get; set; }
     [field: SerializeField] public ItemRarityType ItemRarityType { get; set; }
     [field: SerializeField] public int ItemUseTimes { get; set; }
     [field: SerializeField] public float LifeTime { get; set; }
     [field: SerializeField] public int BaseValue { get; set; }
-    [field: SerializeField] public GameObject BuffPrefabPath { get; set; }
+    // 嚴格修正：改為字串
+    [field: SerializeField] public string BuffPrefabPath { get; set; }
 
     public ItemDataBaseTemplete Clone()
     {
@@ -238,17 +239,18 @@ public class ItemDataBaseTemplete :IWithIdData, IWithNameData
 }
 
 [Serializable]
-public class StoreDataBaseTemplete :IWithIdData, IWithNameData
+public class StoreDataBaseTemplete : IWithIdData, IWithNameData
 {
-    public int Id { get; set; }
-    public int StoreId { get; set; }
-    public string Name { get; set; }
-    public int ItemId { get; set; }
-    public int ItemBasePrice { get; set; }
-    public int ItemQuantity { get; set; }
-    public float Discount { get; set; }
-    public int MaxPurchase { get; set; }
-    public int RestockInterval { get; set; }
+    // 嚴格修正：補上序列化標籤，否則 Unity 不會儲存這些資料
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public int StoreId { get; set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public int ItemId { get; set; }
+    [field: SerializeField] public int ItemBasePrice { get; set; }
+    [field: SerializeField] public int ItemQuantity { get; set; }
+    [field: SerializeField] public float Discount { get; set; }
+    [field: SerializeField] public int MaxPurchase { get; set; }
+    [field: SerializeField] public int RestockInterval { get; set; }
 
     public StoreDataBaseTemplete Clone()
     {
