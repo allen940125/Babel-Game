@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
   steps:
   - pattern: {fileID: 577304817499354446}
-    delayBefore: 0
+    delayBefore: 0.05
   destroyOnFinish: 1
 --- !u!1 &9190924547870618662
 GameObject:
@@ -95,8 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   patternType: 2
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  bulletCount: 4
-  baseSpeed: 3
+  bulletCount: 10
+  baseSpeed: 2
   spawnAreaSize: {x: 5, y: 5}
   spawnInterval: 0.1
   circleRadius: 0

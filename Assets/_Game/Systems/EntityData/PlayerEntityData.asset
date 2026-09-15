@@ -37,7 +37,7 @@ MonoBehaviour:
       type: {class: StaminaTrait, ns: , asm: Assembly-CSharp}
       data:
         maxStamina: 100
-        moveSpeed: 5
+        moveSpeed: 10
         dashSpeed: 20
         dashCost: 30
         dashDuration: 0.2

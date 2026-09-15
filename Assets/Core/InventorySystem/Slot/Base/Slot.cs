@@ -28,9 +28,7 @@ public abstract class Slot : MonoBehaviour
         if (itemData != null)
         {
             slotItemData = itemData;
-
-            //把slotImage的圖片改成item的圖片
-            imageItemIcon.sprite = itemData.ItemIconPath;
+            imageItemIcon.LoadSpriteAsync(itemData.ItemIconPath);
         }
     }
 

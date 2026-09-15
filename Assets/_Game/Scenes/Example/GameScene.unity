@@ -131,11 +131,11 @@ GameObject:
   - component: {fileID: 8033275}
   - component: {fileID: 8033274}
   - component: {fileID: 8033273}
+  - component: {fileID: 8033277}
   - component: {fileID: 8033272}
   - component: {fileID: 8033271}
   - component: {fileID: 8033270}
   - component: {fileID: 8033276}
-  - component: {fileID: 8033277}
   - component: {fileID: 8033278}
   - component: {fileID: 8033279}
   m_Layer: 9
@@ -155,7 +155,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.43, y: -2.74, z: 0}
-  m_LocalScale: {x: 4.8, y: 3.02, z: 2}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1934750094}
@@ -208,6 +208,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!65 &8033273
@@ -333,8 +338,8 @@ Rigidbody:
   m_GameObject: {fileID: 8033267}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 3
+  m_AngularDamping: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -349,7 +354,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &8033278
 MonoBehaviour:
@@ -371,7 +376,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8033267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f318672b55aa8534992e91fb709f9186, type: 3}
   m_Name: 
@@ -1691,10 +1696,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3416868783655305253, guid: 52571f68872914e24837210513edea1d, type: 3}
-      propertyPath: m_Name
-      value: Dialogue Canvas
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066351540048079, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: m_Name
       value: Dialogue System
@@ -1994,11 +1995,11 @@ GameObject:
   - component: {fileID: 865035399}
   - component: {fileID: 865035398}
   - component: {fileID: 865035397}
+  - component: {fileID: 865035401}
   - component: {fileID: 865035396}
   - component: {fileID: 865035395}
   - component: {fileID: 865035394}
   - component: {fileID: 865035400}
-  - component: {fileID: 865035401}
   - component: {fileID: 865035402}
   m_Layer: 9
   m_Name: "RUN\u6309\u92151_0"
@@ -2017,7 +2018,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16.24, y: -2.74, z: 0}
-  m_LocalScale: {x: 4.8, y: 3.02, z: 2}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2063060134}
@@ -2070,6 +2071,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!65 &865035397
@@ -2183,8 +2189,8 @@ Rigidbody:
   m_GameObject: {fileID: 865035391}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 3
+  m_AngularDamping: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2199,7 +2205,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &865035402
 MonoBehaviour:
@@ -2208,7 +2214,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865035391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f318672b55aa8534992e91fb709f9186, type: 3}
   m_Name: 
@@ -2836,11 +2842,11 @@ GameObject:
   - component: {fileID: 1224916887}
   - component: {fileID: 1224916886}
   - component: {fileID: 1224916885}
+  - component: {fileID: 1224916889}
   - component: {fileID: 1224916884}
   - component: {fileID: 1224916883}
   - component: {fileID: 1224916882}
   - component: {fileID: 1224916888}
-  - component: {fileID: 1224916889}
   - component: {fileID: 1224916890}
   m_Layer: 9
   m_Name: "TALK\u6309\u92151_0"
@@ -2859,7 +2865,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8.15, y: -2.91, z: 0}
-  m_LocalScale: {x: 4.8, y: 3.02, z: 2}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 838536134}
@@ -2912,6 +2918,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!65 &1224916885
@@ -3025,8 +3036,8 @@ Rigidbody:
   m_GameObject: {fileID: 1224916879}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 3
+  m_AngularDamping: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3041,7 +3052,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &1224916890
 MonoBehaviour:
@@ -3050,7 +3061,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224916879}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f318672b55aa8534992e91fb709f9186, type: 3}
   m_Name: 
@@ -3535,12 +3546,12 @@ GameObject:
   - component: {fileID: 1867977214}
   - component: {fileID: 1867977213}
   - component: {fileID: 1867977212}
+  - component: {fileID: 1867977216}
   - component: {fileID: 1867977211}
   - component: {fileID: 1867977210}
   - component: {fileID: 1867977209}
   - component: {fileID: 1867977215}
   - component: {fileID: 1867977217}
-  - component: {fileID: 1867977216}
   - component: {fileID: 1867977218}
   - component: {fileID: 1867977219}
   - component: {fileID: 1867977220}
@@ -3561,7 +3572,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8.42, y: -2.88, z: 0}
-  m_LocalScale: {x: 5, y: 3, z: 2}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1925492482}
@@ -3614,6 +3625,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!65 &1867977212
@@ -3727,8 +3743,8 @@ Rigidbody:
   m_GameObject: {fileID: 1867977206}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 3
+  m_AngularDamping: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3743,7 +3759,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &1867977217
 MonoBehaviour:
@@ -3795,7 +3811,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867977206}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f318672b55aa8534992e91fb709f9186, type: 3}
   m_Name: 
@@ -4221,6 +4237,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!65 &1930868215

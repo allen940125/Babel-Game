@@ -31,7 +31,7 @@ namespace Game.UI
         {
             base.Awake();
             
-            GameManager.Instance.UIManager.ClosePanel(UIType.GameHUD);
+            //GameManager.Instance.UIManager.ClosePanel(UIType.GameHUD);
            
             InitializeCommonButtons();
             InitializeCategoryButtons();
@@ -45,20 +45,19 @@ namespace Game.UI
         {
             base.OnDestroy();
             
-            GameManager.Instance.UIManager.OpenPanel<GameHUD>(UIType.GameHUD);
-            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>();
-            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemHoveredEvent>();
+            //GameManager.Instance.UIManager.OpenPanel<GameHUD>(UIType.GameHUD);
+            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>(OnInventoryItemClickedEvent);
+            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemHoveredEvent>(OnInventoryItemHoveredEvent);
         }
         
         protected override void Start()
         {
             base.Start();
 
-            // 將 UI 參考交給 Controller 處理
             InventoryManager.InventoryPanelController.SetBagInfo(uiPanel, scrollViewContentStoreItemListGrid, prefabSlotStoreItem);
             
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true });
-            
+            //InventoryManager.InventoryPanelController.RefreshPlayerBagItem(ItemControllerType.All);
             // 預設開啟時顯示全部
             GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.All });
         }
@@ -96,7 +95,7 @@ namespace Game.UI
             }
 
             selectedItemIcon.gameObject.SetActive(true);
-            selectedItemIcon.sprite = data.BaseTemplete.ItemIconPath;
+            selectedItemIcon.LoadSpriteAsync(data.BaseTemplete.ItemIconPath);
             selectedItemName.text = data.BaseTemplete.Name;
             selectedItemDescription.text = data.BaseTemplete.ItemDescription;
         }

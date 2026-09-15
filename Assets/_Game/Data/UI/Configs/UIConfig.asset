@@ -13,27 +13,27 @@ MonoBehaviour:
   m_Name: UIConfig
   m_EditorClassIdentifier: 
   uiPanels:
-  - uiType: 0
+  - uiType: 410
     resourcePath: UI/Prefab/Panel/Menu/HUDMenu
-  - uiType: 1
+  - uiType: 110
     resourcePath: UI/Prefab/Panel/Menu/MainMenu
-  - uiType: 2
+  - uiType: 310
     resourcePath: UI/Prefab/Panel/Menu/SettingsMenu
-  - uiType: 7
+  - uiType: 210
     resourcePath: UI/Prefab/Panel/Menu/SceneLoading_TransitionPanel
-  - uiType: 6
+  - uiType: 220
     resourcePath: UI/Prefab/Panel/Menu/GameStart_TransitionPanel
-  - uiType: 8
+  - uiType: 140
     resourcePath: UI/Prefab/Panel/Menu/GameEnd/GameOverMenu
-  - uiType: 9
+  - uiType: 150
     resourcePath: UI/Prefab/Panel/Menu/GameEnd/GameEndingMenu
-  - uiType: 4
+  - uiType: 120
     resourcePath: UI/Prefab/Panel/Menu/BagMenu
-  - uiType: 3
+  - uiType: 130
     resourcePath: UI/Prefab/Panel/Menu/StoreMenu
   sceneUIConfigs:
   - sceneType: 4
-    startPanels: 9a010000
+    startPanels: 
   - sceneType: 0
     startPanels: 
   - sceneType: 1
@@ -42,3 +42,5 @@ MonoBehaviour:
     startPanels: 
   - sceneType: 2
     startPanels: 
+  - sceneType: 5
+    startPanels: 9a010000
