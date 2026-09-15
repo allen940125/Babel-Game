@@ -102,6 +102,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!114 &2514649641228382869
