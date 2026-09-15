@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   patternType: 2
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  bulletCount: 2
+  bulletCount: 5
   baseSpeed: 1
   spawnAreaSize: {x: 5, y: 5}
   spawnInterval: 0.05

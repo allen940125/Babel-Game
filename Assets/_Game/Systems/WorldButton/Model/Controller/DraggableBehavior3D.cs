@@ -15,6 +15,9 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
     [Tooltip("開啟時，只要沒有在拖曳，物件就會鎖死在原地，不會被其他物件撞飛。")]
     [SerializeField] private bool lockPhysicsWhenIdle = true; 
     
+    private float _originalLinearDamping;
+    private float _originalAngularDamping;
+    
     // 供外部腳本呼叫的屬性，賦值時自動觸發物理更新
     public bool LockPhysicsWhenIdle
     {
@@ -77,7 +80,26 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
     private void OnDisable()
     {
         isDraggable = false;
-        UpdatePhysicsLockState(); // ★ 腳本被關閉時，立刻鎖死
+
+        // ★ 核心修復：如果在拖曳中途腳本被強制關閉，必須手動中斷拖曳狀態！
+        if (_isDragging)
+        {
+            _isDragging = false;
+
+            // 必須還原所有被暫時抽乾或修改的物理屬性，否則會把錯誤的狀態帶到下一次
+            if (usePhysicsCollision && _rb != null)
+            {
+                _rb.useGravity = _wasGravityOn;
+                _rb.linearVelocity = Vector3.zero;
+                _rb.angularVelocity = Vector3.zero;
+                _rb.constraints = _originalConstraints;
+                _rb.linearDamping = _originalLinearDamping;
+                _rb.angularDamping = _originalAngularDamping;
+            }
+        }
+
+        // 狀態清理完畢後，再執行鎖定
+        UpdatePhysicsLockState(); 
     }
     
 #if UNITY_EDITOR
@@ -115,8 +137,16 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
             // ★ 核心修復 1：拖曳期間強制「鎖死所有旋轉」，徹底杜絕撞牆時產生的物理力矩 (旋轉)
             //_rb.constraints = _originalConstraints | RigidbodyConstraints.FreezeRotation; 
             
+            // 記錄原始阻力
+            _originalLinearDamping = _rb.linearDamping;
+            _originalAngularDamping = _rb.angularDamping;
+            
+            // ★ 拖曳時強制抽乾阻力，讓你不會與物理引擎打架
+            _rb.linearDamping = 0f;
+            _rb.angularDamping = 0f;
+            
             _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero; 
+            _rb.angularVelocity = Vector3.zero;
         }
     }
 
@@ -174,9 +204,12 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
         if (usePhysicsCollision && _rb != null)
         {
             _rb.useGravity = _wasGravityOn;
-            // _rb.isKinematic = _wasKinematic; // ★ 這行可以刪除，交給下面的 UpdatePhysicsLockState 統一管理
             _rb.linearVelocity = Vector3.zero; 
             _rb.constraints = _originalConstraints; 
+            
+            // ★ 放開時還原為你在 Inspector 設定的阻力數值 (讓它被撞擊時能正確減速)
+            _rb.linearDamping = _originalLinearDamping;
+            _rb.angularDamping = _originalAngularDamping;
         }
 
         CheckDropCollision3D();
