@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
   steps:
   - pattern: {fileID: 577304817499354446}
-    delayBefore: 0
+    delayBefore: 0.05
   destroyOnFinish: 1
 --- !u!1 &9190924547870618662
 GameObject:
