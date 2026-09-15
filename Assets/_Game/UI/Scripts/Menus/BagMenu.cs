@@ -12,12 +12,13 @@ namespace Game.UI
         [SerializeField] private Button closeButton;
     
         [Header("物品分類標籤頁")]
+        [SerializeField] private Button allItemTabButton; // 新增：全部物品按鈕
         [SerializeField] private Button equipmentTabButton; 
         [SerializeField] private Button consumableTabButton; 
         [SerializeField] private Button materialTabButton;
         [SerializeField] private Button keyItemTabButton;
 
-        [Header("商店資訊")]
+        [Header("商店資訊")] // 你的命名是 StoreItem，但這裡是 Bag，建議檢討變數命名一致性
         [SerializeField] GameObject prefabSlotStoreItem;
         [SerializeField] GameObject scrollViewContentStoreItemListGrid;
         
@@ -32,12 +33,12 @@ namespace Game.UI
             
             GameManager.Instance.UIManager.ClosePanel(UIType.GameHUD);
            
-            //設定通用按鈕
             InitializeCommonButtons();
-            //設定類別按鈕
             InitializeCategoryButtons();
             
+            // 訂閱點擊與懸浮事件
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnInventoryItemClickedEvent, OnInventoryItemClickedEvent);
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnInventoryItemHoveredEvent, OnInventoryItemHoveredEvent);
         }
 
         protected override void OnDestroy()
@@ -45,104 +46,125 @@ namespace Game.UI
             base.OnDestroy();
             
             GameManager.Instance.UIManager.OpenPanel<GameHUD>(UIType.GameHUD);
-            
-            // 取消訂閱事件，避免記憶體洩漏
             GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>();
+            GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemHoveredEvent>();
         }
         
         protected override void Start()
         {
             base.Start();
 
+            // 將 UI 參考交給 Controller 處理
             InventoryManager.InventoryPanelController.SetBagInfo(uiPanel, scrollViewContentStoreItemListGrid, prefabSlotStoreItem);
             
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true });
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Equipment});
+            
+            // 預設開啟時顯示全部
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.All });
         }
-
-        #region 事件訂閱
 
         private void OnInventoryItemClickedEvent(InventoryItemClickedEvent cmd)
         {
-            UpdateClickItemInfo(cmd.StoredInventoryItemRuntimeData);
+            UpdateItemInfoPanel(cmd.StoredInventoryItemRuntimeData);
         }
-        
-        #endregion
-        
-        /// <summary>
-        /// 更新點擊的物品資訊
-        /// </summary>
-        /// <param name="inventoryItemRuntimeData"></param>
-        void UpdateClickItemInfo(InventoryItemRuntimeData inventoryItemRuntimeData)
+        // 處理懸浮事件
+        private void OnInventoryItemHoveredEvent(InventoryItemHoveredEvent cmd)
         {
-            if (inventoryItemRuntimeData == null)
+            if (cmd.StoredInventoryItemRuntimeData != null)
             {
+                // 狀態 A：滑鼠移入格子，顯示該懸浮物品的資訊
+                UpdateItemInfoPanel(cmd.StoredInventoryItemRuntimeData);
+            }
+            else
+            {
+                // 狀態 B：滑鼠移出格子，恢復顯示「當前已在 InventoryManager 中確認選中」的物品
+                // 若目前沒有任何點擊選中的物品，則傳入 null 以清空面板
+                UpdateItemInfoPanel(InventoryManager.Instance.curClickInventoryItemRuntimeData);
+            }
+        }
+
+        // 將原本的 UpdateClickItemInfo 改名為 UpdateItemInfoPanel，使其適用於所有資訊更新場景
+        private void UpdateItemInfoPanel(InventoryItemRuntimeData data)
+        {
+            // 修正：必須同時檢查 data 是否為 null，以及其 BaseTemplete 是否有效 (過濾未點擊時的 Unity 序列化空殼)
+            if (data == null || data.BaseTemplete == null)
+            {
+                selectedItemIcon.gameObject.SetActive(false);
+                selectedItemName.text = string.Empty;
+                selectedItemDescription.text = string.Empty;
                 return;
             }
-            selectedItemIcon.sprite = inventoryItemRuntimeData.BaseTemplete.ItemIconPath;
 
-            selectedItemName.text = inventoryItemRuntimeData.BaseTemplete.Name;
-            selectedItemDescription.text = inventoryItemRuntimeData.BaseTemplete.ItemDescription;
+            selectedItemIcon.gameObject.SetActive(true);
+            selectedItemIcon.sprite = data.BaseTemplete.ItemIconPath;
+            selectedItemName.text = data.BaseTemplete.Name;
+            selectedItemDescription.text = data.BaseTemplete.ItemDescription;
         }
         
-        /// <summary>
-        /// 初始化通用按鈕
-        /// </summary>
+        // void UpdateClickItemInfo(InventoryItemRuntimeData inventoryItemRuntimeData)
+        // {
+        //     if (inventoryItemRuntimeData == null) return;
+        //
+        //     selectedItemIcon.sprite = inventoryItemRuntimeData.BaseTemplete.ItemIconPath;
+        //     selectedItemName.text = inventoryItemRuntimeData.BaseTemplete.Name;
+        //     selectedItemDescription.text = inventoryItemRuntimeData.BaseTemplete.ItemDescription;
+        // }
+        
         void InitializeCommonButtons()
         {
             useButton.onClick.AddListener(OnUseButtonClicked);
             closeButton.onClick.AddListener(OnCloseButtonClicked);
         }
-        /// <summary>
-        /// 初始化設定類別按鈕
-        /// </summary>
+
         void InitializeCategoryButtons()
         {
-            equipmentTabButton.onClick.AddListener(OnEquipmentTabButtonClicked);
-            consumableTabButton.onClick.AddListener(OnConsumableTabButtonClicked);
-            materialTabButton.onClick.AddListener(OnMaterialTabButtonClicked);
-            keyItemTabButton.onClick.AddListener(OnKeyItemTabButtonClicked);
+            // 必須在 Inspector 中將按鈕拖曳綁定
+            if (allItemTabButton != null) allItemTabButton.onClick.AddListener(OnAllItemTabButtonClicked);
+            if (equipmentTabButton != null) equipmentTabButton.onClick.AddListener(OnEquipmentTabButtonClicked);
+            if (consumableTabButton != null) consumableTabButton.onClick.AddListener(OnConsumableTabButtonClicked);
+            if (materialTabButton != null) materialTabButton.onClick.AddListener(OnMaterialTabButtonClicked);
+            if (keyItemTabButton != null) keyItemTabButton.onClick.AddListener(OnKeyItemTabButtonClicked);
         }
 
-        //設定通用按鈕
         void OnUseButtonClicked()
         {
             if (InventoryManager.Instance.curClickInventoryItemRuntimeData != null)
             {
-                
+                // TODO: 執行物品使用邏輯
             }
         }
 
         void OnCloseButtonClicked()
         {
-            Debug.Log("Click OnCloseButtonClicked");
             RequestClose();
         }
 
-        //設定類別按鈕
+        // --- 分類按鈕事件發送 ---
+
+        void OnAllItemTabButtonClicked()
+        {
+            // 你必須去定義 ItemControllerType.All
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.All });  
+        }
+
         void OnEquipmentTabButtonClicked()
         {
-            Debug.Log("Click OnEquipmentTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Equipment});  
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Equipment });  
         }
 
         void OnConsumableTabButtonClicked()
         {
-            Debug.Log("Click OnConsumableTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Consumable});  
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Consumable });  
         }
         
         void OnMaterialTabButtonClicked()
         {
-            Debug.Log("Click OnMaterialTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Material});  
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Material });  
         }
 
         void OnKeyItemTabButtonClicked()
         {
-            Debug.Log("Click OnKeyItemTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.KeyItem});  
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.KeyItem });  
         }
     }
-
 }

@@ -96,7 +96,7 @@ MonoBehaviour:
   patternType: 2
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   bulletCount: 4
-  baseSpeed: 1.5
+  baseSpeed: 3
   spawnAreaSize: {x: 5, y: 5}
   spawnInterval: 0.1
   circleRadius: 0

@@ -240,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CleanerBoss
   bossName: 
   firePosition: {fileID: 415678399330180059}
-  attackPhaseDuration: 15
+  attackPhaseDuration: 12
   phaseConfigs:
   - label: 
     waveList:

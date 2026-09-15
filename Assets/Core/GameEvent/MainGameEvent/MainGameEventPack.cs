@@ -17,6 +17,7 @@ namespace Gamemanager
 
         public IObservable<PlayerBagRefreshedEvent> OnPlayerBagRefreshedEvent => getSubject<PlayerBagRefreshedEvent>();
         public IObservable<InventoryItemClickedEvent> OnInventoryItemClickedEvent => getSubject<InventoryItemClickedEvent>();
+        public IObservable<InventoryItemHoveredEvent> OnInventoryItemHoveredEvent => getSubject<InventoryItemHoveredEvent>();
         public IObservable<ItemAddedToBagEvent> OnItemAddedToBagEvent => getSubject<ItemAddedToBagEvent>();
 
         // ======================

@@ -126,7 +126,7 @@ public class PlayerController3D : MonoBehaviour
             _currentInput = new Vector3(x, y, 0f).normalized;
         }
 
-        if (Keyboard.current.leftShiftKey.wasPressedThisFrame && CanDash())
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && CanDash())
         {
             StartCoroutine(DashRoutine());
         }
