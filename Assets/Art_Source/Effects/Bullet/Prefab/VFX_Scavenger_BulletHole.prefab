@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7343094335434148746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860499746783569711}
+  - component: {fileID: 3616214069287756381}
+  m_Layer: 0
+  m_Name: VFX_Scavenger_BulletHole
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &860499746783569711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7343094335434148746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.29, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3616214069287756381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7343094335434148746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc4478b455fe442a136d4f332a38d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BulletHoleEffects
+  bulletHolePrefabs:
+  - {fileID: 1917890545481978229, guid: 67fddcfbce8d5e24e83d655a53dbbc05, type: 3}
+  - {fileID: 1997970574227118006, guid: a7488335c6cdde64cb5edc539191d179, type: 3}
+  - {fileID: 948434921574382473, guid: a2a9b26d7dd050b49921c4a32fee6da1, type: 3}
+  - {fileID: 2289693892143209681, guid: 6a6792f2a70d98948941fece6c6030f1, type: 3}
+  minHoleCount: 1
+  maxHoleCount: 3
+  holeSpreadRadius: 0.3
+  holeScale: 2
+  holePopDuration: 0.2
+  holeLifetime: 2
+  holeFadeDuration: 0.3
+  shakeIntensity: 0.15
+  shakeDuration: 0.15
