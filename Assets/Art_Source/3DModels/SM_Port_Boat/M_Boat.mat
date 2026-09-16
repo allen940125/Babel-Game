@@ -115,7 +115,7 @@ Material:
     - _Hidden_Color_Strength: 0.687
     - _Hidden_Shadow_Power: 5.45
     - _Highlight_Amount: 1.594
-    - _Highlight_Power: 7.08
+    - _Highlight_Power: 4.54
     - _Highlight_Strength: 0.284
     - _Metallic: 0
     - _Mode: 0
@@ -127,7 +127,7 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shadow_Softness: 0.08
+    - _Shadow_Softness: 0.3
     - _Shadow_Threshold: 0.45
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
