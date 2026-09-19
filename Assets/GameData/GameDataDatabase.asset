@@ -61,6 +61,10 @@ MonoBehaviour:
     <Name>k__BackingField: GameHUD
     <UIGroup>k__BackingField: Persistent
     <PrefabPath>k__BackingField: UI/HUDs/GameHUD
+  - <Id>k__BackingField: 500
+    <Name>k__BackingField: DialogueWindowNew
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: UI/Windows/DialogueWindowNew
   ItemDatabase:
   - <Id>k__BackingField: 100
     <Name>k__BackingField: Money

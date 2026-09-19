@@ -45,6 +45,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f661a1808599744459284a051b71d510
+    m_Address: UI/Windows/DialogueWindowNew
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b5cdafeb7534d5a429d7ab1a8ddc61f8, type: 2}
   m_SchemaSet:
