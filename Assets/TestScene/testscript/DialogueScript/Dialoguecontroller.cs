@@ -11,7 +11,11 @@ public class Dialoguecontroller : Singleton<Dialoguecontroller>
     public Story CurrentStory { get; private set; }
     public bool DialogueIsPlaying { get; private set; }
 
-    public async UniTask StartDialogue(string npcId, TextAsset inkJson)
+    public event System.Action OnDialogueEnded;
+
+    private UIType currentUIType;
+
+    public async UniTask StartDialogue(string npcId, TextAsset inkJson, UIType uiType)
     {
         if (DialogueIsPlaying) return;//防連點
 
@@ -23,8 +27,19 @@ public class Dialoguecontroller : Singleton<Dialoguecontroller>
 
         DialogueIsPlaying = true;
 
-        var dialogueWindow = await GameManager.Instance.UIManager.OpenPanel<Dialogueshow>(UIType.DialogueWindowNew);
-        dialogueWindow.Init();
+        currentUIType = uiType;
+
+        if (uiType == UIType.DialogueWindowNew)
+        {
+            var dialogueWindow = await GameManager.Instance.UIManager.OpenPanel<Dialogueshow>(uiType);
+            dialogueWindow.Init();
+        }
+        else if (uiType == UIType.NarrationWindow)
+        {
+            var narrationWindow = await GameManager.Instance.UIManager.OpenPanel<NarrationWindow>(uiType);
+            narrationWindow.Init();
+        }
+
     }
 
     public void EndDialogue()
@@ -33,7 +48,11 @@ public class Dialoguecontroller : Singleton<Dialoguecontroller>
         CurrentStory = null;
         CurrentNpcId = null;
 
-        GameManager.Instance.UIManager.ClosePanel(UIType.DialogueWindowNew);
+        GameManager.Instance.UIManager.ClosePanel(currentUIType);
+
+        OnDialogueEnded?.Invoke();
+
+        Debug.Log("EndDialohue被呼叫，currentUIType=" + currentUIType);
     }
 
 

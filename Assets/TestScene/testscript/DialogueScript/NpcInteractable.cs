@@ -37,7 +37,7 @@ public class NpcInteractable : MonoBehaviour
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             Debug.Log("偵測到 E 鍵按下,呼叫 StartDialogue");
-            Dialoguecontroller.Instance.StartDialogue(npcId, inkJson).Forget();
+            Dialoguecontroller.Instance.StartDialogue(npcId, inkJson, UIType.DialogueWindowNew).Forget();
             if (interactPrompt) interactPrompt.SetActive(false);
         }
     }

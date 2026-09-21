@@ -65,6 +65,10 @@ MonoBehaviour:
     <Name>k__BackingField: DialogueWindowNew
     <UIGroup>k__BackingField: Popup
     <PrefabPath>k__BackingField: UI/Windows/DialogueWindowNew
+  - <Id>k__BackingField: 510
+    <Name>k__BackingField: NarrationWindow
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: UI/Windows/NarrationWindow
   ItemDatabase:
   - <Id>k__BackingField: 100
     <Name>k__BackingField: Money
