@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Datamanager;
@@ -157,7 +158,7 @@ namespace Game.UI
         /// </summary>
         private async UniTask<BasePanel> LoadAndInstantiatePanel(UIType uiType, UIGroup uiGroup)
         {
-            var prefab = LoadPanelPrefab(uiType); 
+            var prefab = await LoadPanelPrefabAsync(uiType);
             if (prefab == null)
             {
                 Debug.LogError($"[UIManager] 無法加載 Prefab for {uiType}！");
@@ -305,49 +306,44 @@ namespace Game.UI
         public async UniTask<T> OpenPanel<T>(UIType uiType) where T : BasePanel
         {
             Debug.Log("嘗試打開" + uiType);
+            // 第一次檢查（同步階段）
             if (PanelDict.ContainsKey(uiType))
             {
-                Debug.LogWarning($"[UIManager] UI {uiType} 已經開啟。");
                 return PanelDict[uiType] as T;
             }
 
             var group = GetUIGroup(uiType);
 
-            // --- 核心：模態堆疊檢查 ---
-            if (group != UIGroup.Persistent)
+            if (group == UIGroup.Persistent)
             {
-                if (_panelStack.Count > 0)
+                if (_hudPanel != null && _hudPanel.CurrentUIType == uiType)
                 {
-                    var topPanel = _panelStack.Peek();
-            
-                    // 邏輯修改：
-                    // 1. 如果頂層 Panel 的 Group 是 Popup，則允許開啟任何新的 Popup
-                    //    -> 允許 Popup 開在 Popup 之上 (例如：提示 -> 確認)
-                    // 2. 如果新開啟的 Panel Group 是 Menu，則阻止開啟。
-                    //    -> 不允許 Menu 開在 Menu/Popup 之上 (例如：背包 -> 設定)
-            
-                    // 檢查：如果**新**開啟的是 `Menu`，且堆疊非空，則阻止。
-                    // 但如果新開啟的是 `Popup`，則允許。
-                    if (group == UIGroup.Menu)
-                    {
-                        var topPanelType = topPanel.CurrentUIType;
-                        Debug.LogWarning($"[UIManager] [模態限制] 無法開啟 {uiType} (Menu)，因為 {topPanelType} 正在開啟中。請先關閉當前 Panel。");
-                        return null;
-                    }
+                    Debug.LogWarning($"[UIManager] 攔截非法操作：試圖透過 OpenPanel 重複開啟常駐 UI {uiType}。");
+                    return _hudPanel as T;
                 }
-                // 如果新開啟的是 Popup，則這裡會允許其繼續執行，並被推入堆疊
             }
 
             // 沿用同步加載 Prefab，但 OpenPanel 保持異步 (為未來動畫或異步加載保留)
-            var prefab = LoadPanelPrefab(uiType);
-            if (prefab == null)
+            var prefab = await LoadPanelPrefabAsync(uiType);
+            if (prefab == null) return null;
+
+            // ★ 第二次檢查防呆：在非同步等待期間，這個 UI 是否已經被打開了？
+            if (PanelDict.ContainsKey(uiType))
             {
-                Debug.LogError($"[UIManager] Cannot load prefab for {uiType}");
+                Debug.LogWarning($"[UIManager] 阻擋了 {uiType} 的重複實例化。");
+                return PanelDict[uiType] as T; 
+            }
+
+            // ★ 第三次檢查防呆：在非同步等待期間，堆疊狀態是否改變導致不允許開啟？(選配，視你遊戲的嚴謹度而定)
+            if (group == UIGroup.Menu && _panelStack.Count > 0)
+            {
+                Debug.LogWarning($"[UIManager] 等待資源期間堆疊狀態改變，捨棄開啟 {uiType}。");
                 return null;
             }
-            
+
             var go = GameManager.Instance.InstantiateFromManager(prefab, _uiRoot, false);
             var panel = go.GetComponent<BasePanel>();
+            
             if (panel == null)
             {
                 Debug.LogError($"[UIManager] Prefab 上缺少 BasePanel 組件: {uiType}");
@@ -388,6 +384,7 @@ namespace Game.UI
         /// </summary>
         public bool ClosePanel(UIType uiType)
         {
+            Debug.Log($"[除錯] 嘗試關閉 {uiType}，目前堆疊數量={_panelStack.Count}，堆疊頂層={(_panelStack.Count > 0 ? _panelStack.Peek().CurrentUIType.ToString() : "空")}");
             if (!PanelDict.TryGetValue(uiType, out var panel))
             {
                 Debug.LogWarning($"[UIManager] 試圖關閉一個不存在的 Panel: {uiType}");
@@ -505,17 +502,23 @@ namespace Game.UI
             return tpl;
         }
 
-        private GameObject LoadPanelPrefab(UIType uiType)
+        // 舊版：private async Task<GameObject> LoadPanelPrefabAsync(UIType uiType)
+        // 嚴格修正為 UniTask：
+        private async UniTask<GameObject> LoadPanelPrefabAsync(UIType uiType)
         {
             var tpl = LoadPanelTemplate(uiType);
-            
-            // 假設 tpl.PrefabPath 是一個已在 DataManager 加載過的 GameObject 引用
-            if (tpl == null || tpl.PrefabPath == null)
+            if (tpl == null || string.IsNullOrEmpty(tpl.PrefabPath))
             {
-                Debug.LogError($"[UIManager] PrefabPath missing or null for UI {uiType}");
+                Debug.LogError($"[UIManager] PrefabPath missing or empty for UI {uiType}");
                 return null;
             }
-            return tpl.PrefabPath;
+
+            GameObject prefab = await ResourceManager.LoadAssetAsync<GameObject>(tpl.PrefabPath);
+            if (prefab == null)
+            {
+                Debug.LogError($"[UIManager] 無法從 Addressables 載入 UI，Key: {tpl.PrefabPath}");
+            }
+            return prefab;
         }
 
         #endregion

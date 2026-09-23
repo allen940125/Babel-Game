@@ -178,7 +178,7 @@ namespace Game.UI
         /// 更新點擊的物品資訊
         /// </summary>
         /// <param name="itemData"></param>
-        void UpdateClickItemInfo(StoreItemRuntimeData itemData)
+        async void UpdateClickItemInfo(StoreItemRuntimeData itemData)
         {
             Debug.Log($"UpdateClickItemInfo called with itemData: {itemData}");
             Debug.Log($"Image component: {selectedItemIcon}");
@@ -190,8 +190,8 @@ namespace Game.UI
                 Debug.LogWarning("Item data or UI elements are null!");
                 return;
             }
-
-            selectedItemIcon.sprite = itemData.ItemBaseTemplete.ItemIconPath;
+            
+            selectedItemIcon.LoadSpriteAsync(itemData.ItemBaseTemplete.ItemIconPath);
             selectedItemName.text = itemData.ItemBaseTemplete.Name;
             selectedItemDescription.text = itemData.ItemBaseTemplete.ItemDescription;
         }

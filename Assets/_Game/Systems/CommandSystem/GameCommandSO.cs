@@ -37,7 +37,7 @@ public class ItemAction : ICommandAction
     public void Invoke()
     {
         Debug.Log($"發送：道具給予訊號，ID={itemId}, 數量={count}");
-        // GameManager.Instance.MainGameEvent.Send(new ItemEvent(itemId, count));
+        GameManager.Instance.MainGameEvent.Send(new ItemAddedToBagEvent() { ItemID = itemId, Quantity = count }); 
     }
 }
 

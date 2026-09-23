@@ -15,11 +15,13 @@ public class InventoryPanelController
     public InventoryPanelController()
     {
         SubscribeEvents();
+        Debug.Log("呼叫註冊");
     }
 
     public void Dispose()
     {
         UnsubscribeEvents();
+        Debug.Log("呼叫關閉註冊");
         GC.SuppressFinalize(this);
     }
     
@@ -32,7 +34,7 @@ public class InventoryPanelController
 
     private void UnsubscribeEvents()
     {
-        GameManager.Instance.MainGameEvent.Unsubscribe<PlayerBagRefreshedEvent>();
+        GameManager.Instance.MainGameEvent.Unsubscribe<PlayerBagRefreshedEvent>(OnPlayerBagRefreshedEvent);
     }
 
     #endregion
@@ -51,7 +53,7 @@ public class InventoryPanelController
         _emptySlot = emptySlot;
     }
     
-    private void RefreshPlayerBagItem(ItemControllerType itemControllerType)
+    public void RefreshPlayerBagItem(ItemControllerType itemControllerType)
     {
         InventoryManager.Instance.ClearChildObjects(_slotGrid.transform);
         InventoryManager.Instance.curCategoryTypeName = itemControllerType;

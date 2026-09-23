@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - EnemyBullet
   - PlayerButton
+  - Explodable
+  - Slot
   layers:
   - Default
   - TransparentFX

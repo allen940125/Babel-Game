@@ -200,43 +200,28 @@ namespace Datamanager
             //Debug.Log(dataText.ToString());
             for (int i = 0; i < propertyInfo.Length; i++)
             {
+                Type pType = propertyInfo[i].PropertyType;
                 //Debug.Log(propertyInfo[i].Name);
                 //Debug.Log(dataText[i] + "的Type是" + propertyInfo[i].PropertyType);
-                if (propertyInfo[i].PropertyType == typeof(string))
+                if (pType == typeof(string))
                 {
-                    propertyInfo[i].SetValue(DataBeSet, dataText[i].ToString());
+                    propertyInfo[i].SetValue(DataBeSet, dataText[i]);
                 }
-                else if (propertyInfo[i].PropertyType == typeof(int))
+                else if (pType == typeof(int))
                 {
                     propertyInfo[i].SetValue(DataBeSet, int.Parse(dataText[i]));
                 }
-                else if (propertyInfo[i].PropertyType == typeof(float))
+                else if (pType == typeof(float))
                 {
                     propertyInfo[i].SetValue(DataBeSet, float.Parse(dataText[i]));
                 }
-                else if (propertyInfo[i].PropertyType == typeof(GameObject))
+                else if (pType == typeof(bool))
                 {
-                    var gameobjectPrefab = await AddressableSearcher.GetAddressableAssetAsync<GameObject>(dataText[i]);
-                    propertyInfo[i].SetValue(DataBeSet, gameobjectPrefab);
+                    propertyInfo[i].SetValue(DataBeSet, dataText[i].ToUpper() == "TRUE");
                 }
-                else if (propertyInfo[i].PropertyType == typeof(bool))
+                else if (pType.IsEnum)
                 {
-                    if (dataText[i].ToString() == "TRUE")
-                    {
-                        propertyInfo[i].SetValue(DataBeSet, true);
-                    }
-                    else if (dataText[i].ToString() == "FALSE")
-                    {
-                        propertyInfo[i].SetValue(DataBeSet, false);
-                    }
-                }
-                else if (propertyInfo[i].PropertyType.IsEnum)
-                {
-                    // 根據 Description Attribute 或枚舉名稱解析
-                    object enumValue = ParseEnumWithDescription(
-                        propertyInfo[i].PropertyType, 
-                        dataText[i]
-                    );
+                    object enumValue = ParseEnumWithDescription(pType, dataText[i]);
                     propertyInfo[i].SetValue(DataBeSet, enumValue);
                 }
                 else if (propertyInfo[i].PropertyType == typeof(Sprite))

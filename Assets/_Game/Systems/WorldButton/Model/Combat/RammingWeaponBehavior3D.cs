@@ -8,6 +8,9 @@ using UnityEngine;
 public class RammingWeaponBehavior3D : MonoBehaviour
 {
     [Header("★ 物理撞擊設定 (只管物理，不管數值！)")]
+    [Tooltip("允許造成傷害的目標層級 (例如 Enemy, Boss)")]
+    [SerializeField] private LayerMask targetLayer; // ★ 新增此欄位
+    
     [Tooltip("滑鼠拖曳甩動的最小速度閾值")]
     [SerializeField] private float minImpactSpeed = 5.0f;
     [SerializeField] private float rammingCooldown = 0.8f;
@@ -73,7 +76,10 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         _lastPosition = transform.position;
     }
 
-    private void OnCollisionEnter(Collision collision) => TryExecuteRamming(collision.gameObject);
+    // ★ 修正：傳入 collision.collider.gameObject (精準的子物件)，而不是 collision.gameObject (父剛體)
+    private void OnCollisionEnter(Collision collision) => TryExecuteRamming(collision.collider.gameObject);
+    
+    // OnTriggerEnter 本來就是回傳 Collider，所以寫法不變
     private void OnTriggerEnter(Collider other) => TryExecuteRamming(other.gameObject);
 
     private void TryExecuteRamming(GameObject target)
@@ -81,6 +87,13 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         // ★ 物理過濾：不要打到自己，也不要打到沒有實體的東西
         if (target == this.gameObject) return;
 
+        // ★ 物理過濾 2：Layer 檢測 (利用位元運算比對 LayerMask)
+        // 如果目標的 Layer 不在 targetLayer 的允許範圍內，直接捨棄，不產生任何後續運算
+        if ((targetLayer.value & (1 << target.layer)) == 0)
+        {
+            return; 
+        }
+        
         Debug.Log($"<color=white>[物理接觸] 撞擊到了: {target.name} | 當前甩動速度: {_currentInstantSpeed:.00} m/s</color>");
 
         // 檢查閘門 1：武裝狀態

@@ -48,8 +48,7 @@ namespace Game.UI
         {
             this.storeItemData = storeItemData;
 
-            Image_StoreItem_Icon.sprite = storeItemData.ItemBaseTemplete.ItemIconPath;
-
+            Image_StoreItem_Icon.LoadSpriteAsync(storeItemData.ItemBaseTemplete.ItemIconPath);
             Text_StoreItem_Name.text = storeItemData.ItemBaseTemplete.Name;
             Text_StoreItem_Description.text = storeItemData.ItemBaseTemplete.ItemDescription;
             Text_StoreItme_PurchaseInfo.text = storeItemData.ItemBaseTemplete.Name+ "     *" + storeItemData.BaseTemplete.ItemQuantity;

@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Brush_Texture:
-        m_Texture: {fileID: 2800000, guid: 7dd604fa45eb16546a86155f3063b150, type: 3}
+        m_Texture: {fileID: 2800000, guid: cd9f85572d839e04bacc1d5e3cfcba84, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -103,8 +103,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brush_Scale: 3
-    - _Brush_Strength: 0.536
+    - _Brush_Scale: 8.7
+    - _Brush_Strength: 0.032
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -113,22 +113,22 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Hidden_Color_Strength: 1
-    - _Hidden_Shadow_Power: 4.14
-    - _Highlight_Amount: 1.07
-    - _Highlight_Power: 5.61
-    - _Highlight_Strength: 0.923
+    - _Hidden_Shadow_Power: 0.5
+    - _Highlight_Amount: 1.124
+    - _Highlight_Power: 10
+    - _Highlight_Strength: 0.527
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Strength: 0
+    - _Normal_Strength: 0.78
     - _OcclusionStrength: 1
-    - _Original_Smooth_Mask: 0.655
+    - _Original_Smooth_Mask: 0
     - _Original_Smoothness: 0
-    - _Paint_Smoothness: 0.078
+    - _Paint_Smoothness: 0
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Shadow_Softness: 0
-    - _Shadow_Threshold: 0.468
+    - _Shadow_Threshold: 0.634
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -138,9 +138,9 @@ Material:
     - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Hidden_Shadow_Color: {r: 0.24528301, g: 0.19200979, b: 0.12541828, a: 1}
-    - _Highlight_Color: {r: 0.94716984, g: 0.9122308, b: 0.791691, a: 1}
+    - _Hidden_Shadow_Color: {r: 0.3056603, g: 0.3056603, b: 0.3056603, a: 1}
+    - _Highlight_Color: {r: 0.5849056, g: 0.3039302, b: 0.144571, a: 1}
     - _Light_Tint: {r: 0.96981126, g: 0.8694616, b: 0.7374225, a: 1}
-    - _Shadow_Tint: {r: 0.7433963, g: 0.68048435, b: 0.5484301, a: 1}
+    - _Shadow_Tint: {r: 0.4792453, g: 0.36939967, b: 0.14015658, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

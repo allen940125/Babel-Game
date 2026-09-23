@@ -103,7 +103,7 @@ Material:
     - _GlossyReflections: 0
     - _MaxX: -0.5
     - _Metallic: 0
-    - _MinX: 0.5
+    - _MinX: 0.51
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0

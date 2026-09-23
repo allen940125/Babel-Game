@@ -130,7 +130,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 64
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -418,6 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7673722364614804509}
   - component: {fileID: 3439691193429597011}
+  - component: {fileID: 4778535488316469743}
   - component: {fileID: 1713368466932499331}
   - component: {fileID: 3948296908178001175}
   - component: {fileID: 6380847649599750568}
@@ -465,6 +466,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4778535488316469743
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5537045608021342607}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 3
+  m_AngularDamping: 3
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!114 &1713368466932499331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +507,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableBehavior3D
   isDraggable: 1
   dropDetectRadius: 0.5
+  usePhysicsCollision: 1
+  physicsDragSpeed: 20
+  maxVelocity: 50
+  lockPhysicsWhenIdle: 1
+  lockPhysicsWhenDisabled: 1
   showDetectionSphere: 1
   debugSphereColor: {r: 1, g: 0.5, b: 0, a: 0.4}
 --- !u!114 &3948296908178001175

@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 461e078bded7d104ca483425e26823cd
+    m_Address: Icons/AdvancedMedicalSyringe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ad494b2b1b664949b3bb8bf2ee11439
     m_Address: Icons/Money
     m_ReadOnly: 0
