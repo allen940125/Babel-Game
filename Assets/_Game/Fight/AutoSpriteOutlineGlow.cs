@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 public class GlowBehavior3D : MonoBehaviour
 {
     [SerializeField] private Color glowColor = Color.red;
@@ -14,7 +13,7 @@ public class GlowBehavior3D : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        _renderer = GetComponentInChildren<Renderer>();
         _propBlock = new MaterialPropertyBlock();
     }
 

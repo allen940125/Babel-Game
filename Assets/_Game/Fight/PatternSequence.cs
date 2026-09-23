@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// 複合型發射器：依序執行多個 AttackPatternBase。
+/// </summary>
 public class PatternSequence : AttackPatternBase
 {
     [System.Serializable]
@@ -18,33 +21,38 @@ public class PatternSequence : AttackPatternBase
     [Tooltip("攻擊步驟清單")]
     public List<PatternStep> steps = new List<PatternStep>();
 
-    [Tooltip("整個序列結束後，是否銷毀此物件？")]
-    public bool destroyOnFinish = true;
+    // ❌ 移除重複宣告：基底類別 AttackPatternBase 已經有 public bool destroyOnFinish;
 
-    // 右鍵選單：自動把子物件加到清單裡 (方便編輯)
+    // --- 編輯器輔助功能 ---
     [ContextMenu("自動抓取子物件 Pattern")]
     public void AutoGetChildrenPatterns()
     {
         steps.Clear();
-        // 抓取所有子物件的 AttackPatternBase (排除自己)
-        var childPatterns = GetComponentsInChildren<AttackPatternBase>();
+        // ★ 修正：includeInactive = true，才抓得到未啟用的子物件
+        var childPatterns = GetComponentsInChildren<AttackPatternBase>(true);
         foreach (var p in childPatterns)
         {
-            if (p != this)
+            if (p != this) // 排除自己，避免無限迴圈
             {
                 steps.Add(new PatternStep { pattern = p, delayBefore = 0.5f });
             }
         }
+        Debug.Log($"已抓取 {steps.Count} 個 Pattern 步驟！");
     }
 
     protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
-        // 1. 重要：把自己註冊給 Boss
-        // 這樣 Boss 就會把這個「序列發射器」當作是一個「還在場上的子彈」
-        // 只要這個序列還沒銷毀，Boss 就不會進入下一波
-        boss.RegisterActiveBullet(this.gameObject);
+        // ★ 修正：脫離 Boss 的子物件層級，避免 Boss 移動時把整個序列拖著跑
+        transform.SetParent(null);
 
-        // 2. 開始執行序列
+        // 1. 欺騙狀態機：將自己註冊為 ActiveBullet。
+        //    只要這個 Sequence 還沒跑完並銷毀，Boss 的 WaitingForBullets 狀態就不會結束。
+        if (boss != null)
+        {
+            boss.RegisterActiveBullet(this.gameObject);
+        }
+
+        // 2. 啟動非同步的時間軸序列
         StartCoroutine(RunSequenceRoutine(boss, speedMultiplier, isAngry));
     }
 
@@ -54,25 +62,43 @@ public class PatternSequence : AttackPatternBase
         {
             if (step.pattern == null) continue;
 
-            // 等待時間 (如果是憤怒狀態，可以加快節奏)
+            // 若 Boss 處於憤怒狀態，縮減等待時間，加快攻擊節奏
             float waitTime = step.delayBefore;
-            if (isAngry) waitTime *= 0.8f; // 憤怒時動作快 20%
+            if (isAngry) waitTime *= 0.8f; 
 
             if (waitTime > 0)
             {
                 yield return new WaitForSeconds(waitTime);
             }
 
-            // 執行這個步驟的 Pattern
-            // 注意：這裡我們不傳入 isAngry 給子 Pattern，或者你可以選擇傳入
-            // 通常子 Pattern 是瞬發的，所以我們直接執行它
+            // 觸發該步驟的 Pattern 執行其獨立邏輯
             step.pattern.Execute(boss, speedMultiplier, isAngry);
         }
 
-        // 序列結束
-        if (destroyOnFinish)
+        // ★ 修正：改用基底類別的統一結束方法
+        FinishPattern();
+    }
+
+    // ==========================================
+    // ★ 實作父類別的抽象方法：編輯器預覽
+    // ==========================================
+    protected override void OnGeneratePreview(Transform previewContainer)
+    {
+        // PatternSequence 本身不發射子彈，
+        // 這裡只為每個步驟畫一個「編號球」，讓你知道這個序列有幾段。
+        for (int i = 0; i < steps.Count; i++)
         {
-            Destroy(gameObject); // 銷毀自己 -> Boss 偵測到少了一個 ActiveBullet
+            var step = steps[i];
+            if (step.pattern == null) continue;
+
+            GameObject marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            marker.name = $"Step {i} → {step.pattern.name} (delay {step.delayBefore}s)";
+            marker.transform.SetParent(previewContainer);
+            marker.transform.position = transform.position;
+            marker.transform.localScale = Vector3.one * 0.4f;
+            DestroyImmediate(marker.GetComponent<Collider>());
         }
+
+        Debug.Log($"<color=cyan>[PatternSequence]</color> 共 {steps.Count} 個步驟。子 Pattern 的預覽請分別對它們按 Context Menu 產生。");
     }
 }

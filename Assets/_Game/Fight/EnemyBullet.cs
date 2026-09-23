@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(LineRenderer))]
 public class EnemyBullet : EnemyProjectileBase
 {
     public enum EffectRotationMode { Fixed, AlignWithNormal, AlignWithReflection }
@@ -13,8 +11,11 @@ public class EnemyBullet : EnemyProjectileBase
     {
         public Vector2 speedRange;
         public Vector2 lifeTimeRange;
-        [Tooltip("僅勾選會反彈的(Wall)與會受傷的(Player)！其他介面一律不要勾選！")]
         public LayerMask collisionLayer;
+
+        [Header("★ 反彈擾動設定")]
+        [Range(0f, 60f)] public float maxBounceAngleJitter;
+        public bool jitterFirstBounceOnly;
     }
 
     [System.Serializable]
@@ -23,63 +24,63 @@ public class EnemyBullet : EnemyProjectileBase
         public bool showHitEffect;
         public GameObject hitEffectPrefab;
         public EffectRotationMode rotationMode;
-        public float rayWidth;
     }
 
-    [System.Serializable]
-    public struct LinePredictionConfig
-    {
-        public bool showDebugLine;
-        public float rayLength;
-        public Color rayColor;
-        public int maxBounces;
-    }
+    [Header("★ 碰撞形狀設定")]
+    public BulletDataSO bulletData;
+
+    [Header("★ 嚴格除錯模式")]
+    [Tooltip("打勾後，會在 Console 印出每一幀子彈撞到了什麼、Tag 是什麼")]
+    [SerializeField] private bool enableDeepDebug = false;
 
     [Header("★ 模組化設定資料")]
-    [SerializeField] private BulletStats stats = new BulletStats { speedRange = new Vector2(5f, 12f), lifeTimeRange = new Vector2(3f, 6f), collisionLayer = -1 };
-    [SerializeField] private VFXConfig vfx = new VFXConfig { showHitEffect = true, rotationMode = EffectRotationMode.AlignWithNormal, rayWidth = 0.05f };
-    [SerializeField] private LinePredictionConfig prediction = new LinePredictionConfig { showDebugLine = true, rayLength = 5.0f, rayColor = Color.yellow, maxBounces = 2 };
+    [SerializeField] private BulletStats stats;
+    [SerializeField] private VFXConfig vfx;
 
-    [Header("★ 偵錯與日誌")]
-    [SerializeField] private bool enableDebugLog = false;
-
-    // --- 內部運行時數據 (唯讀) ---
     private Vector3 _currentDirection;
     private float _currentSpeed;
     private Rigidbody _rb;
-    private LineRenderer _lineRenderer;
     private bool _isInitialized = false;
-    private BossStateMachine _ownerBoss;
     private readonly RaycastHit[] _hitBuffer = new RaycastHit[16];
 
-    public override void Initialize(Vector3 startDirection, float finalSpeedMultiple, BossStateMachine ownerBoss)
+    private int _bounceCount = 0;
+    private float[] _bounceJitterOffsets;
+    
+    private TrajectoryVisualizer _visualizer;
+
+    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss)
     {
-        _ownerBoss = ownerBoss;
-        if (_ownerBoss != null) _ownerBoss.RegisterActiveBullet(this.gameObject);
+        base.Initialize(direction, speed, boss);
+
+        if (ownerBoss != null) ownerBoss.RegisterActiveBullet(this.gameObject);
 
         _rb = GetComponent<Rigidbody>();
-        _lineRenderer = GetComponent<LineRenderer>();
-
-        _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * finalSpeedMultiple;
-        _currentDirection = new Vector3(startDirection.x, startDirection.y, 0f).normalized;
         
+        _visualizer = GetComponentInChildren<TrajectoryVisualizer>();
+
+        _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
+        _currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
+
         _rb.isKinematic = true;
         _rb.useGravity = false;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 
-        // 強制把子彈本體與子物件所有 Collider 轉為 Trigger，杜絕實體幾何擠壓
-        foreach (Collider col in GetComponentsInChildren<Collider>()) col.isTrigger = true;
+        int maxCapacity = Mathf.Max(_hitBuffer.Length, 16);
+        _bounceJitterOffsets = new float[maxCapacity];
+        for (int i = 0; i < maxCapacity; i++)
+        {
+            _bounceJitterOffsets[i] = (stats.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-stats.maxBounceAngleJitter, stats.maxBounceAngleJitter);
+        }
 
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
-        
-        SetupLineRenderer();
+
         UpdateVelocityAndRotation();
         _isInitialized = true;
     }
 
     private void OnDestroy()
     {
-        if (_ownerBoss != null) _ownerBoss.UnregisterActiveBullet(this.gameObject);
+        if (ownerBoss != null) ownerBoss.UnregisterActiveBullet(this.gameObject);
     }
 
     private void FixedUpdate()
@@ -88,20 +89,19 @@ public class EnemyBullet : EnemyProjectileBase
         if (transform.position.z != 0f) transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
         MoveAndCollide();
-        
-        if (prediction.showDebugLine) UpdateDebugLine();
-        else if (_lineRenderer != null) _lineRenderer.enabled = false;
+
+        // ★ 新增：每一幀子彈移動後，把「我真正在飛的方向」餵給畫線工具
+        if (_visualizer != null)
+        {
+            _visualizer.DrawTrajectory(transform.position, _currentDirection, _bounceJitterOffsets);
+        }
     }
 
-    // ==========================================
-    // 核心物理：極限收斂的碰撞路由
-    // ==========================================
     private void MoveAndCollide()
     {
         float stepDistance = _currentSpeed * Time.fixedDeltaTime;
-        Vector3 halfExtents = new Vector3(vfx.rayWidth, vfx.rayWidth, 5.0f);
 
-        int hitCount = Physics.BoxCastNonAlloc(transform.position, halfExtents, _currentDirection, _hitBuffer, Quaternion.identity, stepDistance, stats.collisionLayer);
+        int hitCount = ShapeCastUtility.PerformCast(transform.position, _currentDirection, stepDistance, _hitBuffer, bulletData.shapeConfig, stats.collisionLayer, enableDeepDebug);
 
         if (hitCount > 0)
         {
@@ -112,64 +112,48 @@ public class EnemyBullet : EnemyProjectileBase
                 RaycastHit hit = _hitBuffer[i];
                 if (hit.collider == null || hit.distance <= 0.0001f || hit.point == Vector3.zero) continue;
 
-                GameObject targetObj = hit.collider.gameObject;
                 string tag = hit.collider.tag;
 
-                // ★ 路由分流 1：傷害端（處理受傷、扣血、穿透）
+                if (enableDeepDebug)
+                {
+                    Debug.Log($"[子彈路由分配] 命中目標: {hit.collider.name} | 讀取到的 Tag: '{tag}'");
+                }
+
                 if (tag == "Player")
                 {
-                    ProcessDamageTarget(targetObj, hit.point, hit.normal);
-                    continue; // 傷害端完畢後，維持穿透繼續往前飛行
+                    damageDealer.DealDamageTo(hit.collider.gameObject);
+                    SpawnHitEffect(hit.point, hit.normal, Vector3.zero);
+                    continue;
                 }
 
-                // ★ 路由分流 2：反彈端（處理牆壁、反射角、改方向）
                 if (tag == "Wall")
                 {
-                    ProcessBounceTarget(targetObj, hit);
-                    GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent 
-                    { 
-                        Intensity = 0.1f, 
-                        Duration = 0.04f 
-                    });
-                    break; // 反彈端完畢後，方向已改變，立刻中斷本幀後續偵測！
+                    if (enableDeepDebug) Debug.Log($"[觸發反彈] 目標確認為 Wall，執行反彈邏輯。");
+                    ProcessBounceTarget(hit);
+                    break;
                 }
-
-                // ★ 路由分流 3：未知物體直接靜默穿透
-                continue;
+                else
+                {
+                    if (enableDeepDebug) Debug.LogWarning($"[警告: 靜默穿透] 撞擊物體 '{hit.collider.name}' 的 Tag 是 '{tag}'，既不是 Player 也不是 Wall，將被直接穿透忽略！");
+                }
             }
         }
-
         _rb.MovePosition(transform.position + _currentDirection * stepDistance);
     }
 
-    // ==========================================
-    // [傷害端專區] 只處理數值扣除、暴擊與受傷表現
-    // ==========================================
-    private void ProcessDamageTarget(GameObject target, Vector3 hitPoint, Vector3 normal)
+    private void ProcessBounceTarget(RaycastHit hit)
     {
-        if (enableDebugLog) Debug.Log($"<color=green>[傷害端觸發]</color> 命中目標: {target.name}");
-        
-        // ★ 直接使用掛載在同一物件上的 DamageDealer 進行點對點交割
-        if (damageDealer != null)
-        {
-            damageDealer.DealDamageTo(target);
-        }
-        
-        SpawnHitEffect(hitPoint, normal, Vector3.zero);
-    }
-    // ==========================================
-    // [反彈端專區] 只處理幾何運算、動能反射與轉向
-    // ==========================================
-    private void ProcessBounceTarget(GameObject target, RaycastHit hit)
-    {
-        if (enableDebugLog) Debug.Log($"<color=yellow>[反彈端觸發]</color> 撞擊牆面: {target.name} | 改變飛行軌跡");
-
         Vector3 flatNormal = new Vector3(hit.normal.x, hit.normal.y, 0f).normalized;
-        Vector3 reflectionDir = Vector3.Reflect(_currentDirection, flatNormal).normalized;
-            
-        SpawnHitEffect(hit.point, flatNormal, reflectionDir);
-            
-        _currentDirection = reflectionDir;
+        float jitter = (_bounceCount < _bounceJitterOffsets.Length) ? _bounceJitterOffsets[_bounceCount] : 0f;
+
+        Vector3 pureReflection = Vector3.Reflect(_currentDirection, flatNormal).normalized;
+        Vector3 newDir = Quaternion.Euler(0f, 0f, jitter) * pureReflection;
+
+        if (Vector3.Dot(newDir, flatNormal) <= 0.087f) newDir = pureReflection;
+
+        SpawnHitEffect(hit.point, flatNormal, newDir);
+        _currentDirection = newDir.normalized;
+        _bounceCount++;
         UpdateVelocityAndRotation();
     }
 
@@ -177,7 +161,7 @@ public class EnemyBullet : EnemyProjectileBase
     {
         float angle = Mathf.Atan2(_currentDirection.y, _currentDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
-        _rb.linearVelocity = Vector3.zero; 
+        _rb.linearVelocity = Vector3.zero;
     }
 
     private void SpawnHitEffect(Vector3 position, Vector3 normal, Vector3 reflectionDir)
@@ -186,99 +170,67 @@ public class EnemyBullet : EnemyProjectileBase
         Quaternion rotation = Quaternion.identity;
         switch (vfx.rotationMode)
         {
-            case EffectRotationMode.Fixed: break;
             case EffectRotationMode.AlignWithNormal: rotation = Quaternion.FromToRotation(Vector3.up, normal); break;
             case EffectRotationMode.AlignWithReflection:
-                if (reflectionDir != Vector3.zero)
-                {
-                    float angle = Mathf.Atan2(reflectionDir.y, reflectionDir.x) * Mathf.Rad2Deg;
-                    rotation = Quaternion.Euler(0, 0, angle - 90f);
-                }
+                if (reflectionDir != Vector3.zero) rotation = Quaternion.Euler(0, 0, Mathf.Atan2(reflectionDir.y, reflectionDir.x) * Mathf.Rad2Deg - 90f);
                 break;
         }
         Instantiate(vfx.hitEffectPrefab, new Vector3(position.x, position.y, 0f), rotation);
     }
 
-    // ==========================================
-    // [預測線渲染專區] 嚴格對應反彈與傷害端規則
-    // ==========================================
-    private void SetupLineRenderer()
+    // ★ 編輯器視覺化
+    private void OnDrawGizmos()
     {
-        if (_lineRenderer == null) return;
-        _lineRenderer.useWorldSpace = true;
-        _lineRenderer.startWidth = vfx.rayWidth;
-        _lineRenderer.endWidth = vfx.rayWidth;
-        if (_lineRenderer.sharedMaterial == null) _lineRenderer.sharedMaterial = new Material(Shader.Find("Sprites/Default"));
-        _lineRenderer.startColor = prediction.rayColor;
-        _lineRenderer.endColor = prediction.rayColor;
-        _lineRenderer.sortingOrder = 10; 
-    }
+        if (bulletData == null) return;
 
-    private void UpdateDebugLine()
-    {
-        if (_lineRenderer == null) return;
-        _lineRenderer.enabled = true;
+        Gizmos.color = Color.red;
+        Gizmos.matrix = Matrix4x4.identity;   // ★ 先歸位，避免被前一次污染
 
-        List<Vector3> points = new List<Vector3>();
-        Vector3 currentPos = transform.position;
-        Vector3 currentDir = _currentDirection;
-        float remainingLength = prediction.rayLength;
-        Vector3 halfExtents = new Vector3(vfx.rayWidth, vfx.rayWidth, 5.0f);
+        var cfg = bulletData.shapeConfig;
+        Vector3 dir = Application.isPlaying ? _currentDirection : transform.up;
+        if (dir.sqrMagnitude < 0.0001f) dir = Vector3.up;
 
-        points.Add(currentPos);
+        // ★ 跟 ShapeCastUtility 用同一套旋轉邏輯
+        Quaternion offsetRot = Quaternion.Euler(cfg.shapeRotationOffset);
+        Quaternion baseRot = Quaternion.LookRotation(Vector3.forward, dir);
+        Quaternion finalRot = baseRot * offsetRot;
 
-        for (int i = 0; i <= prediction.maxBounces; i++)
+        switch (cfg.shapeType)
         {
-            if (remainingLength <= 0) break;
-
-            int hitCount = Physics.BoxCastNonAlloc(currentPos, halfExtents, currentDir, _hitBuffer, Quaternion.identity, remainingLength, stats.collisionLayer);
-
-            if (hitCount > 0)
+            case BulletShapeType.Circle:
             {
-                System.Array.Sort(_hitBuffer, 0, hitCount, Comparer<RaycastHit>.Create((a, b) => a.distance.CompareTo(b.distance)));
-                bool bouncedOrStopped = false;
-
-                for (int j = 0; j < hitCount; j++)
-                {
-                    RaycastHit hit = _hitBuffer[j];
-                    if (hit.collider == null || hit.distance <= 0.0001f || hit.point == Vector3.zero) continue;
-
-                    string tag = hit.collider.tag;
-
-                    // 遇到玩家直接穿透，預測線繼續往後延伸
-                    if (tag == "Player") continue;
-
-                    if (tag == "Wall")
-                    {
-                        points.Add(hit.point);
-                        remainingLength -= Vector3.Distance(currentPos, hit.point);
-
-                        Vector3 flatNormal = new Vector3(hit.normal.x, hit.normal.y, 0f).normalized;
-                        currentDir = Vector3.Reflect(currentDir, flatNormal).normalized;
-                        currentPos = hit.point + (currentDir * (vfx.rayWidth * 2f));
-                        bouncedOrStopped = true;
-                        break;
-                    }
-                    else
-                    {
-                        // 撞到不可知的實體，強制截斷
-                        points.Add(hit.point);
-                        bouncedOrStopped = true;
-                        remainingLength = 0; 
-                        break;
-                    }
-                }
-
-                if (!bouncedOrStopped) { points.Add(currentPos + (currentDir * remainingLength)); break; }
+                // 球體視覺上不需要旋轉，畫圓就好
+                Gizmos.DrawWireSphere(transform.position, cfg.radius);
+                break;
             }
-            else
+
+            case BulletShapeType.Box:
             {
-                points.Add(currentPos + (currentDir * remainingLength));
+                Matrix4x4 old = Gizmos.matrix;
+                Gizmos.matrix = Matrix4x4.TRS(transform.position, finalRot, Vector3.one);
+                Gizmos.DrawWireCube(Vector3.zero, new Vector3(cfg.boxSize.x, cfg.boxSize.y, 0.5f));
+                Gizmos.matrix = old;
+                break;
+            }
+
+            case BulletShapeType.Capsule:
+            {
+                float halfLen = Mathf.Max(0f, (cfg.capsuleLength * 0.5f) - cfg.radius);
+                Vector3 axis = finalRot * Vector3.up;   // ★ 用旋轉後的軸線
+
+                Vector3 p1 = transform.position - axis * halfLen;
+                Vector3 p2 = transform.position + axis * halfLen;
+
+                Gizmos.DrawWireSphere(p1, cfg.radius);
+                Gizmos.DrawWireSphere(p2, cfg.radius);
+                Gizmos.DrawLine(p1, p2);   // 畫中軸，比側邊線更清楚
+
+                // 可選：畫垂直於軸的「腰帶」幫助辨識方向
+                Vector3 side = finalRot * Vector3.right;
+                Gizmos.DrawLine(p1 + side * cfg.radius, p2 + side * cfg.radius);
+                Gizmos.DrawLine(p1 - side * cfg.radius, p2 - side * cfg.radius);
                 break;
             }
         }
-
-        _lineRenderer.positionCount = points.Count;
-        _lineRenderer.SetPositions(points.ToArray());
     }
 }

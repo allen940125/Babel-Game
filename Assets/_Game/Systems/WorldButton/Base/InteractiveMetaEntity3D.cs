@@ -2,7 +2,6 @@ using Gamemanager;
 using UnityEngine;
 
 // ★ 所有繼承此底層的 Meta 物件，都會自動具備第四面牆的物理與互動能力！
-[RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(DraggableBehavior3D))]
 [RequireComponent(typeof(RotatableBehavior3D))]
 public abstract class InteractiveMetaEntity3D : MonoBehaviour
@@ -53,18 +52,24 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
     /// </summary>
     private void SetupComponentsAutomagically()
     {
-        _boxCollider = GetComponent<BoxCollider>();
+        // ★ 核心修復：改用 GetComponentInChildren，它會先找自己，沒有的話會自動往下層子物件找
+        _boxCollider = GetComponentInChildren<BoxCollider>();
+        
         _draggable = GetComponent<DraggableBehavior3D>();
         _rotatable = GetComponent<RotatableBehavior3D>();
         _glow = GetComponent<GlowBehavior3D>();
 
-        // 強制把 BoxCollider 的 Z 軸拉厚到 5.0f
         if (_boxCollider != null && _boxCollider.size.z < 1.0f)
         {
             Vector3 newSize = _boxCollider.size;
             newSize.z = 5.0f;
             _boxCollider.size = newSize;
             _boxCollider.isTrigger = false;
+        }
+        else if (_boxCollider == null)
+        {
+            // 防呆警告：萬一你子物件也忘記掛 Collider，要在這裡報錯
+            Debug.LogError($"[架構錯誤] {gameObject.name} 及其子物件中都找不到 BoxCollider！");
         }
     }
 
