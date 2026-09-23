@@ -93,16 +93,20 @@ public enum UIType
     StoreMenu = 130,             //商店選單
     GameOverMenu = 140,
     GameEndMenu = 150,
-    
+
     SceneLoadingTransitionPanel = 210,
     GameStartTransitionPanel = 220,
-    
+
     SettingsWindow = 310,   //設定介面
     DialogueWindow = 320,
     FadeInOutWindow = 330,
     StoryTextDisplayWindow = 340,
-    
+
     GameHUD = 410,
+
+    DialogueWindowNew = 500,
+
+    NarrationWindow = 510,
 }
 
 /// <summary>

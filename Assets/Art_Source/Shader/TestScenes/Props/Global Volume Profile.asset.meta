@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Art_Source/Shader/TestScenes/Props/Global Volume Profile.asset.meta
 guid: d0a414d4b61f9934c8606f0c3b38b219
 NativeFormatImporter:
+========
+guid: 1b69f1223646e1740b08a866c63c1e11
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> origin/bacon:Assets/TestScene/testscript/DialogueScript.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 

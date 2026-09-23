@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Art_Source/3DModels/SM_Port_Fence/Prefab/SM_Port_Fence_01a_low.prefab.meta
 guid: d46fd273d8f05514392864814c41681c
 PrefabImporter:
+========
+guid: 806954bcb860caa4fb9ac80a85c5fda4
+DefaultImporter:
+>>>>>>>> origin/bacon:Assets/TestScene/testscript/New Ink.ink.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
