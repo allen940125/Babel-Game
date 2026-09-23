@@ -245,4 +245,4 @@ MonoBehaviour:
   - pattern: {fileID: 2155717315760233811}
     delayBefore: 0.5
   - pattern: {fileID: 6459337050798394983}
-    delayBefore: 0.5
+    delayBefore: 0

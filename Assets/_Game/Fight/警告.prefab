@@ -198,6 +198,14 @@ PrefabInstance:
       propertyPath: autoUpdate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8094486726611283388, guid: 23e68799bffe89749a241286b6515d3e, type: 3}
+      propertyPath: autoUpdateTrajectory
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094486726611283388, guid: 23e68799bffe89749a241286b6515d3e, type: 3}
+      propertyPath: standaloneUpdateInterval
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

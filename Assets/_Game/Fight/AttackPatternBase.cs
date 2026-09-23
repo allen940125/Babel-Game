@@ -139,6 +139,9 @@ public abstract class AttackPatternBase : MonoBehaviour
     /// <summary>
     /// 傳入算好的點位，此方法會自動生成警告、等待、並在結束時精準銷毀警告
     /// </summary>
+    // ==========================================
+    // ★ 核心：統一的預警處理協程
+    // ==========================================
     protected IEnumerator ShowWarningsAndWait(List<SpawnData> spawnDataList)
     {
         if (!useWarning || warningTime <= 0f || warningPrefab == null || spawnDataList.Count == 0) 
@@ -153,17 +156,26 @@ public abstract class AttackPatternBase : MonoBehaviour
         {
             GameObject warningObj = Instantiate(warningPrefab, data.position, Quaternion.identity);
             
-            // 將警告圖示旋轉至與子彈同向 (如果是指向性警告線才需要)
+            // 將警告圖示旋轉至與子彈同向 (如果你有需要旋轉驚嘆號或特效面片)
             float angle = Mathf.Atan2(data.direction.y, data.direction.x) * Mathf.Rad2Deg;
             warningObj.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
             
+            // ★ 關鍵對接：找出預警物件身上的畫筆，命令它畫出反彈預測線！
+            TrajectoryVisualizer visualizer = warningObj.GetComponentInChildren<TrajectoryVisualizer>();
+            if (visualizer != null)
+            {
+                // 餵入算好的起點與方向。第三個參數傳 null，代表預警階段不加入隨機擾動，顯示為完美直線。
+                Vector3 dir3D = new Vector3(data.direction.x, data.direction.y, 0f);
+                visualizer.DrawTrajectory(data.position, dir3D, null);
+            }
+
             activeWarnings.Add(warningObj);
         }
 
         // 2. 嚴格鎖死等待時間
         yield return new WaitForSeconds(warningTime);
 
-        // 3. 時間一到，由程式強制抹殺所有警告，確保與下一行發射子彈的程式碼絕對同步
+        // 3. 時間一到，強制抹殺所有警告，確保與下一行發射子彈的程式碼絕對同步
         foreach (var w in activeWarnings)
         {
             if (w != null) Destroy(w);

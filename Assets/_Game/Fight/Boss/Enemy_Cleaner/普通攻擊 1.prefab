@@ -165,8 +165,8 @@ MonoBehaviour:
   bulletData: {fileID: 11400000, guid: 0bfdfb086a073fb4582caf4d9b1c9802, type: 2}
   enableDeepDebug: 0
   stats:
-    speedRange: {x: 15, y: 20}
-    lifeTimeRange: {x: 3, y: 6}
+    speedRange: {x: 3, y: 12}
+    lifeTimeRange: {x: 15, y: 25}
     collisionLayer:
       serializedVersion: 2
       m_Bits: 320
