@@ -17,8 +17,7 @@ MonoBehaviour:
     defaultEffectsMode: 0
     timeScale: 0
     defaultBehaviorTags: []
-    defaultAppearanceTags:
-    - incr
+    defaultAppearanceTags: []
     defaultDisappearanceTags: []
     isAnimatingBehaviors: 1
     isAnimatingAppearances: 1
