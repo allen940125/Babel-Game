@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OverlayMask:
-        m_Texture: {fileID: 2800000, guid: 17530ed8de7e1e34fb6b0268d4e25b89, type: 3}
+        m_Texture: {fileID: 2800000, guid: 69c018afaecbbea4caef2c9384ea6099, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondTex:
@@ -41,14 +41,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortAmount: 0.144
-    - _Exposure: 0.62
-    - _NoiseScale: 3.31
-    - _NoiseSpeedX: 0.02
-    - _NoiseSpeedY: 0.02
-    - _RGBShift: 0.0311
-    - _Rotation: 0.01
+    - _DistortAmount: 0.032
+    - _Exposure: 1.23
+    - _NoiseScale: 3.14
+    - _NoiseSpeedX: 0.18
+    - _NoiseSpeedY: 0.01
+    - _RGBShift: 0
+    - _Rotation: 0
     m_Colors:
-    - _Tint: {r: 0.6603774, g: 0.6167675, b: 0.6167675, a: 1}
+    - _Tint: {r: 1, g: 0.41320753, b: 0.41320753, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
