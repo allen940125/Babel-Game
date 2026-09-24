@@ -107,10 +107,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
+  destroyOnFinish: 1
+  snapToWorldOrigin: 1
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 5488640575559987936}
     delayBefore: 0
-  destroyOnFinish: 1
 --- !u!1 &5820300561982697782
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +225,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ae1ad1cb633d54c906bca9a67a3b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomShapePattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 1
+  warningTime: 1.5
+  warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   baseSpeed: 2.5
   directionMode: 0

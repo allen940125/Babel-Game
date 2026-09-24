@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7545054386299340268
 Transform:
   m_ObjectHideFlags: 0
@@ -44,18 +44,151 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 2
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  bulletCount: 5
   baseSpeed: 1
-  spawnAreaSize: {x: 5, y: 5}
   spawnInterval: 0.05
+  patternType: 2
+  bulletCount: 5
+  spawnAreaSize: {x: 5, y: 5}
   circleRadius: 0
   circleStartAngle: 0
   spreadAngle: 90
+  sniperSpreadAngle: 5
   useRandomDirection: 1
   aimAtPlayer: 0
   fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &1770220483256832192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9062753536793349800}
+  - component: {fileID: 3444003875416795310}
+  m_Layer: 0
+  m_Name: GameObject (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9062753536793349800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770220483256832192}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18, y: -0.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3882232641607372702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3444003875416795310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770220483256832192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 1
+  warningTime: 1.5
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+  baseSpeed: 1
+  spawnInterval: 0.1
+  patternType: 5
+  bulletCount: 2
+  spawnAreaSize: {x: 0, y: 20}
+  circleRadius: 0
+  circleStartAngle: 0
+  spreadAngle: 90
+  sniperSpreadAngle: 5
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &2488952125506188522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7123955612547195167}
+  - component: {fileID: 6322166892248985587}
+  m_Layer: 0
+  m_Name: GameObject (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7123955612547195167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2488952125506188522}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 17.54, y: -0.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3882232641607372702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6322166892248985587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2488952125506188522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 1
+  warningTime: 1.5
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+  baseSpeed: 1
+  spawnInterval: 0.1
+  patternType: 5
+  bulletCount: 3
+  spawnAreaSize: {x: 0, y: 20}
+  circleRadius: 0
+  circleStartAngle: 0
+  spreadAngle: 90
+  sniperSpreadAngle: 5
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &3443535884927816484
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6529159826406132298
 Transform:
   m_ObjectHideFlags: 0
@@ -100,18 +233,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 2
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
-  bulletCount: 3
-  baseSpeed: 1.5
-  spawnAreaSize: {x: 5, y: 5}
+  baseSpeed: 0.25
   spawnInterval: 0.05
+  patternType: 2
+  bulletCount: 1
+  spawnAreaSize: {x: 5, y: 5}
   circleRadius: 0
   circleStartAngle: 0
   spreadAngle: 90
+  sniperSpreadAngle: 5
   useRandomDirection: 1
   aimAtPlayer: 0
   fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &4989275966189868475
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +282,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7123955612547195167}
+  - {fileID: 7118820743678560738}
+  - {fileID: 9062753536793349800}
   - {fileID: 7545054386299340268}
   - {fileID: 6529159826406132298}
   m_Father: {fileID: 0}
@@ -158,9 +301,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
-  steps:
-  - pattern: {fileID: 4823120592773991741}
-    delayBefore: 0
-  - pattern: {fileID: 447114193544242156}
-    delayBefore: 1
   destroyOnFinish: 1
+  snapToWorldOrigin: 1
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  steps:
+  - pattern: {fileID: 6322166892248985587}
+    delayBefore: 0.5
+  - pattern: {fileID: 4114188190678585182}
+    delayBefore: 0.5
+  - pattern: {fileID: 3444003875416795310}
+    delayBefore: 0.5
+--- !u!1 &5122312108956767261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7118820743678560738}
+  - component: {fileID: 4114188190678585182}
+  m_Layer: 0
+  m_Name: GameObject (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7118820743678560738
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122312108956767261}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.91, y: 4.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3882232641607372702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4114188190678585182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122312108956767261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 1
+  warningTime: 1.5
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+  baseSpeed: 1
+  spawnInterval: 0.1
+  patternType: 2
+  bulletCount: 1
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 0
+  circleStartAngle: 0
+  spreadAngle: 90
+  sniperSpreadAngle: 5
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
+  fireInwardToCenter: 0
