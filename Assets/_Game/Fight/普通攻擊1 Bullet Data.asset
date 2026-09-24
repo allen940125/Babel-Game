@@ -12,15 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e8377a3c5915409176283216c9e36, type: 3}
   m_Name: "\u666E\u901A\u653B\u64CA1 Bullet Data"
   m_EditorClassIdentifier: Assembly-CSharp::BulletDataSO
-  shapeConfig:
+  damageShape:
     shapeType: 0
-    radius: 4
-    boxSize: {x: 0.2, y: 0.88}
+    radius: 3.5
+    boxSize: {x: 0, y: 0}
+    capsuleLength: 0
+    zThickness: 0
+    shapeRotationOffset: {x: 0, y: 0, z: 0}
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  bounceShape:
+    shapeType: 0
+    radius: 1
+    boxSize: {x: 0, y: 0}
     capsuleLength: 0
     zThickness: 5
+    shapeRotationOffset: {x: 0, y: 0, z: 0}
   bounceLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 256
   baseSpeed: 10
   maxBounces: 3
   maxPredictionDistance: 50
+  maxBounceAngleJitter: 0
+  jitterFirstBounceOnly: 0

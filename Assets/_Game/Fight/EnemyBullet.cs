@@ -97,48 +97,178 @@ public class EnemyBullet : EnemyProjectileBase
         }
     }
 
+    private const float COLLISION_SKIN = 0.005f;
+    private const int MAX_BOUNCES_PER_FRAME = 8;
+
     private void MoveAndCollide()
     {
-        float stepDistance = _currentSpeed * Time.fixedDeltaTime;
+        float remainingDistance = _currentSpeed * Time.fixedDeltaTime;
 
-        int hitCount = ShapeCastUtility.PerformCast(transform.position, _currentDirection, stepDistance, _hitBuffer, bulletData.shapeConfig, stats.collisionLayer, enableDeepDebug);
-
-        if (hitCount > 0)
+        for (int bounceStep = 0; bounceStep < MAX_BOUNCES_PER_FRAME; bounceStep++)
         {
-            System.Array.Sort(_hitBuffer, 0, hitCount, Comparer<RaycastHit>.Create((a, b) => a.distance.CompareTo(b.distance)));
+            if (remainingDistance <= 0.0001f)
+                break;
 
-            for (int i = 0; i < hitCount; i++)
+            Vector3 currentPos = transform.position;
+
+            // ==================================================
+            // 1. 找牆壁
+            // ==================================================
+            int bounceHitCount = ShapeCastUtility.PerformCast(
+                currentPos,
+                _currentDirection,
+                remainingDistance,
+                _hitBuffer,
+                bulletData.bounceShape,
+                bulletData.bounceLayer,
+                enableDeepDebug
+            );
+
+            RaycastHit nearestWallHit = default;
+            bool hasWallHit = false;
+
+            if (bounceHitCount > 0)
             {
-                RaycastHit hit = _hitBuffer[i];
-                if (hit.collider == null || hit.distance <= 0.0001f || hit.point == Vector3.zero) continue;
+                System.Array.Sort(
+                    _hitBuffer,
+                    0,
+                    bounceHitCount,
+                    Comparer<RaycastHit>.Create(
+                        (a, b) => a.distance.CompareTo(b.distance)
+                    )
+                );
 
-                string tag = hit.collider.tag;
-
-                if (enableDeepDebug)
+                for (int i = 0; i < bounceHitCount; i++)
                 {
-                    Debug.Log($"[子彈路由分配] 命中目標: {hit.collider.name} | 讀取到的 Tag: '{tag}'");
-                }
+                    RaycastHit hit = _hitBuffer[i];
 
-                if (tag == "Player")
-                {
-                    damageDealer.DealDamageTo(hit.collider.gameObject);
-                    SpawnHitEffect(hit.point, hit.normal, Vector3.zero);
-                    continue;
-                }
+                    if (hit.collider == null)
+                        continue;
 
-                if (tag == "Wall")
-                {
-                    if (enableDeepDebug) Debug.Log($"[觸發反彈] 目標確認為 Wall，執行反彈邏輯。");
-                    ProcessBounceTarget(hit);
+                    // ★ 避免一開始就重疊造成 0 距離假反彈
+                    if (hit.distance < 0.0001f)
+                        continue;
+
+                    nearestWallHit = hit;
+                    hasWallHit = true;
                     break;
                 }
-                else
+            }
+
+            // ==================================================
+            // 2. 找玩家
+            // ==================================================
+            int damageHitCount = ShapeCastUtility.PerformCast(
+                currentPos,
+                _currentDirection,
+                remainingDistance,
+                _hitBuffer,
+                bulletData.damageShape,
+                bulletData.damageLayer,
+                enableDeepDebug
+            );
+
+            RaycastHit nearestDamageHit = default;
+            bool hasDamageHit = false;
+
+            if (damageHitCount > 0)
+            {
+                float nearestDistance = float.MaxValue;
+
+                for (int i = 0; i < damageHitCount; i++)
                 {
-                    if (enableDeepDebug) Debug.LogWarning($"[警告: 靜默穿透] 撞擊物體 '{hit.collider.name}' 的 Tag 是 '{tag}'，既不是 Player 也不是 Wall，將被直接穿透忽略！");
+                    RaycastHit hit = _hitBuffer[i];
+
+                    if (hit.collider == null)
+                        continue;
+
+                    if (hit.distance < 0.0001f)
+                        continue;
+
+                    if (hit.distance < nearestDistance)
+                    {
+                        nearestDistance = hit.distance;
+                        nearestDamageHit = hit;
+                        hasDamageHit = true;
+                    }
                 }
             }
+
+            // ==================================================
+            // 3. 這一段誰比較近？
+            // ==================================================
+
+            bool wallFirst =
+                hasWallHit &&
+                (!hasDamageHit ||
+                 nearestWallHit.distance <= nearestDamageHit.distance);
+
+            bool playerFirst =
+                hasDamageHit &&
+                (!hasWallHit ||
+                 nearestDamageHit.distance < nearestWallHit.distance);
+
+            // ==================================================
+            // 4. 先撞到牆
+            // ==================================================
+            if (wallFirst)
+            {
+                float travelDistance = nearestWallHit.distance;
+
+                // ★ 先把子彈真正移到碰撞位置
+                transform.position =
+                    currentPos + _currentDirection * travelDistance;
+
+                // 這一幀還剩多少距離？
+                remainingDistance -= travelDistance;
+
+                // ★ 在真正碰撞位置反彈
+                ProcessBounceTarget(nearestWallHit);
+
+                // ★ 稍微推離牆面，避免下一次 ShapeCast 從牆裡開始
+                transform.position += _currentDirection * COLLISION_SKIN;
+
+                remainingDistance =
+                    Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
+
+                continue;
+            }
+
+            // ==================================================
+            // 5. 先撞到玩家
+            // ==================================================
+            if (playerFirst)
+            {
+                if (enableDeepDebug) Debug.Log($"[傷害判定] 命中玩家: {nearestDamageHit.collider.name}");
+                
+                damageDealer.DealDamageTo(nearestDamageHit.collider.gameObject);
+                
+                // ★ 核心修正：穿透行為
+                // 子彈不會因為撞到玩家而停下，它會直接無視玩家，走完這幀剩餘的全部距離。
+                // (注意：這前提是你希望子彈穿過玩家後，"在這一幀內" 不會立刻撞牆。
+                // 若穿透後可能立刻撞牆，你需要將位置移到玩家身上並繼續迴圈，但通常彈幕遊戲直接走完即可)
+                transform.position = currentPos + _currentDirection * remainingDistance;
+                remainingDistance = 0f;
+                break; // 距離歸零了，跳出迴圈
+            }
+
+            // ==================================================
+            // 6. 什麼都沒撞到，直接走完
+            // ==================================================
+            transform.position = currentPos + _currentDirection * remainingDistance;
+            remainingDistance = 0f;
+            break;
         }
-        _rb.MovePosition(transform.position + _currentDirection * stepDistance);
+
+        // 保證 Z 軸維持 0
+        if (transform.position.z != 0f)
+        {
+            transform.position = new Vector3(
+                transform.position.x,
+                transform.position.y,
+                0f
+            );
+        }
     }
 
     private void ProcessBounceTarget(RaycastHit hit)
@@ -178,19 +308,26 @@ public class EnemyBullet : EnemyProjectileBase
         Instantiate(vfx.hitEffectPrefab, new Vector3(position.x, position.y, 0f), rotation);
     }
 
-    // ★ 編輯器視覺化
+    // ★ 編輯器視覺化：同時畫出兩個框，用顏色區分
     private void OnDrawGizmos()
     {
         if (bulletData == null) return;
 
-        Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.identity;   // ★ 先歸位，避免被前一次污染
-
-        var cfg = bulletData.shapeConfig;
         Vector3 dir = Application.isPlaying ? _currentDirection : transform.up;
         if (dir.sqrMagnitude < 0.0001f) dir = Vector3.up;
 
-        // ★ 跟 ShapeCastUtility 用同一套旋轉邏輯
+        // 1. 畫反彈框 (黃色)
+        Gizmos.color = Color.yellow;
+        DrawShapeGizmo(bulletData.bounceShape, dir);
+
+        // 2. 畫傷害框 (紅色)
+        Gizmos.color = Color.red;
+        DrawShapeGizmo(bulletData.damageShape, dir);
+    }
+
+    private void DrawShapeGizmo(CollisionShapeConfig cfg, Vector3 dir)
+    {
+        Gizmos.matrix = Matrix4x4.identity;
         Quaternion offsetRot = Quaternion.Euler(cfg.shapeRotationOffset);
         Quaternion baseRot = Quaternion.LookRotation(Vector3.forward, dir);
         Quaternion finalRot = baseRot * offsetRot;
@@ -198,39 +335,26 @@ public class EnemyBullet : EnemyProjectileBase
         switch (cfg.shapeType)
         {
             case BulletShapeType.Circle:
-            {
-                // 球體視覺上不需要旋轉，畫圓就好
                 Gizmos.DrawWireSphere(transform.position, cfg.radius);
                 break;
-            }
-
             case BulletShapeType.Box:
-            {
                 Matrix4x4 old = Gizmos.matrix;
                 Gizmos.matrix = Matrix4x4.TRS(transform.position, finalRot, Vector3.one);
                 Gizmos.DrawWireCube(Vector3.zero, new Vector3(cfg.boxSize.x, cfg.boxSize.y, 0.5f));
                 Gizmos.matrix = old;
                 break;
-            }
-
             case BulletShapeType.Capsule:
-            {
                 float halfLen = Mathf.Max(0f, (cfg.capsuleLength * 0.5f) - cfg.radius);
-                Vector3 axis = finalRot * Vector3.up;   // ★ 用旋轉後的軸線
-
+                Vector3 axis = finalRot * Vector3.up;
                 Vector3 p1 = transform.position - axis * halfLen;
                 Vector3 p2 = transform.position + axis * halfLen;
-
                 Gizmos.DrawWireSphere(p1, cfg.radius);
                 Gizmos.DrawWireSphere(p2, cfg.radius);
-                Gizmos.DrawLine(p1, p2);   // 畫中軸，比側邊線更清楚
-
-                // 可選：畫垂直於軸的「腰帶」幫助辨識方向
+                Gizmos.DrawLine(p1, p2);
                 Vector3 side = finalRot * Vector3.right;
                 Gizmos.DrawLine(p1 + side * cfg.radius, p2 + side * cfg.radius);
                 Gizmos.DrawLine(p1 - side * cfg.radius, p2 - side * cfg.radius);
                 break;
-            }
         }
     }
 }

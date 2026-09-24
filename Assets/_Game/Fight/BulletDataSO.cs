@@ -3,8 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Bullet Data", menuName = "Boss/Bullet Data")]
 public class BulletDataSO : ScriptableObject
 {
-    [Header("物理與碰撞形狀")]
-    public CollisionShapeConfig shapeConfig;
+    [Header("★ 傷害判定 (對玩家)")]
+    [Tooltip("通常設定得比視覺小，給予玩家擦彈空間")]
+    public CollisionShapeConfig damageShape;
+    public LayerMask damageLayer;
+
+    [Header("★ 反彈判定 (對牆壁)")]
+    [Tooltip("通常與視覺圖像等大，確保不會穿模")]
+    public CollisionShapeConfig bounceShape;
     public LayerMask bounceLayer;
     
     [Header("行為設定")]
@@ -12,7 +18,10 @@ public class BulletDataSO : ScriptableObject
     public int maxBounces = 3;
     public float maxPredictionDistance = 50f;
 
-    // ★ 當你在 Inspector 調整 SO 檔案的任何數字時，強制觸發編輯器重繪
+    [Header("★ 反彈角度擾動 (Jitter)")]
+    [Range(0f, 60f)] public float maxBounceAngleJitter = 0f;
+    public bool jitterFirstBounceOnly = false;
+
     private void OnValidate()
     {
 #if UNITY_EDITOR

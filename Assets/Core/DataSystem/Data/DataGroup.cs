@@ -271,6 +271,24 @@ public class StoreDataBaseTemplete : IWithIdData, IWithNameData
     }
 }
 
+[Serializable]
+public class DialogueDataBaseTemplete : IWithIdData, IWithNameData
+{
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public string PrefabPath { get; set; }
+
+    public DialogueDataBaseTemplete Clone()
+    {
+        return new DialogueDataBaseTemplete()
+        {
+            Id = Id,
+            Name = Name,
+            PrefabPath = PrefabPath,
+        };
+    }
+}
+
 public class SoundEffectDatabaseTemplete : IWithNameData, IWithIdData
 {
     public int Id { get; set; }

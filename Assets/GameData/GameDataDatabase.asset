@@ -61,10 +61,6 @@ MonoBehaviour:
     <Name>k__BackingField: GameHUD
     <UIGroup>k__BackingField: Persistent
     <PrefabPath>k__BackingField: UI/HUDs/GameHUD
-  - <Id>k__BackingField: 500
-    <Name>k__BackingField: DialogueWindowNew
-    <UIGroup>k__BackingField: Popup
-    <PrefabPath>k__BackingField: UI/Windows/DialogueWindowNew
   ItemDatabase:
   - <Id>k__BackingField: 100
     <Name>k__BackingField: Money
@@ -165,3 +161,10 @@ MonoBehaviour:
     <Discount>k__BackingField: 1
     <MaxPurchase>k__BackingField: 10
     <RestockInterval>k__BackingField: 0
+  DialogueDataBase:
+  - <Id>k__BackingField: 1001
+    <Name>k__BackingField: test1001
+    <PrefabPath>k__BackingField: Ink/test1001
+  - <Id>k__BackingField: 1002
+    <Name>k__BackingField: BeginDialogue
+    <PrefabPath>k__BackingField: Ink/BeginDialogue

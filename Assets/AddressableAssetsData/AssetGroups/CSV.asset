@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d6e91b677d54ea45ac339deefd45a8f
+    m_Address: CSV/DialogueDataBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2dd7029563a633e4aa7e3a72dabb8171
     m_Address: 'CSV/GameEffectDatabase '
     m_ReadOnly: 0
@@ -37,11 +42,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c823d349513d81046ad6ca8ee5376e40
     m_Address: CSV/UIDatabase
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f661a1808599744459284a051b71d510
-    m_Address: UI/Windows/DialogueWindowNew
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -59,150 +59,177 @@ public class TrajectoryVisualizer : MonoBehaviour
     }
 
     public void DrawTrajectory(
-        Vector3 startPos,
-        Vector3 direction,
-        float[] bounceJitters = null)
+    Vector3 startPos,
+    Vector3 direction,
+    float[] bounceJitters = null)
+{
+    if (_lineRenderer == null || bulletData == null)
+        return;
+
+    _lineRenderer.enabled = true;
+
+    startPos.z = 0f;
+    direction.z = 0f;
+
+    Vector3 currentPos = startPos;
+    Vector3 currentDir = direction.normalized;
+
+    List<Vector3> points = new List<Vector3>();
+    points.Add(currentPos);
+
+    // ==================================================
+    // 第一段：尋找第一次撞牆
+    // ==================================================
+
+    int hitCount = ShapeCastUtility.PerformCast(
+        currentPos,
+        currentDir,
+        bulletData.maxPredictionDistance,
+        _hitBuffer,
+        bulletData.bounceShape,
+        bulletData.bounceLayer,
+        false
+    );
+
+    RaycastHit nearestHit = default;
+    bool foundWall = false;
+
+    if (hitCount > 0)
     {
-        if (_lineRenderer == null || bulletData == null) return;
+        System.Array.Sort(
+            _hitBuffer,
+            0,
+            hitCount,
+            Comparer<RaycastHit>.Create(
+                (a, b) => a.distance.CompareTo(b.distance)
+            )
+        );
 
-        _lineRenderer.enabled = true;
-
-        startPos.z = 0f;
-        direction.z = 0f;
-
-        List<Vector3> points = new List<Vector3>();
-        points.Add(startPos);
-
-        Vector3 currentPos = startPos;
-        Vector3 currentDir = direction.normalized;
-        float remainingDistance = bulletData.maxPredictionDistance;
-
-        for (int i = 0; i <= bulletData.maxBounces; i++)
+        for (int i = 0; i < hitCount; i++)
         {
-            if (remainingDistance <= 0) break;
+            RaycastHit hit = _hitBuffer[i];
 
-            int hitCount = ShapeCastUtility.PerformCast(
-                currentPos,
-                currentDir,
-                remainingDistance,
-                _hitBuffer,
-                bulletData.shapeConfig,
-                bulletData.bounceLayer,
-                false);
+            if (hit.collider == null)
+                continue;
 
-            if (hitCount > 0)
-            {
-                System.Array.Sort(
-                    _hitBuffer,
-                    0,
-                    hitCount,
-                    Comparer<RaycastHit>.Create(
-                        (a, b) => a.distance.CompareTo(b.distance)));
+            if (hit.distance <= 0.0001f)
+                continue;
 
-                bool bounced = false;
-
-                for (int j = 0; j < hitCount; j++)
-                {
-                    RaycastHit hit = _hitBuffer[j];
-
-                    if (hit.collider == null ||
-                        hit.distance <= 0.0001f ||
-                        hit.point == Vector3.zero)
-                        continue;
-
-                    string tag = hit.collider.tag;
-
-                    if (tag == "Player")
-                        continue;
-
-                    if (tag == "Wall")
-                    {
-                        Vector3 hitPoint = hit.point;
-                        hitPoint.z = 0f;
-
-                        points.Add(hitPoint);
-
-                        remainingDistance -= hit.distance;
-
-                        Vector3 flatNormal =
-                            new Vector3(
-                                hit.normal.x,
-                                hit.normal.y,
-                                0f).normalized;
-
-                        Vector3 pureReflection =
-                            Vector3.Reflect(currentDir, flatNormal);
-
-                        pureReflection.z = 0f;
-                        pureReflection.Normalize();
-
-                        float jitter =
-                            (bounceJitters != null &&
-                             i < bounceJitters.Length)
-                                ? bounceJitters[i]
-                                : 0f;
-
-                        if (jitter != 0f)
-                        {
-                            currentDir =
-                                Quaternion.Euler(0, 0, jitter) *
-                                pureReflection;
-
-                            if (Vector3.Dot(
-                                    currentDir,
-                                    flatNormal) <= 0.087f)
-                            {
-                                currentDir = pureReflection;
-                            }
-                        }
-                        else
-                        {
-                            currentDir = pureReflection;
-                        }
-
-                        currentPos =
-                            hitPoint + currentDir * 0.01f;
-
-                        bounced = true;
-                        break;
-                    }
-                    else
-                    {
-                        Vector3 endPoint = hit.point;
-                        endPoint.z = 0f;
-
-                        points.Add(endPoint);
-
-                        bounced = true;
-                        remainingDistance = 0;
-                        break;
-                    }
-                }
-
-                if (!bounced)
-                {
-                    Vector3 endPoint =
-                        currentPos +
-                        currentDir * remainingDistance;
-
-                    endPoint.z = 0f;
-                    points.Add(endPoint);
-                    break;
-                }
-            }
-            else
-            {
-                Vector3 endPoint =
-                    currentPos +
-                    currentDir * remainingDistance;
-
-                endPoint.z = 0f;
-                points.Add(endPoint);
-                break;
-            }
+            nearestHit = hit;
+            foundWall = true;
+            break;
         }
+    }
+
+    // ==================================================
+    // 沒撞到牆：直接畫出去
+    // ==================================================
+
+    if (!foundWall)
+    {
+        Vector3 endPoint =
+            currentPos +
+            currentDir * bulletData.maxPredictionDistance;
+
+        endPoint.z = 0f;
+        points.Add(endPoint);
 
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(points.ToArray());
+        return;
     }
+
+    // ==================================================
+    // 第一次碰撞點
+    // ==================================================
+
+    Vector3 hitPoint =
+        currentPos +
+        currentDir * nearestHit.distance;
+
+    hitPoint.z = 0f;
+
+    points.Add(hitPoint);
+
+    // ==================================================
+    // 計算反射方向
+    // ==================================================
+
+    Vector3 flatNormal =
+        new Vector3(
+            nearestHit.normal.x,
+            nearestHit.normal.y,
+            0f
+        ).normalized;
+
+    if (flatNormal.sqrMagnitude < 0.0001f)
+        flatNormal = -currentDir;
+
+    Vector3 reflection =
+        Vector3.Reflect(
+            currentDir,
+            flatNormal
+        ).normalized;
+
+    // ==================================================
+    // 反彈擾動
+    // ==================================================
+
+    float jitter = 0f;
+
+    if (bounceJitters != null &&
+        bounceJitters.Length > 0)
+    {
+        jitter = bounceJitters[0];
+    }
+
+    if (jitter != 0f)
+    {
+        reflection =
+            Quaternion.Euler(0f, 0f, jitter) *
+            reflection;
+
+        reflection.z = 0f;
+        reflection.Normalize();
+
+        // 避免擾動後又鑽回牆裡
+        if (Vector3.Dot(reflection, flatNormal) <= 0.087f)
+        {
+            reflection =
+                Vector3.Reflect(
+                    currentDir,
+                    flatNormal
+                ).normalized;
+        }
+    }
+
+    // ==================================================
+    // 反彈後起點
+    // ==================================================
+
+    currentPos =
+        hitPoint +
+        flatNormal * 0.02f;
+
+    currentDir = reflection;
+
+    // ==================================================
+    // 第二段：只畫反射後的路徑
+    // ==================================================
+
+    Vector3 secondEndPoint =
+        currentPos +
+        currentDir * bulletData.maxPredictionDistance;
+
+    secondEndPoint.z = 0f;
+
+    points.Add(secondEndPoint);
+
+    // ==================================================
+    // 輸出
+    // ==================================================
+
+    _lineRenderer.positionCount = points.Count;
+    _lineRenderer.SetPositions(points.ToArray());
+}
 }
