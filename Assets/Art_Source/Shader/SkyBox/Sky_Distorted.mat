@@ -44,7 +44,7 @@ Material:
     - _DistortAmount: 0.032
     - _Exposure: 1.23
     - _NoiseScale: 3.14
-    - _NoiseSpeedX: 0.18
+    - _NoiseSpeedX: 0.03
     - _NoiseSpeedY: 0.01
     - _RGBShift: 0
     - _Rotation: 0

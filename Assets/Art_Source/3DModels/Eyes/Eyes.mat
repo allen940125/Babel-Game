@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4269994932013270768
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
-  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Boat
+  m_Name: Eyes
   m_Shader: {fileID: -6465566751694194690, guid: 3a6a62c1d876ae34a8069807a09641b5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,8 +24,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Map:
-        m_Texture: {fileID: 2800000, guid: 765b7b64840b7644ba016c0df2152a0b, type: 3}
+        m_Texture: {fileID: 2800000, guid: b07e852afc168534ba4201d4f4e2f609, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Brush_Texture:
@@ -46,7 +37,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 410d1166039dabe4bbd1911d0a0db49e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -66,19 +57,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 765b7b64840b7644ba016c0df2152a0b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask_Map:
-        m_Texture: {fileID: 2800000, guid: 54fa2bd9cbf980743a3ad59b77a62c7e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2eff60a3de93d8a42b411cc5ba6a9c89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 54fa2bd9cbf980743a3ad59b77a62c7e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 410d1166039dabe4bbd1911d0a0db49e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9dd8fe2407e759547b128b12c9f5ca27, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -86,6 +77,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -103,45 +98,75 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddPrecomputedVelocity: 0
     - _Alpha: 1
-    - _Brush_Scale: 14.3
-    - _Brush_Strength: 0.6
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _Brush_Scale: 18.6
+    - _Brush_Strength: 0.385
     - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
     - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Hidden_Color_Strength: 0.687
-    - _Hidden_Shadow_Power: 5.45
-    - _Highlight_Amount: 1.465
-    - _Highlight_Power: 0.97
-    - _Highlight_Strength: 0.649
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Hidden_Color_Strength: 0.08
+    - _Hidden_Shadow_Power: 5.29
+    - _Highlight_Amount: 1.156
+    - _Highlight_Power: 3.45
+    - _Highlight_Strength: 0.621
     - _Metallic: 0
-    - _Mode: 0
-    - _Normal_Strength: 0.52
+    - _Normal_Strength: 0
     - _OcclusionStrength: 1
     - _Original_Smooth_Mask: 0
-    - _Original_Smoothness: 0.5
-    - _Paint_Smoothness: 0
-    - _Parallax: 0.02
+    - _Original_Smoothness: 0
+    - _Paint_Smoothness: 0.332
+    - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shadow_Softness: 0.3
-    - _Shadow_Threshold: 0.45
+    - _ReceiveShadows: 1
+    - _Shadow_Softness: 0.009
+    - _Shadow_Threshold: 0.51
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _UVSec: 0
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Hidden_Shadow_Color: {r: 0.0890566, g: 0.19999999, b: 0.19999999, a: 1}
-    - _Highlight_Color: {r: 1.8421872, g: 0.9939667, b: 0.27458996, a: 1}
-    - _Light_Tint: {r: 2, g: 0.3730886, b: 0, a: 1}
-    - _Shadow_Tint: {r: 0.19245279, g: 0.11343611, b: 0.037401192, a: 1}
+    - _Hidden_Shadow_Color: {r: 0.25490198, g: 0.41176468, b: 0.882353, a: 1}
+    - _Highlight_Color: {r: 1, g: 0.92, b: 0.65, a: 1}
+    - _Light_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Shadow_Tint: {r: 0.45, g: 0.45, b: 0.45, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &6962769996495951011
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
