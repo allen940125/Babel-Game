@@ -50,12 +50,76 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 2
+  baseSpeed: 1
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
   bulletCount: 1
   spawnAreaSize: {x: 0, y: 20}
+  circleRadius: 0
+  circleStartAngle: 0
+  spreadAngle: 90
+  sniperSpreadAngle: 5
+  useRandomDirection: 1
+  aimAtPlayer: 0
+  fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &3443535884927816484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6529159826406132298}
+  - component: {fileID: 447114193544242156}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6529159826406132298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443535884927816484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3882232641607372702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &447114193544242156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443535884927816484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 1
+  warningTime: 1
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
+  baseSpeed: 0.25
+  spawnInterval: 0.05
+  patternDamageMultiplier: 1
+  patternType: 5
+  bulletCount: 2
+  spawnAreaSize: {x: 5, y: 5}
   circleRadius: 0
   circleStartAngle: 0
   spreadAngle: 90
@@ -75,7 +139,7 @@ GameObject:
   - component: {fileID: 3882232641607372702}
   - component: {fileID: 799102612039820786}
   m_Layer: 0
-  m_Name: "\u6CE2\u6B211-one bullet"
+  m_Name: "\u6CE2\u6B212-two bullet"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +159,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7123955612547195167}
+  - {fileID: 6529159826406132298}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &799102612039820786
@@ -117,3 +182,5 @@ MonoBehaviour:
   steps:
   - pattern: {fileID: 6322166892248985587}
     delayBefore: 0.5
+  - pattern: {fileID: 0}
+    delayBefore: 0
