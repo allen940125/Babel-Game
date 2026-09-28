@@ -47,10 +47,10 @@ MonoBehaviour:
   destroyOnFinish: 1
   snapToWorldOrigin: 0
   useWarning: 1
-  warningTime: 1.5
+  warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 5
+  baseSpeed: 3
   spawnInterval: 0.1
   patternDamageMultiplier: 1.2
   patternType: 5
@@ -175,10 +175,10 @@ MonoBehaviour:
   destroyOnFinish: 1
   snapToWorldOrigin: 0
   useWarning: 1
-  warningTime: 1.5
+  warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 5
+  baseSpeed: 3
   spawnInterval: 0.1
   patternDamageMultiplier: 1.2
   patternType: 5
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 3882232641607372702}
   - component: {fileID: 64665784086816871}
   m_Layer: 0
-  m_Name: "\u6CE2\u6B211"
+  m_Name: "\u6CE2\u6B211-one bullet"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,5 +247,3 @@ MonoBehaviour:
   steps:
   - pattern: {fileID: 2155717315760233811}
     delayBefore: 0.5
-  - pattern: {fileID: 6459337050798394983}
-    delayBefore: 0
