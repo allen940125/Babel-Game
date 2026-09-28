@@ -3,8 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Bullet Data", menuName = "Boss/Bullet Data")]
 public class BulletDataSO : ScriptableObject
 {
+    [Header("★ 傷害設定")]
+    [Tooltip("基礎傷害倍率 (最終傷害 = Entity攻擊力 * damageMultiplier)")]
+    public float damageMultiplier = 1.0f;
+
     [Header("★ 傷害判定 (對玩家)")]
-    [Tooltip("通常設定得比視覺小，給予玩家擦彈空間")]
     public CollisionShapeConfig damageShape;
     public LayerMask damageLayer;
 

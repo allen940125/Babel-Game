@@ -34,6 +34,7 @@ namespace Game.UI
         void OnBtn_PlayAgain()
         {
             Debug.Log("Click Btn_PlayAgain");
+            GameManager.Instance.SceneTransitionManager.LoadScene(SceneType.GameScene);
         }
 
         void OnBtn_GoMainMenu()

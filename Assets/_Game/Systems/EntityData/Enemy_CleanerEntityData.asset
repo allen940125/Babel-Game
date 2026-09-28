@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityBlueprintSO
   battlePrefab: {fileID: 1992103494201206248, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
   maxHealth: 100
-  attackPower: 20
+  attackPower: 30
   defense: 3
   critRate: 0.2
   critMultiplier: 1.5
@@ -25,4 +25,5 @@ MonoBehaviour:
     RefIds:
     - rid: 1686755775413485664
       type: {class: TimerTrait, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        currentTimer: 0

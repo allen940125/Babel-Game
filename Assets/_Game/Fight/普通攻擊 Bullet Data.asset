@@ -34,6 +34,6 @@ MonoBehaviour:
     m_Bits: 768
   baseSpeed: 10
   maxBounces: 1
-  maxPredictionDistance: 50
+  maxPredictionDistance: 100
   maxBounceAngleJitter: 0
   jitterFirstBounceOnly: 0

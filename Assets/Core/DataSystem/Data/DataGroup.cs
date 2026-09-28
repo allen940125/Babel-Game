@@ -96,6 +96,7 @@ public enum UIType
 
     SceneLoadingTransitionPanel = 210,
     GameStartTransitionPanel = 220,
+    ConfirmPanel = 230,
 
     SettingsWindow = 310,   //設定介面
     DialogueWindow = 320,

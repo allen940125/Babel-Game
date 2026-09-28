@@ -48,19 +48,22 @@ public class EnemyBullet : EnemyProjectileBase
     
     private TrajectoryVisualizer _visualizer;
 
-    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss)
+    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier)
     {
-        base.Initialize(direction, speed, boss);
+        // ★ 核心改動：如果自己身上有 BulletDataSO，就無視外部傳來的倍率，優先使用 SO 裡的倍率！
+        float actualMultiplier = (bulletData != null) ? bulletData.damageMultiplier : damageMultiplier;
+        
+        // 把正確的倍率交給父類別，父類別會幫你灌進 DamageDealer 裡面
+        base.Initialize(direction, speed, boss, actualMultiplier);
 
         if (ownerBoss != null) ownerBoss.RegisterActiveBullet(this.gameObject);
 
         _rb = GetComponent<Rigidbody>();
-        
         _visualizer = GetComponentInChildren<TrajectoryVisualizer>();
 
         _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
         _currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
-
+        
         _rb.isKinematic = true;
         _rb.useGravity = false;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
