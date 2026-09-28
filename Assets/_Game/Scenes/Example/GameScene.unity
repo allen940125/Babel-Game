@@ -4234,6 +4234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  _currentMultiplier: 1
   flatDamage: 15
   canCrit: 0
 --- !u!114 &1867977219
@@ -5851,6 +5852,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[2].waveList.Array.data[0].patternPrefab
+      value: 
+      objectReference: {fileID: 4989275966189868475, guid: 8e3d20c7fbd8b6b4bab142edd0915827, type: 3}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[3].waveList.Array.data[0].patternPrefab
+      value: 
+      objectReference: {fileID: 4989275966189868475, guid: 7eeca4fe6f1be0140a7556e199a465da, type: 3}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[4].waveList.Array.data[0].patternPrefab
+      value: 
+      objectReference: {fileID: 4989275966189868475, guid: e30bc24317eca464b958eeb32e06a8cb, type: 3}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[5].waveList.Array.data[0].patternPrefab
+      value: 
+      objectReference: {fileID: 4989275966189868475, guid: 4ee6964d790535948a83a842bc67d7d9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

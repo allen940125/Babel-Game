@@ -175,11 +175,11 @@ MonoBehaviour:
   useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
-  bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   baseSpeed: 1
   spawnInterval: 0.1
-  patternType: 2
-  bulletCount: 1
+  patternType: 5
+  bulletCount: 3
   spawnAreaSize: {x: 0, y: 20}
   circleRadius: 0
   circleStartAngle: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 3882232641607372702}
   - component: {fileID: 799102612039820786}
   m_Layer: 0
-  m_Name: "\u6CE2\u6B212 1"
+  m_Name: "\u5B50\u5F48\u5DE6\u53F3\u6CE2\u6B21"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,8 +309,10 @@ MonoBehaviour:
   steps:
   - pattern: {fileID: 6322166892248985587}
     delayBefore: 0.5
+  - pattern: {fileID: 4114188190678585182}
+    delayBefore: 0.5
   - pattern: {fileID: 3444003875416795310}
-    delayBefore: 0
+    delayBefore: 0.5
 --- !u!1 &5122312108956767261
 GameObject:
   m_ObjectHideFlags: 0
