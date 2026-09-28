@@ -10,7 +10,8 @@ namespace Gamemanager
         // Common Event Streams
         // ======================
         public IObservable<GameInitializedEvent> OnGameInitializedEvent => getSubject<GameInitializedEvent>();
-
+        public IObservable<GameOverEvent> OnGameOverEvent => getSubject<GameOverEvent>();
+        
         // ======================
         // Inventory Event Streams
         // ======================

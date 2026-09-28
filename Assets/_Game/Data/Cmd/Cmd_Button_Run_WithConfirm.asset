@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9bd7792ac3ab6e4ab7dd0d65b39f0d7, type: 3}
+  m_Name: Cmd_Button_Run_WithConfirm
+  m_EditorClassIdentifier: Assembly-CSharp::ConfirmWrapperCommandSO
+  commandName: Cmd_Button_Run_With Confirm
+  description: "\u9003\u8DD1\u6309\u9215"
+  action:
+    rid: -2
+  confirmTitle: "\u7CFB\u7D71\u78BA\u8A8D"
+  confirmMessage: "\u78BA\u5B9A\u8981\u9003\u8DD1\u55CE\uFF1F"
+  targetCommand: {fileID: 11400000, guid: 2b6e763f694d8c0439d0eb9b18b61fb3, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

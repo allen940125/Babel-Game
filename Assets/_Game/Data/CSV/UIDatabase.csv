@@ -6,6 +6,7 @@ UI_ID,UI_Name,UI_Type,AddressableKey
 150,GameEndMenu,Menu,UI/Menus/GameEndMenu
 210,SceneLoadingTransitionPanel,Popup,UI/Panels/SceneLoadingTransitionPanel
 220,GameStartTransitionPanel,Popup,UI/Panels/GameStartTransitionPanel
+230,ConfirmPanel,Popup,UI/Panels/ConfirmPanel
 310,SettingsWindow,Menu,UI/Windows/SettingsWindow
 320,DialogueWindow,Popup,UI/Windows/DialogueWindow
 330,FadeInOutWindow,Popup,UI/Windows/FadeInOutWindow

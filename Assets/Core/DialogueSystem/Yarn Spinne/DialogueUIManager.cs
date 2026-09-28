@@ -1,41 +1,61 @@
+using System;
 using UnityEngine;
 using Yarn.Unity;
 
 public class DialogueUIManager : MonoBehaviour
 {
     [Header("依賴注入")]
-    public DialogueRunner dialogueRunner;
-    public GameObject dialogueCanvas; // 你的對話 UI 畫布
+    [SerializeField] private DialogueRunner dialogueRunner;
+    [SerializeField] private GameObject dialogueCanvas;
 
-    void OnEnable()
+    // 對外開放的完成回呼，外部誰呼叫誰處理，UI 本身不干涉遊戲邏輯
+    private Action _onDialogueCompleteCallback;
+
+    private void OnEnable()
     {
         if (dialogueRunner != null)
         {
-            // 訂閱對話結束事件
             dialogueRunner.onDialogueComplete.AddListener(OnDialogueFinished);
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (dialogueRunner != null)
         {
-            // 必須解除訂閱，防止記憶體洩漏 (Memory Leak) 或 NRE
             dialogueRunner.onDialogueComplete.RemoveListener(OnDialogueFinished);
         }
     }
 
-    // 當 Yarn Spinner 執行到沒有下一句、或遇到 <<stop>> 時，會自動觸發此方法
+    /// <summary>
+    /// 啟動對話的統一入口
+    /// </summary>
+    /// <param name="startNode">Yarn 的節點名稱</param>
+    /// <param name="onComplete">對話完畢後的回呼</param>
+    public void StartDialogue(string startNode, Action onComplete = null)
+    {
+        _onDialogueCompleteCallback = onComplete;
+
+        if (dialogueCanvas != null) dialogueCanvas.SetActive(true);
+
+        if (dialogueRunner != null && !string.IsNullOrEmpty(startNode))
+        {
+            dialogueRunner.StartDialogue(startNode);
+        }
+        else
+        {
+            // 防呆：若無節點或 Runner 遺失，直接結束並回呼，避免卡住流程
+            OnDialogueFinished();
+        }
+    }
+
     private void OnDialogueFinished()
     {
-        Debug.Log("系統: 對話已完全結束。");
-        
-        // 執行你的關閉邏輯
-        dialogueCanvas.SetActive(false);
+        if (dialogueCanvas != null) dialogueCanvas.SetActive(false);
 
-        BattleManager.Instance.ChangeState(BattleState.PlayerFight);
-
-        // 例如：解除玩家的移動限制
-        // PlayerController.EnableMovement();
+        // 觸發外部註冊的回呼（例如通知 BattleManager 開打）
+        Action callback = _onDialogueCompleteCallback;
+        _onDialogueCompleteCallback = null;
+        callback?.Invoke();
     }
 }

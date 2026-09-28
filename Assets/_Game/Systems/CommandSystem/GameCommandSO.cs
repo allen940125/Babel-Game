@@ -177,7 +177,7 @@ public class GameCommandSO : ScriptableObject
     /// <summary>
     /// 3D/2D/UI 按鈕或控制台觸發的唯一執行入口
     /// </summary>
-    public void Execute()
+    public virtual void Execute()
     {
         if (action != null)
         {

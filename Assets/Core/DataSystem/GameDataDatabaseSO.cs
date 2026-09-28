@@ -13,5 +13,7 @@ public class GameDataDatabaseSO : ScriptableObject
     [Header("商店資料庫")]
     public List<StoreDataBaseTemplete> StoreDatabase = new List<StoreDataBaseTemplete>();
     
+    [Header("商店資料庫")]
+    public List<DialogueDataBaseTemplete> DialogueDataBase = new List<DialogueDataBaseTemplete>();
     // 未來有新的資料庫，就直接在這裡加 public List<T> ...
 }

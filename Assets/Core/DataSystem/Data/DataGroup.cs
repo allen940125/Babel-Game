@@ -96,6 +96,7 @@ public enum UIType
 
     SceneLoadingTransitionPanel = 210,
     GameStartTransitionPanel = 220,
+    ConfirmPanel = 230,
 
     SettingsWindow = 310,   //設定介面
     DialogueWindow = 320,
@@ -269,6 +270,24 @@ public class StoreDataBaseTemplete : IWithIdData, IWithNameData
             Discount = Discount,
             MaxPurchase = MaxPurchase,
             RestockInterval = RestockInterval,
+        };
+    }
+}
+
+[Serializable]
+public class DialogueDataBaseTemplete : IWithIdData, IWithNameData
+{
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public string PrefabPath { get; set; }
+
+    public DialogueDataBaseTemplete Clone()
+    {
+        return new DialogueDataBaseTemplete()
+        {
+            Id = Id,
+            Name = Name,
+            PrefabPath = PrefabPath,
         };
     }
 }

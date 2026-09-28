@@ -11,6 +11,13 @@ namespace Gamemanager
     {
         public int SavePointValue;
     }
+    
+    public class GameOverEvent : GameEventMessageBase
+    {
+        //public int SavePointValue;
+    }
+    
+    
 
     // ======================
     // Inventory Event Streams

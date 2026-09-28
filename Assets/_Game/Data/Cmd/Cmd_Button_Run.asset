@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0460e7d8e6e784cb77b4670741f73b, type: 3}
   m_Name: Cmd_Button_Run
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
-  commandName: Cmd_Button_Fight
-  description: "\u6230\u9B25\u958B\u59CB"
+  commandName: Cmd_Button_Run
+  description: "\u9003\u8DD1\u6309\u9215"
   action:
     rid: 1686755681458978911
   references:

@@ -70,8 +70,8 @@ public class InteractionController3D : MonoBehaviour
             {
                 // 重新發射射線取得 Collider
                 Physics.Raycast(_debugRay, out RaycastHit hit, 100f, interactableLayer);
-                _currentDraggable = hit.collider.GetComponent<IDragHandler3D>();
-                _currentClickable = hit.collider.GetComponent<IPointerClickHandler>();
+                _currentDraggable = hit.collider.GetComponentInParent<IDragHandler3D>();
+                _currentClickable = hit.collider.GetComponentInParent<IPointerClickHandler>();
 
                 if (_currentDraggable != null)
                 {
@@ -129,7 +129,7 @@ public class InteractionController3D : MonoBehaviour
             if (_debugHitSuccess)
             {
                 Physics.Raycast(_debugRay, out RaycastHit hit, 100f, interactableLayer);
-                _currentRotatable = hit.collider.GetComponent<IRotateHandler3D>();
+                _currentRotatable = hit.collider.GetComponentInParent<IRotateHandler3D>();
                 if (_currentRotatable != null)
                 {
                     _isRotating = true;

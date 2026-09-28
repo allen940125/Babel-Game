@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
 {
     [Header("狀態設定")]

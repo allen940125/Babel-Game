@@ -637,31 +637,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e939eedc7f06a43b57a6836e28bbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossCeleste
+  progressionMode: 0
+  roundEndBehavior: 0
+  _currentRoundIndex: 0
   bossName: 
   firePosition: {fileID: 4022618160246116208}
   attackPhaseDuration: 15
   phaseConfigs:
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: dd4a5141906990941be5a14457c54dc1, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: dd4a5141906990941be5a14457c54dc1, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: 2e71dd01dc988da42acf75c5c95417a9, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: 2e71dd01dc988da42acf75c5c95417a9, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}

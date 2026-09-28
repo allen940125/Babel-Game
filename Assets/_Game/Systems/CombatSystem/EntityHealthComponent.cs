@@ -11,6 +11,9 @@ public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
     private bool _isLocalInvincible = false; 
 
     public UnityEvent onTakeDamageVisuals;
+    
+    // ★ 新增：純粹的死亡廣播插槽
+    public event Action OnDeath;
 
     // ==========================================
     // ★ 核心通訊插槽：讓 BossStateMachine 可以監聽反擊時機
@@ -30,31 +33,25 @@ public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
 
     public void TakeDamage(DamagePayload payload)
     {
-        // 1. 基本防呆
         if (_entityData == null || _entityData.CurrentHealth <= 0 || _isLocalInvincible) return;
         if (payload.Damage < 0) return;
 
-        // 2. ★ 讀取大腦標籤 (GAS-Lite)：只要有 Invincible 標籤，一律免傷！
-        if (_entityData.HasState(EntityStateFlags.Invincible))
-        {
-            Debug.Log($"<color=gray>[防禦阻擋] {gameObject.name} 具有無敵標籤，攻擊無效！</color>");
-            return;
-        }
+        if (_entityData.HasState(EntityStateFlags.Invincible)) return;
 
-        // 3. 結算扣血
         int finalDamage = Mathf.Max(1, payload.Damage - _entityData.TotalDefense);
         _entityData.ModifyHealth(-finalDamage);
         
-        // 4. 視覺表現
         onTakeDamageVisuals?.Invoke();
-
-        // ==========================================
-        // ★ 5. 致命關鍵：扣血成功後，大喊通知所有訂閱者 (例如 BossStateMachine)！
-        // ==========================================
         OnDamageTaken?.Invoke(finalDamage);
 
-        // 6. 受傷後的短暫無敵 (如果是玩家或小怪)
-        if (invincibilityDuration > 0 && _entityData.CurrentHealth > 0)
+        // ★ 核心追加：判定死亡並廣播
+        if (_entityData.CurrentHealth <= 0)
+        {
+            OnDeath?.Invoke();
+            return; // 死了就不需要處理後續的無敵時間
+        }
+
+        if (invincibilityDuration > 0)
         {
             StartCoroutine(InvincibilityRoutine());
         }
