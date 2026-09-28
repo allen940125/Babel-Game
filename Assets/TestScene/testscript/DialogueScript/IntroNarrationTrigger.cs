@@ -4,8 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class IntroNarrationTrigger : MonoBehaviour
 {
-    [SerializeField] private string InkId;
-    [SerializeField] private TextAsset inkJson;
+    [SerializeField] private int InkId;
     [SerializeField] private string explorationSceneName; // Scene名字
 
     private void Start()
@@ -16,9 +15,11 @@ public class IntroNarrationTrigger : MonoBehaviour
     private async UniTaskVoid TriggerIntro()
     {
         await UniTask.WaitUntil(() => Dialoguecontroller.Instance != null);
+        await UniTask.WaitUntil(() => GameManager.Instance != null && GameManager.Instance.IsInitialized);
+
 
         Dialoguecontroller.Instance.OnDialogueEnded += OnIntroFinished;
-        Dialoguecontroller.Instance.StartDialogue(InkId, inkJson, UIType.NarrationWindow).Forget();
+        Dialoguecontroller.Instance.StartDialogue(InkId, UIType.NarrationWindow).Forget();
     }
 
     private void OnIntroFinished()

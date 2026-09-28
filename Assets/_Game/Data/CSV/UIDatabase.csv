@@ -12,3 +12,5 @@ UI_ID,UI_Name,UI_Type,AddressableKey
 330,FadeInOutWindow,Popup,UI/Windows/FadeInOutWindow
 340,StoryTextDisplayWindow,Popup,UI/Windows/StoryTextDisplayWindow
 410,GameHUD,Persistent,UI/HUDs/GameHUD
+500,DialogueWindowNew,Popup,UI/Windows/DialogueWindowNew
+510,NarrationWindow,Popup,UI/Windows/NarrationWindow
