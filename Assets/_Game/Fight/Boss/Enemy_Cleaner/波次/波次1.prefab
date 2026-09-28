@@ -52,6 +52,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
+  patternDamageMultiplier: 1.2
   patternType: 5
   bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}
@@ -115,6 +116,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
+  patternDamageMultiplier: 1.2
   patternType: 7
   bulletCount: 4
   spawnAreaSize: {x: 36, y: 20}
@@ -178,6 +180,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
+  patternDamageMultiplier: 1.2
   patternType: 5
   bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}

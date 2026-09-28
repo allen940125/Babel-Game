@@ -5,7 +5,7 @@ public class DamageDealer : MonoBehaviour
     private EntityRuntime _sourceEntityData;
     
     // 增加一個內部變數來儲存倍率，預設為 1
-    private float _currentMultiplier = 1.0f;
+    [SerializeField] private float _currentMultiplier = 1.0f;
 
     [Header("★ 靜態固定數值 (當 SO 為空時生效)")]
     [SerializeField] private int flatDamage = 15;

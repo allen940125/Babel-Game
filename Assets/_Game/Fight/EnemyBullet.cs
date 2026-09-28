@@ -48,10 +48,22 @@ public class EnemyBullet : EnemyProjectileBase
     
     private TrajectoryVisualizer _visualizer;
 
+    [Header("Debug")] 
+    [SerializeField] private float debug_bulletData_damageMultiplier;
+    [SerializeField] private float debug_AttackPattern_damageMultiplier;
+    [SerializeField] private float debug_actualMultiplier;
+
     public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier)
     {
         // ★ 核心改動：如果自己身上有 BulletDataSO，就無視外部傳來的倍率，優先使用 SO 裡的倍率！
-        float actualMultiplier = (bulletData != null) ? bulletData.damageMultiplier : damageMultiplier;
+        float actualMultiplier = (bulletData != null) 
+            ? bulletData.damageMultiplier * damageMultiplier 
+            : damageMultiplier;
+        
+        debug_bulletData_damageMultiplier = bulletData.damageMultiplier;
+        debug_AttackPattern_damageMultiplier = damageMultiplier;
+        debug_actualMultiplier = actualMultiplier;
+
         
         // 把正確的倍率交給父類別，父類別會幫你灌進 DamageDealer 裡面
         base.Initialize(direction, speed, boss, actualMultiplier);

@@ -14,6 +14,10 @@ public abstract class BulletSpawnerBase : AttackPatternBase
     [Tooltip("每顆子彈發射的間隔時間 (秒)。若為 0 則瞬間齊射")]
     public float spawnInterval = 0.05f;
 
+    // ★ 新增：發射器專屬的傷害倍率 (代表這一招的威力)
+    [Tooltip("此發射器的額外傷害倍率 (會與子彈SO倍率相乘)")]
+    public float patternDamageMultiplier = 1.0f;
+    
     // ★ 已經刪除重複定義的 SpawnData！現在這裡統一使用父類別 (AttackPatternBase) 的 SpawnData。
 
     // 實作 AttackPatternBase 的介面
@@ -71,7 +75,9 @@ public abstract class BulletSpawnerBase : AttackPatternBase
         GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
         EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
         
-        if (script != null) script.Initialize(direction, speed, boss); 
+        // ★ 修正：將發射器的倍率 (patternDamageMultiplier) 傳進去
+        if (script != null) script.Initialize(direction, speed, boss, patternDamageMultiplier); 
+        
         if (boss != null) boss.RegisterActiveBullet(bullet);
     }
 }
