@@ -80,6 +80,8 @@ MonoBehaviour:
     sprite: {fileID: -7681017832703675660, guid: ab3befbdd2ae92e4a8360b967b22fb5b, type: 3}
   - key: player
     sprite: {fileID: 6937817954938267909, guid: fe1497886a0e2c04d8209bd901ca06c8, type: 3}
+  - key: guide
+    sprite: {fileID: 4498556367033041641, guid: 75533db6cb36df9469c2375d0d871e74, type: 3}
   skipButton: {fileID: 1212060411118126841}
   synopsisPopup: {fileID: 3965781792122709517}
   synopsisText: {fileID: 5964774033101425643}
@@ -88,6 +90,7 @@ MonoBehaviour:
   portraitDimColor: {r: 0.35, g: 0.35, b: 0.35, a: 1}
   portraitFadeOutDuration: 0.25
   portraitFadeInDuration: 0.25
+  readingPauseSeconds: 1.5
 --- !u!1 &159518459027316801
 GameObject:
   m_ObjectHideFlags: 0

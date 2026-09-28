@@ -180,3 +180,9 @@ MonoBehaviour:
   - <Id>k__BackingField: 1002
     <Name>k__BackingField: Opening
     <PrefabPath>k__BackingField: INK/Opening
+  - <Id>k__BackingField: 1003
+    <Name>k__BackingField: TransitionNarration
+    <PrefabPath>k__BackingField: INK/Transition
+  - <Id>k__BackingField: 1004
+    <Name>k__BackingField: guideDialogue
+    <PrefabPath>k__BackingField: INK/GuideDialogue

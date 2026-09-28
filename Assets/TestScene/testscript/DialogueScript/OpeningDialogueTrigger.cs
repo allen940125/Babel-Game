@@ -9,6 +9,8 @@ public class OpeningDialogueTrigger : MonoBehaviour
     [SerializeField] private float waitBeforeDialogue = 2f;    // 音效還沒做好前，先用固定秒數頂著轉場
     [SerializeField] private string nextSceneName;             // 先留空也沒關係
 
+    [SerializeField] private OpeningIntroAudio introAudio;
+
     private void Start()
     {
         TriggerOpening().Forget();
@@ -19,7 +21,7 @@ public class OpeningDialogueTrigger : MonoBehaviour
         await UniTask.WaitUntil(() => Dialoguecontroller.Instance != null);
         await UniTask.WaitUntil(() => GameManager.Instance != null && GameManager.Instance.IsInitialized);
 
-        await UniTask.Delay(System.TimeSpan.FromSeconds(waitBeforeDialogue));
+        await introAudio.PlayIntroSequenceAsync();   // 這裡改成等音效序列播完
 
         if (blackBG != null)
             blackBG.SetActive(false);

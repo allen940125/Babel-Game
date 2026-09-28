@@ -26,9 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TestScene/IntroScene.unity
     guid: 3fde499b614cb9f40b7e3987493223dd
-  - enabled: 0
-    path: Assets/TestScene/TextTestScene.unity
-    guid: e13a5824b0deb054cb593ac8484afa30
+  - enabled: 1
+    path: Assets/TestScene/OpeningScene.unity
+    guid: 3a5355bc69e8bfb4792a4a7a52b9de51
+  - enabled: 1
+    path: Assets/TestScene/AdventureSceneCOPY.unity
+    guid: 880327eebdfae9a43874d3571874230b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 414bc7810d40acd47b38d662b2372b55, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

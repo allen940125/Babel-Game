@@ -14,7 +14,7 @@
 我猜猜，大麻煩。
 # speaker: ？
 # portrait: center unknow
-哈哈，猜對了，巴別島。
+哈哈，猜對了，<b>巴別島</b>。
 # speaker: ？
 # portrait: center unknow
 怪物橫行的神棄之地。誰也不敢碰的未爆彈。
@@ -23,7 +23,7 @@
 ...一直以來都被聯邦冷處理的封閉地方，怎麼突然引起那些老東西的興趣了？
 # speaker: ？
 # portrait: center unknow
-因為<color=\#63B5E5>她</color>看見了，島上某個東西誕生的未來。
+因為<color=\#63B5E5>她</color>看見了，島上<b>某個東西</b>誕生的未來。
 # speaker: ？
 # portrait: center unknow
 據說放任不管的話，會<color=red>毀掉世界</color>呢。
@@ -44,7 +44,7 @@
 // 拿東西的窸窣音效
 # speaker: ？
 # portrait: center unknow
-總之，給，神祗遺物。同樣是那座島上流出的東西。
+總之，給，<b>神祗遺物</b>。同樣是那座島上流出的東西。
 # portrait: center player
 // 玩家被拿出來、此時開始出現視覺畫面
 # speaker: 主角
@@ -52,7 +52,7 @@
 ...什麼時候稀有品也輪得到我們這種人用了？
 # speaker: ？
 # portrait: center unknow
-只是一點甜頭罷了，他們想用這個突然出現的遺物當訂金，買你探路，看情況賣命。
+只是一點甜頭罷了，他們想用這個<b>突然出現的遺物</b>當訂金，買你探路，看情況賣命。
 # speaker: ？
 # portrait: center unknow
 畢竟你，<color=red>眼睛很好用</color>嘛。
