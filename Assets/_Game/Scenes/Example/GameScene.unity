@@ -4234,6 +4234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  _currentMultiplier: 1
+  useAttackerStats: 1
   flatDamage: 15
   canCrit: 0
 --- !u!114 &1867977219
