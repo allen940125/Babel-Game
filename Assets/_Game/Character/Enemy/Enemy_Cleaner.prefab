@@ -249,7 +249,7 @@ MonoBehaviour:
     healthThreshold: 1
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: b78250e7f60830d449f4af7b35f424e7, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0.8
