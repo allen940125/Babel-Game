@@ -12,11 +12,6 @@ public class EnemyBullet : EnemyProjectileBase
     {
         public Vector2 speedRange;
         public Vector2 lifeTimeRange;
-        public LayerMask collisionLayer;
-
-        [Header("★ 反彈擾動設定")]
-        [Range(0f, 60f)] public float maxBounceAngleJitter;
-        public bool jitterFirstBounceOnly;
     }
 
     [System.Serializable]
@@ -85,7 +80,7 @@ public class EnemyBullet : EnemyProjectileBase
         _bounceJitterOffsets = new float[maxCapacity];
         for (int i = 0; i < maxCapacity; i++)
         {
-            _bounceJitterOffsets[i] = (stats.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-stats.maxBounceAngleJitter, stats.maxBounceAngleJitter);
+            _bounceJitterOffsets[i] = (bulletData.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-bulletData.maxBounceAngleJitter, bulletData.maxBounceAngleJitter);
         }
 
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
@@ -198,8 +193,8 @@ public class EnemyBullet : EnemyProjectileBase
                     if (hit.collider == null)
                         continue;
 
-                    if (hit.distance < 0.0001f)
-                        continue;
+                    // if (hit.distance < 0.0001f)
+                    //     continue;
 
                     if (hit.distance < nearestDistance)
                     {

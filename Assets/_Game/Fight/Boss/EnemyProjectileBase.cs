@@ -20,8 +20,13 @@ public abstract class EnemyProjectileBase : MonoBehaviour
             EntityCore core = boss.GetComponent<EntityCore>();
             if (core != null && core.RuntimeData != null)
             {
-                // ★ 將外部傳入的倍率，灌給 DamageDealer
-                damageDealer.BindSourceData(core.RuntimeData, damageMultiplier);
+                // 1. 在子彈生成的瞬間 (Snapshot)，抽出 Boss 當下的面板屬性
+                float snapshotAttack = core.RuntimeData.TotalAttackPower * damageMultiplier;
+                float snapshotCritRate = core.RuntimeData.TotalCritRate;
+                float snapshotCritMult = core.RuntimeData.TotalCritMultiplier;
+
+                // 2. 將純數字注入 DamageDealer，徹底切斷子彈與 Boss 大腦的後續關聯
+                damageDealer.InjectSnapshot(snapshotAttack, snapshotCritRate, snapshotCritMult);
             }
             else
             {

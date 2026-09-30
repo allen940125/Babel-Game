@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(EntityCore))]
-public class StaminaVisualFeedback : MonoBehaviour
+public class StaminaVisualFeedback : MonoBehaviour, IEntityRuntimeDependent
 {
     [SerializeField] private SpriteRenderer _sr;
     [SerializeField] private Color _lowStaminaColor = Color.red;
@@ -15,24 +15,31 @@ public class StaminaVisualFeedback : MonoBehaviour
         if (_sr == null) _sr = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void Start()
+    // ==========================================
+    // ★ 介面實作：這是唯一的資料與綁定入口，完全取代 Start
+    // ==========================================
+    public void OnRuntimeDataChanged(EntityRuntime newData)
     {
-        _entityData = GetComponent<EntityCore>().RuntimeData;
+        // 1. 防禦性解綁：如果原本有舊特徵，先解除訂閱防止記憶體洩漏
+        if (_staminaTrait != null) 
+        {
+            _staminaTrait.OnStaminaRatioChanged -= UpdateStaminaColor;
+        }
+    
+        // 2. 接收新大腦
+        _entityData = newData;
+
+        // 3. 索取新大腦的特徵並重新訂閱
         if (_entityData != null && _entityData.TryGetTrait(out _staminaTrait))
         {
-            // 透過事件驅動，取代 Update 中每幀計算
             _staminaTrait.OnStaminaRatioChanged += UpdateStaminaColor;
-            UpdateStaminaColor(_staminaTrait.StaminaRatio);
-        }
-        else
-        {
-            Debug.LogError($"[邏輯錯誤] {gameObject.name} 掛載了 StaminaVisualFeedback，但沒有 StaminaTrait！");
-            enabled = false;
+            UpdateStaminaColor(_staminaTrait.StaminaRatio); // 瞬間刷新視覺防斷層
         }
     }
-
+    
     private void OnDestroy()
     {
+        // 實體銷毀時的最終記憶體釋放
         if (_staminaTrait != null)
         {
             _staminaTrait.OnStaminaRatioChanged -= UpdateStaminaColor;
@@ -42,7 +49,7 @@ public class StaminaVisualFeedback : MonoBehaviour
     private void UpdateStaminaColor(float ratio)
     {
         // 若實體正在無敵/受擊閃爍狀態，放棄修改顏色，交由 Damage 邏輯主導
-        if (_entityData.HasState(EntityStateFlags.Invincible)) return;
+        if (_entityData != null && _entityData.HasState(EntityStateFlags.Invincible)) return;
 
         _sr.color = Color.Lerp(_lowStaminaColor, _normalColor, ratio);
     }

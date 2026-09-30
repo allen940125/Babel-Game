@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    private EntityRuntime _sourceEntityData;
+    [Header("★ 傷害穿透設定")]
+    [Tooltip("勾選後，此傷害將無視實體的無敵幀，且不會觸發新的無敵時間 (適用於毒氣、岩漿等 DoT)")]
+    [SerializeField] private bool ignoreInvincibility = false;
     
-    [SerializeField] private float _currentMultiplier = 1.0f;
+    [Header("★ 靜態固定數值 (未注入時的預設值)")]
+    [SerializeField] private float _snapshottedDamage = 15f;
+    [SerializeField] private float _snapshottedCritRate = 0f;
+    [SerializeField] private float _snapshottedCritMultiplier = 1.5f;
 
-    [Header("★ 傷害計算模式")]
-    [Tooltip("打勾：使用 Boss的攻擊力與爆擊率。\n取消打勾：無視 Boss 數值，使用下方的 固定傷害與固定爆擊設定。")]
-    [SerializeField] private bool useAttackerStats = true;
-
-    [Header("★ 靜態固定數值 (當不使用攻擊者數值時生效)")]
-    [Tooltip("基礎傷害 (依然會乘上子彈與發射器的倍率)")]
-    [SerializeField] private int flatDamage = 15;
-    [SerializeField] private bool canCrit = false;
+    private bool _hasBeenInjected = false;
 
     // ==========================================
-    // ★ 核心：開放給外部注入資料的接口
+    // ★ 核心：完全移除對 EntityRuntime 的依賴
+    // 外部生成子彈的系統，必須自己算出數字並塞進來
     // ==========================================
-    public void BindSourceData(EntityRuntime runtime, float multiplier = 1.0f)
+    public void InjectSnapshot(float baseDamage, float critRate, float critMultiplier)
     {
-        _sourceEntityData = runtime;
-        _currentMultiplier = multiplier;
+        _snapshottedDamage = baseDamage;
+        _snapshottedCritRate = critRate;
+        _snapshottedCritMultiplier = critMultiplier;
+        _hasBeenInjected = true;
     }
 
     public void DealDamageTo(GameObject target)
@@ -33,43 +34,26 @@ public class DamageDealer : MonoBehaviour
 
         if (damageable != null)
         {
-            DamagePayload payload = ConstructPayload();
-            damageable.TakeDamage(payload);
+            damageable.TakeDamage(ConstructPayload());
         }
     }
 
     private DamagePayload ConstructPayload()
     {
-        // 模式 A：使用 Boss 的素質 (且 Boss 資料存在)
-        if (useAttackerStats && _sourceEntityData != null)
-        {
-            bool isCrit = Random.value <= _sourceEntityData.TotalCritRate;
-            
-            // 計算基礎傷害 (攻擊力 * 總倍率)
-            float baseCalculatedDamage = _sourceEntityData.TotalAttackPower * _currentMultiplier;
-            
-            // 計算爆擊傷害
-            int finalRawDamage = isCrit 
-                ? Mathf.RoundToInt(baseCalculatedDamage * _sourceEntityData.TotalCritMultiplier) 
-                : Mathf.RoundToInt(baseCalculatedDamage);
+        // 判定爆擊
+        bool isCrit = Random.value <= _snapshottedCritRate;
+        
+        // 計算最終傷害
+        int finalRawDamage = isCrit 
+            ? Mathf.RoundToInt(_snapshottedDamage * _snapshottedCritMultiplier) 
+            : Mathf.RoundToInt(_snapshottedDamage);
 
-            return new DamagePayload()
-            {
-                Damage = finalRawDamage,
-                IsCrit = isCrit,
-                Source = this.gameObject
-            };
-        }
-        
-        // 模式 B：不使用 Boss 素質，或 Boss 資料遺失時，使用 FlatDamage
-        // 將你手動設定的 flatDamage 乘上外部傳入的倍率
-        float staticBaseDamage = flatDamage * _currentMultiplier;
-        
         return new DamagePayload()
         {
-            Damage = Mathf.RoundToInt(staticBaseDamage),
-            IsCrit = canCrit, 
-            Source = this.gameObject
+            Damage = finalRawDamage,
+            IsCrit = isCrit,
+            Source = this.gameObject,
+            IgnoreInvincibility = this.ignoreInvincibility // ★ 在這裡打包進去
         };
     }
 }

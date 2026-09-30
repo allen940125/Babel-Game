@@ -1,30 +1,27 @@
-using System; // ★ 確保有 using System 才能用 Action
+using System; 
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
+public class EntityHealthComponent : MonoBehaviour, IEntityRuntimeDependent, IDamageable, IHealable
 {
     private EntityRuntime _entityData;
     
     [SerializeField] private float invincibilityDuration = 1.5f;
-    private bool _isLocalInvincible = false; 
 
     public UnityEvent onTakeDamageVisuals;
     
-    // ★ 新增：純粹的死亡廣播插槽
     public event Action OnDeath;
-
-    // ==========================================
-    // ★ 核心通訊插槽：讓 BossStateMachine 可以監聽反擊時機
-    // ==========================================
     public event Action<int> OnDamageTaken;
 
-    private void Start()
+    // ==========================================
+    // ★ 實作介面：大腦推播資料時，立刻更新參考並註冊錨點
+    // ==========================================
+    public void OnRuntimeDataChanged(EntityRuntime newData)
     {
-        var core = GetComponent<EntityCore>();
-        if (core != null) _entityData = core.RuntimeData;
-        
+        _entityData = newData;
+
+        // 當大腦替換時，必須將自己重新註冊到新大腦的錨點特徵上
         if (_entityData != null && _entityData.TryGetTrait(out RuntimeAnchorTrait anchor))
         {
             anchor.RegisterEntity(this.gameObject);
@@ -33,25 +30,26 @@ public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
 
     public void TakeDamage(DamagePayload payload)
     {
-        if (_entityData == null || _entityData.CurrentHealth <= 0 || _isLocalInvincible) return;
+        // 已刪除重複的無敵檢查
+        if (_entityData == null || _entityData.CurrentHealth <= 0 || _entityData.HasState(EntityStateFlags.Invincible)) return;
         if (payload.Damage < 0) return;
-
-        if (_entityData.HasState(EntityStateFlags.Invincible)) return;
-
+        
+        if (!payload.IgnoreInvincibility && _entityData.HasState(EntityStateFlags.Invincible)) return;
+        
         int finalDamage = Mathf.Max(1, payload.Damage - _entityData.TotalDefense);
         _entityData.ModifyHealth(-finalDamage);
         
         onTakeDamageVisuals?.Invoke();
         OnDamageTaken?.Invoke(finalDamage);
 
-        // ★ 核心追加：判定死亡並廣播
         if (_entityData.CurrentHealth <= 0)
         {
             OnDeath?.Invoke();
-            return; // 死了就不需要處理後續的無敵時間
+            return; 
         }
 
-        if (invincibilityDuration > 0)
+        // ★ 閘門 2：只有在「不是持續傷害」的情況下，才賦予新的無敵時間
+        if (!payload.IgnoreInvincibility && invincibilityDuration > 0)
         {
             StartCoroutine(InvincibilityRoutine());
         }
@@ -59,9 +57,9 @@ public class EntityHealthComponent : MonoBehaviour, IDamageable, IHealable
 
     private IEnumerator InvincibilityRoutine()
     {
-        _isLocalInvincible = true;
+        _entityData.AddState(EntityStateFlags.Invincible);
         yield return new WaitForSeconds(invincibilityDuration);
-        _isLocalInvincible = false;
+        _entityData.RemoveState(EntityStateFlags.Invincible);
     }
 
     public void ReceiveHeal(HealPayload payload)
