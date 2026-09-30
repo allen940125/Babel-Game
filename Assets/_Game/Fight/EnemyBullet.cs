@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -224,28 +225,31 @@ public class EnemyBullet : EnemyProjectileBase
                  nearestDamageHit.distance < nearestWallHit.distance);
 
             // ==================================================
-            // 4. 先撞到牆
-            // ==================================================
+// 4. 先撞到牆
+// ==================================================
             if (wallFirst)
             {
                 float travelDistance = nearestWallHit.distance;
-
-                // ★ 先把子彈真正移到碰撞位置
-                transform.position =
-                    currentPos + _currentDirection * travelDistance;
-
-                // 這一幀還剩多少距離？
+                transform.position = currentPos + _currentDirection * travelDistance;
                 remainingDistance -= travelDistance;
 
-                // ★ 在真正碰撞位置反彈
+                // ★ 觸發相機震動事件
+                if (bulletData != null && bulletData.enableWallHitShake)
+                {
+                    if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
+                    {
+                        GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent
+                        {
+                            Intensity = bulletData.wallHitShakeIntensity,
+                            Duration = bulletData.wallHitShakeDuration
+                        });
+                    }
+                }
+
                 ProcessBounceTarget(nearestWallHit);
-
-                // ★ 稍微推離牆面，避免下一次 ShapeCast 從牆裡開始
+    
                 transform.position += _currentDirection * COLLISION_SKIN;
-
-                remainingDistance =
-                    Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
-
+                remainingDistance = Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
                 continue;
             }
 

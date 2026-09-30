@@ -178,7 +178,7 @@ namespace Gamemanager
 
     }
 
-    public class BossTakeDamageEvent : GameEventMessageBase
+    public class CameraShakeEvent : GameEventMessageBase
     {
         public float Intensity; // 震動強度
         public float Duration;  // 震動時間

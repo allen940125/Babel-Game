@@ -20,6 +20,11 @@ public class BulletDataSO : ScriptableObject
     public float baseSpeed = 10f;
     public int maxBounces = 3;
     public float maxPredictionDistance = 50f;
+    
+    [Header("★ 撞牆螢幕震動")]
+    public bool enableWallHitShake = true;
+    public float wallHitShakeIntensity = 0.15f;
+    public float wallHitShakeDuration = 0.1f;
 
     [Header("★ 反彈角度擾動 (Jitter)")]
     [Range(0f, 60f)] public float maxBounceAngleJitter = 0f;

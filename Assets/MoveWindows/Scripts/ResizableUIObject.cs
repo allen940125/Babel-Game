@@ -77,10 +77,11 @@ public class ResizableUIObject : MonoBehaviour
         if (IsSelected != select)
         {
             IsSelected = select;
-
-            for (int x = 0; x < transform.childCount; x++)
+            // 精準定位拖曳節點，不再無差別隱藏其他常規 UI 元件
+            ResizableUIDraggable[] draggables = GetComponentsInChildren<ResizableUIDraggable>(true);
+            foreach (var drag in draggables)
             {
-                transform.GetChild(x).gameObject.SetActive(IsSelected);
+                drag.gameObject.SetActive(IsSelected);
             }
         }
     }

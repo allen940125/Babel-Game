@@ -19,7 +19,7 @@ public class BossEventBroadcaster : MonoBehaviour
     {
         Debug.Log($"HandleHealthChanged: {ratio}");
         // 只要血量變動（受擊），就發送全域震動事件
-        GameManager.Instance.MainGameEvent.Send(new BossTakeDamageEvent 
+        GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent 
         { 
             Intensity = 0.5f, 
             Duration = 0.2f 

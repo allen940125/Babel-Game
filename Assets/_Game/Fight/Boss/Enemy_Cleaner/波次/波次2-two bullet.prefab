@@ -118,7 +118,7 @@ MonoBehaviour:
   spawnInterval: 0.05
   patternDamageMultiplier: 1
   patternType: 5
-  bulletCount: 2
+  bulletCount: 1
   spawnAreaSize: {x: 5, y: 5}
   circleRadius: 0
   circleStartAngle: 0
@@ -182,5 +182,5 @@ MonoBehaviour:
   steps:
   - pattern: {fileID: 6322166892248985587}
     delayBefore: 0.5
-  - pattern: {fileID: 0}
-    delayBefore: 0
+  - pattern: {fileID: 447114193544242156}
+    delayBefore: 0.5

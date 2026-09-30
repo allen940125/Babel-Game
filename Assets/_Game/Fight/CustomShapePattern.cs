@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 空間自定義發射器：讀取預先擺設好的 Transform 點位來發射子彈。
 /// </summary>
-public class CustomShapePattern : AttackPatternBase
+public class CustomShapePattern : BulletSpawnerBase // ★ 修正：改繼承 BulletSpawnerBase
 {
     public enum FireDirectionMode
     {
@@ -14,8 +14,7 @@ public class CustomShapePattern : AttackPatternBase
     }
 
     [Header("自定義形狀設定")]
-    public GameObject bulletPrefab;
-    public float baseSpeed = 5f;
+    // ❌ 刪除了 bulletPrefab 和 baseSpeed，因為父類別 (BulletSpawnerBase) 已經有了！
 
     [Tooltip("決定子彈飛行的方向")]
     public FireDirectionMode directionMode = FireDirectionMode.UseChildRotation;
@@ -53,67 +52,56 @@ public class CustomShapePattern : AttackPatternBase
         }
     }
 
-    protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
+    // ==========================================
+    // ★ 實作 BulletSpawnerBase 的抽象方法：只算數學！
+    // ==========================================
+    protected override List<SpawnData> CalculateAllSpawnData()
     {
-        float finalSpeed = baseSpeed * speedMultiplier;
-        if (isAngry) finalSpeed *= 1.5f;
-
-        // ★ 修正：Prefab 防呆
-        if (bulletPrefab == null)
-        {
-            Debug.LogError($"❌ [{name}] 沒放 Bullet Prefab！", this);
-            FinishPattern();
-            return;
-        }
-
-        // ★ 修正：脫離 Boss 子物件層級，避免 Boss 移動時生成點跟著亂跑
-        transform.SetParent(null);
+        List<SpawnData> list = new List<SpawnData>();
 
         foreach (Transform point in spawnPoints)
         {
             if (point == null) continue;
 
-            // 1. 在指定的空間節點生成實體
-            GameObject bullet = Instantiate(bulletPrefab, point.position, Quaternion.identity);
-
-            // 2. 依據列舉模式計算方向
-            Vector2 dir = GetDirection(point);
-
-            // 3. 呼叫統一介面，啟動子彈物理與資料綁定
-            EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
-            if (script != null)
-            {
-                script.Initialize(dir, finalSpeed, boss);
-            }
-            
-            if (boss != null) boss.RegisterActiveBullet(bullet);
+            // 把計算好的點位與方向塞進名單，剩下的生成與預警交給基底類別處理
+            list.Add(new SpawnData { 
+                position = point.position, 
+                direction = GetDirection(point) 
+            });
         }
 
-        // ★ 修正：執行完畢後統一結束（會依 destroyOnFinish 決定是否銷毀自己）
-        FinishPattern();
+        return list;
     }
 
     // ==========================================
-    // ★ 實作父類別的抽象方法：編輯器預覽
+    // ★ 編輯器預覽：複用 CalculateAllSpawnData 確保與實戰一致
     // ==========================================
     protected override void OnGeneratePreview(Transform previewContainer)
     {
-        if (spawnPoints.Count == 0)
+        var dataList = CalculateAllSpawnData();
+        if (dataList.Count == 0)
         {
             Debug.LogWarning($"[CustomShapePattern] {name} 沒有任何生成點，請先按「自動抓取子物件」。");
             return;
         }
 
-        int validCount = 0;
-        foreach (Transform point in spawnPoints)
+        foreach (var data in dataList)
         {
-            if (point == null) continue;
-            Vector3 dir = GetDirection(point);
-            CreatePreviewDummy(previewContainer, point.position, dir);
-            validCount++;
+            CreatePreviewDummy(previewContainer, data.position, data.direction);
         }
 
-        Debug.Log($"<color=cyan>[預覽成功]</color> CustomShapePattern 畫出 {validCount} 個發射點。");
+        Debug.Log($"<color=cyan>[預覽成功]</color> CustomShapePattern 畫出 {dataList.Count} 個發射點。");
+    }
+
+    // ==========================================
+    // Debug 測試：直接呼叫基底 Execute
+    // ==========================================
+    [ContextMenu("👉 測試發射 (Debug Test)")]
+    public void DebugTest()
+    {
+        if (!Application.isPlaying) { Debug.LogError("⛔ 請先按 Play！"); return; }
+        // 走完整流程（含預警、逐發、結束）
+        Execute(null, 1f, false);
     }
 
     // 依據 DirectionMode 裁決該點位的發射方向

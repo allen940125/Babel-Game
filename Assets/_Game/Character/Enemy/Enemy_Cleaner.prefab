@@ -241,7 +241,7 @@ MonoBehaviour:
   progressionMode: 0
   roundEndBehavior: 0
   _currentRoundIndex: 0
-  bossName: 
+  bossName: Cleaner
   firePosition: {fileID: 415678399330180059}
   attackPhaseDuration: 12
   phaseConfigs:
@@ -249,37 +249,37 @@ MonoBehaviour:
     healthThreshold: 1
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: b78250e7f60830d449f4af7b35f424e7, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: 27312922726a05c44adadf4e24ba5011, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.8
+    healthThreshold: 0.9
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: 61c77f1fd292cf04c88eca12bb0dd57d, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: b78250e7f60830d449f4af7b35f424e7, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0.6
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: 8e3d20c7fbd8b6b4bab142edd0915827, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0.4
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: f04dd16b82d1a244483340cba2862599, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: 7eeca4fe6f1be0140a7556e199a465da, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0.2
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: 4e013e5195379f84e846d33c08d3e36b, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: e30bc24317eca464b958eeb32e06a8cb, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 4989275966189868475, guid: a06fbbdd46ba20745a85d9e6c8a2d230, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: 4ee6964d790535948a83a842bc67d7d9, type: 3}
       delayBeforeNext: 0
   _currentPhase: 1
   _phaseTimerDisplay: 0
