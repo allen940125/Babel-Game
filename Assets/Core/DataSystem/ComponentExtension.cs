@@ -71,4 +71,23 @@ public static class ComponentExtension
             _loadingTasks.Remove(id);
         }
     }
+    
+    public static async void LoadSpriteAsync(this GameObject go, string addressableKey)
+    {
+        if (go == null) return;
+
+        if (go.TryGetComponent<SpriteRenderer>(out var sr))
+        {
+            sr.LoadSpriteAsync(addressableKey);
+            return;
+        }
+
+        if (go.TryGetComponent<Image>(out var img))
+        {
+            img.LoadSpriteAsync(addressableKey);
+            return;
+        }
+
+        Debug.LogWarning($"[LoadSpriteAsync] {go.name} 上找不到 SpriteRenderer 或 Image");
+    }
 }

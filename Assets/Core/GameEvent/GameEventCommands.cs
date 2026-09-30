@@ -36,12 +36,20 @@ namespace Gamemanager
     public class InventoryItemHoveredEvent : GameEventMessageBase
     {
         public InventoryItemRuntimeData StoredInventoryItemRuntimeData;
+        // ★ 新增：傳遞觸發該事件的 UI 座標與尺寸資訊
+        public RectTransform HoveredSlotRect;
     }
 
     public class ItemAddedToBagEvent : GameEventMessageBase
     {
         public int ItemID;
         public int Quantity;
+    }
+    
+    public class ItemDroppedInWorldEvent : GameEventMessageBase
+    {
+        public InventoryItemRuntimeData ItemData;
+        public Vector3 DropPosition;
     }
 
     // ======================
