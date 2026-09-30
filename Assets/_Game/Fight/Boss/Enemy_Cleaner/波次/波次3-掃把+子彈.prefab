@@ -50,7 +50,7 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 1
+  baseSpeed: 4
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
@@ -117,7 +117,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
   baseSpeed: 1
   spawnInterval: 0.05
-  patternDamageMultiplier: 1
+  patternDamageMultiplier: 1.2
   directionMode: 0
   fixedDirection: {x: 0, y: -1}
   spawnPoints:
