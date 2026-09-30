@@ -258,25 +258,25 @@ MonoBehaviour:
       patternPrefab: {fileID: 4989275966189868475, guid: 24fd601cec89b9345b7b11ecf2bfd20c, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.6
+    healthThreshold: 0.7
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 8e3d20c7fbd8b6b4bab142edd0915827, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.4
+    healthThreshold: 0.5
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 7eeca4fe6f1be0140a7556e199a465da, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.2
+    healthThreshold: 0.3
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: e30bc24317eca464b958eeb32e06a8cb, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0
+    healthThreshold: 0.1
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 4ee6964d790535948a83a842bc67d7d9, type: 3}

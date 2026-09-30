@@ -50,7 +50,7 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 2
+  baseSpeed: 4
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
@@ -114,11 +114,11 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 2
+  baseSpeed: 4
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
-  bulletCount: 1
+  bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}
   circleRadius: 0
   circleStartAngle: 0
@@ -212,10 +212,13 @@ MonoBehaviour:
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
   baseSpeed: 1
+  spawnInterval: 0.05
+  patternDamageMultiplier: 1.2
   directionMode: 0
   fixedDirection: {x: 0, y: -1}
   spawnPoints:
   - {fileID: 7236147537115521937}
+  - {fileID: 274381487404881827}
 --- !u!1 &4989275966189868475
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,10 +275,6 @@ MonoBehaviour:
   - pattern: {fileID: 1636197913876816239}
     delayBefore: 0.5
   - pattern: {fileID: 6322166892248985587}
-    delayBefore: 0.5
-  - pattern: {fileID: 0}
-    delayBefore: 0.5
-  - pattern: {fileID: 0}
     delayBefore: 0.5
   - pattern: {fileID: 5313240884738664767}
     delayBefore: 0.5
