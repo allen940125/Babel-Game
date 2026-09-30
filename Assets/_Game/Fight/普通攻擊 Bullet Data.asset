@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1e8377a3c5915409176283216c9e36, type: 3}
   m_Name: "\u666E\u901A\u653B\u64CA Bullet Data"
   m_EditorClassIdentifier: Assembly-CSharp::BulletDataSO
-  damageMultiplier: 1.5
+  damageMultiplier: 1
   damageShape:
     shapeType: 1
     radius: 0
@@ -36,5 +36,11 @@ MonoBehaviour:
   baseSpeed: 10
   maxBounces: 1
   maxPredictionDistance: 100
+  ignoreInvincibility: 0
+  isContinuousDamage: 0
+  tickInterval: 0.25
+  enableWallHitShake: 1
+  wallHitShakeIntensity: 0.15
+  wallHitShakeDuration: 0.1
   maxBounceAngleJitter: 0
   jitterFirstBounceOnly: 0

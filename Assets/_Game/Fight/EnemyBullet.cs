@@ -43,26 +43,25 @@ public class EnemyBullet : EnemyProjectileBase
     private float[] _bounceJitterOffsets;
     
     private TrajectoryVisualizer _visualizer;
-
+    
+    private Dictionary<GameObject, float> _lastDamageTimes;
+    
     [Header("Debug")] 
     [SerializeField] private float debug_bulletData_damageMultiplier;
     [SerializeField] private float debug_AttackPattern_damageMultiplier;
     [SerializeField] private float debug_actualMultiplier;
 
-    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier)
+    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
-        // ★ 核心改動：如果自己身上有 BulletDataSO，就無視外部傳來的倍率，優先使用 SO 裡的倍率！
-        float actualMultiplier = (bulletData != null) 
-            ? bulletData.damageMultiplier * damageMultiplier 
-            : damageMultiplier;
-        
-        debug_bulletData_damageMultiplier = bulletData.damageMultiplier;
-        debug_AttackPattern_damageMultiplier = damageMultiplier;
-        debug_actualMultiplier = actualMultiplier;
+        // 1. 正確的初始化記憶體：必須使用 new 來分配空間！
+        _lastDamageTimes = new Dictionary<GameObject, float>();
 
-        
-        // 把正確的倍率交給父類別，父類別會幫你灌進 DamageDealer 裡面
-        base.Initialize(direction, speed, boss, actualMultiplier);
+        // 2. 資料庫覆寫判斷
+        float actualMultiplier = (bulletData != null) ? bulletData.damageMultiplier * damageMultiplier : damageMultiplier;
+        bool finalIgnoreInvincibility = (bulletData != null && bulletData.ignoreInvincibility) || ignoreInvincibility;
+
+        // 3. 呼叫父類別，完成 Snapshot 注入
+        base.Initialize(direction, speed, boss, actualMultiplier, finalIgnoreInvincibility);
 
         if (ownerBoss != null) ownerBoss.RegisterActiveBullet(this.gameObject);
 
@@ -80,11 +79,10 @@ public class EnemyBullet : EnemyProjectileBase
         _bounceJitterOffsets = new float[maxCapacity];
         for (int i = 0; i < maxCapacity; i++)
         {
-            _bounceJitterOffsets[i] = (bulletData.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-bulletData.maxBounceAngleJitter, bulletData.maxBounceAngleJitter);
+            _bounceJitterOffsets[i] = (bulletData != null && bulletData.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-bulletData.maxBounceAngleJitter, bulletData.maxBounceAngleJitter);
         }
 
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
-
         UpdateVelocityAndRotation();
         _isInitialized = true;
     }
@@ -193,11 +191,26 @@ public class EnemyBullet : EnemyProjectileBase
                     if (hit.collider == null)
                         continue;
 
-                    // if (hit.distance < 0.0001f)
-                    //     continue;
-
                     if (hit.distance < nearestDistance)
                     {
+                        GameObject targetObj = hit.collider.gameObject;
+
+                        // ==================================================
+                        // ★ 新增：命中名單與冷卻過濾 (完美解決碰一下死掉的問題)
+                        // ==================================================
+                        if (bulletData != null)
+                        {
+                            if (bulletData.useDamageTick)
+                            {
+                                // 如果是持續傷害，檢查是否還在冷卻中
+                                if (_lastDamageTimes.TryGetValue(targetObj, out float lastTime))
+                                {
+                                    if (Time.time < lastTime + bulletData.damageTickInterval)
+                                        continue; // 還在冷卻中，當作沒撞到，直接換下一個掃描結果
+                                }
+                            }
+                        }
+
                         nearestDistance = hit.distance;
                         nearestDamageHit = hit;
                         hasDamageHit = true;
@@ -220,8 +233,8 @@ public class EnemyBullet : EnemyProjectileBase
                  nearestDamageHit.distance < nearestWallHit.distance);
 
             // ==================================================
-// 4. 先撞到牆
-// ==================================================
+            // 4. 先撞到牆
+            // ==================================================
             if (wallFirst)
             {
                 float travelDistance = nearestWallHit.distance;
@@ -255,12 +268,19 @@ public class EnemyBullet : EnemyProjectileBase
             {
                 if (enableDeepDebug) Debug.Log($"[傷害判定] 命中玩家: {nearestDamageHit.collider.name}");
                 
-                damageDealer.DealDamageTo(nearestDamageHit.collider.gameObject);
+                GameObject hitTarget = nearestDamageHit.collider.gameObject;
+                damageDealer.DealDamageTo(hitTarget);
+
+                // ==================================================
+                // ★ 新增：打中後登記到名單中，防止下一幀重複受傷
+                // ==================================================
+                // 只紀錄持續傷害的時間，一般子彈什麼都不用記
+                if (bulletData != null && bulletData.useDamageTick)
+                {
+                    _lastDamageTimes[hitTarget] = Time.time;
+                }
                 
-                // ★ 核心修正：穿透行為
-                // 子彈不會因為撞到玩家而停下，它會直接無視玩家，走完這幀剩餘的全部距離。
-                // (注意：這前提是你希望子彈穿過玩家後，"在這一幀內" 不會立刻撞牆。
-                // 若穿透後可能立刻撞牆，你需要將位置移到玩家身上並繼續迴圈，但通常彈幕遊戲直接走完即可)
+                // ★ 核心修正：穿透行為 (保留你原本的邏輯，不銷毀子彈)
                 transform.position = currentPos + _currentDirection * remainingDistance;
                 remainingDistance = 0f;
                 break; // 距離歸零了，跳出迴圈

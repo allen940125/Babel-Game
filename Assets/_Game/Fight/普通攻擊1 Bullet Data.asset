@@ -36,6 +36,9 @@ MonoBehaviour:
   baseSpeed: 10
   maxBounces: 1
   maxPredictionDistance: 100
+  ignoreInvincibility: 0
+  isContinuousDamage: 0
+  tickInterval: 0.25
   enableWallHitShake: 1
   wallHitShakeIntensity: 0.15
   wallHitShakeDuration: 0.1
