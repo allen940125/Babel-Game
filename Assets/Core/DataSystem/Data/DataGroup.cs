@@ -106,6 +106,8 @@ public enum UIType
     GameHUD = 410,
 
     DialogueWindowNew = 500,
+
+    NarrationWindow = 510,
 }
 
 /// <summary>

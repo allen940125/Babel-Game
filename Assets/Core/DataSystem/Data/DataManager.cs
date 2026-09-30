@@ -49,6 +49,10 @@ namespace Datamanager
             {
                 return Database.StoreDatabase.Find(x => x.Id == id) as T;
             }
+            else if (type == typeof(DialogueDataBaseTemplete))
+            {
+                return Database.DialogueDataBase.Find(x => x.Id == id) as T;
+            }
             // ... 未來每新增一個表格，就在這裡加一行 else if ...
 
             Debug.LogError($"[DataManager] 查無此型別的資料庫路由: {type}");
@@ -75,6 +79,10 @@ namespace Datamanager
             else if (type == typeof(StoreDataBaseTemplete))
             {
                 return Database.StoreDatabase.Find(x => x.Name == name) as T;
+            }
+            else if (type == typeof(DialogueDataBaseTemplete))
+            {
+                return Database.DialogueDataBase.Find(x => x.Name == name) as T;
             }
 
             Debug.LogError($"[DataManager] 查無此型別的資料庫路由: {type}");

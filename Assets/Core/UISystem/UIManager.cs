@@ -384,6 +384,7 @@ namespace Game.UI
         /// </summary>
         public bool ClosePanel(UIType uiType)
         {
+            Debug.Log($"[除錯] 嘗試關閉 {uiType}，目前堆疊數量={_panelStack.Count}，堆疊頂層={(_panelStack.Count > 0 ? _panelStack.Peek().CurrentUIType.ToString() : "空")}");
             if (!PanelDict.TryGetValue(uiType, out var panel))
             {
                 Debug.LogWarning($"[UIManager] 試圖關閉一個不存在的 Panel: {uiType}");
