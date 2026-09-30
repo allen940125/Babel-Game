@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+
 // 移除 UnityEngine.Serialization，因為不需要 FormerlySerializedAs 了
 
 public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
@@ -22,21 +24,25 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
     private EntityRuntime _target;
 
     [Header("儀表板屬性")]
-    [SerializeField] private SpriteRenderer fillSpriteRenderer;
+    [SerializeField] private Transform _fillPivot; 
+    [SerializeField] private SpriteRenderer _fillSprite;
     [SerializeField] private float smoothSpeed = 10f;
     [SerializeField] private Color fullColor = Color.green;
     [SerializeField] private Color emptyColor = Color.red;
 
     private float _targetRatio = 1.0f;
     private float _currentRatio = 1.0f;
-    private float _cachedInitialScaleX;
+    private Vector3 _initialScale;
     
     private StaminaTrait _cachedStaminaTrait;
 
     protected override void Awake()
     {
         base.Awake(); 
-        if (fillSpriteRenderer != null) _cachedInitialScaleX = fillSpriteRenderer.transform.localScale.x;
+        if (_fillPivot != null) 
+        {
+            _initialScale = _fillPivot.localScale;
+        }
     }
 
     // ★ 把原本的 OnEnable 拔掉，因為 OnEnable 執行時可能資料還沒準備好。
@@ -127,14 +133,19 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
 
     private void Update()
     {
-        if (fillSpriteRenderer == null) return;
+        if (_fillPivot == null) return;
 
         _currentRatio = Mathf.Lerp(_currentRatio, _targetRatio, Time.deltaTime * smoothSpeed);
 
-        Vector3 scale = fillSpriteRenderer.transform.localScale;
-        scale.x = _currentRatio * _cachedInitialScaleX;
-        fillSpriteRenderer.transform.localScale = scale;
+        // 1. 統一縮放 Pivot：底下的 Sprite 和 BoxCollider 會由 Unity 引擎自動按比例縮放
+        Vector3 currentScale = _initialScale;
+        currentScale.x = _initialScale.x * _currentRatio;
+        _fillPivot.localScale = currentScale;
 
-        fillSpriteRenderer.color = Color.Lerp(emptyColor, fullColor, _currentRatio);
+        // 2. 顏色變化 (獨立職責)
+        if (_fillSprite != null)
+        {
+            _fillSprite.color = Color.Lerp(emptyColor, fullColor, _currentRatio);
+        }
     }
 }

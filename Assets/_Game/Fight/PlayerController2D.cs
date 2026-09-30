@@ -31,12 +31,10 @@ public class PlayerController3D : MonoBehaviour
     private Vector3 _dashDirection;
     
     private Rigidbody _rb;
-    private SpriteRenderer _sr;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _sr = GetComponentInChildren<SpriteRenderer>();
 
         _rb.useGravity = false;
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
@@ -90,7 +88,6 @@ public class PlayerController3D : MonoBehaviour
 
         HandleStaminaRegen();
         HandleInput();
-        UpdateVisualColor();
     }
 
     private void HandleStaminaRegen()
@@ -192,20 +189,5 @@ public class PlayerController3D : MonoBehaviour
         float cooldown = _staminaTrait != null ? _staminaTrait.dashCooldown : 0.5f;
         yield return new WaitForSeconds(cooldown);
         _isDashCooldown = false;
-    }
-
-    private void UpdateVisualColor()
-    {
-        if (_sr == null || _entityData == null || _entityData.HasState(EntityStateFlags.Invincible)) return;
-
-        if ((float)_entityData.CurrentHealth / _entityData.MaxHealth <= 0.2f)
-        {
-            float t = Mathf.PingPong(Time.time * 8f, 1f);
-            //_sr.color = Color.Lerp(Color.white, damageColor, t);
-        }
-        else if (_staminaTrait != null)
-        {
-            _sr.color = Color.Lerp(Color.red, Color.white, _staminaTrait.StaminaRatio);
-        }
     }
 }

@@ -13,7 +13,7 @@ public class FullScreenSpriteBG : MonoBehaviour
 
     [SerializeField] private Camera _targetCamera;
     [SerializeField] private ScaleMode _scaleMode = ScaleMode.CoverAspect;
-    [SerializeField] private Vector2 _costomSize;
+    [SerializeField] private Vector2 _customSize;
 
     private SpriteRenderer _spriteRenderer;
 
@@ -94,6 +94,11 @@ public class FullScreenSpriteBG : MonoBehaviour
                 break;
         }
 
-        transform.localScale *= _costomSize;
+        // 修正拼寫並改為 Vector2 轉 Vector3 的正規乘法
+        transform.localScale = new Vector3(
+            transform.localScale.x * _customSize.x,
+            transform.localScale.y * _customSize.y,
+            transform.localScale.z
+        );
     }
 }
