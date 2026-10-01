@@ -20,8 +20,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d6e91b677d54ea45ac339deefd45a8f
+    m_Address: CSV/DialogueDataBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2dd7029563a633e4aa7e3a72dabb8171
     m_Address: 'CSV/GameEffectDatabase '
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31bc2cd2cc803ba4c9135493c9c2bd14
+    m_Address: INK/Opening
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,18 +45,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a1b663b1a3af6541bdf05858fdf4c2a
+    m_Address: GameDataDatabase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d79d4a23c4e32e45880b26343e85dea
+    m_Address: INK/Transition
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c823d349513d81046ad6ca8ee5376e40
     m_Address: CSV/UIDatabase
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f3f86beb7cf574c429baa3b0cf3fef83
-    m_Address: UI/Windows/NarrationWindow
+  - m_GUID: cde2b72ad4c6ce843a3db7b4589fc6fd
+    m_Address: INK/GuideDialogue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f661a1808599744459284a051b71d510
-    m_Address: UI/Windows/DialogueWindowNew
+  - m_GUID: e3321c740d8dfe7429daf7f895edd5da
+    m_Address: INK/Intro
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

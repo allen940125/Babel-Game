@@ -10,8 +10,35 @@ public abstract class BossStateMachine : MonoBehaviour
 
     [System.Serializable]
     public struct BulletWaveData { public string note; public GameObject patternPrefab; public float delayBeforeNext; }
+    
     [System.Serializable]
-    public struct BossPhaseConfig { public string label; public List<BulletWaveData> waveList; }
+    public struct BossPhaseConfig 
+    { 
+        public string label; 
+        [Tooltip("觸發此階段的血量比例上限 (例如 0.7 代表血量低於 70% 時觸發)")]
+        [Range(0f, 1f)]
+        public float healthThreshold; // 新增這行
+        public List<BulletWaveData> waveList; 
+    }
+    
+    public enum ProgressionMode 
+    { 
+        ByHealthThreshold, // 依血量門檻切換
+        BySequentialRound  // 依攻擊次數（回合）依序推進
+    }
+
+    public enum RoundEndBehavior
+    {
+        ClampAtLast,       // 鎖死在最後一個波次
+        LoopFromStart      // 從第一個波次重新循環
+    }
+
+    [Header("階段推進設定")]
+    public ProgressionMode progressionMode = ProgressionMode.ByHealthThreshold;
+    public RoundEndBehavior roundEndBehavior = RoundEndBehavior.ClampAtLast;
+
+    [Header("即時觀察數據 (唯讀)")]
+    [SerializeField] private int _currentRoundIndex = 0; // 紀錄當前回合
 
     [Header("基本設定")]
     public string bossName;
@@ -271,20 +298,93 @@ public abstract class BossStateMachine : MonoBehaviour
 
     private void LoadAttackPhaseConfig()
     {
-        if (_bossData == null || phaseConfigs == null || phaseConfigs.Count == 0) return;
-        
-        float lostRatio = 1.0f - ((float)_bossData.CurrentHealth / _bossData.MaxHealth);
-        int index = Mathf.Clamp(Mathf.FloorToInt(lostRatio * phaseConfigs.Count), 0, phaseConfigs.Count - 1);
+        if (phaseConfigs == null || phaseConfigs.Count == 0) 
+        {
+            Debug.LogError($"[資料錯誤] {bossName} 未設定任何 phaseConfigs！");
+            return;
+        }
+    
+        int targetIndex = 0;
+    
+        switch (progressionMode)
+        {
+            case ProgressionMode.ByHealthThreshold:
+                targetIndex = CalculateIndexByHealth();
+                break;
+    
+            case ProgressionMode.BySequentialRound:
+                targetIndex = _currentRoundIndex;
+                AdvanceRoundIndex(); // 計算完當前回合後，將指標推向下一個回合
+                break;
+        }
+    
+        ApplyPhaseConfig(targetIndex);
+    }
+    
+    // --- 血量運算邏輯 ---
+    private int CalculateIndexByHealth()
+    {
+        if (_bossData == null) return 0;
+    
+        float currentHpRatio = (float)_bossData.CurrentHealth / _bossData.MaxHealth;
+        int index = 0;
+    
+        for (int i = 0; i < phaseConfigs.Count; i++)
+        {
+            if (currentHpRatio <= phaseConfigs[i].healthThreshold)
+            {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    // --- 回合推進邏輯 ---
+    private void AdvanceRoundIndex()
+    {
+        _currentRoundIndex++;
+    
+        if (_currentRoundIndex >= phaseConfigs.Count)
+        {
+            if (roundEndBehavior == RoundEndBehavior.ClampAtLast)
+            {
+                // 停留在最後一個陣列索引
+                _currentRoundIndex = phaseConfigs.Count - 1; 
+            }
+            else if (roundEndBehavior == RoundEndBehavior.LoopFromStart)
+            {
+                // 歸零，重新開始循環
+                _currentRoundIndex = 0; 
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 強制 Boss 載入指定的攻擊波次。可用於動畫事件或特殊機制觸發。
+    /// </summary>
+    public void ApplyPhaseConfig(int index)
+    {
+        if (index < 0 || index >= phaseConfigs.Count)
+        {
+            Debug.LogError($"[邏輯錯誤] 嘗試載入無效的波次索引: {index}。陣列大小為: {phaseConfigs.Count}");
+            return;
+        }
+
         BossPhaseConfig config = phaseConfigs[index];
 
         _waveQueue.Clear();
-        foreach (var wave in config.waveList) _waveQueue.Enqueue(wave);
+        foreach (var wave in config.waveList) 
+        {
+            _waveQueue.Enqueue(wave);
+        }
 
         _activeBullets.Clear();
         _activePatterns.Clear();
         _waveDelayTimer = 0f;
+    
+        Debug.Log($"<color=cyan>[{bossName}] 載入攻擊波次: {config.label} (Index: {index})</color>");
     }
-
+    
     private void ExecuteAttackSequence()
     {
         if (_activeBullets.Count > 0 || _activePatterns.Count > 0) return;

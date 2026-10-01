@@ -161,7 +161,7 @@ public class GameManager : Singleton<GameManager>
     
     public void GameOver()
     {
-        //UIManager.OpenPanel(UIType.GameOverMenu);
+        UIManager.OpenPanel<GameOverMenu>(UIType.GameOverMenu);
     }
     
     public void StartCoroutineFromManager(IEnumerator coroutine)

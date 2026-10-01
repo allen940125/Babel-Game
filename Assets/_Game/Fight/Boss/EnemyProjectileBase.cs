@@ -11,8 +11,8 @@ public abstract class EnemyProjectileBase : MonoBehaviour
         damageDealer = GetComponent<DamageDealer>();
     }
 
-    // ★ 統一介面：所有投射物都接收 direction 與 speed
-    public virtual void Initialize(Vector3 direction, float speed, BossStateMachine boss)
+    // ★ 擴充介面：強制要求外部傳入 damageMultiplier (可設預設值 1.0f 防呆)
+    public virtual void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier = 1f)
     {
         ownerBoss = boss;
         if (boss != null)
@@ -20,7 +20,8 @@ public abstract class EnemyProjectileBase : MonoBehaviour
             EntityCore core = boss.GetComponent<EntityCore>();
             if (core != null && core.RuntimeData != null)
             {
-                damageDealer.BindSourceData(core.RuntimeData);
+                // ★ 將外部傳入的倍率，灌給 DamageDealer
+                damageDealer.BindSourceData(core.RuntimeData, damageMultiplier);
             }
             else
             {

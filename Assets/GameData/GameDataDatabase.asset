@@ -41,6 +41,10 @@ MonoBehaviour:
     <Name>k__BackingField: GameStartTransitionPanel
     <UIGroup>k__BackingField: Popup
     <PrefabPath>k__BackingField: UI/Panels/GameStartTransitionPanel
+  - <Id>k__BackingField: 230
+    <Name>k__BackingField: ConfirmPanel
+    <UIGroup>k__BackingField: Popup
+    <PrefabPath>k__BackingField: UI/Panels/ConfirmPanel
   - <Id>k__BackingField: 310
     <Name>k__BackingField: SettingsWindow
     <UIGroup>k__BackingField: Menu
@@ -169,3 +173,16 @@ MonoBehaviour:
     <Discount>k__BackingField: 1
     <MaxPurchase>k__BackingField: 10
     <RestockInterval>k__BackingField: 0
+  DialogueDataBase:
+  - <Id>k__BackingField: 1001
+    <Name>k__BackingField: Intro
+    <PrefabPath>k__BackingField: INK/Intro
+  - <Id>k__BackingField: 1002
+    <Name>k__BackingField: Opening
+    <PrefabPath>k__BackingField: INK/Opening
+  - <Id>k__BackingField: 1003
+    <Name>k__BackingField: TransitionNarration
+    <PrefabPath>k__BackingField: INK/Transition
+  - <Id>k__BackingField: 1004
+    <Name>k__BackingField: guideDialogue
+    <PrefabPath>k__BackingField: INK/GuideDialogue

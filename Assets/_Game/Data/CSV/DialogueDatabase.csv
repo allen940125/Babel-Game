@@ -1,0 +1,5 @@
+Id,Name,PrefabPath
+1001,Intro,INK/Intro
+1002,Opening,INK/Opening
+1003,TransitionNarration,INK/Transition
+1004,guideDialogue,INK/GuideDialogue

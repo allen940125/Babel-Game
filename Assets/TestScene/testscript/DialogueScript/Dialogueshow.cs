@@ -39,6 +39,9 @@ public class Dialogueshow : BasePanel
     [SerializeField] private float portraitFadeOutDuration = 0.25f;
     [SerializeField] private float portraitFadeInDuration = 0.25f;
 
+    [Header("節奏設定")]
+    [SerializeField] private float readingPauseSeconds = 1.5f;
+
     private bool waitingForChoice;
     private bool synopsisPopupOpen;
 
@@ -90,8 +93,7 @@ public class Dialogueshow : BasePanel
 
         if (typewriter.IsShowingText)//爭測跳過
             typewriter.SkipTypewriter();
-        else
-            ContinueStory();
+        // 不再需要手動呼叫 ContinueStory()，交給 OnTypewriterFinished -> WaitThenAdvance 自動接手
 
     }
 
@@ -135,32 +137,26 @@ public class Dialogueshow : BasePanel
         var story = Dialoguecontroller.Instance.CurrentStory;
         if (story == null) return;
 
-        while (story.canContinue)
-        {
-            string extra = story.Continue();
-            HandleTags(story.currentTags);
-
-            if (!string.IsNullOrWhiteSpace(extra))
-            {
-                typewriter.ShowText(extra);
-                if (pendingPortraitToBrighten != null)
-                {
-                    FadePortraitIn(pendingPortraitToBrighten).Forget();
-                    pendingPortraitToBrighten = null;
-                }
-                return;
-                //同上，防止不要吃到#行，寫兩次是因為一個是跑文字前，一個是跑完文字後與選項的連接中間的#行
-            }
-        }
-
         if (pendingPortraitToBrighten != null)
         {
             FadePortraitIn(pendingPortraitToBrighten).Forget();
             pendingPortraitToBrighten = null;
         }
 
-        FinishAdvancingToChoicesOrEnd();
-        //處理立繪淡出淡入效果
+        if (!story.canContinue)
+            FinishAdvancingToChoicesOrEnd();
+        else
+            WaitThenAdvance().Forget();
+    }
+
+    private async UniTaskVoid WaitThenAdvance()
+    {
+        await UniTask.Delay(System.TimeSpan.FromSeconds(readingPauseSeconds));
+
+        // 等待期間玩家如果點了跳過/叫出大綱，就不要在背景自動推進
+        if (waitingForChoice || synopsisPopupOpen) return;
+
+        ContinueStory();
     }
 
     private void FinishAdvancingToChoicesOrEnd()

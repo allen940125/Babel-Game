@@ -45,6 +45,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6142377252f0bbc409dcac9e864c7062
+    m_Address: UI/Panels/ConfirmPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6eb427ba76e6ec84f8ee4b56d6dd4097
     m_Address: UI/Windows/FadeInOutWindow
     m_ReadOnly: 0
@@ -52,11 +57,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7379f7e4ca415834f845afcdccf29dd7
     m_Address: UI/Windows/SettingsWindow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a1b663b1a3af6541bdf05858fdf4c2a
-    m_Address: GameDataDatabase
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -77,6 +77,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f2af65fc87d4059478817aa39f763b26
     m_Address: UI/Panels/SceneLoadingTransitionPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3f86beb7cf574c429baa3b0cf3fef83
+    m_Address: UI/Windows/NarrationWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f661a1808599744459284a051b71d510
+    m_Address: UI/Windows/DialogueWindowNew
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

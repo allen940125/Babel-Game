@@ -238,36 +238,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5330a98f5754fc47a34715497606d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanerBoss
+  progressionMode: 0
+  roundEndBehavior: 0
+  _currentRoundIndex: 0
   bossName: 
   firePosition: {fileID: 415678399330180059}
   attackPhaseDuration: 12
   phaseConfigs:
   - label: 
+    healthThreshold: 1
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: b78250e7f60830d449f4af7b35f424e7, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0.8
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 61c77f1fd292cf04c88eca12bb0dd57d, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0.6
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 5c421d3bf47d44843b39827368b4861f, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0.4
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: f04dd16b82d1a244483340cba2862599, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0.2
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 4e013e5195379f84e846d33c08d3e36b, type: 3}
       delayBeforeNext: 0
   - label: 
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: a06fbbdd46ba20745a85d9e6c8a2d230, type: 3}
