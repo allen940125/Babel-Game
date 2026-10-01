@@ -50,11 +50,11 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 2
+  baseSpeed: 3
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
-  bulletCount: 1
+  bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}
   circleRadius: 0
   circleStartAngle: 0

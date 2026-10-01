@@ -145,7 +145,8 @@ MonoBehaviour:
   ignorePhaseLock: 0
   bindingMode: 0
   displayMode: 0
-  fillSpriteRenderer: {fileID: 8058185366279191316}
+  _fillPivot: {fileID: 0}
+  _fillSprite: {fileID: 0}
   smoothSpeed: 10
   fullColor: {r: 0, g: 1, b: 0, a: 1}
   emptyColor: {r: 1, g: 0, b: 0, a: 1}

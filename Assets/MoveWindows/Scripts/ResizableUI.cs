@@ -106,8 +106,7 @@ public class ResizableUI : MonoBehaviour
                     $"Module: {results[x].module.GetType().Name}"
                 );
 
-                ResizableUIObject resizableUIObject =
-                    results[x].gameObject.GetComponent<ResizableUIObject>();
+                ResizableUIObject resizableUIObject = results[x].gameObject.GetComponentInParent<ResizableUIObject>();
 
                 if (resizableUIObject != null)
                 {

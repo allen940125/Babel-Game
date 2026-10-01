@@ -50,11 +50,11 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: cabe7636396513e45b33f4b82072fd1c, type: 3}
-  baseSpeed: 1
+  baseSpeed: 4
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
-  bulletCount: 1
+  bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}
   circleRadius: 0
   circleStartAngle: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 1d725cb2c77fddb4dbb769f03fcda2bf, type: 3}
   baseSpeed: 1
+  spawnInterval: 0.05
+  patternDamageMultiplier: 1.2
   directionMode: 0
   fixedDirection: {x: 0, y: -1}
   spawnPoints:
@@ -172,10 +174,10 @@ MonoBehaviour:
   warningTime: 1
   warningPrefab: {fileID: 0}
   steps:
+  - pattern: {fileID: 1636197913876816239}
+    delayBefore: 0.5
   - pattern: {fileID: 6322166892248985587}
     delayBefore: 0.5
-  - pattern: {fileID: 0}
-    delayBefore: 0
 --- !u!1 &7778121070583451365
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 7778121070583451365}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.97628266, w: 0.21650027}
-  m_LocalPosition: {x: 22.9, y: 5.81, z: 0}
+  m_LocalPosition: {x: -17, y: 5.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

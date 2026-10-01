@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHealth: 100
   attackPower: 30
   defense: 3
-  critRate: 0.2
+  critRate: 0
   critMultiplier: 1.5
   traits:
   - rid: 1686755775413485664

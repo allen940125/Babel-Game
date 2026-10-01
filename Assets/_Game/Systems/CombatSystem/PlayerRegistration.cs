@@ -1,23 +1,17 @@
 using UnityEngine;
-using Gamemanager;
 
 // ★ 這個腳本只掛在「玩家」的 Prefab 上！哥布林不要掛！
 [RequireComponent(typeof(EntityCore))]
-public class PlayerRegistration : MonoBehaviour
+public class PlayerRegistration : MonoBehaviour, IEntityRuntimeDependent
 {
-    private void Start()
+    public void OnRuntimeDataChanged(EntityRuntime newData)
     {
-        // 1. 拿取自己的大腦資料
-        var core = GetComponent<EntityCore>();
-        if (core == null || core.RuntimeData == null)
+        if (newData == null)
         {
-            Debug.LogError($"[致命錯誤] 玩家缺少 EntityCore，無法向系統報到！");
+            Debug.LogError($"[致命錯誤] 玩家缺少 EntityRuntime，無法向系統報到！");
             return;
         }
-
-        // 2. 主動向中繼站報到 (假設你的 Mediator 裡面有寫這個方法)
-        GameManager.Instance.MainGameMediator.RegisterCurrentPlayer(core.RuntimeData);
-        
+        GameManager.Instance.MainGameMediator.RegisterCurrentPlayer(newData);
         Debug.Log("<color=green>[系統] 玩家實體已成功向全域中繼站報到！</color>");
     }
 

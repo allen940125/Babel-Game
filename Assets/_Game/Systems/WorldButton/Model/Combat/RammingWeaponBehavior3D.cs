@@ -42,24 +42,6 @@ public class RammingWeaponBehavior3D : MonoBehaviour
             Debug.LogWarning($"[{gameObject.name}] 找不到 GameManager.Instance.MainGameEvent，事件訂閱失敗！");
         }
     }
-    
-    private void Start()
-    {
-        // ★ 核心：向全域中繼站索取玩家資料，並注入給 DamageDealer
-        if (damageDealer != null)
-        {
-            var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
-            
-            if (playerRuntime != null)
-            {
-                damageDealer.BindSourceData(playerRuntime);
-            }
-            else
-            {
-                Debug.LogWarning($"[{gameObject.name}] 在 Start 階段找不到玩家資料，將使用固定傷害！");
-            }
-        }
-    }
 
     private void OnDestroy()
     {
@@ -127,9 +109,26 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         // --- 進入結算 ---
         Debug.Log($"<color=green>[條件全過！] 準備調用 damageDealer.DealDamageTo({target.name})！</color>");
         
-        // ★ 核心執行：由 DamageDealer 把傷害封包砸在目標身上！
+        // ==========================================
+        // ★ 核心修正：撞擊瞬間，才向玩家索取「當下最新」的面板數值進行快照
+        // ==========================================
+        var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+        if (playerRuntime != null)
+        {
+            damageDealer.InjectSnapshot(
+                playerRuntime.TotalAttackPower, 
+                playerRuntime.TotalCritRate, 
+                playerRuntime.TotalCritMultiplier
+            );
+        }
+        else
+        {
+            Debug.LogWarning($"[{gameObject.name}] 找不到玩家資料，將使用 DamageDealer 的預設固定傷害！");
+        }
+
+        // 將最新快照的傷害灌給目標
         damageDealer.DealDamageTo(target);
-        
+    
         StartCoroutine(CooldownRoutine());
     }
 

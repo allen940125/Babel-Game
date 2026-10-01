@@ -216,6 +216,7 @@ Transform:
   - {fileID: 3260866276712015719}
   - {fileID: 7834428186390343533}
   - {fileID: 6764623250762744162}
+  - {fileID: 2098109095340217522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5018938130355998823
@@ -230,10 +231,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1f7d79b8680924086f01e91591ca05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainGameMediator:
+    <RealTimePlayerData>k__BackingField:
+      NowLevel: 0
+    <CurrentPlayerRuntime>k__BackingField:
+      Blueprint: {fileID: 0}
+      _currentHealth: 0
+      _bonusAttackPower: 0
+      _bonusDefense: 0
+      _runtimeTraits: []
+      CurrentState: 1
+    <CurrentBossRuntime>k__BackingField:
+      Blueprint: {fileID: 0}
+      _currentHealth: 0
+      _bonusAttackPower: 0
+      _bonusDefense: 0
+      _runtimeTraits: []
+      CurrentState: 1
   player: {fileID: 0}
   gameSo: {fileID: 11400000, guid: e3f21a659afc2bb48be5d9da5a0ae8e4, type: 2}
   csvFile: {fileID: 4900000, guid: 22a2ef9a85f478d4da79228af3b38e39, type: 3}
   sprite: {fileID: 21300000, guid: 1a47bdc34223e5a44add86548fc87b9b, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3755704224224232043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +881,50 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!1 &5777946137538359504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098109095340217522}
+  - component: {fileID: 3808480127885267140}
+  m_Layer: 0
+  m_Name: WorldItemSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098109095340217522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777946137538359504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6609801465727653305}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3808480127885267140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777946137538359504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8749734d4cd636842952172b81e5dd93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldItemSpawner
 --- !u!1 &8801142015455097357
 GameObject:
   m_ObjectHideFlags: 0

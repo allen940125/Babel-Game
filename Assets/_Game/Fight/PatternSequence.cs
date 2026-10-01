@@ -21,14 +21,11 @@ public class PatternSequence : AttackPatternBase
     [Tooltip("攻擊步驟清單")]
     public List<PatternStep> steps = new List<PatternStep>();
 
-    // ❌ 移除重複宣告：基底類別 AttackPatternBase 已經有 public bool destroyOnFinish;
-
     // --- 編輯器輔助功能 ---
     [ContextMenu("自動抓取子物件 Pattern")]
     public void AutoGetChildrenPatterns()
     {
         steps.Clear();
-        // ★ 修正：includeInactive = true，才抓得到未啟用的子物件
         var childPatterns = GetComponentsInChildren<AttackPatternBase>(true);
         foreach (var p in childPatterns)
         {
@@ -42,17 +39,13 @@ public class PatternSequence : AttackPatternBase
 
     protected override void OnExecute(BossStateMachine boss, float speedMultiplier, bool isAngry)
     {
-        // ★ 修正：脫離 Boss 的子物件層級，避免 Boss 移動時把整個序列拖著跑
         transform.SetParent(null);
 
-        // 1. 欺騙狀態機：將自己註冊為 ActiveBullet。
-        //    只要這個 Sequence 還沒跑完並銷毀，Boss 的 WaitingForBullets 狀態就不會結束。
         if (boss != null)
         {
             boss.RegisterActiveBullet(this.gameObject);
         }
 
-        // 2. 啟動非同步的時間軸序列
         StartCoroutine(RunSequenceRoutine(boss, speedMultiplier, isAngry));
     }
 
@@ -62,7 +55,6 @@ public class PatternSequence : AttackPatternBase
         {
             if (step.pattern == null) continue;
 
-            // 若 Boss 處於憤怒狀態，縮減等待時間，加快攻擊節奏
             float waitTime = step.delayBefore;
             if (isAngry) waitTime *= 0.8f; 
 
@@ -71,21 +63,59 @@ public class PatternSequence : AttackPatternBase
                 yield return new WaitForSeconds(waitTime);
             }
 
-            // 觸發該步驟的 Pattern 執行其獨立邏輯
             step.pattern.Execute(boss, speedMultiplier, isAngry);
         }
 
-        // ★ 修正：改用基底類別的統一結束方法
         FinishPattern();
     }
 
     // ==========================================
-    // ★ 實作父類別的抽象方法：編輯器預覽
+    // ★ Debug 測試：測試整個序列發射
     // ==========================================
+    [ContextMenu("👉 測試發射序列 (Debug Test)")]
+    public void DebugTest()
+    {
+        if (!Application.isPlaying) { Debug.LogError("⛔ 請先按 Play！"); return; }
+        Execute(null, 1f, false);
+    }
+
+    // ==========================================
+    // ★ 批次預覽管理：讓 Sequence 可以一次控制所有子 Pattern
+    // ==========================================
+    [ContextMenu("👁️ 生成全部步驟預覽 (All Previews)")]
+    public void GenerateAllPreviews()
+    {
+        // 先幫自己畫預覽 (球體標記)
+        GenerateEditorPreview();
+
+        // 叫 List 裡面的所有 Pattern 也畫出他們的預覽
+        foreach (var step in steps)
+        {
+            if (step.pattern != null)
+            {
+                step.pattern.GenerateEditorPreview();
+            }
+        }
+    }
+
+    [ContextMenu("❌ 清除全部步驟預覽")]
+    public void ClearAllPreviews()
+    {
+        // 清除自己的
+        ClearEditorPreview();
+
+        // 清除 List 裡面所有 Pattern 的
+        foreach (var step in steps)
+        {
+            if (step.pattern != null)
+            {
+                step.pattern.ClearEditorPreview();
+            }
+        }
+    }
+
     protected override void OnGeneratePreview(Transform previewContainer)
     {
-        // PatternSequence 本身不發射子彈，
-        // 這裡只為每個步驟畫一個「編號球」，讓你知道這個序列有幾段。
         for (int i = 0; i < steps.Count; i++)
         {
             var step = steps[i];
@@ -99,6 +129,6 @@ public class PatternSequence : AttackPatternBase
             DestroyImmediate(marker.GetComponent<Collider>());
         }
 
-        Debug.Log($"<color=cyan>[PatternSequence]</color> 共 {steps.Count} 個步驟。子 Pattern 的預覽請分別對它們按 Context Menu 產生。");
+        Debug.Log($"<color=cyan>[PatternSequence]</color> 共 {steps.Count} 個步驟，已呼叫全體預覽。");
     }
 }

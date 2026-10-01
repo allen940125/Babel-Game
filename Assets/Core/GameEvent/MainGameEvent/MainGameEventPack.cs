@@ -20,6 +20,8 @@ namespace Gamemanager
         public IObservable<InventoryItemClickedEvent> OnInventoryItemClickedEvent => getSubject<InventoryItemClickedEvent>();
         public IObservable<InventoryItemHoveredEvent> OnInventoryItemHoveredEvent => getSubject<InventoryItemHoveredEvent>();
         public IObservable<ItemAddedToBagEvent> OnItemAddedToBagEvent => getSubject<ItemAddedToBagEvent>();
+        
+        public IObservable<ItemDroppedInWorldEvent> OnItemDroppedInWorldEvent => getSubject<ItemDroppedInWorldEvent>();
 
         // ======================
         // Store Event Streams
@@ -75,7 +77,7 @@ namespace Gamemanager
 
         public IObservable<BossEnterVulnerablePhaseEvent> OnBossEnterVulnerablePhaseEvent => getSubject<BossEnterVulnerablePhaseEvent>();
 
-        public IObservable<BossTakeDamageEvent> OnBossTakeDamageEvent => getSubject<BossTakeDamageEvent>();
+        public IObservable<CameraShakeEvent> OnCameraShakeEvent => getSubject<CameraShakeEvent>();
         
         public IObservable<BossHealthChangedEvent> OnBossHealthChangedEvent => getSubject<BossHealthChangedEvent>();
 

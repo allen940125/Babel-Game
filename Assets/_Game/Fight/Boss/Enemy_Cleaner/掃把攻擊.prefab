@@ -259,15 +259,13 @@ MonoBehaviour:
   stats:
     speedRange: {x: 3, y: 12}
     lifeTimeRange: {x: 15, y: 25}
-    collisionLayer:
-      serializedVersion: 2
-      m_Bits: 320
-    maxBounceAngleJitter: 30
-    jitterFirstBounceOnly: 0
   vfx:
     showHitEffect: 1
     hitEffectPrefab: {fileID: 0}
     rotationMode: 1
+  debug_bulletData_damageMultiplier: 0
+  debug_AttackPattern_damageMultiplier: 0
+  debug_actualMultiplier: 0
 --- !u!54 &8433968155808799934
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -307,8 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
-  flatDamage: 30
-  canCrit: 0
+  ignoreInvincibility: 0
+  _snapshottedDamage: 15
+  _snapshottedCritRate: 0
+  _snapshottedCritMultiplier: 1.5
 --- !u!1001 &8865540943902039509
 PrefabInstance:
   m_ObjectHideFlags: 0
