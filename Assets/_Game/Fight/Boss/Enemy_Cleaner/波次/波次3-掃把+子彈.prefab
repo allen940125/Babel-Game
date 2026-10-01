@@ -54,7 +54,7 @@ MonoBehaviour:
   spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 5
-  bulletCount: 1
+  bulletCount: 2
   spawnAreaSize: {x: 0, y: 20}
   circleRadius: 0
   circleStartAngle: 0
