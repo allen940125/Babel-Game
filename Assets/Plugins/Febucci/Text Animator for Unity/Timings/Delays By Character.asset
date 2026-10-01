@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a6945b90dcd0c4b81619c0d8b5c283, type: 3}
   m_Name: Delays By Character
   m_EditorClassIdentifier: Febucci.TextAnimator.Runtime::Febucci.TextAnimatorForUnity.TypewriterByCharacter
-  waitForNormalChars: 0.3
+  waitForNormalChars: 0.05
   waitLong: 0.06
   waitMiddle: 0.03
   avoidMultiplePunctuationWait: 1
