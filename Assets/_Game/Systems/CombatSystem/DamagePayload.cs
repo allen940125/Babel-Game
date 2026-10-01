@@ -17,6 +17,7 @@ public struct DamagePayload
     public int Damage;
     public bool IsCrit;
     public GameObject Source;
+    public bool IgnoreInvincibility;
 }
 
 public struct HealPayload

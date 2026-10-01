@@ -13,7 +13,7 @@ public class PlayerDeathHandler : MonoBehaviour
     {
         Debug.Log("Player is dead");
         // 專心處理玩家專屬的輸入剝奪與全域 UI 呼叫
-        GetComponent<PlayerController3D>().enabled = false;
+        GetComponent<PlayerCombatController2D>().enabled = false;
         GameManager.Instance.MainGameEvent.Send(new GameOverEvent());
         GameManager.Instance.GameOver();
     }

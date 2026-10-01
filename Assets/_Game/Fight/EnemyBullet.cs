@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -11,11 +12,6 @@ public class EnemyBullet : EnemyProjectileBase
     {
         public Vector2 speedRange;
         public Vector2 lifeTimeRange;
-        public LayerMask collisionLayer;
-
-        [Header("★ 反彈擾動設定")]
-        [Range(0f, 60f)] public float maxBounceAngleJitter;
-        public bool jitterFirstBounceOnly;
     }
 
     [System.Serializable]
@@ -47,26 +43,25 @@ public class EnemyBullet : EnemyProjectileBase
     private float[] _bounceJitterOffsets;
     
     private TrajectoryVisualizer _visualizer;
-
+    
+    private Dictionary<GameObject, float> _lastDamageTimes;
+    
     [Header("Debug")] 
     [SerializeField] private float debug_bulletData_damageMultiplier;
     [SerializeField] private float debug_AttackPattern_damageMultiplier;
     [SerializeField] private float debug_actualMultiplier;
 
-    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier)
+    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
-        // ★ 核心改動：如果自己身上有 BulletDataSO，就無視外部傳來的倍率，優先使用 SO 裡的倍率！
-        float actualMultiplier = (bulletData != null) 
-            ? bulletData.damageMultiplier * damageMultiplier 
-            : damageMultiplier;
-        
-        debug_bulletData_damageMultiplier = bulletData.damageMultiplier;
-        debug_AttackPattern_damageMultiplier = damageMultiplier;
-        debug_actualMultiplier = actualMultiplier;
+        // 1. 正確的初始化記憶體：必須使用 new 來分配空間！
+        _lastDamageTimes = new Dictionary<GameObject, float>();
 
-        
-        // 把正確的倍率交給父類別，父類別會幫你灌進 DamageDealer 裡面
-        base.Initialize(direction, speed, boss, actualMultiplier);
+        // 2. 資料庫覆寫判斷
+        float actualMultiplier = (bulletData != null) ? bulletData.damageMultiplier * damageMultiplier : damageMultiplier;
+        bool finalIgnoreInvincibility = (bulletData != null && bulletData.ignoreInvincibility) || ignoreInvincibility;
+
+        // 3. 呼叫父類別，完成 Snapshot 注入
+        base.Initialize(direction, speed, boss, actualMultiplier, finalIgnoreInvincibility);
 
         if (ownerBoss != null) ownerBoss.RegisterActiveBullet(this.gameObject);
 
@@ -84,11 +79,10 @@ public class EnemyBullet : EnemyProjectileBase
         _bounceJitterOffsets = new float[maxCapacity];
         for (int i = 0; i < maxCapacity; i++)
         {
-            _bounceJitterOffsets[i] = (stats.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-stats.maxBounceAngleJitter, stats.maxBounceAngleJitter);
+            _bounceJitterOffsets[i] = (bulletData != null && bulletData.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-bulletData.maxBounceAngleJitter, bulletData.maxBounceAngleJitter);
         }
 
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
-
         UpdateVelocityAndRotation();
         _isInitialized = true;
     }
@@ -121,168 +115,101 @@ public class EnemyBullet : EnemyProjectileBase
 
         for (int bounceStep = 0; bounceStep < MAX_BOUNCES_PER_FRAME; bounceStep++)
         {
-            if (remainingDistance <= 0.0001f)
-                break;
-
+            if (remainingDistance <= 0.0001f) break;
             Vector3 currentPos = transform.position;
 
             // ==================================================
-            // 1. 找牆壁
+            // 1. 找牆壁 (★ 實體物理的唯一標準)
             // ==================================================
             int bounceHitCount = ShapeCastUtility.PerformCast(
-                currentPos,
-                _currentDirection,
-                remainingDistance,
-                _hitBuffer,
-                bulletData.bounceShape,
-                bulletData.bounceLayer,
-                enableDeepDebug
-            );
-
+                currentPos, _currentDirection, remainingDistance,
+                _hitBuffer, bulletData.bounceShape, bulletData.bounceLayer, enableDeepDebug);
+            
             RaycastHit nearestWallHit = default;
             bool hasWallHit = false;
 
             if (bounceHitCount > 0)
             {
-                System.Array.Sort(
-                    _hitBuffer,
-                    0,
-                    bounceHitCount,
-                    Comparer<RaycastHit>.Create(
-                        (a, b) => a.distance.CompareTo(b.distance)
-                    )
-                );
-
+                System.Array.Sort(_hitBuffer, 0, bounceHitCount, Comparer<RaycastHit>.Create((a, b) => a.distance.CompareTo(b.distance)));
                 for (int i = 0; i < bounceHitCount; i++)
                 {
                     RaycastHit hit = _hitBuffer[i];
-
-                    if (hit.collider == null)
-                        continue;
-
-                    // ★ 避免一開始就重疊造成 0 距離假反彈
-                    if (hit.distance < 0.0001f)
-                        continue;
-
+                    if (hit.collider == null || hit.distance < 0.0001f) continue;
                     nearestWallHit = hit;
                     hasWallHit = true;
                     break;
                 }
             }
 
+            // ★ 決定本次真正能走的距離 (沒牆壁就走到底，有牆壁就走到牆壁前)
+            float travelDistance = hasWallHit ? nearestWallHit.distance : remainingDistance;
+
             // ==================================================
-            // 2. 找玩家
+            // 2. 找玩家 (★ 純結算傷害，不影響物理軌跡)
             // ==================================================
             int damageHitCount = ShapeCastUtility.PerformCast(
-                currentPos,
-                _currentDirection,
-                remainingDistance,
-                _hitBuffer,
-                bulletData.damageShape,
-                bulletData.damageLayer,
-                enableDeepDebug
-            );
-
-            RaycastHit nearestDamageHit = default;
-            bool hasDamageHit = false;
+                currentPos, _currentDirection, remainingDistance,
+                _hitBuffer, bulletData.damageShape, bulletData.damageLayer, enableDeepDebug);
 
             if (damageHitCount > 0)
             {
-                float nearestDistance = float.MaxValue;
-
                 for (int i = 0; i < damageHitCount; i++)
                 {
                     RaycastHit hit = _hitBuffer[i];
+                    if (hit.collider == null) continue;
 
-                    if (hit.collider == null)
-                        continue;
-
-                    if (hit.distance < 0.0001f)
-                        continue;
-
-                    if (hit.distance < nearestDistance)
+                    // ★ 核心過濾：只要玩家在「本次即將飛越的距離」內，就對他造成傷害
+                    if (hit.distance <= travelDistance + 0.01f)
                     {
-                        nearestDistance = hit.distance;
-                        nearestDamageHit = hit;
-                        hasDamageHit = true;
+                        GameObject targetObj = hit.collider.gameObject;
+
+                        // 持續傷害的冷卻判定
+                        if (bulletData != null && bulletData.useDamageTick)
+                        {
+                            if (_lastDamageTimes.TryGetValue(targetObj, out float lastTime))
+                            {
+                                if (Time.time < lastTime + bulletData.damageTickInterval)
+                                    continue; // 冷卻中，跳過
+                            }
+                            _lastDamageTimes[targetObj] = Time.time;
+                        }
+
+                        damageDealer.DealDamageTo(targetObj);
                     }
                 }
             }
 
             // ==================================================
-            // 3. 這一段誰比較近？
+            // 3. 移動與反彈結算
             // ==================================================
+            // 子彈瞬間走到決定好的位置
+            transform.position = currentPos + _currentDirection * travelDistance;
+            remainingDistance -= travelDistance;
 
-            bool wallFirst =
-                hasWallHit &&
-                (!hasDamageHit ||
-                 nearestWallHit.distance <= nearestDamageHit.distance);
-
-            bool playerFirst =
-                hasDamageHit &&
-                (!hasWallHit ||
-                 nearestDamageHit.distance < nearestWallHit.distance);
-
-            // ==================================================
-            // 4. 先撞到牆
-            // ==================================================
-            if (wallFirst)
+            if (hasWallHit)
             {
-                float travelDistance = nearestWallHit.distance;
+                // 觸發相機震動
+                if (bulletData != null && bulletData.enableWallHitShake && GameManager.Instance?.MainGameEvent != null)
+                {
+                    GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent { Intensity = bulletData.wallHitShakeIntensity, Duration = bulletData.wallHitShakeDuration });
+                }
 
-                // ★ 先把子彈真正移到碰撞位置
-                transform.position =
-                    currentPos + _currentDirection * travelDistance;
-
-                // 這一幀還剩多少距離？
-                remainingDistance -= travelDistance;
-
-                // ★ 在真正碰撞位置反彈
+                // 處理反彈，並把子彈稍微推離牆壁一點點避免卡死
                 ProcessBounceTarget(nearestWallHit);
-
-                // ★ 稍微推離牆面，避免下一次 ShapeCast 從牆裡開始
                 transform.position += _currentDirection * COLLISION_SKIN;
-
-                remainingDistance =
-                    Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
-
-                continue;
+                remainingDistance = Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
             }
-
-            // ==================================================
-            // 5. 先撞到玩家
-            // ==================================================
-            if (playerFirst)
+            else
             {
-                if (enableDeepDebug) Debug.Log($"[傷害判定] 命中玩家: {nearestDamageHit.collider.name}");
-                
-                damageDealer.DealDamageTo(nearestDamageHit.collider.gameObject);
-                
-                // ★ 核心修正：穿透行為
-                // 子彈不會因為撞到玩家而停下，它會直接無視玩家，走完這幀剩餘的全部距離。
-                // (注意：這前提是你希望子彈穿過玩家後，"在這一幀內" 不會立刻撞牆。
-                // 若穿透後可能立刻撞牆，你需要將位置移到玩家身上並繼續迴圈，但通常彈幕遊戲直接走完即可)
-                transform.position = currentPos + _currentDirection * remainingDistance;
-                remainingDistance = 0f;
-                break; // 距離歸零了，跳出迴圈
+                // 沒撞到牆壁，已經走完所有距離，結束這幀的運算
+                break;
             }
-
-            // ==================================================
-            // 6. 什麼都沒撞到，直接走完
-            // ==================================================
-            transform.position = currentPos + _currentDirection * remainingDistance;
-            remainingDistance = 0f;
-            break;
         }
 
         // 保證 Z 軸維持 0
         if (transform.position.z != 0f)
         {
-            transform.position = new Vector3(
-                transform.position.x,
-                transform.position.y,
-                0f
-            );
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
         }
     }
 

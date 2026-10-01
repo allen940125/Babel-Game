@@ -27,7 +27,7 @@ public class CameraShaker : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
         {
             // 訂閱事件 (使用 Lambda 接收參數)
-            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossTakeDamageEvent, OnBossDamaged);
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCameraShakeEvent, OnBossDamagedCameraShaker);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossLowHealthStateEvent, OnLowHealthState);
         }
     }
@@ -36,14 +36,14 @@ public class CameraShaker : MonoBehaviour
     {
         if (GameManager.Instance != null && GameManager.Instance.MainGameEvent != null)
         {
-            GameManager.Instance.MainGameEvent.Unsubscribe<BossTakeDamageEvent>(OnBossDamaged);
+            GameManager.Instance.MainGameEvent.Unsubscribe<CameraShakeEvent>(OnBossDamagedCameraShaker);
             GameManager.Instance.MainGameEvent.Unsubscribe<BossLowHealthStateEvent>(OnLowHealthState);
         }
     }
 
     // --- 事件處理 ---
 
-    private void OnBossDamaged(BossTakeDamageEvent cmd)
+    private void OnBossDamagedCameraShaker(CameraShakeEvent cmd)
     {
         // 接收參數，如果傳入 0 則使用預設值
         float intensity = cmd.Intensity > 0 ? cmd.Intensity : defaultHitIntensity;

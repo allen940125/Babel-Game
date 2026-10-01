@@ -178,6 +178,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -335,14 +336,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6003531519316274637}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4199e724aeedad64a915bdf530ef80ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curItemData:
-    ItemId: 0
-    Quantity: 0
+  curInventoryItemRuntimeData:
+    itemId: 0
+    quantity: 0
   originalParent: {fileID: 0}
 --- !u!1 &6857702556153527070
 GameObject:
@@ -435,12 +436,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canClickSlotItemBtn: 1
+  slotItemData:
+    <Id>k__BackingField: 0
+    <Name>k__BackingField: 
+    <PrefabPath>k__BackingField: 
+    <ItemIconPath>k__BackingField: 
+    <ItemDescription>k__BackingField: 
+    <ItemControllerType>k__BackingField: 0
+    <ItemRarityType>k__BackingField: 0
+    <ItemUseTimes>k__BackingField: 0
+    <LifeTime>k__BackingField: 0
+    <BaseValue>k__BackingField: 0
+    <BuffPrefabPath>k__BackingField: 
   objItemInSlot: {fileID: 6003531519316274637}
   imageItemIcon: {fileID: 6954311268616370544}
   textItemQuantity: {fileID: 288681765509035935}
-  storedItemData:
-    ItemId: 0
-    Quantity: 0
+  storedInventoryItemRuntimeData:
+    itemId: 0
+    quantity: 0
 --- !u!1 &9021310325882023126
 GameObject:
   m_ObjectHideFlags: 0

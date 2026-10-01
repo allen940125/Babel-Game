@@ -382,7 +382,7 @@ public abstract class BossStateMachine : MonoBehaviour
         _activePatterns.Clear();
         _waveDelayTimer = 0f;
     
-        Debug.Log($"<color=cyan>[{bossName}] 載入攻擊波次: {config.label} (Index: {index})</color>");
+        Debug.Log($"<color=cyan>[{bossName}] 載入攻擊波次: {config.label} (Index: {index}) 攻擊預製件名稱: {config.waveList[0].patternPrefab.name}</color>");
     }
     
     private void ExecuteAttackSequence()

@@ -2,25 +2,28 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    private EntityRuntime _sourceEntityData;
+    [Header("★ 傷害穿透設定")]
+    [Tooltip("勾選後，此傷害將無視實體的無敵幀，且不會觸發新的無敵時間 (適用於毒氣、岩漿等 DoT)")]
+    [SerializeField] private bool _snapshottedIgnoreInvincibility = false;
     
-    // 增加一個內部變數來儲存倍率，預設為 1
-    [SerializeField] private float _currentMultiplier = 1.0f;
+    [Header("★ 靜態固定數值 (未注入時的預設值)")]
+    [SerializeField] private float _snapshottedDamage = 15f;
+    [SerializeField] private float _snapshottedCritRate = 0f;
+    [SerializeField] private float _snapshottedCritMultiplier = 1.5f;
 
-    [Header("★ 靜態固定數值 (當 SO 為空時生效)")]
-    [SerializeField] private int flatDamage = 15;
-    [SerializeField] private bool canCrit = false;
+    private bool _hasBeenInjected = false;
 
     // ==========================================
-    // ★ 核心：開放給外部注入資料的接口 (擴充倍率參數)
+    // ★ 核心：完全移除對 EntityRuntime 的依賴
+    // 外部生成子彈的系統，必須自己算出數字並塞進來
     // ==========================================
-    public void BindSourceData(EntityRuntime runtime, float multiplier = 1.0f)
+    public void InjectSnapshot(float baseDamage, float critRate, float critMultiplier, bool ignoreInvincibility = false)
     {
-        _sourceEntityData = runtime;
-        _currentMultiplier = multiplier;
-        Debug.Log($"<color=cyan>[DamageDealer] 已成功綁定資料來源！倍率設定為: {_currentMultiplier}</color>");
+        _snapshottedDamage = baseDamage;
+        _snapshottedCritRate = critRate;
+        _snapshottedCritMultiplier = critMultiplier;
+        _snapshottedIgnoreInvincibility = ignoreInvincibility;
     }
-
     public void DealDamageTo(GameObject target)
     {
         if (target == null) return;
@@ -30,40 +33,23 @@ public class DamageDealer : MonoBehaviour
 
         if (damageable != null)
         {
-            DamagePayload payload = ConstructPayload();
-            damageable.TakeDamage(payload);
+            damageable.TakeDamage(ConstructPayload());
         }
     }
 
     private DamagePayload ConstructPayload()
     {
-        if (_sourceEntityData != null)
-        {
-            // 將倍率加入計算公式
-            bool isCrit = Random.value <= _sourceEntityData.TotalCritRate;
-            
-            // 計算基礎傷害 (攻擊力 * 子彈倍率)
-            float baseCalculatedDamage = _sourceEntityData.TotalAttackPower * _currentMultiplier;
-            
-            // 計算爆擊傷害
-            int finalRawDamage = isCrit 
-                ? Mathf.RoundToInt(baseCalculatedDamage * _sourceEntityData.TotalCritMultiplier) 
-                : Mathf.RoundToInt(baseCalculatedDamage);
+        bool isCrit = Random.value <= _snapshottedCritRate;
+        int finalRawDamage = isCrit 
+            ? Mathf.RoundToInt(_snapshottedDamage * _snapshottedCritMultiplier) 
+            : Mathf.RoundToInt(_snapshottedDamage);
 
-            return new DamagePayload()
-            {
-                Damage = finalRawDamage,
-                IsCrit = isCrit,
-                Source = this.gameObject
-            };
-        }
-        
-        // 如果沒有實體資料，則使用 flatDamage 乘上倍率
         return new DamagePayload()
         {
-            Damage = Mathf.RoundToInt(flatDamage * _currentMultiplier),
-            IsCrit = canCrit, 
-            Source = this.gameObject
+            Damage = finalRawDamage,
+            IsCrit = isCrit,
+            Source = this.gameObject,
+            IgnoreInvincibility = _snapshottedIgnoreInvincibility // ★ 從快照中讀取
         };
     }
 }
