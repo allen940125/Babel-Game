@@ -92,6 +92,6 @@ MonoBehaviour:
   settings:
     layerMask:
       serializedVersion: 2
-      m_Bits: 1024
+      m_Bits: 1536
     overrideMaterial: {fileID: 2100000, guid: 884e6a90dc5460d4fa2b259ba083604d, type: 2}
     targetTextureName: _StickerMaskTex
