@@ -1,7 +1,7 @@
 // using UnityEngine;
 //
 // [RequireComponent(typeof(Rigidbody2D))]
-// public class HomingMissile : EnemyProjectileBase
+// public class HomingMissile : EnemyAttackBase
 // {
 //     [Header("導彈運動參數")]
 //     public float speed = 8f;

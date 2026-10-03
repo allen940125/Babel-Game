@@ -3,7 +3,7 @@ using Gamemanager;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyBullet : EnemyProjectileBase
+public class EnemyBullet : EnemyAttackBase, IProjectile
 {
     public enum EffectRotationMode { Fixed, AlignWithNormal, AlignWithReflection }
 
@@ -51,26 +51,26 @@ public class EnemyBullet : EnemyProjectileBase
     [SerializeField] private float debug_AttackPattern_damageMultiplier;
     [SerializeField] private float debug_actualMultiplier;
 
-    public override void Initialize(Vector3 direction, float speed, BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
+    // ==================================================
+    // ★ 職責 1：覆寫基類，只處理「數值、狀態與記憶體初始化」
+    // ==================================================
+    public override void Initialize(BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
-        // 1. 正確的初始化記憶體：必須使用 new 來分配空間！
+        // 1. 記憶體分配
         _lastDamageTimes = new Dictionary<GameObject, float>();
 
-        // 2. 資料庫覆寫判斷
+        // 2. 結合 BulletDataSO 的專屬倍率
         float actualMultiplier = (bulletData != null) ? bulletData.damageMultiplier * damageMultiplier : damageMultiplier;
         bool finalIgnoreInvincibility = (bulletData != null && bulletData.ignoreInvincibility) || ignoreInvincibility;
 
-        // 3. 呼叫父類別，完成 Snapshot 注入
-        base.Initialize(direction, speed, boss, actualMultiplier, finalIgnoreInvincibility);
+        // 3. 呼叫父類別，完成 Snapshot 注入 (無物理參數)
+        base.Initialize(boss, actualMultiplier, finalIgnoreInvincibility);
 
         if (ownerBoss != null) ownerBoss.RegisterActiveBullet(this.gameObject);
 
         _rb = GetComponent<Rigidbody>();
         _visualizer = GetComponentInChildren<TrajectoryVisualizer>();
 
-        _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
-        _currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
-        
         _rb.isKinematic = true;
         _rb.useGravity = false;
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
@@ -81,10 +81,21 @@ public class EnemyBullet : EnemyProjectileBase
         {
             _bounceJitterOffsets[i] = (bulletData != null && bulletData.jitterFirstBounceOnly && i > 0) ? 0f : Random.Range(-bulletData.maxBounceAngleJitter, bulletData.maxBounceAngleJitter);
         }
+    }
 
+    // ==================================================
+    // ★ 職責 2：實作 IProjectile，專職處理「飛行物理軌跡」
+    // ==================================================
+    public void SetTrajectory(Vector3 direction, float speed)
+    {
+        _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
+        _currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
+        
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
         UpdateVelocityAndRotation();
-        _isInitialized = true;
+        
+        // ★ 物理設定完畢後，才允許 FixedUpdate 開始進行 Cast 運算
+        _isInitialized = true; 
     }
 
     private void OnDestroy()

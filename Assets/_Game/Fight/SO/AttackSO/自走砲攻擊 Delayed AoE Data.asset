@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e758af3bbe074498933781794a9713, type: 3}
+  m_Name: "\u81EA\u8D70\u7832\u653B\u64CA Delayed AoE Data"
+  m_EditorClassIdentifier: Assembly-CSharp::DelayedAoEDataSO
+  damageMultiplier: 1
+  ignoreInvincibility: 0
+  useDamageTick: 0
+  damageTickInterval: 0.25
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageShape:
+    shapeType: 0
+    radius: 2.4
+    boxSize: {x: 0, y: 0}
+    capsuleLength: 0
+    zThickness: 0
+    shapeRotationOffset: {x: 0, y: 0, z: 0}
+  hitEffectPrefab: {fileID: 0}
+  enableCameraShake: 0
+  shakeIntensity: 0.5
+  shakeDuration: 0.2

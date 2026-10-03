@@ -19,6 +19,63 @@ public struct CollisionShapeConfig
     public Vector3 shapeRotationOffset;
 }
 
+public static class ShapeOverlapUtility
+{
+    // ★ 專門用於靜態原地的範圍檢測，傳入 baseRotation 而不是 direction
+    public static int PerformOverlap(
+        Vector3 origin, Quaternion baseRotation, 
+        Collider[] buffer, CollisionShapeConfig config,
+        LayerMask layerMask, bool enableDebug = false)
+    {
+        int hitCount = 0;
+
+        // 計算最終旋轉：物件本身的旋轉 * 設定檔的偏移
+        Quaternion offsetRot = Quaternion.Euler(config.shapeRotationOffset);
+        Quaternion finalRot = baseRotation * offsetRot;
+
+        switch (config.shapeType)
+        {
+            case BulletShapeType.Circle:
+            {
+                // 圓形/球體不需要旋轉
+                hitCount = Physics.OverlapSphereNonAlloc(origin, config.radius, buffer, layerMask);
+                break;
+            }
+
+            case BulletShapeType.Box:
+            {
+                // Z 軸厚度在此處被視為 Box 的深度
+                Vector3 halfExtents = new Vector3(
+                    config.boxSize.x * 0.5f,
+                    config.boxSize.y * 0.5f,
+                    config.zThickness * 0.5f);
+
+                hitCount = Physics.OverlapBoxNonAlloc(origin, halfExtents, buffer, finalRot, layerMask);
+                break;
+            }
+
+            case BulletShapeType.Capsule:
+            {
+                float halfLen = Mathf.Max(0f, (config.capsuleLength * 0.5f) - config.radius);
+                Vector3 axis = finalRot * Vector3.up; // 沿著旋轉後的 Y 軸展開
+                Vector3 p1 = origin - axis * halfLen;
+                Vector3 p2 = origin + axis * halfLen;
+
+                hitCount = Physics.OverlapCapsuleNonAlloc(p1, p2, config.radius, buffer, layerMask);
+                break;
+            }
+        }
+
+        if (enableDebug)
+        {
+            // Debug 繪製邏輯可依需求補充
+            Debug.Log($"[Overlap 掃描] 偵測到 {hitCount} 個目標。");
+        }
+
+        return hitCount;
+    }
+}
+
 public static class ShapeCastUtility
 {
     public static int PerformCast(

@@ -1,64 +1,80 @@
 using UnityEngine;
+using Gamemanager;
 
-[RequireComponent(typeof(DamageDealer))]
-public class EnemyTurretAttack : MonoBehaviour
+public class EnemyDelayedAoE : EnemyAttackBase
 {
-    [Header("範圍偵測設定")]
-    [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private float radius = 3f;
+    [Header("★ 攻擊資料配置")]
+    [SerializeField] private DelayedAoEDataSO attackData;
 
-    [Header("特效設定")]
-    [SerializeField] private GameObject hitEffectPrefab;
-
-    private DamageDealer _damageDealer;
     private readonly Collider[] _hitColliders = new Collider[16];
     private bool _hasExploded = false;
 
-    private void Awake()
+    public override void Initialize(BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
-        _damageDealer = GetComponent<DamageDealer>();
+        float finalMultiplier = (attackData != null) ? attackData.damageMultiplier * damageMultiplier : damageMultiplier;
+        bool finalIgnore = (attackData != null && attackData.ignoreInvincibility) || ignoreInvincibility;
+        base.Initialize(boss, finalMultiplier, finalIgnore);
     }
 
-    public void Initialize(BossStateMachine boss, float damageMultiplier = 1f)
-    {
-        if (boss != null)
-        {
-            var core = boss.GetComponent<EntityCore>();
-            if (core != null && core.RuntimeData != null)
-            {
-                _damageDealer.InjectSnapshot(
-                    core.RuntimeData.TotalAttackPower * damageMultiplier,
-                    core.RuntimeData.TotalCritRate,
-                    core.RuntimeData.TotalCritMultiplier,
-                    false
-                );
-            }
-        }
-    }
-
-    // 由 Animation Event 觸發
     public void Explode()
     {
         if (_hasExploded) return;
         _hasExploded = true;
 
-        if (hitEffectPrefab != null)
+        if (attackData == null) return;
+
+        if (attackData.hitEffectPrefab != null)
         {
-            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Instantiate(attackData.hitEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, radius, _hitColliders, targetLayer);
+        // ★ 呼叫靜態重疊工具，傳入自身的 transform.rotation 作為基準
+        int hitCount = ShapeOverlapUtility.PerformOverlap(
+            transform.position, 
+            transform.rotation, 
+            _hitColliders, 
+            attackData.damageShape, 
+            attackData.damageLayer
+        );
+
         for (int i = 0; i < hitCount; i++)
         {
-            _damageDealer.DealDamageTo(_hitColliders[i].gameObject);
+            damageDealer.DealDamageTo(_hitColliders[i].gameObject);
+        }
+
+        if (attackData.enableCameraShake && GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent { 
+                Intensity = attackData.shakeIntensity, 
+                Duration = attackData.shakeDuration 
+            });
         }
 
         Destroy(gameObject);
     }
-    
-    private void OnDrawGizmosSelected()
+
+    private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.4f); // 半透明紅色
-        Gizmos.DrawSphere(transform.position, radius);
+        if (attackData == null) return;
+        
+        Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.4f);
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation * Quaternion.Euler(attackData.damageShape.shapeRotationOffset), Vector3.one);
+
+        switch (attackData.damageShape.shapeType)
+        {
+            case BulletShapeType.Circle:
+                Gizmos.DrawSphere(Vector3.zero, attackData.damageShape.radius);
+                break;
+            case BulletShapeType.Box:
+                Gizmos.DrawCube(Vector3.zero, new Vector3(attackData.damageShape.boxSize.x, attackData.damageShape.boxSize.y, attackData.damageShape.zThickness));
+                break;
+            case BulletShapeType.Capsule:
+                // 簡化的膠囊體視覺化
+                float halfLen = Mathf.Max(0f, (attackData.damageShape.capsuleLength * 0.5f) - attackData.damageShape.radius);
+                Gizmos.DrawWireSphere(Vector3.up * halfLen, attackData.damageShape.radius);
+                Gizmos.DrawWireSphere(Vector3.down * halfLen, attackData.damageShape.radius);
+                Gizmos.DrawLine(Vector3.up * halfLen, Vector3.down * halfLen);
+                break;
+        }
     }
 }
