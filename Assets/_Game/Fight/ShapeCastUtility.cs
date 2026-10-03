@@ -17,6 +17,42 @@ public struct CollisionShapeConfig
     [Header("★ 幾何旋轉偏移")]
     [Tooltip("控制碰撞體在 XYZ 軸上的額外旋轉角度（相對於飛行方向）")]
     public Vector3 shapeRotationOffset;
+    
+    // ★ 新增：專屬的 Gizmo 繪製工具
+    public void DrawGizmo(Vector3 position, Quaternion baseRotation, Color color)
+    {
+        Gizmos.color = color;
+        
+        // 算出最終旋轉角度
+        Quaternion offsetRot = Quaternion.Euler(shapeRotationOffset);
+        Quaternion finalRot = baseRotation * offsetRot;
+        
+        // 改變全域矩陣，這樣畫出來的基礎形狀就會自動帶有位置與旋轉
+        Matrix4x4 oldMatrix = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(position, finalRot, Vector3.one);
+
+        switch (shapeType)
+        {
+            case BulletShapeType.Circle:
+                Gizmos.DrawWireSphere(Vector3.zero, radius);
+                break;
+                
+            case BulletShapeType.Box:
+                Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxSize.x, boxSize.y, zThickness > 0 ? zThickness : 0.5f));
+                break;
+                
+            case BulletShapeType.Capsule:
+                float halfLen = Mathf.Max(0f, (capsuleLength * 0.5f) - radius);
+                Gizmos.DrawWireSphere(Vector3.up * halfLen, radius);
+                Gizmos.DrawWireSphere(Vector3.down * halfLen, radius);
+                Gizmos.DrawLine(Vector3.up * halfLen + Vector3.right * radius, Vector3.down * halfLen + Vector3.right * radius);
+                Gizmos.DrawLine(Vector3.up * halfLen - Vector3.right * radius, Vector3.down * halfLen - Vector3.right * radius);
+                break;
+        }
+
+        // 畫完務必還原矩陣，以免影響場景中其他 Gizmo
+        Gizmos.matrix = oldMatrix;
+    }
 }
 
 public static class ShapeOverlapUtility

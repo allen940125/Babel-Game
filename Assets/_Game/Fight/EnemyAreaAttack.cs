@@ -55,26 +55,10 @@ public class EnemyDelayedAoE : EnemyAttackBase
 
     private void OnDrawGizmos()
     {
-        if (attackData == null) return;
-        
-        Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.4f);
-        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation * Quaternion.Euler(attackData.damageShape.shapeRotationOffset), Vector3.one);
-
-        switch (attackData.damageShape.shapeType)
+        // ★ 3. 呼叫自我展示功能，一行解決所有形狀的繪製
+        if (attackData != null)
         {
-            case BulletShapeType.Circle:
-                Gizmos.DrawSphere(Vector3.zero, attackData.damageShape.radius);
-                break;
-            case BulletShapeType.Box:
-                Gizmos.DrawCube(Vector3.zero, new Vector3(attackData.damageShape.boxSize.x, attackData.damageShape.boxSize.y, attackData.damageShape.zThickness));
-                break;
-            case BulletShapeType.Capsule:
-                // 簡化的膠囊體視覺化
-                float halfLen = Mathf.Max(0f, (attackData.damageShape.capsuleLength * 0.5f) - attackData.damageShape.radius);
-                Gizmos.DrawWireSphere(Vector3.up * halfLen, attackData.damageShape.radius);
-                Gizmos.DrawWireSphere(Vector3.down * halfLen, attackData.damageShape.radius);
-                Gizmos.DrawLine(Vector3.up * halfLen, Vector3.down * halfLen);
-                break;
+            attackData.damageShape.DrawGizmo(transform.position, transform.rotation, new Color(1f, 0.5f, 0f, 0.5f));
         }
     }
 }

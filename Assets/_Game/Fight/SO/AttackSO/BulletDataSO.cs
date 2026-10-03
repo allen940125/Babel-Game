@@ -19,9 +19,4 @@ public class BulletDataSO : AttackDataSO
     [Header("★ 反彈擾動 (Jitter)")]
     [Range(0f, 60f)] public float maxBounceAngleJitter = 0f;
     public bool jitterFirstBounceOnly = false;
-    
-    [Header("★ 撞牆震動回饋")]
-    public bool enableWallHitShake = true;
-    public float wallHitShakeIntensity = 0.15f;
-    public float wallHitShakeDuration = 0.1f;
 }

@@ -44,16 +44,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 3
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
-  bulletCount: 200
   baseSpeed: 5
-  spawnAreaSize: {x: 30.07, y: 1.17}
   spawnInterval: 0.05
+  patternDamageMultiplier: 1
+  patternType: 3
+  bulletCount: 500
+  spawnAreaSize: {x: 30.07, y: 1.17}
+  circleRadius: 0
+  circleStartAngle: 0
   spreadAngle: 0
+  sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &9036664765759256070
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 8456667680948330304}
     delayBefore: 0
-  destroyOnFinish: 1

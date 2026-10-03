@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletDataSO
   damageMultiplier: 1
   ignoreInvincibility: 0
+  useDamageTick: 0
+  damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -24,7 +26,10 @@ MonoBehaviour:
     capsuleLength: 0
     zThickness: 0
     shapeRotationOffset: {x: 0, y: 0, z: 0}
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 8955939593327333646, guid: ff667f27759274d4bad9568d664bba74, type: 3}
+  enableCameraShake: 1
+  shakeIntensity: 0.15
+  shakeDuration: 0.1
   bounceShape:
     shapeType: 1
     radius: 0
@@ -40,8 +45,3 @@ MonoBehaviour:
   maxPredictionDistance: 100
   maxBounceAngleJitter: 0
   jitterFirstBounceOnly: 0
-  useDamageTick: 0
-  damageTickInterval: 0.25
-  enableWallHitShake: 1
-  wallHitShakeIntensity: 0.15
-  wallHitShakeDuration: 0.1

@@ -109,7 +109,7 @@ Material:
     - _NoiseSpeed: 2
     - _NoiseStrength: 1.5
     - _OcclusionStrength: 1
-    - _OutlineWidth: 10
+    - _OutlineWidth: 5
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1

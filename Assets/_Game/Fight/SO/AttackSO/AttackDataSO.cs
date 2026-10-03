@@ -25,4 +25,9 @@ public abstract class AttackDataSO : ScriptableObject
 
     [Header("★ 通用特效")]
     public GameObject hitEffectPrefab;
+    
+    [Header("★ 撞牆震動回饋")]
+    public bool enableCameraShake = true;
+    public float shakeIntensity = 0.15f;
+    public float shakeDuration = 0.1f;
 }

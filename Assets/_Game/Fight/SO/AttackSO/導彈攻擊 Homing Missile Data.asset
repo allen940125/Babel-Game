@@ -9,24 +9,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7e758af3bbe074498933781794a9713, type: 3}
-  m_Name: "\u81EA\u8D70\u7832\u653B\u64CA Delayed AoE Data"
-  m_EditorClassIdentifier: Assembly-CSharp::DelayedAoEDataSO
+  m_Script: {fileID: 11500000, guid: f5af8084c0f9fea4c8993907ad55bf4b, type: 3}
+  m_Name: "\u5C0E\u5F48\u653B\u64CA Homing Missile Data"
+  m_EditorClassIdentifier: Assembly-CSharp::HomingMissileDataSO
   damageMultiplier: 1
   ignoreInvincibility: 0
   useDamageTick: 0
   damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 832
   damageShape:
-    shapeType: 0
-    radius: 2.4
+    shapeType: 2
+    radius: 0.14
     boxSize: {x: 0, y: 0}
-    capsuleLength: 0
+    capsuleLength: 1.45
     zThickness: 5
     shapeRotationOffset: {x: 0, y: 0, z: 0}
-  hitEffectPrefab: {fileID: 8955939593327333646, guid: 2ae136026fbcbc84a8980a6d8b606a83, type: 3}
+  hitEffectPrefab: {fileID: 8955939593327333646, guid: ec4e1949ec5a8e84eacb12963b718741, type: 3}
   enableCameraShake: 1
   shakeIntensity: 0.15
   shakeDuration: 0.1
+  speed: 10
+  homingStrength: 0
+  lifeTime: 5
+  homingDelay: 0.5
+  launchMode: 1
+  initialArcAngle: 0
+  randomArcDirection: 1
+  arcToRight: 1
+  bezierArcOffset: 5
+  randomBezierFlip: 0

@@ -44,18 +44,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 0
-  bulletPrefab: {fileID: 8034763294956535289, guid: 0f4cd240674338048ac6a1b235d3427f, type: 3}
-  bulletCount: 15
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
   baseSpeed: 5
-  spawnAreaSize: {x: 0, y: 0}
   spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 15
+  spawnAreaSize: {x: 0, y: 0}
   circleRadius: 3
   circleStartAngle: 0
   spreadAngle: 0
+  sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &1010896886694913702
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,18 +108,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 0
-  bulletPrefab: {fileID: 8034763294956535289, guid: ac313dc3ac7f2804990a6e20616b0549, type: 3}
-  bulletCount: 15
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
-  spawnAreaSize: {x: 0, y: 0}
   spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 15
+  spawnAreaSize: {x: 0, y: 0}
   circleRadius: 3
   circleStartAngle: 30
   spreadAngle: 0
+  sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &1439181124377897420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3633885198291850217}
+  - component: {fileID: 8857566178570485914}
+  m_Layer: 0
+  m_Name: GameObject (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3633885198291850217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439181124377897420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.54, y: -0.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8857566178570485914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439181124377897420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 15
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 30
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &5740307588683169567
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,18 +236,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  patternType: 0
-  bulletPrefab: {fileID: 8034763294956535289, guid: 0f4cd240674338048ac6a1b235d3427f, type: 3}
-  bulletCount: 15
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
-  spawnAreaSize: {x: 0, y: 0}
   spawnInterval: 0
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 15
+  spawnAreaSize: {x: 0, y: 0}
   circleRadius: 3
   circleStartAngle: 0
   spreadAngle: 0
+  sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &5990501390769564624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437990243184913414}
+  - component: {fileID: 8912758327127137783}
+  m_Layer: 0
+  m_Name: GameObject (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437990243184913414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990501390769564624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.12, y: -0.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8912758327127137783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990501390769564624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 15
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 30
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &9036664765759256070
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +353,8 @@ Transform:
   - {fileID: 6687242886216284363}
   - {fileID: 629926017486707592}
   - {fileID: 5813625864302174598}
+  - {fileID: 3633885198291850217}
+  - {fileID: 437990243184913414}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3794737390528050008
@@ -215,6 +369,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa573eb8602e1cc49a338a1c5d6af074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatternSequence
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 8456667680948330304}
     delayBefore: 0
@@ -222,4 +381,3 @@ MonoBehaviour:
     delayBefore: 1
   - pattern: {fileID: 5159400107697085388}
     delayBefore: 2
-  destroyOnFinish: 1
