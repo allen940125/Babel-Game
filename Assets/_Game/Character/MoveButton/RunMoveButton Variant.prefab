@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 236.59999
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 236.59999
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalScale.z
-      value: 236.59999
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -67,6 +67,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
       propertyPath: m_Name
       value: UI_3D_Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

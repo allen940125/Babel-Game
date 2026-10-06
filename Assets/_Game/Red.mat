@@ -101,10 +101,10 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _MaxBound: 0.16926122
+    - _MaxBound: 0.009744434
     - _MaxX: -0.5
     - _Metallic: 0
-    - _MinBound: -0.16926122
+    - _MinBound: -0.009744434
     - _MinX: 0.51
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -124,7 +124,7 @@ Material:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FillColor: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
-    - _FillDirection: {r: -1, g: 0, b: 0, a: 0}
+    - _FillDirection: {r: 0, g: 0, b: -1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
