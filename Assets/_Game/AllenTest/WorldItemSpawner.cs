@@ -28,12 +28,24 @@ public class WorldItemSpawner : MonoBehaviour
         // 1. 透過 ResourceManager 非同步載入 GameObject (3D Prefab)
         GameObject loadedPrefab = await ResourceManager.LoadAssetAsync<GameObject>(addressableKey);
 
-        // 2. 確保載入成功且場景/管理器未被銷毀
         if (loadedPrefab != null && this != null)
         {
-            // 3. 在事件指定的 3D 座標實例化物件
-            Instantiate(loadedPrefab, cmd.DropPosition, Quaternion.identity);
-            GameManager.Instance.MainGameEvent.Send(new ItemAddedToBagEvent() { ItemID = cmd.ItemData.BaseTemplete.Id, Quantity = -1 }); 
+            // 實例化
+            GameObject spawnedItem = Instantiate(loadedPrefab, cmd.DropPosition, Quaternion.identity);
+            
+            // ★ 核心：尋找 Trigger 並注入動態資料
+            if (spawnedItem.TryGetComponent<ItemPickupTrigger>(out var trigger))
+            {
+                // 把拖曳丟棄時的數量與ID原封不動交給 3D 物件
+                trigger.InitializeData(cmd.ItemData);
+            }
+            else
+            {
+                Debug.LogWarning($"[警告] 生成的物品 {loadedPrefab.name} 缺少 ItemPickupTrigger 元件！");
+            }
+
+            // 扣除背包內的物品
+            GameManager.Instance.MainGameEvent.Send(new ItemAddedToBagEvent() { ItemID = cmd.ItemData.BaseTemplete.Id, Quantity = -cmd.ItemData.quantity }); 
         }
         else
         {

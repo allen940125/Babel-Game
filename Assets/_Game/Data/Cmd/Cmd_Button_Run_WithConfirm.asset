@@ -14,13 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConfirmWrapperCommandSO
   commandName: Cmd_Button_Run_With Confirm
   description: "\u9003\u8DD1\u6309\u9215"
-  action:
-    rid: -2
+  actions: []
   confirmTitle: "\u7CFB\u7D71\u78BA\u8A8D"
   confirmMessage: "\u78BA\u5B9A\u8981\u9003\u8DD1\u55CE\uFF1F"
   targetCommand: {fileID: 11400000, guid: 2b6e763f694d8c0439d0eb9b18b61fb3, type: 2}
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []

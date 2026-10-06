@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
   commandName: Cmd_Heal
   description: "\u56DE\u8840"
-  action:
-    rid: 1686755571317866577
+  actions:
+  - rid: 1507063330796208273
   references:
     version: 2
     RefIds:
-    - rid: 1686755571317866577
-      type: {class: PlayerHealAction, ns: , asm: Assembly-CSharp}
+    - rid: 1507063330796208273
+      type: {class: HealAction, ns: , asm: Assembly-CSharp}
       data:
-        playerSO: {fileID: 11400000, guid: c6b0e48d0f5febb40a0bf57b89457096, type: 2}
+        targetType: 0
         healAmount: 30

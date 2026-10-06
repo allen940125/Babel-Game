@@ -302,12 +302,12 @@
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.ActionMarker">
             <summary>
-            Contains information about an action tag in text.
+            Contains information about an actions tag in text.
             </summary>
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.ActionStatus">
             <summary>
-            Status of an action's execution
+            Status of an actions's execution
             </summary>
         </member>
         <member name="F:Febucci.TextAnimatorCore.Typing.ActionStatus.Running">
@@ -322,13 +322,13 @@
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.IActionState">
             <summary>
-            Runtime state for a typewriter action instance.
-            Each action creates its own independent state when triggered.
+            Runtime state for a typewriter actions instance.
+            Each actions creates its own independent state when triggered.
             </summary>
         </member>
         <member name="M:Febucci.TextAnimatorCore.Typing.IActionState.Progress(System.Single,Febucci.TextAnimatorCore.Typing.TypingInfo@)">
             <summary>
-            Updates the action state each frame.
+            Updates the actions state each frame.
             </summary>
             <param name="deltaTime">Time elapsed since last frame</param>
             <param name="typingInfo">Current typing state (can be modified to change speed, etc.)</param>
@@ -343,27 +343,27 @@
         </member>
         <member name="M:Febucci.TextAnimatorCore.Typing.ITypewriterAction.CreateActionFrom(Febucci.TextAnimatorCore.Typing.ActionMarker,System.Object)">
             <summary>
-            Creates a new action state instance from parsed tag data.
-            Called when typewriter encounters this action's tag in text.
+            Creates a new actions state instance from parsed tag data.
+            Called when typewriter encounters this actions's tag in text.
             </summary>
-            <param name="marker">Parsed action marker with parameters</param>
+            <param name="marker">Parsed actions marker with parameters</param>
             <param name="typewriter">Reference to typewriter component</param>
-            <returns>New independent state for this action instance</returns>
+            <returns>New independent state for this actions instance</returns>
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.BuiltIn.SpeedActionState">
             <summary>
-            State for speed action - applies speed change immediately and finishes
+            State for speed actions - applies speed change immediately and finishes
             </summary>
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.BuiltIn.WaitForAction">
             <summary>
-            Typewriter action that pauses typing for a specified duration.
+            Typewriter actions that pauses typing for a specified duration.
             Usage: &lt;waitfor=1.5&gt; (pauses for 1.5 seconds)
             </summary>
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.BuiltIn.WaitForActionState">
             <summary>
-            State for wait action - counts down time before finishing
+            State for wait actions - counts down time before finishing
             </summary>
         </member>
         <member name="T:Febucci.TextAnimatorCore.Typing.DisappearanceOrientation">
@@ -432,7 +432,7 @@
         </member>
         <member name="P:Febucci.TextAnimatorCore.Typing.TypewriterCore.Actions">
             <summary>
-            Array of action markers parsed from the text
+            Array of actions markers parsed from the text
             </summary>
         </member>
         <member name="P:Febucci.TextAnimatorCore.Typing.TypewriterCore.Events">
@@ -567,7 +567,7 @@
         <member name="M:Febucci.TextAnimatorCore.Typing.TypewriterCore.GetApproximateShowDuration">
             <summary>
             Calculates the approximate total duration for the typewriter to show all characters,
-            by summing up the wait time for each character. Does not account for action tags,
+            by summing up the wait time for each character. Does not account for actions tags,
             callbacks, or effect durations.
             </summary>
             <returns>Approximate duration in seconds, or 0 if the animator or timings provider is not set.</returns>

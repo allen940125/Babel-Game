@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
   commandName: Cmd_Button_Fight
   description: "\u6230\u9B25\u958B\u59CB"
-  action:
-    rid: 1828852355924230144
+  actions:
+  - rid: 1507063330796208241
   references:
     version: 2
     RefIds:
-    - rid: 1828852355924230144
+    - rid: 1507063330796208241
       type: {class: FightAction, ns: , asm: Assembly-CSharp}
       data: 

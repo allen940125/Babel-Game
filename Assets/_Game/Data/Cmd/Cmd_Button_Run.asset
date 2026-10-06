@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
   commandName: Cmd_Button_Run
   description: "\u9003\u8DD1\u6309\u9215"
-  action:
-    rid: 1686755681458978911
+  actions:
+  - rid: 1507063330796208243
   references:
     version: 2
     RefIds:
-    - rid: 1686755681458978911
+    - rid: 1507063330796208243
       type: {class: SwitchSceneAction, ns: , asm: Assembly-CSharp}
       data:
         LoadSceneType: 4

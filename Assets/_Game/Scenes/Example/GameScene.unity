@@ -529,7 +529,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.297117, y: -0.74437994, z: 0}
-  m_LocalScale: {x: 1.9731406, y: 1.9922974, z: 1}
+  m_LocalScale: {x: 1.9736958, y: 1.9922974, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -925,13 +925,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1363832655}
     m_Modifications:
+    - target: {fileID: 63669400946471152, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: targetRenderer
+      value: 
+      objectReference: {fileID: 1019338891}
     - target: {fileID: 1913403208673973236, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
       propertyPath: m_Name
       value: FightMoveButton Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725493452981246669, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3208192742516770528, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -973,6 +973,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3487917980090118685, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: targetRenderer
+      value: 
+      objectReference: {fileID: 1019338891}
+    - target: {fileID: 4526708797023337240, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2d57dec0bac067e4c975bba927481f90, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -991,12 +999,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1363832655}
     m_Modifications:
+    - target: {fileID: 213224090989395269, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: targetRenderer
+      value: 
+      objectReference: {fileID: 1046643004}
     - target: {fileID: 474254236526940092, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: m_Name
       value: HealthMoveButton Variant
       objectReference: {fileID: 0}
     - target: {fileID: 474254236526940092, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3238944301535713118, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: maxUsesPerPhase
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3502938418701245096, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
@@ -1039,6 +1055,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7235087614837855301, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8008492463000735487, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1046,7 +1066,7 @@ PrefabInstance:
     - target: {fileID: 8368564448170012458, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 4230dd7fc482ee749a277136f073ca7b, type: 2}
+      objectReference: {fileID: 2100000, guid: 3eb4203d40406bc4687e15833e8c92fd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3115,6 +3135,16 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!23 &1019338891 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4526708797023337240, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+  m_PrefabInstance: {fileID: 455744735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1046643004 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8368564448170012458, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+  m_PrefabInstance: {fileID: 458833755}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1048733361
 GameObject:
   m_ObjectHideFlags: 0
@@ -3857,7 +3887,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2046034635}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1376877183433635412, guid: 89cef4625244a8840acf009336947188, type: 3}
       propertyPath: m_Name
@@ -3908,11 +3938,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89cef4625244a8840acf009336947188, type: 3}
---- !u!4 &1227425554 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6609801465727653305, guid: 89cef4625244a8840acf009336947188, type: 3}
-  m_PrefabInstance: {fileID: 1227425553}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1282729202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5177,7 +5202,7 @@ MonoBehaviour:
   dialogueUI: {fileID: 2110070343}
   enableOpeningDialogue: 0
   openingDialogueNode: Boss_Opening
-  debugBossBlueprint: {fileID: 11400000, guid: 34c7c94623f0100438b24abb069c0544, type: 2}
+  debugBossBlueprint: {fileID: 11400000, guid: 1215c0d69b9ebef45849462743aaacfc, type: 2}
 --- !u!4 &2046034635
 Transform:
   m_ObjectHideFlags: 0
@@ -5192,7 +5217,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1796668556}
-  - {fileID: 1227425554}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2047892566
@@ -7120,6 +7144,7 @@ SceneRoots:
   - {fileID: 2139161505}
   - {fileID: 1999466289}
   - {fileID: 178839403}
+  - {fileID: 1227425553}
   - {fileID: 2046034635}
   - {fileID: 8383757056226210755}
   - {fileID: 2110070344}

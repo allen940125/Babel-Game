@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1893056046116329284}
   - component: {fileID: 7240747059642087907}
+  - component: {fileID: 3298309170447797835}
   m_Layer: 0
   m_Name: HealthPotion
   m_TagString: Untagged
@@ -150,8 +151,26 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 56
   m_CollisionDetection: 0
+--- !u!114 &3298309170447797835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170700057143689205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a085ba8463a53d54c985dc94a42fc05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPickupTrigger
+  triggerTags:
+  - Player
+  - Boss
+  onPickupCommands:
+  - {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
+  destroyOnPickup: 1
 --- !u!1 &7399298353494150472
 GameObject:
   m_ObjectHideFlags: 0
