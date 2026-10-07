@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6196734717975689082}
   - component: {fileID: -8378937649387646616}
   - component: {fileID: 4301353496657876714}
+  - component: {fileID: 3546988130372605840}
   m_Layer: 5
   m_Name: DialogueWindowNew
   m_TagString: Untagged
@@ -36,6 +37,7 @@ RectTransform:
   - {fileID: 4074245413999578093}
   - {fileID: 8165488155129191148}
   - {fileID: 3987949258375950270}
+  - {fileID: 3378195149099779589}
   - {fileID: 6076884498433479898}
   - {fileID: 981899003820107209}
   - {fileID: 6084785497699419940}
@@ -94,6 +96,7 @@ MonoBehaviour:
   portraitFadeOutDuration: 0.25
   portraitFadeInDuration: 0.25
   readingPauseSeconds: 1.5
+  stage: {fileID: 3546988130372605840}
 --- !u!223 &6196734717975689082
 Canvas:
   m_ObjectHideFlags: 0
@@ -158,6 +161,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4087
+--- !u!114 &3546988130372605840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82603982566520135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dc4bdd348362bd4184ed6993e079dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueStageEffects
+  blackCover: {fileID: 1286333392442732343}
+  blackFadeSeconds: 0.4
+  relicEntries:
+  - key: relic1
+    sprite: {fileID: 6937817954938267909, guid: fe1497886a0e2c04d8209bd901ca06c8, type: 3}
+  - key: bullet
+    sprite: {fileID: 8671100410815094494, guid: c2ad5ca5c4720734cbd2adc215dfcae5, type: 3}
+  revealAfterRelic: 1
+  relicAutoHideSeconds: -1
 --- !u!1 &159518459027316801
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,6 +968,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3215429779312750352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3378195149099779589}
+  - component: {fileID: 2614213780624406690}
+  - component: {fileID: 1286333392442732343}
+  m_Layer: 5
+  m_Name: BlackCover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3378195149099779589
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215429779312750352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1861842789102718524}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2614213780624406690
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215429779312750352}
+  m_CullTransparentMesh: 1
+--- !u!114 &1286333392442732343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215429779312750352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8235294}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

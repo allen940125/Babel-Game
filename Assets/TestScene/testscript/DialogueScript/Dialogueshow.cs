@@ -41,6 +41,12 @@ public class Dialogueshow : BasePanel
 
     [Header("節奏設定")]
     [SerializeField] private float readingPauseSeconds = 1.5f;
+    [Tooltip("最後一句打完字後，玩家按一下（F / 左鍵）就關閉；或停這麼多秒後自動關閉，先到的先算。0 = 只能按鍵才關閉。")]
+    [SerializeField] private float lastLinePauseSeconds = 3f;
+
+    [Header("舞台效果")]
+    [SerializeField] private DialogueStageEffects stage;
+    private string pendingRelicKey;
 
     private bool waitingForChoice;
     private bool synopsisPopupOpen;
@@ -83,18 +89,21 @@ public class Dialogueshow : BasePanel
     private void Update()
     {
         if (!Dialoguecontroller.Instance.DialogueIsPlaying) return;
+        if (stage != null && stage.IsBusy) return; // 道具展示中，不處理跳過打字
         if (waitingForChoice || synopsisPopupOpen) return;
         if (Keyboard.current == null && Mouse.current == null) return;
 
-        bool advance = (Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame)
-                    || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
-
-        if (!advance) return;
+        if (!ClickedThisFrame()) return;
 
         if (typewriter.IsShowingText)//爭測跳過
             typewriter.SkipTypewriter();
         // 不再需要手動呼叫 ContinueStory()，交給 OnTypewriterFinished -> WaitThenAdvance 自動接手
+    }
 
+    private static bool ClickedThisFrame()
+    {
+        return (Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame)
+            || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
     }
 
     private void ContinueStory()
@@ -143,20 +152,77 @@ public class Dialogueshow : BasePanel
             pendingPortraitToBrighten = null;
         }
 
+        // 道具展示要先開始（IsBusy 變 true），後面的等待才會知道要等它
+        if (!string.IsNullOrEmpty(pendingRelicKey) && stage != null)
+        {
+            string key = pendingRelicKey;
+            pendingRelicKey = null;
+            stage.ShowRelic(key).Forget();
+        }
+
         if (!story.canContinue)
-            FinishAdvancingToChoicesOrEnd();
+        {
+            if (story.currentChoices.Count > 0)
+                FinishAdvancingToChoicesOrEnd();   // 有選項就直接顯示，不用等
+            else
+                EndAfterLastLine(story).Forget();  // 最後一句：等玩家按一下或停幾秒再關閉
+        }
         else
+        {
             WaitThenAdvance().Forget();
+        }
     }
 
     private async UniTaskVoid WaitThenAdvance()
     {
         await UniTask.Delay(System.TimeSpan.FromSeconds(readingPauseSeconds));
 
-        // 等待期間玩家如果點了跳過/叫出大綱，就不要在背景自動推進
-        if (waitingForChoice || synopsisPopupOpen) return;
+        // 玩家叫出大綱、或道具展示中：先等它們結束，再繼續（取消跳過後不會卡住）
+        while (synopsisPopupOpen || (stage != null && stage.IsBusy))
+            await UniTask.Yield();
+
+        if (waitingForChoice) return;
 
         ContinueStory();
+    }
+
+    /// <summary>最後一句打完字後：等玩家按一下（F / 左鍵）或停 lastLinePauseSeconds 秒，再關閉對話。</summary>
+    private async UniTaskVoid EndAfterLastLine(Story story)
+    {
+        // 道具展示中先等它結束
+        while (stage != null && stage.IsBusy)
+            await UniTask.Yield();
+
+        // 先等一幀，避免「跳過打字」的那一下點擊直接被當成關閉
+        await UniTask.Yield();
+
+        float waited = 0f;
+        while (IsStillPlaying(story))
+        {
+            if (synopsisPopupOpen)
+            {
+                // 大綱視窗開著時暫停計時，也不接受按鍵
+                await UniTask.Yield();
+                continue;
+            }
+
+            waited += Time.deltaTime;
+            if (lastLinePauseSeconds > 0f && waited >= lastLinePauseSeconds) break;
+            if (ClickedThisFrame()) break;
+
+            await UniTask.Yield();
+        }
+
+        // 等待期間對話可能已經被結束（跳過、ESC 等），就不要再重複結束
+        if (!IsStillPlaying(story)) return;
+
+        FinishAdvancingToChoicesOrEnd();
+    }
+
+    private static bool IsStillPlaying(Story story)
+    {
+        var dc = Dialoguecontroller.Instance;
+        return dc != null && dc.DialogueIsPlaying && dc.CurrentStory == story;
     }
 
     private void FinishAdvancingToChoicesOrEnd()
@@ -237,6 +303,14 @@ public class Dialogueshow : BasePanel
                     .Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length >= 2)
                     SetPortrait(parts[0], parts[1]);
+            }
+            else if (tag.StartsWith("bg:"))
+            {
+                stage?.SetBlack(tag.Substring("bg:".Length).Trim() == "black");
+            }
+            else if (tag.StartsWith("relic:"))
+            {
+                pendingRelicKey = tag.Substring("relic:".Length).Trim();
             }
         }
         //檢查INK的內容，是在說話還是立繪

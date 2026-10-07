@@ -95,7 +95,7 @@ public class PlayerExplorationController : MonoBehaviour
     {
         var kb = Keyboard.current;
 
-        bool dialoguePlaying = IsDialoguePlaying();
+        bool dialoguePlaying = IsDialoguePlaying() || ShowcaseOverlay.IsShowing; // 大立繪展示中也視為鎖定（不能移動 / 調查 / 開選單）
         bool dialogueJustEnded = wasDialoguePlaying && !dialoguePlaying;
         wasDialoguePlaying = dialoguePlaying;
 

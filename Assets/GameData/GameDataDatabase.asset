@@ -186,3 +186,15 @@ MonoBehaviour:
   - <Id>k__BackingField: 1004
     <Name>k__BackingField: guideDialogue
     <PrefabPath>k__BackingField: INK/GuideDialogue
+  - <Id>k__BackingField: 2001
+    <Name>k__BackingField: ExploreIntro
+    <PrefabPath>k__BackingField: INK/ExploreIntro
+  - <Id>k__BackingField: 2002
+    <Name>k__BackingField: Tracks
+    <PrefabPath>k__BackingField: INK/Tracks
+  - <Id>k__BackingField: 2003
+    <Name>k__BackingField: Fisherman
+    <PrefabPath>k__BackingField: INK/Fisherman
+  - <Id>k__BackingField: 2004
+    <Name>k__BackingField: Sky
+    <PrefabPath>k__BackingField: INK/Sky
