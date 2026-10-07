@@ -1077,7 +1077,7 @@ MonoBehaviour:
     timeLimitSeconds: 0
   playOnStart: 1
   startDelay: 0.5
-  nextSceneName: 
+  nextSceneName: OpeningScene
   onCompleted:
     m_PersistentCalls:
       m_Calls: []

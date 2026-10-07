@@ -521,7 +521,7 @@ MonoBehaviour:
     qteTimeLimit: 1.5
     walkDistance: 10
     walkSeconds: 0
-  nextSceneName: IntroScene
+  nextSceneName: minigame
 --- !u!4 &312040096
 Transform:
   m_ObjectHideFlags: 0
