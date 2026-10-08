@@ -1,4 +1,5 @@
-﻿# speaker: ？
+﻿# bg: black
+# speaker: ？
 # portrait: center unknow
 這是我們在你被停職後第一次見面。
 // 文本跑時同步播放翻文件音效
@@ -44,6 +45,7 @@
 // 拿東西的窸窣音效
 # speaker: ？
 # portrait: center unknow
+# relic: relic1
 總之，給，<b>神祗遺物</b>。同樣是那座島上流出的東西。
 # portrait: center player
 // 玩家被拿出來、此時開始出現視覺畫面
