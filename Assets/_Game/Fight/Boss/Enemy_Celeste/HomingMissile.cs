@@ -1,164 +1,179 @@
-// using UnityEngine;
-//
-// [RequireComponent(typeof(Rigidbody2D))]
-// public class HomingMissile : EnemyProjectileBase
-// {
-//     [Header("導彈運動參數")]
-//     public float speed = 8f;
-//     public float homingStrength = 100f;
-//     public float lifeTime = 5f;
-//
-//     [Header("初始弧形軌跡")]
-//     public float initialArcAngle = 45f;
-//     public bool randomArcDirection = true;
-//     public bool arcToRight = true;
-//
-//     [Header("穿透與爆炸")]
-//     public bool canPenetrateWalls = false;
-//     public float explosionRadius = 1.5f;
-//     public GameObject explosionEffectPrefab;
-//     
-//     public LayerMask targetLayer; // 爆炸要偵測的目標 (Player)
-//     public LayerMask wallLayer;   // 牆壁圖層
-//
-//     [Header("導引優化")]
-//     public float homingDelay = 0.5f;
-//
-//     private float _timer = 0f;
-//     private Rigidbody2D _rb;
-//     private Transform _target;
-//     private bool _hasExploded = false;
-//     
-//     private BossStateMachine _ownerBoss;
-//     
-//     private void Awake()
-//     {
-//         _rb = GetComponent<Rigidbody2D>();
-//         
-//         // ★ 第一道防線：在剛體層面直接鎖死 Z 軸移動與 X/Y 軸翻滾！
-//         //_rb.constraints = RigidbodyConstraints2D.FreezePositionZ | RigidbodyConstraints2D.FreezeRotation;
-//         
-//         // 強制歸零 Z 軸座標
-//         //transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-//     }
-//
-//     public override void Initialize(Vector3 startDirection, float incomingSpeed, BossStateMachine _ownerBoss)
-//     {
-//         this.speed = incomingSpeed;
-//         
-//         // 效能優化：改用 FindWithTag，比 FindGameObjectWithTag 更快
-//         GameObject playerObj = GameObject.FindWithTag("Player");
-//         if (playerObj != null) _target = playerObj.transform;
-//
-//         float angleOffset = initialArcAngle;
-//         if (randomArcDirection) angleOffset *= (Random.value > 0.5f) ? 1f : -1f;
-//         else angleOffset *= arcToRight ? -1f : 1f; 
-//
-//         // ★ 確保初始發射方向是一個純 2D 向量
-//         Vector2 initialVelocityDir = RotateVector(startDirection.normalized, angleOffset);
-//         
-//         if (_rb == null) _rb = GetComponent<Rigidbody2D>();
-//         _rb.linearVelocity = initialVelocityDir * speed;
-//         
-//         Destroy(gameObject, lifeTime);
-//     }
-//
-//     private void FixedUpdate()
-//     {
-//         if (_hasExploded) return;
-//
-//         _timer += Time.fixedDeltaTime;
-//
-//         // ★ 第二道防線：每一幀強力將 Z 軸歸零，防止任何碰撞造成的漂移
-//         if (transform.position.z != 0f)
-//         {
-//             transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-//         }
-//
-//         if (_timer < homingDelay || _target == null)
-//         {
-//             UpdateRotationFromVelocity();
-//             return;
-//         }
-//
-//         // --- 核心導引邏輯 ---
-//         // ★ 第三道防線：計算目標方向時，強力把目標和自己的 Z 軸當作 0 來算！
-//         Vector2 targetPos2D = new Vector2(_target.position.x, _target.position.y);
-//         Vector2 myPos2D = new Vector2(transform.position.x, transform.position.y);
-//         
-//         Vector2 directionToTarget = (targetPos2D - myPos2D).normalized;
-//         Vector2 currentDirection = _rb.linearVelocity.normalized;
-//         
-//         Vector3 newDirection = Vector3.RotateTowards(currentDirection, directionToTarget, homingStrength * Mathf.Deg2Rad * Time.fixedDeltaTime, 0.0f);
-//         
-//         // 確保設定速度時只有 XY 分量
-//         _rb.linearVelocity = new Vector2(newDirection.x, newDirection.y).normalized * speed;
-//
-//         UpdateRotationFromVelocity();
-//     }
-//
-//     private void UpdateRotationFromVelocity()
-//     {
-//         if (_rb.linearVelocity != Vector2.zero)
-//         {
-//             float angle = Mathf.Atan2(_rb.linearVelocity.y, _rb.linearVelocity.x) * Mathf.Rad2Deg;
-//             // 旋轉時也絕對只轉 Z 軸 (Euler Z)
-//             transform.rotation = Quaternion.Euler(0, 0, angle - 90f); 
-//         }
-//     }
-//
-//     private void OnTriggerEnter2D(Collider2D other)
-//     {
-//         if (_hasExploded) return;
-//
-//         // 1. 撞牆判定
-//         if (((1 << other.gameObject.layer) & wallLayer) != 0)
-//         {
-//             if (canPenetrateWalls) return; 
-//             else Explode(); 
-//         }
-//         
-//         // 2. 撞人判定
-//         if (other.CompareTag("Player"))
-//         {
-//             Explode();
-//         }
-//     }
-//
-//     private void Explode()
-//     {
-//         if (_hasExploded) return;
-//         _hasExploded = true;
-//
-//         if (explosionEffectPrefab != null)
-//         {
-//             // 特效也強制生成在 Z = 0 的平面上
-//             Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, 0f);
-//             Instantiate(explosionEffectPrefab, spawnPos, Quaternion.identity);
-//         }
-//
-//         // 使用 Physics2D 抓取範圍內的目標
-//         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
-//         foreach (var hit in hits)
-//         {
-//             // ★ 修正合約：將 Collider2D 轉為 GameObject 傳入！
-//             //TryDealDamage(hit.gameObject); 
-//         }
-//
-//         Destroy(gameObject);
-//     }
-//
-//     private Vector2 RotateVector(Vector2 v, float degrees)
-//     {
-//         float radians = degrees * Mathf.Deg2Rad;
-//         float sin = Mathf.Sin(radians);
-//         float cos = Mathf.Cos(radians);
-//         return new Vector2(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
-//     }
-//
-//     private void OnDrawGizmosSelected()
-//     {
-//         Gizmos.color = Color.red;
-//         Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0f), explosionRadius);
-//     }
-// }
+using Gamemanager;
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
+public class EnemyHomingMissile : EnemyAttackBase, IProjectile
+{
+    [Header("★ 導彈資料配置")]
+    [SerializeField] private HomingMissileDataSO missileData;
+
+    private Rigidbody _rb;
+    private Transform _target;
+    private float _timer = 0f;
+    private bool _hasExploded = false;
+    private Vector3 _currentVelocity;
+    private Vector3 _lastPosition;
+    
+    // 貝茲曲線專用控制點
+    private Vector3 _p0, _p1, _p2;
+    private float _bezierT = 0f;     // 獨立的貝茲進度
+    private float _curveLength = 1f; // 曲線總長度
+    
+    private readonly RaycastHit[] _hitBuffer = new RaycastHit[4];
+
+    public override void Initialize(BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
+    {
+        float finalMultiplier = (missileData != null) ? missileData.damageMultiplier * damageMultiplier : damageMultiplier;
+        bool finalIgnore = (missileData != null && missileData.ignoreInvincibility) || ignoreInvincibility;
+        base.Initialize(boss, finalMultiplier, finalIgnore);
+
+        _rb = GetComponent<Rigidbody>();
+        _rb.isKinematic = true; 
+        _rb.useGravity = false;
+        _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null) _target = playerObj.transform;
+    }
+
+    public void SetTrajectory(Vector3 direction, float speed)
+    {
+        if (missileData == null) return;
+        
+        _lastPosition = transform.position;
+
+        if (missileData.launchMode == HomingMissileDataSO.LaunchMode.AngleSpread)
+        {
+            // --- 模式 A：角度散射 ---
+            float angleOffset = missileData.initialArcAngle;
+            if (missileData.randomArcDirection) angleOffset *= (Random.value > 0.5f) ? 1f : -1f;
+            else angleOffset *= missileData.arcToRight ? -1f : 1f; 
+
+            Vector3 rotatedDir = Quaternion.Euler(0, 0, angleOffset) * direction;
+            _currentVelocity = rotatedDir.normalized * missileData.speed;
+        }
+        else
+        {
+            // --- 模式 B：貝茲曲線 ---
+            _p0 = transform.position;
+            _p2 = (_target != null) ? new Vector3(_target.position.x, _target.position.y, 0f) : _p0 + direction.normalized * 10f;
+            
+            Vector3 midPoint = (_p0 + _p2) / 2f;
+            Vector3 dirToTarget = (_p2 - _p0).normalized;
+            Vector3 perpendicular = new Vector3(-dirToTarget.y, dirToTarget.x, 0f);
+
+            float actualOffset = missileData.bezierArcOffset;
+            if (missileData.randomBezierFlip && Random.value > 0.5f) actualOffset = -actualOffset;
+            
+            _p1 = midPoint + perpendicular * actualOffset;
+
+            // ★ 新增：估算二次貝茲曲線的總長度 (弦長與控制網的平均值，效能極佳的逼近法)
+            float chord = Vector3.Distance(_p0, _p2);
+            float contNet = Vector3.Distance(_p0, _p1) + Vector3.Distance(_p1, _p2);
+            _curveLength = (chord + contNet) / 2f;
+            _bezierT = 0f; // 歸零進度
+        }
+        
+        Destroy(gameObject, missileData.lifeTime);
+    }
+
+    private void FixedUpdate()
+    {
+        if (_hasExploded || missileData == null) return;
+
+        _timer += Time.fixedDeltaTime;
+
+        // ==========================================
+        // 1. 移動向量計算 (分為 第一階段外拋 / 第二階段追蹤)
+        // ==========================================
+        if (_timer < missileData.homingDelay && missileData.launchMode == HomingMissileDataSO.LaunchMode.BezierArc)
+        {
+            // --- 第一階段：貝茲曲線 (等速飛行版) ---
+            // ★ 利用設定的速度去推進 t 值，徹底擺脫 homingDelay 對速度的綁架
+            _bezierT += (missileData.speed * Time.fixedDeltaTime) / _curveLength;
+            
+            // 確保 t 不會超過 1
+            float t = Mathf.Clamp01(_bezierT);
+            float u = 1f - t;
+            Vector3 nextPos = (u * u * _p0) + (2f * u * t * _p1) + (t * t * _p2);
+            
+            Vector3 moveDelta = nextPos - _lastPosition;
+            if (Time.fixedDeltaTime > 0) _currentVelocity = moveDelta / Time.fixedDeltaTime;
+        }
+        else
+        {
+            // --- 第二階段：進入正常飛行與動態追蹤 ---
+            if (_target != null)
+            {
+                Vector3 targetPos = new Vector3(_target.position.x, _target.position.y, 0f);
+                Vector3 myPos = new Vector3(transform.position.x, transform.position.y, 0f);
+                Vector3 directionToTarget = (targetPos - myPos).normalized;
+                
+                Vector3 newDirection = Vector3.RotateTowards(_currentVelocity.normalized, directionToTarget, missileData.homingStrength * Mathf.Deg2Rad * Time.fixedDeltaTime, 0.0f);
+                newDirection.z = 0f;
+                _currentVelocity = newDirection.normalized * missileData.speed;
+            }
+        }
+
+        // ==========================================
+        // 2. 實體撞擊掃描 (沿用基類的 damageShape，不碰觸爆炸邏輯)
+        // ==========================================
+        float distanceThisFrame = _currentVelocity.magnitude * Time.fixedDeltaTime;
+        Vector3 moveDir = _currentVelocity.normalized;
+        
+        int hitCount = ShapeCastUtility.PerformCast(
+            transform.position, moveDir, distanceThisFrame, 
+            _hitBuffer, missileData.damageShape, missileData.damageLayer
+        );
+
+        if (hitCount > 0)
+        {
+            TriggerPayload();
+            return; 
+        }
+
+        // ==========================================
+        // 3. 實際位移與旋轉
+        // ==========================================
+        transform.position += _currentVelocity * Time.fixedDeltaTime;
+        _lastPosition = transform.position;
+
+        if (_currentVelocity.sqrMagnitude > 0.001f)
+        {
+            float angle = Mathf.Atan2(_currentVelocity.y, _currentVelocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        }
+    }
+
+    private void TriggerPayload()
+    {
+        if (_hasExploded) return;
+        _hasExploded = true;
+
+        if (missileData.hitEffectPrefab != null)
+        {
+            GameObject payload = Instantiate(missileData.hitEffectPrefab, transform.position, Quaternion.identity);
+            if (payload.TryGetComponent<EnemyAttackBase>(out var payloadAttack))
+            {
+                payloadAttack.Initialize(ownerBoss, missileData.damageMultiplier, missileData.ignoreInvincibility);
+            }
+        }
+        // 觸發相機震動
+        if (missileData != null && missileData.enableCameraShake && GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent { Intensity = missileData.shakeIntensity, Duration = missileData.shakeDuration });
+        }
+        Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (missileData != null && !Application.isPlaying)
+        {
+            Vector3 dir = transform.up;
+            if (dir.sqrMagnitude < 0.0001f) dir = Vector3.up;
+            // 畫出導彈彈體大小 (不是爆炸大小)
+            missileData.damageShape.DrawGizmo(transform.position, Quaternion.LookRotation(Vector3.forward, dir), Color.yellow);
+        }
+    }
+}

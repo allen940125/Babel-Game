@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1e8377a3c5915409176283216c9e36, type: 3}
+  m_Name: "\u5B50\u5F48\u653B\u64CA Bullet Data"
+  m_EditorClassIdentifier: Assembly-CSharp::BulletDataSO
+  damageMultiplier: 1
+  ignoreInvincibility: 0
+  useDamageTick: 0
+  damageTickInterval: 0.25
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageShape:
+    shapeType: 1
+    radius: 0
+    boxSize: {x: 0.22, y: 0.89}
+    capsuleLength: 0
+    zThickness: 0
+    shapeRotationOffset: {x: 0, y: 0, z: 0}
+  hitEffectPrefab: {fileID: 8955939593327333646, guid: ff667f27759274d4bad9568d664bba74, type: 3}
+  enableCameraShake: 1
+  shakeIntensity: 0.15
+  shakeDuration: 0.1
+  bounceShape:
+    shapeType: 1
+    radius: 0
+    boxSize: {x: 0.22, y: 0.89}
+    capsuleLength: 0
+    zThickness: 5
+    shapeRotationOffset: {x: 0, y: 0, z: 0}
+  bounceLayer:
+    serializedVersion: 2
+    m_Bits: 768
+  baseSpeed: 10
+  maxBounces: 1
+  maxPredictionDistance: 100
+  maxBounceAngleJitter: 0
+  jitterFirstBounceOnly: 0

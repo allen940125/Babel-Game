@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameCommandSO
   commandName: Cmd_OpenBackpack
   description: "\u7372\u5F97\u7269\u54C1"
-  action:
-    rid: 1686755882385539185
+  actions:
+  - rid: 1507063330796208245
   references:
     version: 2
     RefIds:
-    - rid: 1686755882385539185
+    - rid: 1507063330796208245
       type: {class: OpenBagpackAction, ns: , asm: Assembly-CSharp}
       data: 

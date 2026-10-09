@@ -72,12 +72,29 @@ public abstract class BulletSpawnerBase : AttackPatternBase
             Debug.LogError($"❌ [{name}] 沒放 Bullet Prefab！", this); 
             return; 
         }
-        GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
-        EnemyProjectileBase script = bullet.GetComponent<EnemyProjectileBase>();
         
-        // ★ 修正：將發射器的倍率 (patternDamageMultiplier) 傳進去
-        if (script != null) script.Initialize(direction, speed, boss, patternDamageMultiplier); 
+        GameObject attackObj = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
         
-        if (boss != null) boss.RegisterActiveBullet(bullet);
+        // 1. 職責一：純數值與傷害交割 (對準所有 EnemyAttackBase)
+        if (attackObj.TryGetComponent<EnemyAttackBase>(out var attackBase))
+        {
+            // ★ 注意：這裡已經沒有方向跟速度了
+            attackBase.Initialize(boss, patternDamageMultiplier); 
+        }
+        else
+        {
+            Debug.LogWarning($"[{name}] 生成的物件 {attackObj.name} 缺少 EnemyAttackBase，無法造成傷害！", this);
+        }
+
+        // 2. 職責二：物理軌跡交割 (對準有實作 IProjectile 的飛行物)
+        if (attackObj.TryGetComponent<IProjectile>(out var projectile))
+        {
+            // 將 Vector2 轉為 Vector3，確保 Z 軸為 0 
+            projectile.SetTrajectory(new Vector3(direction.x, direction.y, 0f), speed);
+        }
+
+        // ★ 刪除 boss.RegisterActiveBullet(bullet)
+        // 理由：你在 EnemyBullet 的 Initialize 裡面已經寫過 ownerBoss.RegisterActiveBullet(this.gameObject);
+        // 這裡再寫一次會導致 Boss 管理陣列出現重複指標。
     }
 }

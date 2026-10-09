@@ -339,6 +339,15 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.tooncharactershadow": {
+      "version": "https://github.com/allen940125/Unity6.4_PerCharacterShadow.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "14.0.0"
+      },
+      "hash": "2fdf15189abd6a30751888ba97e127f32982e466"
+    },
     "com.unity.ugui": {
       "version": "2.0.0",
       "depth": 0,

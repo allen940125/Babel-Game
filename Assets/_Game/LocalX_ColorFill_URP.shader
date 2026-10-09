@@ -1,30 +1,24 @@
-Shader "Custom/LocalX_ColorFill_URP"
+Shader "Custom/Local_ColorFill_Vector_URP"
 {
     Properties
     {
         [Header(Color Settings)]
-        _BaseColor ("Base Color (Original)", Color) = (1,1,1,1)
-        _FillColor ("Fill Color (New)", Color) = (1,0,0,1)
+        _BaseColor ("Base Color", Color) = (1,1,1,1)
+        _FillColor ("Fill Color", Color) = (1,0,0,1)
         
         [Header(Fill Control)]
         _FillAmount ("Fill Amount", Range(0, 1)) = 0.0
         
-        [Header(Model Bounds)]
-        //[Tooltip(模型的本地 X 軸最小值 左邊界)]
-        _MinX ("Min X (Local Bounds)", Float) = -0.5
-        //[Tooltip(模型的本地 X 軸最大值 右邊界)]
-        _MaxX ("Max X (Local Bounds)", Float) = 0.5
+        [Header(Fill Direction and Bounds)]
+        // 使用 Vector 定義方向。X軸填(1,0,0)，Y軸填(0,1,0)，反向就填負值(-1,0,0)
+        _FillDirection ("Fill Direction (Local)", Vector) = (1, 0, 0, 0) 
+        _MinBound ("Min Bound (Along Direction)", Float) = -0.5
+        _MaxBound ("Max Bound (Along Direction)", Float) = 0.5
     }
     
     SubShader
     {
-        Tags 
-        { 
-            "RenderType" = "Opaque" 
-            "RenderPipeline" = "UniversalPipeline" 
-            "Queue" = "Geometry"
-        }
-        LOD 100
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
 
         Pass
         {
@@ -34,54 +28,42 @@ Shader "Custom/LocalX_ColorFill_URP"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-            };
-
-            struct Varyings
-            {
-                float4 positionCS : SV_POSITION;
-                float3 positionOS : TEXCOORD0; // 傳遞本機座標至片段著色器
-            };
+            struct Attributes { float4 positionOS : POSITION; };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; };
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
                 half4 _FillColor;
                 float _FillAmount;
-                float _MinX;
-                float _MaxX;
+                float4 _FillDirection;
+                float _MinBound;
+                float _MaxBound;
             CBUFFER_END
 
             Varyings vert(Attributes input)
             {
                 Varyings output;
-                // 將頂點從 Object Space 轉換至 Clip Space
                 output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-                // 保留 Object Space 座標供後續判定
                 output.positionOS = input.positionOS.xyz;
                 return output;
             }
 
             half4 frag(Varyings input) : SV_Target
             {
-                // 1. 正規化 X 座標 (將 _MinX ~ _MaxX 的範圍映射到 0 ~ 1)
-                // 若 X = _MinX，結果為 0 (最左側)
-                // 若 X = _MaxX，結果為 1 (最右側)
-                float normalizedX = (input.positionOS.x - _MinX) / (_MaxX - _MinX);
+                // 確保輸入的方向為單位向量
+                float3 dir = normalize(_FillDirection.xyz);
 
-                // 避免超出邊界導致的負數或大於 1 的異常值
-                normalizedX = saturate(normalizedX);
+                // 核心數學：使用 Dot 將 3D 座標投影到該方向向量上
+                // 這會得出該點在 _FillDirection 軸向上的純量值
+                float projectedVal = dot(input.positionOS, dir);
 
-                // 2. 遮罩判定
-                // 當 normalizedX <= _FillAmount 時，step 回傳 1 (填滿)
-                // 當 normalizedX > _FillAmount 時，step 回傳 0 (維持原色)
-                float fillMask = step(normalizedX, _FillAmount);
+                // 正規化映射
+                float normalizedVal = saturate((projectedVal - _MinBound) / (_MaxBound - _MinBound));
 
-                // 3. 顏色線性插值
+                // 遮罩判定與插值
+                float fillMask = step(normalizedVal, _FillAmount);
                 return lerp(_BaseColor, _FillColor, fillMask);
             }
             ENDHLSL

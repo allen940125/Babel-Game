@@ -17,6 +17,99 @@ public struct CollisionShapeConfig
     [Header("★ 幾何旋轉偏移")]
     [Tooltip("控制碰撞體在 XYZ 軸上的額外旋轉角度（相對於飛行方向）")]
     public Vector3 shapeRotationOffset;
+    
+    // ★ 新增：專屬的 Gizmo 繪製工具
+    public void DrawGizmo(Vector3 position, Quaternion baseRotation, Color color)
+    {
+        Gizmos.color = color;
+        
+        // 算出最終旋轉角度
+        Quaternion offsetRot = Quaternion.Euler(shapeRotationOffset);
+        Quaternion finalRot = baseRotation * offsetRot;
+        
+        // 改變全域矩陣，這樣畫出來的基礎形狀就會自動帶有位置與旋轉
+        Matrix4x4 oldMatrix = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(position, finalRot, Vector3.one);
+
+        switch (shapeType)
+        {
+            case BulletShapeType.Circle:
+                Gizmos.DrawWireSphere(Vector3.zero, radius);
+                break;
+                
+            case BulletShapeType.Box:
+                Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxSize.x, boxSize.y, zThickness > 0 ? zThickness : 0.5f));
+                break;
+                
+            case BulletShapeType.Capsule:
+                float halfLen = Mathf.Max(0f, (capsuleLength * 0.5f) - radius);
+                Gizmos.DrawWireSphere(Vector3.up * halfLen, radius);
+                Gizmos.DrawWireSphere(Vector3.down * halfLen, radius);
+                Gizmos.DrawLine(Vector3.up * halfLen + Vector3.right * radius, Vector3.down * halfLen + Vector3.right * radius);
+                Gizmos.DrawLine(Vector3.up * halfLen - Vector3.right * radius, Vector3.down * halfLen - Vector3.right * radius);
+                break;
+        }
+
+        // 畫完務必還原矩陣，以免影響場景中其他 Gizmo
+        Gizmos.matrix = oldMatrix;
+    }
+}
+
+public static class ShapeOverlapUtility
+{
+    // ★ 專門用於靜態原地的範圍檢測，傳入 baseRotation 而不是 direction
+    public static int PerformOverlap(
+        Vector3 origin, Quaternion baseRotation, 
+        Collider[] buffer, CollisionShapeConfig config,
+        LayerMask layerMask, bool enableDebug = false)
+    {
+        int hitCount = 0;
+
+        // 計算最終旋轉：物件本身的旋轉 * 設定檔的偏移
+        Quaternion offsetRot = Quaternion.Euler(config.shapeRotationOffset);
+        Quaternion finalRot = baseRotation * offsetRot;
+
+        switch (config.shapeType)
+        {
+            case BulletShapeType.Circle:
+            {
+                // 圓形/球體不需要旋轉
+                hitCount = Physics.OverlapSphereNonAlloc(origin, config.radius, buffer, layerMask);
+                break;
+            }
+
+            case BulletShapeType.Box:
+            {
+                // Z 軸厚度在此處被視為 Box 的深度
+                Vector3 halfExtents = new Vector3(
+                    config.boxSize.x * 0.5f,
+                    config.boxSize.y * 0.5f,
+                    config.zThickness * 0.5f);
+
+                hitCount = Physics.OverlapBoxNonAlloc(origin, halfExtents, buffer, finalRot, layerMask);
+                break;
+            }
+
+            case BulletShapeType.Capsule:
+            {
+                float halfLen = Mathf.Max(0f, (config.capsuleLength * 0.5f) - config.radius);
+                Vector3 axis = finalRot * Vector3.up; // 沿著旋轉後的 Y 軸展開
+                Vector3 p1 = origin - axis * halfLen;
+                Vector3 p2 = origin + axis * halfLen;
+
+                hitCount = Physics.OverlapCapsuleNonAlloc(p1, p2, config.radius, buffer, layerMask);
+                break;
+            }
+        }
+
+        if (enableDebug)
+        {
+            // Debug 繪製邏輯可依需求補充
+            Debug.Log($"[Overlap 掃描] 偵測到 {hitCount} 個目標。");
+        }
+
+        return hitCount;
+    }
 }
 
 public static class ShapeCastUtility

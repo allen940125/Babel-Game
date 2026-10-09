@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Enemy_CelesteEntityData
   m_EditorClassIdentifier: Assembly-CSharp::EntityBlueprintSO
   battlePrefab: {fileID: 4602923930814331091, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
-  maxHealth: 115
+  maxHealth: 100
   attackPower: 20
   defense: 3
-  critRate: 0.2
+  critRate: 0
   critMultiplier: 1.5
   traits:
   - rid: 1686755775413485664

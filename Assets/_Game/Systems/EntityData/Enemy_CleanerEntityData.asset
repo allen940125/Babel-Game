@@ -13,16 +13,20 @@ MonoBehaviour:
   m_Name: Enemy_CleanerEntityData
   m_EditorClassIdentifier: Assembly-CSharp::EntityBlueprintSO
   battlePrefab: {fileID: 1992103494201206248, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
-  maxHealth: 100
+  maxHealth: 115
   attackPower: 30
   defense: 3
   critRate: 0
   critMultiplier: 1.5
   traits:
   - rid: 1686755775413485664
+  - rid: 1507063330796208290
   references:
     version: 2
     RefIds:
+    - rid: 1507063330796208290
+      type: {class: RuntimeAnchorTrait, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 1686755775413485664
       type: {class: TimerTrait, ns: , asm: Assembly-CSharp}
       data:

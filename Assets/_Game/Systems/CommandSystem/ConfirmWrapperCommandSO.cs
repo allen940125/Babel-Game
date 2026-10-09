@@ -15,7 +15,7 @@ public class ConfirmWrapperCommandSO : GameCommandSO
     [Header("★ 真正要執行的目標")]
     public GameCommandSO targetCommand;
 
-    public override void Execute()
+    public override void Execute(CommandContext context)
     {
         if (targetCommand == null)
         {
@@ -25,7 +25,7 @@ public class ConfirmWrapperCommandSO : GameCommandSO
 
         Action onConfirmAction = () => 
         {
-            targetCommand.Execute();
+            targetCommand.Execute(context); // 玩家按確定時，把最初的 Context 傳給真正的指令
         };
 
         if (GameManager.Instance != null && GameManager.Instance.UIManager != null)

@@ -1,70 +1,64 @@
 using UnityEngine;
+using Gamemanager;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(CircleCollider2D))]
-public class EnemyTurretAttack : EnemyAttackObject
+public class EnemyDelayedAoE : EnemyAttackBase
 {
-    [Header("範圍偵測設定")]
-    [Tooltip("要攻擊的目標圖層 (必須設定！例如 Player)")]
-    public LayerMask targetLayer; 
+    [Header("★ 攻擊資料配置")]
+    [SerializeField] private DelayedAoEDataSO attackData;
 
-    [Header("特效設定")]
-    public GameObject hitEffectPrefab;
-
-    private CircleCollider2D _myCollider;
+    private readonly Collider[] _hitColliders = new Collider[16];
     private bool _hasExploded = false;
 
-    private void Awake()
+    public override void Initialize(BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
-        _myCollider = GetComponent<CircleCollider2D>();
-        
-        // 關閉碰撞器，只用它的物理半徑數據來做 OverlapCircle
-        _myCollider.enabled = false;
-        _myCollider.isTrigger = true;
-        
-        // ★ 強力鎖死 Z 軸座標為 0，確保 2D 畫面絕對不會前後漂移
-        Vector3 fixedPos = transform.position;
-        fixedPos.z = 0f;
-        transform.position = fixedPos;
+        float finalMultiplier = (attackData != null) ? attackData.damageMultiplier * damageMultiplier : damageMultiplier;
+        bool finalIgnore = (attackData != null && attackData.ignoreInvincibility) || ignoreInvincibility;
+        base.Initialize(boss, finalMultiplier, finalIgnore);
     }
 
-    // ★ 刪除了浪費效能的 Update！
-    // 請在 Unity 動畫編輯器 (Animation Window) 中，於爆炸動畫的「最後一格」加入 Animation Event 呼叫此方法！
     public void Explode()
     {
         if (_hasExploded) return;
         _hasExploded = true;
 
-        if (hitEffectPrefab != null)
+        if (attackData == null) return;
+
+        if (attackData.hitEffectPrefab != null)
         {
-            // 特效生成時也強制把 Z 軸設為 0
-            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, 0f);
-            Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
+            Instantiate(attackData.hitEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // 取得實際縮放後的偵測半徑
-        float radius = _myCollider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
-        
-        // 在 2D 平面上做圓形偵測
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
+        // ★ 呼叫靜態重疊工具，傳入自身的 transform.rotation 作為基準
+        int hitCount = ShapeOverlapUtility.PerformOverlap(
+            transform.position, 
+            transform.rotation, 
+            _hitColliders, 
+            attackData.damageShape, 
+            attackData.damageLayer
+        );
 
-        foreach (var hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            // ★ 修正合約：將 Collider2D 轉為 GameObject 傳入！
-            TryDealDamage(hit.gameObject);
+            damageDealer.DealDamageTo(_hitColliders[i].gameObject);
+        }
+
+        if (attackData.enableCameraShake && GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent { 
+                Intensity = attackData.shakeIntensity, 
+                Duration = attackData.shakeDuration 
+            });
         }
 
         Destroy(gameObject);
     }
-    
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, 0.3f);
-        CircleCollider2D col = GetComponent<CircleCollider2D>();
-        if (col != null)
+        // ★ 3. 呼叫自我展示功能，一行解決所有形狀的繪製
+        if (attackData != null)
         {
-            float r = col.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
-            Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y, 0f), r);
+            attackData.damageShape.DrawGizmo(transform.position, transform.rotation, new Color(1f, 0.5f, 0f, 0.5f));
         }
     }
 }

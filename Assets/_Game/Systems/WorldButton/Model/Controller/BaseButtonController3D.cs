@@ -35,12 +35,12 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
 
         if (commandToExecute != null)
         {
-            commandToExecute.Execute();
+            commandToExecute.Execute(this.gameObject);
             _currentUses++;
 
             if (maxUsesPerPhase > 0 && _currentUses >= maxUsesPerPhase)
             {
-                SetInteractable(false, false); 
+                //SetInteractable(false, false); 
                 OnExhausted?.Invoke();
             }
         }
