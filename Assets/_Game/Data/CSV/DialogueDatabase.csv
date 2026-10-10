@@ -3,3 +3,7 @@ Id,Name,PrefabPath
 1002,Opening,INK/Opening
 1003,TransitionNarration,INK/Transition
 1004,guideDialogue,INK/GuideDialogue
+2001,ExploreIntro,INK/ExploreIntro
+2002,Tracks,INK/Tracks
+2003,Fisherman,INK/Fisherman
+2004,Sky,INK/Sky
