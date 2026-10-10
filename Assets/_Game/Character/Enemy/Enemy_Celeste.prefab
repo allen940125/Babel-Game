@@ -434,7 +434,7 @@ MonoBehaviour:
   _currentPhase: 0
   _phaseTimerDisplay: 0
   _isProvoked: 0
-  SpecialPrefab: {fileID: 3406084743913943512, guid: 15afa99cf6a035d479794a1574b08668, type: 3}
+  SpecialPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
   spawnPadding: 4
   minObjectDistance: 5
 --- !u!114 &4989139114523858362

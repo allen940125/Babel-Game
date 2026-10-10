@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.66981125, b: 0.66981125, a: 1}
+  m_Color: {r: 1, g: 0.66981125, b: 0.66981125, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -280,18 +280,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  speedRange: {x: 0, y: 0}
-  lifeTimeRange: {x: 1, y: 1}
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  showDebugLine: 1
-  canPenetratePlayerButton: 0
-  showHitEffect: 1
-  hitEffectPrefab: {fileID: 0}
-  effectRotationMode: 1
-  rayLength: 5
-  rayColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  rayWidth: 0.05
-  maxPredictionBounces: 2
-  isNotNeedInit: 1
+  bulletData: {fileID: 0}
+  enableDeepDebug: 0
+  stats:
+    speedRange: {x: 0, y: 0}
+    lifeTimeRange: {x: 0, y: 0}
+  vfx:
+    showHitEffect: 0
+    hitEffectPrefab: {fileID: 0}
+    rotationMode: 0
+  debug_bulletData_damageMultiplier: 0
+  debug_AttackPattern_damageMultiplier: 0
+  debug_actualMultiplier: 0

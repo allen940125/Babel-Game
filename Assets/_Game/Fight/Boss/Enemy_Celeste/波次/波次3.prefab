@@ -49,7 +49,7 @@ MonoBehaviour:
   useWarning: 0
   warningTime: 1
   warningPrefab: {fileID: 0}
-  bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
   patternDamageMultiplier: 1
@@ -177,7 +177,7 @@ MonoBehaviour:
   useWarning: 0
   warningTime: 1
   warningPrefab: {fileID: 0}
-  bulletPrefab: {fileID: 8034763294956535289, guid: bb9640aae3d37b64e8a5b0a64a0a9a3e, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
   patternDamageMultiplier: 1
@@ -376,8 +376,12 @@ MonoBehaviour:
   warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 8456667680948330304}
-    delayBefore: 0
-  - pattern: {fileID: 3161254999720578782}
     delayBefore: 1
-  - pattern: {fileID: 5159400107697085388}
+  - pattern: {fileID: 3161254999720578782}
     delayBefore: 2
+  - pattern: {fileID: 5159400107697085388}
+    delayBefore: 3
+  - pattern: {fileID: 8857566178570485914}
+    delayBefore: 4
+  - pattern: {fileID: 8912758327127137783}
+    delayBefore: 5

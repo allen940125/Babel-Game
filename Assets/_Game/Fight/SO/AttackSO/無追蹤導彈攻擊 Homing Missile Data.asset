@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5af8084c0f9fea4c8993907ad55bf4b, type: 3}
-  m_Name: "\u5C0E\u5F48\u653B\u64CA Homing Missile Data"
+  m_Name: "\u7121\u8FFD\u8E64\u5C0E\u5F48\u653B\u64CA Homing Missile Data"
   m_EditorClassIdentifier: Assembly-CSharp::HomingMissileDataSO
   damageMultiplier: 1
   ignoreInvincibility: 0
@@ -31,10 +31,10 @@ MonoBehaviour:
   shakeIntensity: 0.15
   shakeDuration: 0.1
   speed: 10
-  homingStrength: 50
+  homingStrength: 0
   lifeTime: 5
   homingDelay: 0.5
-  launchMode: 1
+  launchMode: 0
   initialArcAngle: 0
   randomArcDirection: 1
   arcToRight: 1

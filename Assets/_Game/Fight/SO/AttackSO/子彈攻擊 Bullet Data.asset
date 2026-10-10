@@ -22,7 +22,7 @@ MonoBehaviour:
   damageShape:
     shapeType: 1
     radius: 0
-    boxSize: {x: 0.22, y: 0.89}
+    boxSize: {x: 0.22, y: 1.5}
     capsuleLength: 0
     zThickness: 0
     shapeRotationOffset: {x: 0, y: 0, z: 0}
@@ -33,7 +33,7 @@ MonoBehaviour:
   bounceShape:
     shapeType: 1
     radius: 0
-    boxSize: {x: 0.22, y: 0.89}
+    boxSize: {x: 0.22, y: 1.5}
     capsuleLength: 0
     zThickness: 5
     shapeRotationOffset: {x: 0, y: 0, z: 0}
