@@ -1,4 +1,5 @@
 ﻿<Solution>
+  <Project Path="LWGUI.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="UniRx.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
@@ -17,8 +18,11 @@
   <Project Path="Febucci.TextAnimatorForUnity.UITk.Runtime.csproj" />
   <Project Path="YarnSpinnerTests.Shared.csproj" />
   <Project Path="UniTask.TextMeshPro.csproj" />
+  <Project Path="LWGUI.Runtime.csproj" />
   <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
+  <Project Path="Unity.InternalAPIEditorBridge.020.csproj" />
   <Project Path="YarnSpinnerTests.csproj" />
+  <Project Path="LWGUI.Runtime.Timeline.csproj" />
   <Project Path="Sirenix.OdinInspector.Modules.Unity.Addressables.csproj" />
   <Project Path="Febucci.TextAnimatorForUnity.TMP.Runtime.csproj" />
   <Project Path="Febucci.TextAnimatorForUnity.Input.Runtime.csproj" />
@@ -27,5 +31,7 @@
   <Project Path="YarnSpinnerTests.CommandsInAnAssemblyDefinition.csproj" />
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" />
+  <Project Path="LWGUI.Timeline.csproj" />
   <Project Path="UniTask.DOTween.csproj" />
+  <Project Path="LWGUI.Timeline.Editor.csproj" />
 </Solution>

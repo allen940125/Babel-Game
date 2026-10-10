@@ -6442,6 +6442,10 @@ PrefabInstance:
       propertyPath: _lowStaminaColor.r
       value: 0.116193905
       objectReference: {fileID: 0}
+    - target: {fileID: 8377193113281810155, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
+      propertyPath: bulletHoleEffectPrefab
+      value: 
+      objectReference: {fileID: 7343094335434148746, guid: 0a56ea4b5216a9f43a57e25d825fafe9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
