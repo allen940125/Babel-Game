@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Gamemanager;
@@ -8,6 +9,10 @@ public abstract class BossStateMachine : MonoBehaviour
 {
     public enum BossPhase { Idle, Attacking, WaitingForBullets }
 
+    // ★ 定義狀態切換的事件廣播
+    public event Action<BossPhase> OnPhaseEntered;
+    public event Action<BossPhase> OnPhaseExited;
+    
     [System.Serializable]
     public struct BulletWaveData { public string note; public GameObject patternPrefab; public float delayBeforeNext; }
     
@@ -101,6 +106,7 @@ public abstract class BossStateMachine : MonoBehaviour
         GameManager.Instance.MainGameMediator.RegisterCurrentBoss(_bossData);
     }
 
+    
     public virtual void StartBattle()
     {
         _isBattleActive = true;
@@ -254,9 +260,13 @@ public abstract class BossStateMachine : MonoBehaviour
 
     protected virtual void EnterPhase(BossPhase newPhase)
     {
+        // 1. 退出舊狀態前廣播
+        OnPhaseExited?.Invoke(_currentPhase);
+
         _currentPhase = newPhase;
         Debug.Log($"<color=yellow>{bossName} 進入階段: {newPhase}</color>");
 
+        // 2. 核心邏輯 (只保留純粹的狀態與計時器重置)
         switch (newPhase)
         {
             case BossPhase.Idle:
@@ -264,36 +274,27 @@ public abstract class BossStateMachine : MonoBehaviour
                 _bossData?.RemoveState(EntityStateFlags.Invincible);
                 GameManager.Instance.MainGameEvent.Send(new BossEnterIdlePhaseEvent());
                 if (animator) animator.Play("Idle");
-                
-                if (_bossData != null && _bossData.TryGetTrait(out TimerTrait idleTimer)) 
-                {
-                    idleTimer.StartTimer(0f);
-                }
+                if (_bossData != null && _bossData.TryGetTrait(out TimerTrait idleTimer)) idleTimer.StartTimer(0f);
                 break;
 
             case BossPhase.Attacking:
                 GameManager.Instance.MainGameEvent.Send(new BossEnterAttackingPhaseEvent());
                 _bossData?.AddState(EntityStateFlags.Invincible);
                 if (animator) animator.Play("Attack1");
-                
-                if (_bossData != null && _bossData.TryGetTrait(out TimerTrait attackTimer)) 
-                {
-                    attackTimer.StartTimer(attackPhaseDuration);
-                }
-                else 
-                {
-                    phaseTimer = attackPhaseDuration;
-                }
+                if (_bossData != null && _bossData.TryGetTrait(out TimerTrait attackTimer)) attackTimer.StartTimer(attackPhaseDuration);
+                else phaseTimer = attackPhaseDuration;
                 
                 LoadAttackPhaseConfig();
-                ClearAllMapMechanisms();
-                SpawnSpecialMechanisms(); 
+                // 刪除 ClearAllMapMechanisms() 與 SpawnSpecialMechanisms() 的硬呼叫
                 break;
 
             case BossPhase.WaitingForBullets:
                 if (animator) animator.Play("Idle");
                 break;
         }
+
+        // 3. 進入新狀態後廣播，讓外部模組自行決定是否要執行動作
+        OnPhaseEntered?.Invoke(newPhase);
     }
 
     private void LoadAttackPhaseConfig()
@@ -405,7 +406,4 @@ public abstract class BossStateMachine : MonoBehaviour
             _waveDelayTimer = nextWave.delayBeforeNext;
         }
     }
-
-    // 由子類別 (如 BossCleaner) 決定要生成什麼特殊的輔助機關
-    protected abstract void SpawnSpecialMechanisms();
 }

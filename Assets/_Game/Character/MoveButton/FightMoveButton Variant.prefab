@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalRotation.x
@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalRotation.z
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -62,8 +62,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2d57dec0bac067e4c975bba927481f90, type: 2}
     - target: {fileID: 919132149155446097, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
       propertyPath: m_Name
       value: UI_3D_Attack
@@ -97,10 +101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e40797abf604f844928875906d73afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShaderFillVisualizer
-  targetRenderer: {fileID: 0}
+  targetRenderer: {fileID: 4526708797023337240}
 --- !u!4 &3357773780052721783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
+  m_PrefabInstance: {fileID: 2959863359162591132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4526708797023337240 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: f0335ff84c1679e4fbc044d4ddc3c9c9, type: 3}
   m_PrefabInstance: {fileID: 2959863359162591132}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4549684060805055667
@@ -158,6 +167,10 @@ PrefabInstance:
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: FightMoveButton Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_TagString
+      value: PlayerButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -235,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950131e03a332c44682a804323c75b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossTimerVisualizer
-  targetRenderer: {fileID: 0}
+  targetRenderer: {fileID: 4526708797023337240}
 --- !u!4 &3676041723875197895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}

@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthMoveButton Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_TagString
+      value: PlayerButton
+      objectReference: {fileID: 0}
     - target: {fileID: 3453401802177198380, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Size.x
       value: 0.5470934
@@ -152,6 +156,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7904520288747597104}
+    - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7420031114736068149}
   m_SourcePrefab: {fileID: 100100000, guid: f297860abed8db24d868ce783605d27d, type: 3}
 --- !u!4 &3394247212340600719 stripped
 Transform:
@@ -228,6 +235,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.28999996, y: 2.512565, z: 0.16559255}
   m_Center: {x: -1.6399758, y: -0.0009623766, z: 0.0020704865}
+--- !u!65 &7420031114736068149
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415024676369057537}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.1939807, y: 0.08750248, z: 0.097558156}
+  m_Center: {x: 2.7719896, y: -0.0009622574, z: -0.0072068647}
 --- !u!1001 &7197465406397772718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -290,11 +318,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 25f8d9746304c754aa1c271348381994, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 25f8d9746304c754aa1c271348381994, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3eb4203d40406bc4687e15833e8c92fd, type: 2}
     - target: {fileID: 919132149155446097, guid: 25f8d9746304c754aa1c271348381994, type: 3}
       propertyPath: m_Name
       value: UI_3D_Health
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 25f8d9746304c754aa1c271348381994, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -326,4 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e40797abf604f844928875906d73afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShaderFillVisualizer
-  targetRenderer: {fileID: 0}
+  targetRenderer: {fileID: 8368564448170012458}
+--- !u!23 &8368564448170012458 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 25f8d9746304c754aa1c271348381994, type: 3}
+  m_PrefabInstance: {fileID: 7197465406397772718}
+  m_PrefabAsset: {fileID: 0}

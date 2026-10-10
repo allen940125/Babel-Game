@@ -22,11 +22,9 @@ public class BossCelesteMechanism : BossSpecialMechanism
     [Header("碰撞設定")]
     public float projectileRadius = 0.3f;
 
-    [Header("爆炸設定 (時間到未解除)")] // ★ 新增
-    [Tooltip("時間到時生成的爆炸特效 Prefab")]
+    [Header("爆炸設定")] 
     public GameObject explosionPrefab; 
 
-    // 內部變數
     private LineRenderer _lineRenderer;
     private Vector3 _startPos;
     private float _timer; 
@@ -34,7 +32,16 @@ public class BossCelesteMechanism : BossSpecialMechanism
 
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake(); 
+        
+        // 1. 強制關掉本體碰撞體，避免與移動物體衝突
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+            Debug.Log($"[{gameObject.name}] Celeste 機關本體 Collider 已安全閹割(禁用)，將完全依賴子彈偵測。");
+        }
+
         _lineRenderer = GetComponent<LineRenderer>();
         _startPos = transform.position; 
         
@@ -67,7 +74,7 @@ public class BossCelesteMechanism : BossSpecialMechanism
 
     private void Update()
     {
-        if (IsCleared) return;
+        if (IsCleared) return; 
         
         if (isOneShot && _hasFinished) 
         {
@@ -90,127 +97,157 @@ public class BossCelesteMechanism : BossSpecialMechanism
         if (isOneShot)
         {
             t = Mathf.Clamp01(_timer / travelDuration);
-            
-            // 如果跑到終點了 (時間到)
             if (t >= 1.0f) 
             {
                 _hasFinished = true;
+                Debug.Log($"<color=gray>[Celeste機關] {gameObject.name} 到達終點，時間耗盡自爆。</color>");
                 
-                // ★ 1. 生成爆炸特效
                 if (explosionPrefab != null)
                 {
                     Instantiate(explosionPrefab, movingObject.position, Quaternion.identity);
                 }
 
-                // ★ 2. 關閉線條與移動物體
                 if (_lineRenderer != null) _lineRenderer.enabled = false;
                 if (movingObject != null) movingObject.gameObject.SetActive(false);
-
-                // ★ 3. 關閉整個機關 (Visual Object)
-                // 這會讓 IsCleared 變成 true，達成「消失」的效果
-                // 就像是被玩家解除了一樣，只是這次是因為時間到自爆
                 if (visualObject != null) visualObject.SetActive(false);
             }
         }
         else
         {
-            // 如果不是 OneShot 模式，就維持循環
             t = Mathf.Repeat(_timer / travelDuration, 1.0f);
         }
 
         movingObject.position = Vector3.Lerp(_startPos, endPoint.position, t);
     }
     
+    // ★ 大量增加 Debug 的物理碰撞診斷
     private void CheckProjectileCollision()
     {
         if (movingObject == null) return;
 
-        Collider2D hit = Physics2D.OverlapCircle(movingObject.position, projectileRadius);
+        // 使用 3D 球體偵測，取得周遭所有的碰撞體
+        Collider[] hits = Physics.OverlapSphere(movingObject.position, projectileRadius);
 
-        // 如果撞到了目標 (例如 Player)
-        if (hit != null && hit.CompareTag(targetTag))
+        if (hits.Length > 0)
         {
-            Debug.Log("移動物體撞到了目標！");
-            
-            _hasFinished = true; // 標記結束
-            
-            // 1. 隱藏子彈
-            movingObject.gameObject.SetActive(false);
+            // Debug: 顯示掃描到了什麼，以及對方的 Z 軸。
+            // 這可以解決「其實位置有重疊，但 Z 軸不同導致穿過去」的 Unity 常見 3D 坑
+            foreach (var hit in hits)
+            {
+                float zDistance = Mathf.Abs(movingObject.position.z - hit.transform.position.z);
+                Debug.Log($"<color=white>[碰撞探測] 正在碰觸: {hit.gameObject.name} | Tag: {hit.gameObject.tag} | Z軸距離差: {zDistance:F2}</color>");
 
-            // 2. 關閉線條
-            if (_lineRenderer != null) _lineRenderer.enabled = false;
-
-            // ★★★ 關鍵修正：這裡漏了！讓整個機關也一起消失 ★★★
-            // 這樣 IsCleared 才會變 true，Boss 才會知道這個機關被解除了
-            if (visualObject != null) visualObject.SetActive(false);
+                // ★ 檢查 Tag 是否精確匹配
+                if (hit.CompareTag(targetTag))
+                {
+                    Debug.Log($"<color=green>[攔截成功] 玩家 {hit.gameObject.name} (Tag: {hit.gameObject.tag}) 碰觸到移動物體，執行扣秒！</color>");
+                    
+                    _hasFinished = true; 
+                    
+                    TriggerThisMechanism(); 
+                    
+                    if (_lineRenderer != null) _lineRenderer.enabled = false;
+                    movingObject.gameObject.SetActive(false);
+                    break; 
+                }
+                else if (hit.gameObject.name != "BasePlane" && hit.gameObject.name != "Main Camera") // 排除雜音
+                {
+                    // 警報：撞到了東西，但因為 Tag 不對被無視了
+                    Debug.LogWarning($"[Tag不符警告] 移動物體撞到了 {hit.gameObject.name}，但其 Tag 為 '{hit.gameObject.tag}'，不等於設定的目標 '{targetTag}'！");
+                }
+            }
         }
     }
     
-    // ... (ApplySafeRandomRotation, InitLineRendererSettings 等保持不變) ...
-    // 為了節省篇幅，以下省略未修改的函式，請保留原有的內容
-    private void ApplySafeRandomRotation() {
+    private void ApplySafeRandomRotation() 
+    {
         if (objectToRandomRotate == null) return;
-        int maxAttempts = 30; bool foundSafeSpot = false;
-        for (int i = 0; i < maxAttempts; i++) {
+        int maxAttempts = 30; 
+        bool foundSafeSpot = false;
+        
+        for (int i = 0; i < maxAttempts; i++) 
+        {
             float randomAngle = Random.Range(0f, 360f);
             Quaternion tryRotation = Quaternion.Euler(0, 0, randomAngle);
             Vector3 dir = tryRotation * Vector3.up; 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, fixedDistance, wallLayer);
-            if (hit.collider == null) {
+            
+            // 將 Raycast 視覺化，在編輯器內可以看見它的雷達掃描！ (持續 1 秒的藍線)
+            Debug.DrawRay(transform.position, dir * fixedDistance, Color.blue, 1.0f);
+
+            if (!Physics.Raycast(transform.position, dir, fixedDistance, wallLayer)) 
+            {
+                // 安全，畫綠線表示
+                Debug.DrawRay(transform.position, dir * fixedDistance, Color.green, 2.0f);
                 objectToRandomRotate.localRotation = tryRotation;
-                if (endPoint != null) {
+                if (endPoint != null) 
+                {
                     endPoint.position = transform.position + dir * fixedDistance;
                     endPoint.rotation = Quaternion.identity; 
                 }
-                foundSafeSpot = true; break; 
+                foundSafeSpot = true; 
+                break; 
             }
         }
-        if (!foundSafeSpot) {
+
+        if (!foundSafeSpot) 
+        {
+            Debug.LogWarning($"[{gameObject.name}] 隨機發射角度 30 次都遇到牆壁，強制使用隨機角度！");
             objectToRandomRotate.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
             if (endPoint != null) endPoint.rotation = Quaternion.identity;
         }
     }
-    private void InitLineRendererSettings() {
-        if (_lineRenderer != null) {
+
+    private void InitLineRendererSettings() 
+    {
+        if (_lineRenderer != null) 
+        {
             _lineRenderer.startWidth = lineWidth; _lineRenderer.endWidth = lineWidth;
             _lineRenderer.startColor = lineColor; _lineRenderer.endColor = lineColor;
             _lineRenderer.sortingOrder = 10; 
         }
     }
+
     private void UpdateLineVisual()
     {
-        // ★ 強制檢查：如果機關已經壞了(隱藏了) 或是 任務結束了
-        // 就直接強制關閉線條，並離開，不准再畫線！
         if (IsCleared || (isOneShot && _hasFinished))
         {
             if (_lineRenderer != null) _lineRenderer.enabled = false;
             return;
         }
 
-        // 正常畫線邏輯
         if (_lineRenderer != null && endPoint != null)
         {
-            // 確保線是開著的 (因為有可能被誤關，所以在正常運作時要開著)
             _lineRenderer.enabled = true; 
-            
             _lineRenderer.startWidth = lineWidth;
             _lineRenderer.endWidth = lineWidth;
             _lineRenderer.startColor = lineColor;
             _lineRenderer.endColor = lineColor;
-
             _lineRenderer.SetPosition(0, _startPos);
             _lineRenderer.SetPosition(1, endPoint.position);
         }
     }
-    
-    private void OnTriggerStay2D(Collider2D other) 
-    { 
-        if (other.CompareTag(targetTag)) 
-        { 
-            if(visualObject) visualObject.SetActive(false); 
-            if(_lineRenderer != null) _lineRenderer.enabled = false;
-            if(movingObject != null) movingObject.gameObject.SetActive(false);
-        } 
+
+    // ★ 開放 Gizmos 繪製，在 Scene 畫出紅色半透明球體，與前方射線。 
+    // 你可以在不點擊的情況下隨時觀察這顆子彈的物理碰撞判定大小！
+    private void OnDrawGizmos()
+    {
+        if (movingObject != null)
+        {
+            // 畫判定球
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.4f); // 半透明橘色
+            Gizmos.DrawWireSphere(movingObject.position, projectileRadius);
+            
+            // 畫跟隨移動軌跡線
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, movingObject.position);
+        }
     }
-    public override void ResetMechanism() { base.ResetMechanism(); ApplySafeRandomRotation(); _timer = 0f; _hasFinished = false; }
+
+    public override void ResetMechanism() 
+    { 
+        base.ResetMechanism(); 
+        ApplySafeRandomRotation(); 
+        _timer = 0f; 
+        _hasFinished = false; 
+    }
 }

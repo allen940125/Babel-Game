@@ -86,15 +86,15 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
         if (_rotatable != null) _rotatable.enabled = canBeRotated;
         if (_glow != null) _glow.enabled = (canBeDragged || canBeRotated);
 
-        if (canBlockBullets)
-        {
-            try { gameObject.tag = "Wall"; } 
-            catch { Debug.LogWarning($"找不到 'Wall' Tag，無法將 {gameObject.name} 設為護盾！"); }
-        }
-        else
-        {
-            if (gameObject.CompareTag("Wall")) gameObject.tag = "Untagged";
-        }
+        // if (canBlockBullets)
+        // {
+        //     try { gameObject.tag = "Wall"; } 
+        //     catch { Debug.LogWarning($"找不到 'Wall' Tag，無法將 {gameObject.name} 設為護盾！"); }
+        // }
+        // else
+        // {
+        //     if (gameObject.CompareTag("Wall")) gameObject.tag = "Untagged";
+        // }
     }
 
     // 提供通用介面供外部或子類別動態修改狀態

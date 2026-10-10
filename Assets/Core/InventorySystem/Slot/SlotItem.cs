@@ -51,7 +51,13 @@ public class SlotItem : Slot, IPointerEnterHandler, IPointerExitHandler,IBeginDr
     // ==========================================
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (storedInventoryItemRuntimeData == null || storedInventoryItemRuntimeData.quantity <= 0) return;
+        // 嚴謹校驗：資料必須存在、數量必須 > 0、且必須要有真實圖片才能拖曳
+        if (storedInventoryItemRuntimeData == null || 
+            storedInventoryItemRuntimeData.quantity <= 0 ||
+            imageItemIcon.sprite == null) 
+        {
+            return;
+        }
 
         // 1. 生成一個臨時的 2D 殘影
         _dragGhost = new GameObject("DragGhost");

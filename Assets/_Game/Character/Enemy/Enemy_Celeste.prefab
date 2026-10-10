@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 1567641904898327498}
   - component: {fileID: 4989139114523858362}
   - component: {fileID: 394807870137289584}
+  - component: {fileID: 8904701173922721843}
   m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
@@ -475,6 +476,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &8904701173922721843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602923930814331091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cad58e03ef81a4699964e609957985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnMechanisms
+  targetPhase: 0
+  mechanismPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
+  spawnCount: 3
+  spawnPadding: 1
+  minObjectDistance: 2
 --- !u!1 &6049789016982380015
 GameObject:
   m_ObjectHideFlags: 0

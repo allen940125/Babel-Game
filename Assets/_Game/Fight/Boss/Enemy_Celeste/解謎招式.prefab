@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5315463617173387307}
-  - component: {fileID: 8300383342616914336}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -32,65 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6528363824885051635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &8300383342616914336
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 276935626126490256}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 62
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1.5}
-    newSize: {x: 1.5, y: 1.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.76270753, y: 0.22545289}
-      - {x: 0.5426578, y: 0.5543913}
-      - {x: 0.20286435, y: 0.7542413}
-      - {x: -0.20513888, y: 0.7531921}
-      - {x: -0.54037654, y: 0.544436}
-      - {x: -0.7555335, y: 0.18080518}
-      - {x: -0.75659895, y: -0.19420107}
-      - {x: -0.5860098, y: -0.5217618}
-      - {x: -0.28328222, y: -0.74491113}
-      - {x: 0.27046114, y: -0.7385005}
-      - {x: 0.57710886, y: -0.54017675}
-      - {x: 0.7619442, y: -0.23908839}
-  m_UseDelaunayMesh: 1
 --- !u!1 &1060605268905787985
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,9 +223,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763118943222070551}
-  - component: {fileID: 7335705562075549749}
   - component: {fileID: 6222081723625818705}
   - component: {fileID: 222604617662348910}
+  - component: {fileID: 7277394158341396508}
   m_Layer: 0
   m_Name: "\u89E3\u8B0E\u62DB\u5F0F"
   m_TagString: Untagged
@@ -309,33 +249,6 @@ Transform:
   - {fileID: 8893109883084058505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &7335705562075549749
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3406084743913943512}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!120 &6222081723625818705
 LineRenderer:
   serializedVersion: 3
@@ -459,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossCelesteMechanism
   targetTag: PlayerButton
+  timeReduction: 3
   visualObject: {fileID: 5367977409979958502}
   endPoint: {fileID: 3903697331035841915}
   movingObject: {fileID: 6528363824885051635}
@@ -473,7 +387,27 @@ MonoBehaviour:
   isOneShot: 1
   projectileRadius: 0.3
   explosionPrefab: {fileID: 8406468819089139672, guid: 95a3173e8be6cf14788d546ae667e6f2, type: 3}
-  _timer: 0
+--- !u!65 &7277394158341396508
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406084743913943512}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1 &3822797820138641783
 GameObject:
   m_ObjectHideFlags: 0
