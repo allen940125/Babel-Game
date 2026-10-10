@@ -25,4 +25,13 @@ public class BossCleanerMechanism : BossSpecialMechanism
         // 如果這個道具被吃掉時有其他 Cleaner 專屬的額外效果（例如同時補玩家 10 點體力），可以寫在這裡：
         // PlayerRuntimeSO.Instance.RegenStamina(10f);
     }
+    
+    // 供外部 (例如 BossMechanicSmasher) 直接呼叫的強制處決通道
+    public void ForceTrigger()
+    {
+        Debug.Log($"<color=magenta>[強制處決] 機關 {gameObject.name} 被主動砸毀！</color>");
+        
+        // 直接呼叫原本就寫好的扣秒與隱藏邏輯
+        TriggerThisMechanism(); 
+    }
 }

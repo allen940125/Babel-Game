@@ -83,10 +83,31 @@ public class BossCelesteMechanism : BossSpecialMechanism
         }
 
         HandleMovement();
-        CheckProjectileCollision();
+        //CheckProjectileCollision();
         UpdateLineVisual();
     }
 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        //base.OnTriggerEnter(other);
+    }
+
+    // 開放給 SmashableTarget 呼叫的強制處決通道
+    public void ForceTrigger()
+    {
+        Debug.Log($"<color=magenta>[強制處決] 機關 {gameObject.name} 被主動砸毀！</color>");
+        TriggerThisMechanism(); 
+    }
+    
+    // 當成功扣除 Boss 秒數後，父類別會自動呼叫這個擴充點
+    protected override void OnMechanismTriggered() 
+    { 
+        // 確保被砸毀時，Celeste 專屬的子彈和雷射線會乖乖消失
+        _hasFinished = true;
+        if (_lineRenderer != null) _lineRenderer.enabled = false;
+        if (movingObject != null) movingObject.gameObject.SetActive(false);
+    }
+    
     private void HandleMovement()
     {
         if (endPoint == null || movingObject == null || travelDuration <= 0) return;

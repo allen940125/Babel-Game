@@ -98,6 +98,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.x
+      value: 3.724536
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.y
+      value: 5.0292435
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.x
+      value: 0.09593439
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.y
+      value: -0.19186878
+      objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: commandToExecute
       value: 

@@ -14,6 +14,8 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
     [Tooltip("開啟時，只要沒有在拖曳，物件就會鎖死在原地，不會被其他物件撞飛。")]
     [SerializeField] private bool lockPhysicsWhenIdle = true; 
     
+    public event System.Action OnDropped;
+    
     private float _originalLinearDamping;
     private float _originalAngularDamping;
     
@@ -211,35 +213,11 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
             _rb.angularDamping = _originalAngularDamping;
         }
 
-        CheckDropCollision3D();
-        
+        //CheckDropCollision3D();
+        OnDropped?.Invoke(); // 廣播放下事件
         UpdatePhysicsLockState(); // ★ 放開滑鼠時，重新校準一次物理鎖定狀態
     }
     
-    private void CheckDropCollision3D()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, dropDetectRadius);
-        Debug.Log($"[物理偵測] {gameObject.name} 放開，偵測範圍內共有 {hits.Length} 個 Collider。");
-
-        foreach (var hit in hits)
-        {
-            if (hit.gameObject == this.gameObject) continue;
-
-            BossSpecialMechanism mechanism = hit.GetComponentInParent<BossSpecialMechanism>();
-            if (mechanism != null)
-            {
-                Debug.Log($"<color=green>[成功觸發]</color> 找到機關：{mechanism.name}，發送手動觸發訊號！");
-                mechanism.ManualTrigger(this.gameObject);
-                return;
-            }
-            else
-            {
-                Debug.Log($"[忽略目標] 抓到 {hit.name}，但其父子層級中沒有 BossSpecialMechanism 組件。");
-            }
-        }
-        Debug.LogWarning($"[觸發落空] {gameObject.name} 範圍內沒有任何有效的 BossSpecialMechanism。");
-    }
-
     private void SetDraggable(bool state)
     {
         isDraggable = state;
@@ -287,14 +265,6 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
             _rb.linearVelocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
-    }
-    
-    // --- 右鍵選單強制執行工具 ---
-    [ContextMenu("偵錯：強制執行放下偵測 (Manual Check)")]
-    public void DebugManualDropCheck()
-    {
-        Debug.Log("=== 執行 Inspector 強制放下偵測 ===");
-        CheckDropCollision3D();
     }
 
     [ContextMenu("偵錯：切換拖曳權限 (Toggle Draggable)")]

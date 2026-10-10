@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5315463617173387307}
+  - component: {fileID: 2400507499895777378}
+  - component: {fileID: 7100872400127073788}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,6 +33,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6528363824885051635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2400507499895777378
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276935626126490256}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 20
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7100872400127073788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276935626126490256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41dd42c183d38b443b13a4d4c2d84e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SmashableTarget
+  OnSmashed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 222604617662348910}
+        m_TargetAssemblyTypeName: BossCelesteMechanism, Assembly-CSharp
+        m_MethodName: ForceTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1060605268905787985
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +280,7 @@ GameObject:
   - component: {fileID: 7277394158341396508}
   m_Layer: 0
   m_Name: "\u89E3\u8B0E\u62DB\u5F0F"
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,7 +437,7 @@ MonoBehaviour:
   lineColor: {r: 1, g: 1, b: 1, a: 1}
   travelDuration: 4.7
   isOneShot: 1
-  projectileRadius: 0.3
+  projectileRadius: 0
   explosionPrefab: {fileID: 8406468819089139672, guid: 95a3173e8be6cf14788d546ae667e6f2, type: 3}
 --- !u!65 &7277394158341396508
 BoxCollider:

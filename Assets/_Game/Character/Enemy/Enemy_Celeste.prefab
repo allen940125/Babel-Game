@@ -400,7 +400,7 @@ MonoBehaviour:
   _currentRoundIndex: 0
   bossName: 
   firePosition: {fileID: 4022618160246116208}
-  attackPhaseDuration: 12
+  attackPhaseDuration: 1
   phaseConfigs:
   - label: 
     healthThreshold: 0

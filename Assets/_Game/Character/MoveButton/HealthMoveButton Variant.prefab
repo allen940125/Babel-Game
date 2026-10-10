@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.x
+      value: 7.667227
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.x
+      value: -0.08444595
+      objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: maxUsesPerPhase
       value: 1
