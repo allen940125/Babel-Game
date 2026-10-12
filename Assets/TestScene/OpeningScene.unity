@@ -732,7 +732,7 @@ MonoBehaviour:
   InkId: 1002
   blackBG: {fileID: 1749643036}
   waitBeforeDialogue: 1
-  nextSceneName: AdventureSceneCOPY
+  nextSceneName: testprops
   introAudio: {fileID: 664739653}
 --- !u!4 &1817741984
 Transform:
