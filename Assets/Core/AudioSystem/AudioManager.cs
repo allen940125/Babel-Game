@@ -225,6 +225,14 @@ namespace Game.Audio
 
         public void PlayMusic(AudioData data)
         {
+            if (data == null || data.audioClip == null) return;
+
+            // ★ 核心防呆：如果現在正在播的，就是你要求播的這首歌，而且還在播放中，直接跳過！
+            if (musicPlayer.clip == data.audioClip && musicPlayer.isPlaying) 
+            {
+                return; 
+            }
+
             musicPlayer.clip = data.audioClip;
             musicPlayer.volume = MusicVolume * MasterVolume;
             musicPlayer.Play();

@@ -184,7 +184,7 @@ Transform:
   m_GameObject: {fileID: 2989709211211277993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 4989139114523858362}
   - component: {fileID: 394807870137289584}
   - component: {fileID: 8904701173922721843}
+  - component: {fileID: 2827459188753664686}
   m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
@@ -400,7 +401,7 @@ MonoBehaviour:
   _currentRoundIndex: 0
   bossName: 
   firePosition: {fileID: 4022618160246116208}
-  attackPhaseDuration: 1
+  attackPhaseDuration: 12
   phaseConfigs:
   - label: 
     healthThreshold: 0
@@ -418,13 +419,13 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}
+      patternPrefab: {fileID: 9036664765759256070, guid: 3f71ebd89bec6264289070f49c4698a1, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: 2e71dd01dc988da42acf75c5c95417a9, type: 3}
+      patternPrefab: {fileID: 9036664765759256070, guid: 7a7d1ee6c4db4f9408a8550e2b295467, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
@@ -489,10 +490,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnMechanisms
   targetPhase: 0
+  skipFirstNTriggers: 1
   mechanismPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
   spawnCount: 3
   spawnPadding: 1
   minObjectDistance: 2
+--- !u!114 &2827459188753664686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602923930814331091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9575adc2bd86fd342bdf0804166996e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnShield
+  targetPhase: 0
+  skipFirstNTriggers: 1
+  shieldPrefab: {fileID: 6131491893710041281, guid: 822cbc804718e8f49a9f71460a729c1a, type: 3}
+  shieldSpawnPoint: {fileID: 7011712891635095239}
 --- !u!1 &6049789016982380015
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9151199819138837920
 Transform:
   m_ObjectHideFlags: 0

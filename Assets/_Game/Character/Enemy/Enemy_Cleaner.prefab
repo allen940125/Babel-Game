@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 3987015670943211768}
   - component: {fileID: 669354873535801721}
   - component: {fileID: 6478610380716690124}
+  - component: {fileID: 1037243244524593051}
   m_Layer: 7
   m_Name: Enemy_Cleaner
   m_TagString: Boss
@@ -340,10 +341,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnMechanisms
   targetPhase: 1
+  skipFirstNTriggers: 0
   mechanismPrefab: {fileID: 3406084743913943512, guid: 15afa99cf6a035d479794a1574b08668, type: 3}
   spawnCount: 3
   spawnPadding: 1
   minObjectDistance: 2
+--- !u!114 &1037243244524593051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992103494201206248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb36d6c5e6575354a878b28cb9aaf602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_PlayBGM
+  targetPhase: 1
+  skipFirstNTriggers: 0
+  phaseBGM:
+    audioClip: {fileID: 8300000, guid: 355b68cd673c92f43b9af0900fe51160, type: 3}
 --- !u!1 &3367142498449252725
 GameObject:
   m_ObjectHideFlags: 0

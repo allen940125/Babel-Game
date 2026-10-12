@@ -90,23 +90,16 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
 
         _timer += Time.fixedDeltaTime;
 
-        // ==========================================
-        // 1. 移動向量計算：基於發射模式的狀態機解耦
-        // ==========================================
         if (missileData.launchMode == HomingMissileDataSO.LaunchMode.BezierArc)
         {
-            // --- 模式 B：貝茲曲線 ---
             if (_bezierT < 1f)
             {
                 _bezierT += (missileData.speed * Time.fixedDeltaTime) / _curveLength;
-
                 float t = Mathf.Clamp01(_bezierT);
                 float u = 1f - t;
                 Vector3 nextPos = (u * u * _p0) + (2f * u * t * _p1) + (t * t * _p2);
-
                 Vector3 moveDelta = nextPos - _lastPosition;
 
-                // 【防抖防護 1】只有當位移大於一個安全微小值時，才更新速度，避免浮點數誤差引起方向突變
                 if (moveDelta.sqrMagnitude > 0.0001f)
                 {
                     _currentVelocity = moveDelta.normalized * missileData.speed;
@@ -114,13 +107,11 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
             }
             else
             {
-                // 曲線已精準抵達
                 ApplyHomingDynamics();
             }
         }
         else if (missileData.launchMode == HomingMissileDataSO.LaunchMode.AngleSpread)
         {
-            // --- 模式 A：角度散射 ---
             if (_timer >= missileData.homingDelay)
             {
                 ApplyHomingDynamics();
@@ -128,29 +119,47 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
         }
 
         // ==========================================
-        // 2. 實體撞擊掃描
+        // 2. 實體撞擊掃描 (★ 牆壁與玩家合併掃描)
         // ==========================================
         float distanceThisFrame = _currentVelocity.magnitude * Time.fixedDeltaTime;
         Vector3 moveDir = _currentVelocity.normalized;
 
+        // ★ 把傷害層(玩家)與障礙物層(牆壁)加在一起，只要撞到任何一個都會有反應
+        LayerMask combinedMask = missileData.damageLayer | missileData.obstacleLayer;
+
         int hitCount = ShapeCastUtility.PerformCast(
             transform.position, moveDir, distanceThisFrame,
-            _hitBuffer, missileData.damageShape, missileData.damageLayer
+            _hitBuffer, missileData.damageShape, combinedMask
         );
 
         if (hitCount > 0)
         {
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider hitCol = _hitBuffer[i].collider;
+                if (hitCol != null)
+                {
+                    // ★ 檢查撞到的這個東西，是不是屬於「要扣血的目標 (damageLayer)」？
+                    // 使用位元運算來極速比對 Layer
+                    if ((missileData.damageLayer.value & (1 << hitCol.gameObject.layer)) != 0)
+                    {
+                        damageDealer.DealDamageTo(hitCol.gameObject);
+                        break; // 扣到一次血就中斷，避免一發導彈扣兩次血
+                    }
+                }
+            }
+
+            // 不管是撞到玩家還是撞到牆壁，導彈最終都會引爆並銷毀
             TriggerPayload();
             return;
         }
 
         // ==========================================
-        // 3. 實際位移與旋轉 (升級：極致抗抖動旋轉)
+        // 3. 實際位移與旋轉
         // ==========================================
         transform.position += _currentVelocity * Time.fixedDeltaTime;
         _lastPosition = transform.position;
 
-        // 【防抖防護 2】大幅提高速度採樣門檻。極微小的速度波動不允許計算旋轉
         if (_currentVelocity.sqrMagnitude > 0.1f)
         {
             float targetAngle = Mathf.Atan2(_currentVelocity.y, _currentVelocity.x) * Mathf.Rad2Deg - 90f;
@@ -163,61 +172,33 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
             }
             else
             {
-                // 【防抖防護 3】使用平滑插值 (LerpAngle)，並過濾不可能的「瞬間 180 度大反轉」
-                // 由於 Mathf.LerpAngle 會自動處理 360 度跨界，它能強行抹平任何 1 幀內發生的抖動
                 float currentAngle = transform.rotation.eulerAngles.z;
-
-                // 計算這一幀與上一幀的角度差
                 float angleDiff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle));
 
-                // 如果在 1 幀內角速度差大於 90 度，很可能是物理突變或穿過目標時的方向反轉，
-                // 這時候直接捨棄突變，以防跳動
-                if (angleDiff > 90f)
-                {
-                    targetAngle = _lastSafeAngle;
-                }
+                if (angleDiff > 90f) targetAngle = _lastSafeAngle;
 
-                // 平滑過渡到目標角度，徹底告別 1 幀內的“卡頓和瞬跳”
-                float smoothedAngle =
-                    Mathf.LerpAngle(currentAngle, targetAngle, rotationSmoothSpeed * Time.fixedDeltaTime);
+                float smoothedAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSmoothSpeed * Time.fixedDeltaTime);
                 transform.rotation = Quaternion.Euler(0, 0, smoothedAngle);
                 _lastSafeAngle = smoothedAngle;
             }
         }
     }
 
-    // 獨立出追蹤邏輯，消除重複代碼
-    // 獨立出追蹤邏輯，消除重複代碼
     private void ApplyHomingDynamics()
     {
         if (_target != null && missileData.homingStrength > 0f)
         {
             Vector3 targetPos = new Vector3(_target.position.x, _target.position.y, 0f);
             Vector3 myPos = new Vector3(transform.position.x, transform.position.y, 0f);
-            
-            // 算出玩家與導彈的相對向量
             Vector3 offset = targetPos - myPos;
             
-            // ★ 防抖動核心：近距離致盲
-            // 如果距離玩家太近 (這裡設為距離 0.5，換算平方為 0.25f，可依你的碰撞體大小調整)
-            // 就直接 return，保持最後的方向直衝，避免向量反轉導致的瘋狂抖動
-            if (offset.sqrMagnitude < 0.25f)
-            {
-                return; 
-            }
+            if (offset.sqrMagnitude < 0.25f) return; 
 
             Vector3 directionToTarget = offset.normalized;
-            
-            // 脫鎖機制：計算「導彈當前飛行方向」與「目標方向」的夾角
             float angleToTarget = Vector3.Angle(_currentVelocity.normalized, directionToTarget);
             
-            // 如果玩家已經閃躲到導彈的側邊或背後（例如大於 60 度），放棄追蹤
-            if (angleToTarget > 60f) 
-            {
-                return; 
-            }
+            if (angleToTarget > 60f) return; 
 
-            // 仍在視野內且保持安全距離，進行平滑轉向
             Vector3 newDirection = Vector3.RotateTowards(
                 _currentVelocity.normalized, 
                 directionToTarget, 
@@ -226,7 +207,6 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
             );
             newDirection.z = 0f;
             
-            // 防護機制：避免 newDirection 剛好歸零
             if (newDirection.sqrMagnitude > 0.001f)
             {
                 _currentVelocity = newDirection.normalized * missileData.speed;
@@ -242,19 +222,24 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
         if (missileData.hitEffectPrefab != null)
         {
             GameObject payload = Instantiate(missileData.hitEffectPrefab, transform.position, Quaternion.identity);
+            
+            // ★ 註解區塊：不再把傷害資料傳遞給特效 (現在特效純粹只是視覺煙火)
+            /*
             if (payload.TryGetComponent<EnemyAttackBase>(out var payloadAttack))
             {
                 payloadAttack.Initialize(ownerBoss, missileData.damageMultiplier, missileData.ignoreInvincibility);
             }
+            */
         }
-        // 觸發相機震動
+        
         if (missileData != null && missileData.enableCameraShake && GameManager.Instance?.MainGameEvent != null)
         {
             GameManager.Instance.MainGameEvent.Send(new CameraShakeEvent { Intensity = missileData.shakeIntensity, Duration = missileData.shakeDuration });
         }
+        
         Destroy(gameObject);
     }
-
+    
     private void OnDrawGizmos()
     {
         if (missileData != null && !Application.isPlaying)

@@ -6,6 +6,10 @@ public class EnemyDelayedAoE : EnemyAttackBase
     [Header("★ 攻擊資料配置")]
     [SerializeField] private DelayedAoEDataSO attackData;
 
+    [Header("★ 嚴格傷害追蹤 (Debug)")]
+    [Tooltip("開啟後，會印出從『掃描』到『扣血』的完整過程，幫你抓出誰沒吃到傷害")]
+    [SerializeField] private bool enableDamageDebug = false;
+
     private readonly Collider[] _hitColliders = new Collider[16];
     private bool _hasExploded = false;
 
@@ -16,6 +20,7 @@ public class EnemyDelayedAoE : EnemyAttackBase
         base.Initialize(boss, finalMultiplier, finalIgnore);
     }
 
+    // ★ 提供給 Animator Event 呼叫：只算傷害，不銷毀物件
     public void Explode()
     {
         if (_hasExploded) return;
@@ -23,12 +28,12 @@ public class EnemyDelayedAoE : EnemyAttackBase
 
         if (attackData == null) return;
 
+        // 如果你有另外獨立的 Hit 特效，可以在這裡生成
         if (attackData.hitEffectPrefab != null)
         {
             Instantiate(attackData.hitEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // ★ 呼叫靜態重疊工具，傳入自身的 transform.rotation 作為基準
         int hitCount = ShapeOverlapUtility.PerformOverlap(
             transform.position, 
             transform.rotation, 
@@ -49,13 +54,16 @@ public class EnemyDelayedAoE : EnemyAttackBase
                 Duration = attackData.shakeDuration 
             });
         }
+    }
 
+    // ★ 提供給 Animator Event 呼叫：動畫播完後，負責清理記憶體
+    public void DestroySelf()
+    {
         Destroy(gameObject);
     }
 
     private void OnDrawGizmos()
     {
-        // ★ 3. 呼叫自我展示功能，一行解決所有形狀的繪製
         if (attackData != null)
         {
             attackData.damageShape.DrawGizmo(transform.position, transform.rotation, new Color(1f, 0.5f, 0f, 0.5f));

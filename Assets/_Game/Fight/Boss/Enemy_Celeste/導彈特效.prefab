@@ -103,6 +103,8 @@ GameObject:
   - component: {fileID: 1272154624637036873}
   - component: {fileID: 6575743729634444645}
   - component: {fileID: 6939587175302108501}
+  - component: {fileID: 104077437372762857}
+  - component: {fileID: 1636394751947586402}
   m_Layer: 0
   m_Name: "\u5C0E\u5F48\u7279\u6548"
   m_TagString: Untagged
@@ -219,3 +221,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &104077437372762857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8955939593327333646}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
+  _snapshottedIgnoreInvincibility: 0
+  _snapshottedDamage: 15
+  _snapshottedCritRate: 0
+  _snapshottedCritMultiplier: 1.5
+--- !u!114 &1636394751947586402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8955939593327333646}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190e9a35fe7fdfe438ca4a8b2bd7881e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAreaAttack
+  attackData: {fileID: 11400000, guid: f1e4977f57770ad47ab1cc62964be101, type: 2}
+  enableDamageDebug: 0

@@ -191,8 +191,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7222599819936142582}
-  - component: {fileID: 3791941092517529905}
   - component: {fileID: 7030127186720618424}
+  - component: {fileID: 3791941092517529905}
   - component: {fileID: 7005765909813318066}
   m_Layer: 0
   m_Name: "\u5B50\u5F48\u653B\u64CA"
@@ -219,30 +219,6 @@ Transform:
   - {fileID: 1749844717901174927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3791941092517529905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8034763294956535289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  bulletData: {fileID: 11400000, guid: ff5b1d361c4d88b4c9bd3b704e79d3c0, type: 2}
-  enableDeepDebug: 0
-  stats:
-    speedRange: {x: 5, y: 12}
-    lifeTimeRange: {x: 15, y: 25}
-  vfx:
-    showHitEffect: 1
-    hitEffectPrefab: {fileID: 8955939593327333646, guid: ff667f27759274d4bad9568d664bba74, type: 3}
-    rotationMode: 1
-  debug_bulletData_damageMultiplier: 0
-  debug_AttackPattern_damageMultiplier: 0
-  debug_actualMultiplier: 0
 --- !u!54 &7030127186720618424
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -270,6 +246,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3791941092517529905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034763294956535289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
+  bulletData: {fileID: 11400000, guid: ff5b1d361c4d88b4c9bd3b704e79d3c0, type: 2}
+  enableDeepDebug: 0
+  stats:
+    speedRange: {x: 5, y: 12}
+    lifeTimeRange: {x: 15, y: 25}
+  vfx:
+    showHitEffect: 1
+    hitEffectPrefab: {fileID: 8955939593327333646, guid: ff667f27759274d4bad9568d664bba74, type: 3}
+    rotationMode: 1
+  debug_bulletData_damageMultiplier: 0
+  debug_AttackPattern_damageMultiplier: 0
+  debug_actualMultiplier: 0
 --- !u!114 &7005765909813318066
 MonoBehaviour:
   m_ObjectHideFlags: 0

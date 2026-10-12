@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Game.Audio;
 
 // ★ 要求必須與 BossStateMachine 掛載在同一個物件上
 [RequireComponent(typeof(BossStateMachine))]
@@ -33,7 +34,7 @@ public class BossAction_SpawnMechanisms : BossPhaseAction
         // 1. 確保生成前，場上沒有上一波殘留的本模組機關
         ClearMechanisms();
 
-        // 2. 計算螢幕可視範圍的絕對安全區域
+        // ... 以下維持你原本的生成邏輯完全不變 ...
         Camera cam = Camera.main;
         if (cam == null) cam = Object.FindFirstObjectByType<Camera>();
 

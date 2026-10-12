@@ -18,7 +18,7 @@ MonoBehaviour:
   damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 64
   damageShape:
     shapeType: 2
     radius: 0.14
@@ -30,6 +30,9 @@ MonoBehaviour:
   enableCameraShake: 1
   shakeIntensity: 0.15
   shakeDuration: 0.1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 768
   speed: 10
   homingStrength: 0
   lifeTime: 5

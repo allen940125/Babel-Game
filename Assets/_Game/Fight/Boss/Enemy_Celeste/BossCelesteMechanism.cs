@@ -125,7 +125,16 @@ public class BossCelesteMechanism : BossSpecialMechanism
                 
                 if (explosionPrefab != null)
                 {
-                    Instantiate(explosionPrefab, movingObject.position, Quaternion.identity);
+                    // 1. 生成爆炸物件
+                    GameObject expObj = Instantiate(explosionPrefab, movingObject.position, Quaternion.identity);
+
+                    // 2. 抓取 AoE 腳本 (這就是你漏掉的步驟)
+                    // 只要注入傷害資料即可，剩下的交給 expObj 自己的 Animator
+                    if (expObj.TryGetComponent(out EnemyDelayedAoE aoe))
+                    {
+                        BossStateMachine bossMachine = GetComponentInParent<BossStateMachine>(); 
+                        aoe.Initialize(bossMachine, 1f, false);
+                    }
                 }
 
                 if (_lineRenderer != null) _lineRenderer.enabled = false;
