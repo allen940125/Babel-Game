@@ -180,6 +180,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: FightMoveButton Variant
@@ -248,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
   _snapshottedIgnoreInvincibility: 0
   _snapshottedDamage: 15
   _snapshottedCritRate: 0

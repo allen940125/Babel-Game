@@ -21,7 +21,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _ShadowColor
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -113,7 +113,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ShadowSmoothness: 0.05
-    - _ShadowThreshold: 0
+    - _ShadowThreshold: -1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

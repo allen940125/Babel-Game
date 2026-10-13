@@ -21,20 +21,21 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 8f9c64ddd68cb6f4299d67db5bc4d484, type: 3}
+  m_Shader: {fileID: 4800000, guid: f23889e6a02e7a743ae38c6b420a9cdc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _FILLMODE_OVERWRITE
+  m_InvalidKeywords:
   - _ADD_LIGHT_ON
   - _REFLECTION_ON
   - _TRANSPARENCY_MODE_OPAQUE
   - _USE_LIGHTING
   - _USE_OUTLINE
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -184,6 +185,8 @@ Material:
     - _FaceSimpleMode: 0
     - _FaceSoftShadow: 0.2
     - _FaceSpecularIntensity: 4
+    - _FillAmount: 0
+    - _FillMode: 0
     - _GlobalPorosity: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -210,8 +213,10 @@ Material:
     - _MainLightColorWeight: 1
     - _MainLightMultiplier: 1
     - _MatCapIntensity: 0
+    - _MaxBound: 0.5
     - _MaxHighlightEnergy: 1.3
     - _Metallic: 0
+    - _MinBound: -0.5
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _OutlineWidth: 0.01
@@ -236,6 +241,7 @@ Material:
     - _RoughnessMetal: 0
     - _RoughnessNonMetal: 0
     - _ShadowSmoothness: 0.05
+    - _ShadowThreshold: -1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecShininess: 32
@@ -287,6 +293,8 @@ Material:
     - _FaceSecondColor: {r: 1, g: 1, b: 1, a: 1}
     - _FaceShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _FaceSpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FillColor: {r: 1, g: 0, b: 0, a: 1}
+    - _FillDirection: {r: 1, g: 0, b: 0, a: 0}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 1}
     - _HairEnvSpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _HairSecondColor: {r: 1, g: 1, b: 1, a: 1}
@@ -297,6 +305,7 @@ Material:
     - _RampColorLight: {r: 1, g: 0.95, b: 0.85, a: 1}
     - _RampColorShadow: {r: 0.54999995, g: 0.6, b: 0.7, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _ShadowTint: {r: 0.93, g: 0.74, b: 0.71, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
