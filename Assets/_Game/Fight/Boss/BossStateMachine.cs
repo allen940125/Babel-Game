@@ -7,7 +7,7 @@ using UnityEngine;
 // ★ 職責精簡：本類別絕對不處理扣血，只負責「狀態切換」、「彈幕發射」與「階段計時」
 public abstract class BossStateMachine : MonoBehaviour
 {
-    public enum BossPhase { Idle, Attacking, WaitingForBullets }
+    public enum BossPhase { Idle, Transition, Attacking, WaitingForBullets }
 
     // ★ 定義狀態切換的事件廣播
     public event Action<BossPhase> OnPhaseEntered;
@@ -48,6 +48,8 @@ public abstract class BossStateMachine : MonoBehaviour
     [Header("基本設定")]
     public string bossName;
     public Transform firePosition;
+    [Tooltip("轉場/怒吼準備時間 (秒)。給衝擊波推開物件的時間")]
+    public float transitionDuration = 1.5f; // ★ 新增這行
     [Tooltip("攻擊階段最長防呆時間 (秒)。")]
     public float attackPhaseDuration = 15.0f;
 

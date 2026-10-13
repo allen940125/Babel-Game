@@ -61,8 +61,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 11.509999, y: 2.6399996, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 8, y: 0.8, z: 1.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 205763793910498268}
   m_Father: {fileID: 7011712891635095239}
@@ -185,7 +185,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7011712891635095239}
@@ -290,8 +290,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.57, y: 4.14, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.1753476, y: 4.3677, z: 5}
+  m_Center: {x: -0.0142315775, y: -0.65463364, z: 0}
 --- !u!1 &4602923930814331091
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnMechanisms
   targetPhase: 0
   skipFirstNTriggers: 1
+  maxTriggerCount: 0
   mechanismPrefab: {fileID: 3406084743913943512, guid: a631ad138d8ced54ca7df1ff4852008d, type: 3}
   spawnCount: 3
   spawnPadding: 1
@@ -509,8 +510,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnShield
   targetPhase: 0
   skipFirstNTriggers: 1
-  shieldPrefab: {fileID: 6131491893710041281, guid: 822cbc804718e8f49a9f71460a729c1a, type: 3}
-  shieldSpawnPoint: {fileID: 7011712891635095239}
+  maxTriggerCount: 0
+  prefabToSpawn: {fileID: 6131491893710041281, guid: ae0a0bec20803424887409dff177d917, type: 3}
+  spawnPoint: {fileID: 7011712891635095239}
+  destroyOnPhaseExit: 1
 --- !u!1 &6049789016982380015
 GameObject:
   m_ObjectHideFlags: 0
