@@ -153,6 +153,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 94a302902e9f27c45bdd7c4e550706e1, type: 2}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.15
       objectReference: {fileID: 0}
@@ -192,6 +204,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: BagMoveButtonVariant
@@ -209,10 +225,58 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: 0
       addedObject: {fileID: 1412661324026742084}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7561018975824572170}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4782083447503122920}
   m_SourcePrefab: {fileID: 100100000, guid: f297860abed8db24d868ce783605d27d, type: 3}
 --- !u!4 &6551326216179761002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}
   m_PrefabInstance: {fileID: 6253997465621198878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8315006209478061913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+  m_PrefabInstance: {fileID: 6253997465621198878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7561018975824572170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315006209478061913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353136c425ec2a64c91ef1564256bd92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverFloat
+  visual: {fileID: 6551326216179761002}
+  floatHeight: 0.15
+  enterDuration: 0.2
+  exitDuration: 0.25
+  enterEase: 6
+  exitEase: 7
+  clickParticle: {fileID: 0}
+--- !u!114 &4782083447503122920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315006209478061913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8546d84342fb49c469c574dffd4d46da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragAfterimage
+  ghostMaterial: {fileID: 2100000, guid: c3ea8663696d8104f9dbd43b910ee330, type: 2}
+  ghostColor: {r: 0.3494268, g: 0.645283, b: 0.3540744, a: 0.2}
+  spawnInterval: 0.03
+  minMoveDistance: 0.1
+  ghostLifetime: 0.2
+  shrink: 0
