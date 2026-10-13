@@ -1068,6 +1068,7 @@ GameObject:
   - component: {fileID: 1928187640}
   - component: {fileID: 1928187644}
   - component: {fileID: 1928187643}
+  - component: {fileID: 1928187645}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1220,6 +1221,80 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1928187645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928187638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e7d928e60e31d4ea9c6aaf17af0edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameFramework.Actors.PlayerController
+  data: {fileID: 11400000, guid: a1e5cb322680a6741bba6ae7c6ffe809, type: 2}
+  reusableData:
+    CurEnvironmentState: 
+    CurCombatState: 
+    MovementInput: {x: 0, y: 0}
+    JumpInput: 0
+    AirboreSpeed: 0
+    MovementSpeedModifier: 0
+    TargetMovementSpeedModifier: 0
+    ActionMovementMultiplier: 1
+    IsGrounded: 0
+    Stopping: 0
+    Landing: 0
+    Airborne: 0
+    CanMove: 1
+    CanJump: 1
+    CurSpeed: 0
+    IsPreferWalkMode: 0
+    IsSprinting: 0
+    IsDashing: 0
+    IsMediumStopping: 0
+    IsHardStopping: 0
+    IsRolling: 0
+    IsHardLanding: 0
+    HasFinishedAirborne: 0
+    IsJumping: 0
+    IsFalling: 0
+    IsInCombat: 0
+    _inputBufferWindow: 0.5
+    IsUnderAttack: 0
+    CanBeInterrupted: 0
+    HasRecoveredFromHit: 0
+    IsAttackingAction: 0
+    AttackWindupFinished: 0
+    AttackSwingFinished: 0
+    AttackComboWindowFinished: 0
+    ComboIndex: 0
+    CurrentWeapon: {fileID: 0}
+    CurrentRotationMode: 0
+    RotationSpeedMultiplier: 1
+    MouseWorldPosition: {x: 0, y: 0, z: 0}
+    currentTargetRotation: {x: 0, y: 0, z: 0}
+    timeToReachTargetRotation: {x: 0, y: 0, z: 0}
+    dampedTargetRotationCurrentVelocity: {x: 0, y: 0, z: 0}
+    dampedTargetRotationPassedTime: {x: 0, y: 0, z: 0}
+  playerAnimationData:
+    groundedParameterName: Grounded
+    stoppingParameterName: Stopping
+    landingParameterName: Landing
+    airborneParameterName: Airborne
+    speedParameterName: Speed
+    dashParameterName: isDashing
+    mediumStopParameterName: isMediumStopping
+    hardStopParameterName: isHardStopping
+    jumpParameterName: isJumping
+    fallParameterName: isFalling
+    rollParameterName: isRolling
+    hardLandParameterName: isHardLanding
+    combatParameterName: isInJumping
+    wantsToAttackParameterName: wantsToAttack
+  _aimingInput: {fileID: 0}
+  groundTrigger: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

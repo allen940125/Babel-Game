@@ -18,38 +18,40 @@ public class WorldItemSpawner : MonoBehaviour
     private async void OnItemDroppedInWorld(ItemDroppedInWorldEvent cmd)
     {
         string addressableKey = cmd.ItemData.BaseTemplete.PrefabPath;
-        
+    
         if (string.IsNullOrEmpty(addressableKey))
         {
             Debug.LogError($"[生成失敗] 物品 {cmd.ItemData.BaseTemplete.Name} 沒有設定 PrefabPath。");
             return;
         }
 
-        // 1. 透過 ResourceManager 非同步載入 GameObject (3D Prefab)
         GameObject loadedPrefab = await ResourceManager.LoadAssetAsync<GameObject>(addressableKey);
 
         if (loadedPrefab != null && this != null)
         {
-            // 實例化
             GameObject spawnedItem = Instantiate(loadedPrefab, cmd.DropPosition, Quaternion.identity);
-            
-            // ★ 核心：尋找 Trigger 並注入動態資料
+        
             if (spawnedItem.TryGetComponent<ItemPickupTrigger>(out var trigger))
             {
-                // 把拖曳丟棄時的數量與ID原封不動交給 3D 物件
-                trigger.InitializeData(cmd.ItemData);
+                // ★ 修正二：實例化全新的資料物件給地上的掉落物，切斷與背包資料的參考連結
+                InventoryItemRuntimeData dropData = new InventoryItemRuntimeData
+                {
+                    itemId = cmd.ItemData.itemId,
+                    quantity = 1 // 每次掉落 1 個
+                };
+                trigger.InitializeData(dropData);
             }
             else
             {
                 Debug.LogWarning($"[警告] 生成的物品 {loadedPrefab.name} 缺少 ItemPickupTrigger 元件！");
             }
 
-            // 扣除背包內的物品
-            GameManager.Instance.MainGameEvent.Send(new ItemAddedToBagEvent() { ItemID = cmd.ItemData.BaseTemplete.Id, Quantity = -cmd.ItemData.quantity }); 
-        }
-        else
-        {
-            Debug.LogError($"[生成失敗] 無法從 Addressables 載入預製體：{addressableKey}");
+            // ★ 修正一：每次丟棄只扣除 1 個，而不是扣除該物品的所有數量
+            GameManager.Instance.MainGameEvent.Send(new ItemAddedToBagEvent() 
+            { 
+                ItemID = cmd.ItemData.BaseTemplete.Id, 
+                Quantity = -1 
+            }); 
         }
     }
 }

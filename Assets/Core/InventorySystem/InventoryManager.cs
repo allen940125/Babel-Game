@@ -80,6 +80,7 @@ public class InventoryManager : Singleton<InventoryManager>
     private void OnItemAddedToBagEvent(ItemAddedToBagEvent cmd)
     {
         AddItem(cmd.ItemID, cmd.Quantity);
+        GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.All });
     }
 
     private void OnInventoryItemClickedEvent(InventoryItemClickedEvent cmd)

@@ -22,5 +22,5 @@ MonoBehaviour:
     - rid: 1507063330796208273
       type: {class: HealAction, ns: , asm: Assembly-CSharp}
       data:
-        targetType: 0
+        targetType: 1
         healAmount: 30

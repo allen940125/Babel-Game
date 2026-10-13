@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2962223da12b2174cadc412a775a4dce, type: 3}
       propertyPath: m_LocalScale.x
-      value: 333.82
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2962223da12b2174cadc412a775a4dce, type: 3}
       propertyPath: m_LocalScale.y
-      value: 333.82
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2962223da12b2174cadc412a775a4dce, type: 3}
       propertyPath: m_LocalScale.z
-      value: 333.82
+      value: 249.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2962223da12b2174cadc412a775a4dce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -124,6 +124,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.x
+      value: 3.7915158
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.y
+      value: 3.1534548
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Size.z
+      value: 1.8773334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.x
+      value: -0.11963582
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.y
+      value: -0.31903005
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048701681975731250, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_Center.z
+      value: 0.039878815
+      objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: commandToExecute
       value: 
@@ -171,6 +195,10 @@ PrefabInstance:
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: BagMoveButtonVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: m_TagString
+      value: PlayerButton
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3453401802177198380, guid: f297860abed8db24d868ce783605d27d, type: 3}

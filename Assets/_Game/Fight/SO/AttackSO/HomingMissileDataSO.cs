@@ -8,6 +8,10 @@ public class HomingMissileDataSO : AttackDataSO
         BezierArc    // 完美的貝茲曲線外拋
     }
 
+    [Header("★ 障礙物與撞牆判定")]
+    [Tooltip("導彈撞到這些 Layer (例如牆壁、地板) 會直接引爆，但不會算傷害")]
+    public LayerMask obstacleLayer;
+    
     [Header("★ 導彈飛行與追蹤參數")]
     public float speed = 8f;
     public float homingStrength = 100f; 
