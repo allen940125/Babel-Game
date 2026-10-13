@@ -277,7 +277,7 @@ Material:
     - _group_Weather: 0
     m_Colors:
     - _AnisoColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.3254902, g: 0.6392157, b: 0.3764706, a: 1}
     - _BorderColor: {r: 1, g: 0.3, b: 0.1, a: 1}
     - _BounceColor: {r: 1, g: 0.9, b: 0.8, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
