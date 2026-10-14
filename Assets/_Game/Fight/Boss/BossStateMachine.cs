@@ -107,19 +107,15 @@ public abstract class BossStateMachine : MonoBehaviour
         }
         GameManager.Instance.MainGameMediator.RegisterCurrentBoss(_bossData);
     }
-
     
+    // 2. 修改觸發點 (將原本直接進入 Attacking 改為先進入 Transition)
     public virtual void StartBattle()
     {
         _isBattleActive = true;
         _isProvoked = true;
-        
-        // ★ 通知全域中繼站，讓 UI 知道要去哪裡抓血條資料
-        if (_bossData != null)
-        {
-            GameManager.Instance.MainGameMediator.RegisterCurrentBoss(_bossData);
-        }
-        
+        if (_bossData != null) GameManager.Instance.MainGameMediator.RegisterCurrentBoss(_bossData);
+    
+        // ★ 改為進入轉場
         EnterPhase(BossPhase.Attacking); 
     }
 
@@ -155,7 +151,7 @@ public abstract class BossStateMachine : MonoBehaviour
     {
         _isProvoked = true;
         Debug.Log($"<color=green>[{bossName}] 休眠中被物理痛毆！立刻展開下一輪大範圍攻擊！</color>");
-        EnterPhase(BossPhase.Attacking);
+        EnterPhase(BossPhase.Transition);
     }
 
     // ==========================================
@@ -211,7 +207,16 @@ public abstract class BossStateMachine : MonoBehaviour
         
         _phaseTimerDisplay = phaseTimer;
 
-        if (_currentPhase == BossPhase.Attacking)
+        // ★ 新增 Transition 倒數邏輯
+        if (_currentPhase == BossPhase.Transition)
+        {
+            phaseTimer -= Time.deltaTime;
+            if (phaseTimer <= 0f)
+            {
+                EnterPhase(BossPhase.Attacking); // 時間到，自動切入攻擊狀態 (此時掩體鎖死)
+            }
+        }
+        else if (_currentPhase == BossPhase.Attacking)
         {
             HandleAttackingPhaseUpdate();
         }
@@ -279,6 +284,15 @@ public abstract class BossStateMachine : MonoBehaviour
                 if (_bossData != null && _bossData.TryGetTrait(out TimerTrait idleTimer)) idleTimer.StartTimer(0f);
                 break;
 
+            case BossPhase.Transition: // ★ 新增轉場邏輯
+                GameManager.Instance.MainGameEvent.Send(new BossEnterTransitionPhaseEvent());
+                _bossData?.AddState(EntityStateFlags.Invincible); // 轉場時通常也是無敵的
+                phaseTimer = transitionDuration; // 開始倒數 1.5 秒
+            
+                // 如果你有怒吼動畫，可以在這裡播
+                // if (animator) animator.Play("Roar"); 
+                break;
+            
             case BossPhase.Attacking:
                 GameManager.Instance.MainGameEvent.Send(new BossEnterAttackingPhaseEvent());
                 _bossData?.AddState(EntityStateFlags.Invincible);

@@ -71,6 +71,8 @@ namespace Gamemanager
 
         public IObservable<BossEnterIdlePhaseEvent> OnBossEnterIdlePhaseEvent => getSubject<BossEnterIdlePhaseEvent>();
 
+        public IObservable<BossEnterTransitionPhaseEvent> OnBossEnterTransitionPhaseEvent => getSubject<BossEnterTransitionPhaseEvent>();
+        
         public IObservable<BossEnterSpecialPhaseEvent> OnBossEnterSpecialPhaseEvent => getSubject<BossEnterSpecialPhaseEvent>();
         
         public IObservable<BossEnterAttackingPhaseEvent> OnBossEnterAttackingPhaseEvent => getSubject<BossEnterAttackingPhaseEvent>();

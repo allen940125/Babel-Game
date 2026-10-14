@@ -1,3 +1,4 @@
+using Gamemanager;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -66,10 +67,15 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
         else if (bindingMode == BindingMode.GlobalBoss)
         {
             var bossRuntime = GameManager.Instance.MainGameMediator.CurrentBossRuntime;
-            if (bossRuntime != null) BindTarget(bossRuntime);
-            else Debug.LogError($"[錯誤] {gameObject.name} 找不到全域Boss資料！");
-            // 如果 Start 時 Boss 還沒開戰 (bossRuntime 是 null)，
-            // 你可以讓這個 UI 訂閱剛才提到的 ShowBossUIEvent，等事件發生時再執行 BindTarget。
+            if (bossRuntime != null) 
+            {
+                BindTarget(bossRuntime); // 如果運氣好，Boss 先生成了就直接綁定
+            }
+            else 
+            {
+                // ★ 找不到不要報錯，因為 Boss 是動態生成的，我們等事件通知
+                Debug.Log($"[系統] {gameObject.name} 尚未找到 Boss 資料，等待 Boss 開戰事件...");
+            }
         }
         // 如果是 ManualInject，就什麼都不做，等別人來呼叫 BindTarget
     }
@@ -146,6 +152,23 @@ public class MetaInteractiveHUD3D : InteractiveMetaEntity3D
         if (_fillSprite != null)
         {
             _fillSprite.color = Color.Lerp(emptyColor, fullColor, _currentRatio);
+        }
+    }
+    
+    protected override void OnBossIdle(BossEnterIdlePhaseEvent evt)
+    {
+        base.OnBossIdle(evt); // 呼叫底層，讓 UI 的物理鎖定機制正常運作
+
+        if (bindingMode == BindingMode.GlobalBoss)
+        {
+            var currentBoss = GameManager.Instance.MainGameMediator.CurrentBossRuntime;
+            
+            // ★ 完美解法：確保 Mediator 有資料，且「我目前綁定的對象，不是最新這隻 Boss」才執行更新
+            if (currentBoss != null && _target != currentBoss)
+            {
+                Debug.Log($"<color=lime>[系統] {gameObject.name} 發現全新 Boss 資料，執行覆寫綁定！</color>");
+                BindTarget(currentBoss);
+            }
         }
     }
 }

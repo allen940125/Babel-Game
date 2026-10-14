@@ -170,6 +170,11 @@ namespace Gamemanager
     {
 
     }
+
+    public class BossEnterTransitionPhaseEvent : GameEventMessageBase
+    {
+        
+    }
     
     public class BossEnterSpecialPhaseEvent : GameEventMessageBase
     {

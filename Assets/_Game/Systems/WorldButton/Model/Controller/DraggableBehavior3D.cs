@@ -103,6 +103,41 @@ public class DraggableBehavior3D : MonoBehaviour, IDragHandler3D
         UpdatePhysicsLockState(); 
     }
     
+    // ==========================================
+    // ★ 專供衝擊波 / 爆炸呼叫的外部介面
+    // ==========================================
+    public void ApplyImpactForce(Vector3 force, float unlockDuration = 1.5f, bool showDebug = false)
+    {
+        LockPhysicsWhenIdle = false; 
+        LockPhysicsWhenDisabled = false; 
+
+        if (_rb != null)
+        {
+            _rb.isKinematic = false; 
+            _rb.linearVelocity = Vector3.zero; 
+            
+            _rb.AddForce(force, ForceMode.VelocityChange);
+            
+            if (showDebug)
+            {
+                Debug.Log($"<color=magenta>[剛體偵錯] {gameObject.name} 成功解除 Kinematic 並受力！當前速度: {_rb.linearVelocity}</color>");
+            }
+        }
+        else
+        {
+            if (showDebug) Debug.LogError($"<color=red>[剛體致命錯誤] {gameObject.name} 找不到 Rigidbody！無法受力！</color>");
+        }
+
+        CancelInvoke(nameof(RestorePhysicsLock));
+        Invoke(nameof(RestorePhysicsLock), unlockDuration);
+    }
+
+    private void RestorePhysicsLock()
+    {
+        LockPhysicsWhenIdle = true; 
+        LockPhysicsWhenDisabled = true; 
+    }
+    
 #if UNITY_EDITOR
     // 當你在 Unity Inspector 中修改任何數值時，會自動觸發此方法
     private void OnValidate()
