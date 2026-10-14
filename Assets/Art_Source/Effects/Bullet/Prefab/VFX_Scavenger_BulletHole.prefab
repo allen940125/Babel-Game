@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7343094335434148746}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.29, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -51,8 +51,8 @@ MonoBehaviour:
   - {fileID: 2289693892143209681, guid: 6a6792f2a70d98948941fece6c6030f1, type: 3}
   minHoleCount: 1
   maxHoleCount: 3
-  holeSpreadRadius: 0.3
-  holeScale: 2
+  holeSpreadRadius: 0.5
+  holeScale: 1.5
   holePopDuration: 0.2
   holeLifetime: 2
   holeFadeDuration: 0.3
