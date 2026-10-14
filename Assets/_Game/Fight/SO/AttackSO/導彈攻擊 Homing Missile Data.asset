@@ -34,7 +34,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   speed: 10
-  homingStrength: 50
+  homingStrength: 100
   lifeTime: 5
   homingDelay: 0.5
   launchMode: 1
