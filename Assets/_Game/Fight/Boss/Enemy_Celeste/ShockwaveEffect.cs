@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ShockwaveEffect : MonoBehaviour
 {
@@ -9,50 +10,61 @@ public class ShockwaveEffect : MonoBehaviour
     [Tooltip("只炸這個 Layer 的物件，提升效能")]
     public LayerMask targetLayer;
 
+    [Header("時序設定")]
+    [Tooltip("生成後等待幾秒才真正引爆？ (給玩家的反應時間)")]
+    public float delayBeforeExplosion = 1.0f;
+
     public bool enableDebugLog = true;
 
     void Start()
     {
-        // ★ 核心防呆：給事件中心一點點時間 (0.05秒) 
-        // 確保所有按鈕都已經收到 Transition 事件並解開 isKinematic，然後再引爆
-        Invoke(nameof(Detonate), 0.05f);
+        // 技能一被生成，立刻開始執行倒數引爆的流程
+        StartCoroutine(ExplosionRoutine());
+    }
+
+    private IEnumerator ExplosionRoutine()
+    {
+        // ==========================================
+        // 階段 1: 蓄力與警告期 (等待時間)
+        // 你可以在這裡加入播放音效、放大警告圈特效的邏輯
+        // ==========================================
+        
+        yield return new WaitForSeconds(delayBeforeExplosion);
+
+        // ==========================================
+        // 階段 2: 瞬間引爆，結算物理推力
+        // ==========================================
+        Detonate();
+
+        // ==========================================
+        // 階段 3: 功成身退
+        // 延遲一點點時間讓粒子特效播完，然後自我銷毀
+        // ==========================================
+        Destroy(gameObject, 2f); 
     }
 
     private void Detonate()
     {
-        // 1. 透過 Layer 過濾，找出範圍內的所有 Collider
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer);
         
         foreach (Collider col in colliders)
         {
-            // 2. ★ 完全解耦：不看腳本，只找有沒有 Rigidbody！
-            // 使用 attachedRigidbody 可以自動找到父節點上的剛體，非常安全
             Rigidbody rb = col.attachedRigidbody;
 
-            if (rb != null)
+            if (rb != null && !rb.isKinematic)
             {
-                // 3. 防呆檢查：確保它真的已經被事件中心解鎖了
-                if (rb.isKinematic)
-                {
-                    if (enableDebugLog) Debug.LogWarning($"<color=orange>[衝擊波] {rb.gameObject.name} 還是 Kinematic，推不動！可能是事件慢了一步。</color>");
-                    continue; 
-                }
-
-                // 4. 計算 2.5D 平面外推方向
                 Vector3 pushDirection = rb.position - transform.position;
                 pushDirection.z = 0; 
                 pushDirection = pushDirection.normalized;
 
                 Vector3 finalForce = pushDirection * explosionForce;
 
-                // 5. 暴力推開 (無視質量)
-                rb.linearVelocity = Vector3.zero; // 推之前先煞車
+                rb.linearVelocity = Vector3.zero; 
                 rb.AddForce(finalForce, ForceMode.VelocityChange);
 
                 if (enableDebugLog)
                 {
                     Debug.Log($"<color=cyan>[純物理衝擊波] 成功炸飛: {rb.gameObject.name}</color>");
-                    Debug.DrawRay(rb.position, finalForce, Color.red, 2f);
                 }
             }
         }

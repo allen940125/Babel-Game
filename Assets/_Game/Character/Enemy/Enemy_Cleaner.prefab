@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 669354873535801721}
   - component: {fileID: 6478610380716690124}
   - component: {fileID: 1037243244524593051}
+  - component: {fileID: 6765935621440539412}
   m_Layer: 7
   m_Name: Enemy_Cleaner
   m_TagString: Boss
@@ -340,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cad58e03ef81a4699964e609957985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnMechanisms
-  targetPhase: 1
+  targetPhase: 2
   skipFirstNTriggers: 0
   maxTriggerCount: 0
   mechanismPrefab: {fileID: 3406084743913943512, guid: 15afa99cf6a035d479794a1574b08668, type: 3}
@@ -364,6 +365,24 @@ MonoBehaviour:
   maxTriggerCount: 0
   phaseBGM:
     audioClip: {fileID: 8300000, guid: 355b68cd673c92f43b9af0900fe51160, type: 3}
+--- !u!114 &6765935621440539412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992103494201206248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9575adc2bd86fd342bdf0804166996e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnShield
+  targetPhase: 1
+  skipFirstNTriggers: 0
+  maxTriggerCount: 0
+  prefabToSpawn: {fileID: 6131491893710041281, guid: ae0a0bec20803424887409dff177d917, type: 3}
+  spawnPoint: {fileID: 2780442333805136373}
+  destroyOnPhaseExit: 1
 --- !u!1 &6956695244094235047
 GameObject:
   m_ObjectHideFlags: 0

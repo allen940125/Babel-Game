@@ -79,8 +79,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5651893268978185793}
   m_SourcePrefab: {fileID: 100100000, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
+--- !u!1 &5957700833896115304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
+  m_PrefabInstance: {fileID: 6804772487761498425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5651893268978185793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5957700833896115304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  ghostMaterial: {fileID: 2100000, guid: 65e2fe4bea7b9f34fafc31f02b20ab55, type: 2}
+  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.2}
+  distanceGap: 0.5
+  ghostLifetime: 0.2
+  posOffset: {x: 0, y: 0, z: 0.1}
+  autoAntiZFighting: 1
+  overrideTexture: {fileID: 0}
 --- !u!4 &6477814516097578706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a42b2f5bb8c68e54cb7f7e34a7458b3b, type: 3}
@@ -120,15 +147,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c4c9c805b7bb17f4780aa195c663bd8e, type: 2}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -136,7 +163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.74
+      value: -4.4699993
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -283,7 +310,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5711616338272804815}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8546d84342fb49c469c574dffd4d46da, type: 3}
   m_Name: 
