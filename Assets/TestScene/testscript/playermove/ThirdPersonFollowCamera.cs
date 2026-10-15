@@ -35,6 +35,10 @@ public class ThirdPersonFollowCamera : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 0.15f;
     [Tooltip("轉動方向反了就勾這個。")]
     [SerializeField] private bool invertHorizontal = false;
+    [Tooltip("限制轉動範圍：以遊戲開始時的 Yaw 為中心，左右各只能轉 Yaw Limit 度。取消勾選 = 可以轉整圈。")]
+    [SerializeField] private bool limitRotation = true;
+    [Tooltip("從中心往左、往右各能轉多少度。例如 60 = 總共可轉 120 度。")]
+    [SerializeField, Range(1f, 180f)] private float yawLimit = 60f;
     [Tooltip("按住右鍵轉動時，隱藏並鎖住游標。")]
     [SerializeField] private bool lockCursorWhileRotating = true;
 
@@ -58,6 +62,13 @@ public class ThirdPersonFollowCamera : MonoBehaviour
     private readonly Dictionary<Renderer, ShadowCastingMode> hidden = new Dictionary<Renderer, ShadowCastingMode>();
     private readonly HashSet<Renderer> thisFrame = new HashSet<Renderer>();
     private readonly List<Renderer> toRestore = new List<Renderer>();
+
+    private float centerYaw;
+
+    private void Awake()
+    {
+        centerYaw = yaw;
+    }
 
     private void Start()
     {
@@ -109,7 +120,10 @@ public class ThirdPersonFollowCamera : MonoBehaviour
         {
             float dx = Mouse.current.delta.ReadValue().x;
             yaw += (invertHorizontal ? -dx : dx) * mouseSensitivity;
-            yaw = Mathf.Repeat(yaw, 360f);
+            if (limitRotation)
+                yaw = centerYaw + Mathf.Clamp(Mathf.DeltaAngle(centerYaw, yaw), -yawLimit, yawLimit);
+            else
+                yaw = Mathf.Repeat(yaw, 360f);
         }
 
         // 游標鎖定只在「按住右鍵轉動」時處理，其他時候不碰，避免干擾小遊戲 / 選單

@@ -9346,6 +9346,8 @@ MonoBehaviour:
   holdRightMouseToRotate: 0
   mouseSensitivity: 0.15
   invertHorizontal: 0
+  limitRotation: 1
+  yawLimit: 22.5
   lockCursorWhileRotating: 1
   lookHeight: 0.25
   followSharpness: 8
