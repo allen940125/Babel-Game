@@ -14,14 +14,18 @@ public class MetaInteractiveShaderHUD3D : MonoBehaviour
     [SerializeField] private VisualMode visualMode = VisualMode.Scale2D;
     [SerializeField] private float smoothSpeed = 10f;
 
-    [Header("2D 渲染設定 (Scale2D 模式)")]
+    [Header("2D 渲染設定")]
     [SerializeField] private Transform _fillPivot; 
     [SerializeField] private SpriteRenderer _fillSprite;
     [SerializeField] private Color fullColor = Color.green;
     [SerializeField] private Color emptyColor = Color.red;
 
-    [Header("3D Shader 渲染設定 (Shader3D 模式)")]
+    [Header("3D Shader 渲染設定")]
     [SerializeField] private Renderer targetRenderer;
+    
+    [Header("顯示設定")]
+    [Tooltip("勾選後，數值會被翻轉 (1 - Ratio)。適用於：倒數計時器想要顯示成『逐漸充能』的進度條。")]
+    [SerializeField] private bool invertFill = false;
     
     private Material _runtimeMaterial;
     private int _fillAmountPropertyID;
@@ -48,84 +52,92 @@ public class MetaInteractiveShaderHUD3D : MonoBehaviour
 
     private void Start()
     {
-        // ★ 所有模式都改用協程去追蹤，徹底消滅生命週期先後順序造成的 Bug
         if (bindingMode == BindingMode.LocalParent)
         {
             var core = GetComponentInParent<EntityCore>();
             if (core != null) 
-                StartCoroutine(WaitAndBindTargetRoutine(core.RuntimeData));
-            else 
-                Debug.LogError($"[錯誤] {gameObject.name} 找不到父物件的 EntityCore！");
+                TryBindValidatedTarget(core.RuntimeData);
         }
         else if (bindingMode == BindingMode.GlobalPlayer)
         {
-            StartCoroutine(WaitAndBindGlobalRoutine(isBoss: false));
+            var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+            if (playerRuntime != null) 
+                TryBindValidatedTarget(playerRuntime);
         }
         else if (bindingMode == BindingMode.GlobalBoss)
         {
-            StartCoroutine(WaitAndBindGlobalRoutine(isBoss: true));
-        }
-    }
-
-    // ==========================================
-    // ★ 萬用獵犬協程 (解決所有生成時間差與數值空窗期)
-    // ==========================================
-    private IEnumerator WaitAndBindGlobalRoutine(bool isBoss)
-    {
-        EntityRuntime validTarget = null;
-
-        while (validTarget == null)
-        {
-            if (GameManager.Instance != null && GameManager.Instance.MainGameMediator != null)
+            var existingBoss = GameManager.Instance.MainGameMediator.CurrentBossRuntime;
+            if (existingBoss != null)
             {
-                var candidate = isBoss 
-                    ? GameManager.Instance.MainGameMediator.CurrentBossRuntime 
-                    : GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
-
-                if (candidate != null && _target != candidate)
-                {
-                    if (IsTargetReady(candidate))
-                    {
-                        validTarget = candidate;
-                    }
-                }
+                TryBindValidatedTarget(existingBoss);
             }
-            if (validTarget == null) yield return null; 
-        }
 
-        Debug.Log($"<color=lime>[HUD 綁定] 全域目標尋找結束！成功捕捉到 {displayMode} 資料。</color>");
-        BindTarget(validTarget);
+            // 訂閱註冊廣播
+            GameManager.Instance.MainGameMediator.OnBossRegisteredEvent += OnBossRegistered;
+        }
     }
 
-    private IEnumerator WaitAndBindTargetRoutine(EntityRuntime candidate)
+    // ★ 接收到廣播時，不要馬上綁定，交給驗證器！
+    private void OnBossRegistered(EntityRuntime newBoss)
     {
-        // 針對 LocalParent 模式，確保父物件把資料塞滿了才綁定
+        TryBindValidatedTarget(newBoss);
+    }
+
+    // ==========================================
+    // ★ 核心防護網：驗證型綁定
+    // ==========================================
+    private void TryBindValidatedTarget(EntityRuntime candidate)
+    {
+        if (candidate == null) return;
+        
+        // 如果這個腳本是啟用的，開啟協程等待資料填滿
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(WaitUntilReadyAndBind(candidate));
+        }
+    }
+
+    private IEnumerator WaitUntilReadyAndBind(EntityRuntime candidate)
+    {
+        // 死死盯著這個候選人，直到它具備我們需要的資料
         while (!IsTargetReady(candidate))
         {
             yield return null;
         }
-        Debug.Log($"<color=lime>[HUD 綁定] 父物件資料初始化完成，綁定 {displayMode}！</color>");
-        BindTarget(candidate);
+
+        // 資料終於寫入了，執行正式綁定！
+        if (_target != candidate)
+        {
+            Debug.Log($"<color=lime>[HUD 綁定] 目標資料已初始化完畢，正式綁定 {displayMode}！</color>");
+            BindTarget(candidate);
+        }
     }
 
-    // ★ 核心防呆：檢查目標的「特徵」是否真正初始化完畢
     private bool IsTargetReady(EntityRuntime candidate)
     {
-        if (candidate == null) return false;
-
         switch (displayMode)
         {
             case DisplayMode.Health:
-                // ★ 雙重防護：不僅要設定上限，當前血量也必須大於 0，防止抓到殘血空殼
-                return candidate.MaxHealth > 0 && candidate.CurrentHealth > 0; 
-                
+                // ★ 關鍵：必須等到 HealthComponent 把最大血量寫入後，才算是一隻活著的 Boss
+                return candidate.MaxHealth > 0; 
             case DisplayMode.Stamina:
                 return candidate.TryGetTrait(out StaminaTrait _);
-                
             case DisplayMode.Timer:
                 return candidate.TryGetTrait(out TimerTrait _);
         }
         return false;
+    }
+
+    private void OnDisable() => UnbindTarget();
+
+    private void OnDestroy()
+    {
+        if (_runtimeMaterial != null) Destroy(_runtimeMaterial);
+
+        if (GameManager.Instance != null && GameManager.Instance.MainGameMediator != null)
+        {
+            GameManager.Instance.MainGameMediator.OnBossRegisteredEvent -= OnBossRegistered;
+        }
     }
 
     private void Update()
@@ -147,12 +159,10 @@ public class MetaInteractiveShaderHUD3D : MonoBehaviour
         }
     }
 
-    private void OnDisable() => UnbindTarget();
-    private void OnDestroy() { if (_runtimeMaterial != null) Destroy(_runtimeMaterial); }
-
     // ==========================================
     // 核心綁定邏輯 (維持不變)
     // ==========================================
+    // ★ 核心綁定邏輯 (修改這裡)
     public void BindTarget(EntityRuntime newTarget)
     {
         UnbindTarget();
@@ -216,15 +226,17 @@ public class MetaInteractiveShaderHUD3D : MonoBehaviour
         _target = null;
     }
 
-    private void UpdateTargetRatio(float newRatio) => _targetRatio = newRatio;
+    // ★ 在這裡攔截並翻轉數值！
+    private void UpdateTargetRatio(float newRatio) 
+    {
+        // 如果開啟翻轉，就把 0 變 1，把 0.8 變 0.2
+        _targetRatio = invertFill ? (1f - newRatio) : newRatio;
+    }
 
-    // ==========================================
-    // 編輯器自動計算功能 (維持不變)
-    // ==========================================
     [ContextMenu("Calculate Bounds")]
     public void SetupBounds()
     {
-        // 你的邊界計算邏輯保持原樣...
+        // 邊界計算邏輯...
         if (targetRenderer == null) targetRenderer = GetComponent<Renderer>();
         if (targetRenderer == null) return;
         Material mat = Application.isPlaying ? targetRenderer.material : targetRenderer.sharedMaterial;

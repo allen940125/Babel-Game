@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _FILLMODE_MULTIPLY
+  - _FILLMODE_REPLACEBASE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -99,7 +99,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FillAmount: 1
-    - _FillMode: 1
+    - _FillMode: 4
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
