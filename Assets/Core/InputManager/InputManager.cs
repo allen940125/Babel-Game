@@ -1,3 +1,4 @@
+using System;
 using Gamemanager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +18,17 @@ namespace Game.Input
 
         private bool _uiOnly;
 
+        // 1. 定義純粹的 C# 事件 (取代 GameManager.Instance.MainGameEvent.Send)
+        public event Action<Vector2> OnMoveEvent;
+        public event Action<bool> OnJumpEvent;
+        public event Action<bool> OnAttackEvent;
+        public event Action<bool> OnRunEvent;
+        public event Action<bool> OnWalkToggleEvent;
+        
+        // UI 相關事件
+        public event Action OnBackpackOpenedEvent;
+        public event Action OnEscapePressedEvent;
+        
         public void Initialize()
         {
             if (_inputActions == null)
@@ -83,43 +95,25 @@ namespace Game.Input
         public void OnAxes(InputAction.CallbackContext context)
         {
             Vector2 input = context.ReadValue<Vector2>();
-    
-            //Debug.Log($"OnAxes: {input}");
-
-            if (context.phase == InputActionPhase.Performed && input != Vector2.zero)
-            {
-                GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = input });
-            }
-            else if (context.phase == InputActionPhase.Canceled || input == Vector2.zero)
-            {
-                GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = Vector2.zero });
-            }
+            
+            // 直接觸發 Action，不經過全域事件中心，達到 0 GC 開銷
+            OnMoveEvent?.Invoke(input);
         }
-
-
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed) // 按下
-            {
-                GameManager.Instance.MainGameEvent.Send(new JumpPressedEvent() { JumpPressed = true });
-            }
-            else if (context.phase == InputActionPhase.Canceled) // 放開
-            {
-                GameManager.Instance.MainGameEvent.Send(new JumpPressedEvent() { JumpPressed = false });
-            }
+            if (context.phase == InputActionPhase.Performed)
+                OnJumpEvent?.Invoke(true);
+            else if (context.phase == InputActionPhase.Canceled)
+                OnJumpEvent?.Invoke(false);
         }
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed) // 按下
-            {
-                GameManager.Instance.MainGameEvent.Send(new AttackPressedEvent() { AttackPressed = true });
-            }
-            else if (context.phase == InputActionPhase.Canceled) // 放開
-            {
-                GameManager.Instance.MainGameEvent.Send(new AttackPressedEvent() { AttackPressed = false });
-            }
+            if (context.phase == InputActionPhase.Performed)
+                OnAttackEvent?.Invoke(true);
+            else if (context.phase == InputActionPhase.Canceled)
+                OnAttackEvent?.Invoke(false);
         }
 
         public void OnChargedAttack(InputAction.CallbackContext context)
@@ -149,24 +143,19 @@ namespace Game.Input
 
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed) // 按下
-            {
-                GameManager.Instance.MainGameEvent.Send(new RunPressedEvent() { RunPressed = true });
-            }
-            else if (context.phase == InputActionPhase.Canceled) // 放開
-            {
-                GameManager.Instance.MainGameEvent.Send(new RunPressedEvent() { RunPressed = false });
-            }
+            if (context.phase == InputActionPhase.Performed)
+                OnRunEvent?.Invoke(true);
+            else if (context.phase == InputActionPhase.Canceled)
+                OnRunEvent?.Invoke(false);
         }
 
         private bool _isWalking = false;
-
         public void OnWalkToggle(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
             {
-                _isWalking = !_isWalking; // 切換狀態
-                GameManager.Instance.MainGameEvent.Send(new WalkToggledEvent() { WalkToggled = _isWalking });
+                _isWalking = !_isWalking;
+                OnWalkToggleEvent?.Invoke(_isWalking);
             }
         }
 
