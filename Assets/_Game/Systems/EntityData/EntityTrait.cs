@@ -96,13 +96,17 @@ public class TimerTrait : EntityTrait
 
     public float TimerRatio => maxTimer > 0 ? Mathf.Clamp01(currentTimer / maxTimer) : 0f;
 
-    // ★ 必須加上 override
+    // ★ 核心補全：必須要有這個事件，HUD 才能訂閱！
+    public event Action<float> OnTimerRatioChanged;
+
     public override EntityTrait Clone()
     {
-        return new TimerTrait();
+        // ★ 改用 base.Clone() 進行淺拷貝，並清空事件註冊，避免跟舊的實體糾纏
+        var copy = (TimerTrait)base.Clone();
+        copy.OnTimerRatioChanged = null; 
+        return copy;
     }
     
-    // ★ 必須加上 override 與參數
     public override void Initialize(EntityRuntime owner)
     {
         currentTimer = 0;
@@ -110,18 +114,24 @@ public class TimerTrait : EntityTrait
         _isTimerFinished = false;
     }
 
-    // ... 其他計時器方法保持不變 (StartTimer, ReduceTimer, TickTimer) ...
     public void StartTimer(float duration)
     {
         maxTimer = duration;
         currentTimer = duration;
         _isTimerFinished = false;
+        
+        // ★ 數值改變，觸發廣播
+        OnTimerRatioChanged?.Invoke(TimerRatio);
     }
 
     public void ReduceTimer(float seconds)
     {
         if (_isTimerFinished) return;
         currentTimer = Mathf.Max(0f, currentTimer - seconds);
+        
+        // ★ 數值改變，觸發廣播
+        OnTimerRatioChanged?.Invoke(TimerRatio);
+
         if (currentTimer <= 0f) _isTimerFinished = true;
     }
 
@@ -135,6 +145,10 @@ public class TimerTrait : EntityTrait
         if (currentTimer <= 0f) return false;
 
         currentTimer -= deltaTime;
+        
+        // ★ 每一幀數值都在扣，所以必須廣播給 HUD 讓它平滑下降
+        OnTimerRatioChanged?.Invoke(TimerRatio);
+
         if (currentTimer <= 0f)
         {
             currentTimer = 0f;
