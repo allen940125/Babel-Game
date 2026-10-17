@@ -1018,25 +1018,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1363832655}
     m_Modifications:
-    - target: {fileID: 63669400946471152, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1362941320555408764, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      propertyPath: m_Size.z
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1913403208673973236, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
       propertyPath: m_Name
       value: FightMoveButton Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 1997276193766707552, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      propertyPath: ghostColor.a
-      value: 0.5882353
-      objectReference: {fileID: 0}
-    - target: {fileID: 2999664350128039142, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3208192742516770528, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1081,13 +1065,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1913403208673973236, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      insertIndex: 9
-      addedObject: {fileID: 1737577476}
-    - targetCorrespondingSourceObject: {fileID: 1913403208673973236, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1737577464}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
 --- !u!4 &455744736 stripped
 Transform:
@@ -4818,11 +4796,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5906520757238015701, guid: c859331d40a9b694aaa353e3f65d881d, type: 3}
   m_PrefabInstance: {fileID: 1607514368}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &1633901014 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4526708797023337240, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-  m_PrefabInstance: {fileID: 455744735}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1690896114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4954,45 +4927,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5906520757238015701, guid: 8b1e33e625f8804438b19e9d9b63f3a3, type: 3}
   m_PrefabInstance: {fileID: 1707003011}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1737577452 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1913403208673973236, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
-  m_PrefabInstance: {fileID: 455744735}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1737577464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737577452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6180839fd398f2742a93a37f2f1da004, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TripwireDetonator
---- !u!114 &1737577476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737577452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107aee2c18a54b040bf9cf9b07ee789a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MetaInteractiveShaderHUD3D
-  bindingMode: 2
-  displayMode: 2
-  visualMode: 1
-  smoothSpeed: 10
-  _fillPivot: {fileID: 0}
-  _fillSprite: {fileID: 0}
-  fullColor: {r: 0, g: 1, b: 0, a: 1}
-  emptyColor: {r: 1, g: 0, b: 0, a: 1}
-  targetRenderer: {fileID: 1633901014}
-  invertFill: 1
 --- !u!4 &1777736331 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3882232641607372702, guid: 4ee6964d790535948a83a842bc67d7d9, type: 3}

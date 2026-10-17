@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HomingMissile
   missileData: {fileID: 11400000, guid: 0f7a9e9d7d15b2d44b5c125510405a0f, type: 2}
+  rotationSmoothSpeed: 15
 --- !u!114 &7731652204730760309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
   _snapshottedIgnoreInvincibility: 0
   _snapshottedDamage: 15
   _snapshottedCritRate: 0
@@ -118,7 +120,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7222599819936142582}

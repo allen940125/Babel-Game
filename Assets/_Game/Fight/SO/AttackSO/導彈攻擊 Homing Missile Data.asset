@@ -28,7 +28,7 @@ MonoBehaviour:
     shapeRotationOffset: {x: 0, y: 0, z: 0}
   hitEffectPrefab: {fileID: 8955939593327333646, guid: ec4e1949ec5a8e84eacb12963b718741, type: 3}
   enableCameraShake: 1
-  shakeIntensity: 0.15
+  shakeIntensity: 0.075
   shakeDuration: 0.1
   obstacleLayer:
     serializedVersion: 2

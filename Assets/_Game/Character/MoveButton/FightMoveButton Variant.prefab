@@ -117,8 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  specificParts: []
+  includeChildren: 1
   ghostMaterial: {fileID: 2100000, guid: 65e2fe4bea7b9f34fafc31f02b20ab55, type: 2}
-  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.2}
+  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.5882353}
   distanceGap: 0.5
   ghostLifetime: 0.2
   posOffset: {x: 0, y: 0, z: 0.1}
@@ -262,6 +264,9 @@ PrefabInstance:
       addedObject: {fileID: 8366625988773795626}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 256679201307264358}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 63669400946471152}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
@@ -269,6 +274,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 69918234232784014}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4136899733689751405}
     - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1362941320555408764}
@@ -317,7 +325,7 @@ MonoBehaviour:
   _snapshottedDamage: 15
   _snapshottedCritRate: 0
   _snapshottedCritMultiplier: 1.5
---- !u!114 &63669400946471152
+--- !u!114 &256679201307264358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,6 +333,28 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913403208673973236}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107aee2c18a54b040bf9cf9b07ee789a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MetaInteractiveShaderHUD3D
+  bindingMode: 2
+  displayMode: 2
+  visualMode: 1
+  smoothSpeed: 10
+  _fillPivot: {fileID: 0}
+  _fillSprite: {fileID: 0}
+  fullColor: {r: 0, g: 1, b: 0, a: 1}
+  emptyColor: {r: 1, g: 0, b: 0, a: 1}
+  targetRenderer: {fileID: 4526708797023337240}
+  invertFill: 1
+--- !u!114 &63669400946471152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913403208673973236}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 950131e03a332c44682a804323c75b58, type: 3}
   m_Name: 
@@ -367,6 +397,18 @@ MonoBehaviour:
   minMoveDistance: 0.1
   ghostLifetime: 0.2
   shrink: 0
+--- !u!114 &4136899733689751405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913403208673973236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6180839fd398f2742a93a37f2f1da004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TripwireDetonator
 --- !u!4 &3676041723875197895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}
@@ -396,7 +438,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.570191, y: 1.7060454, z: 0.4}
+  m_Size: {x: 4.570191, y: 1.7060454, z: 0.58}
   m_Center: {x: 0.85258317, y: -0.019982457, z: 0}
 --- !u!65 &3894694127786538015
 BoxCollider:
@@ -417,5 +459,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5595064, y: 5.1296997, z: 0.4}
+  m_Size: {x: 1.5595064, y: 5.1296997, z: 0.59}
   m_Center: {x: -2.2694716, y: -0.0133218765, z: 0}
