@@ -96,7 +96,7 @@ public class BlackSheepRunSequence : MonoBehaviour
             await ExecuteStep(step, token);
 
         if (!string.IsNullOrEmpty(nextSceneName))
-            SceneManager.LoadScene(nextSceneName);
+            SceneTransition.Load(nextSceneName).Forget();
     }
 
     private async UniTask ExecuteStep(RunSequenceStep step, CancellationToken token)

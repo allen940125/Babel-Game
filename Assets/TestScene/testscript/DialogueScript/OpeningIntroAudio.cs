@@ -17,8 +17,20 @@ public class OpeningIntroAudio : MonoBehaviour
     [SerializeField] private float footstepVolumeStart = 0.3f;
     [SerializeField] private float footstepVolumeEnd = 1.0f;
 
+    [Header("黑畫面")]
+    [Tooltip("開場音效播放前先蓋上全螢幕黑幕，並且在『開場對話的黑底完全蓋上』之前不放開，避免音效結束後閃出 Skybox。")]
+    [SerializeField] private bool holdBlackout = true;
+
+    private void Awake()
+    {
+        // 場景一載入就黑，不等 PlayIntroSequenceAsync 被呼叫（避免第一幀露出 Skybox）
+        if (holdBlackout) ScreenBlackout.Hold();
+    }
+
     public async UniTask PlayIntroSequenceAsync()
     {
+        if (holdBlackout) ScreenBlackout.Hold();
+
         // 1. 開門
         audioSource.PlayOneShot(doorOpenClip);
         await UniTask.Delay(TimeSpan.FromSeconds(doorOpenClip.length));
@@ -40,5 +52,7 @@ public class OpeningIntroAudio : MonoBehaviour
         // 4. 椅子聲（單一音效，不另外播坐下）
         audioSource.PlayOneShot(chairClip);
         await UniTask.Delay(TimeSpan.FromSeconds(chairClip.length));
+
+        // 注意：這裡「不」放開黑幕。黑幕由開場對話的黑底蓋上後自動放開（DialogueStageEffects）。
     }
 }
