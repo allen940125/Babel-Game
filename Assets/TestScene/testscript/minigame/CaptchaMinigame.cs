@@ -228,7 +228,7 @@ public class CaptchaMinigame : MonoBehaviour
         onCompleted?.Invoke();
 
         if (!string.IsNullOrEmpty(nextSceneName))
-            SceneManager.LoadScene(nextSceneName);
+            SceneTransition.Load(nextSceneName).Forget();
     }
 
     private async UniTask RunRound(CaptchaRound round, CancellationToken token)
