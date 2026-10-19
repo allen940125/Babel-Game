@@ -22,7 +22,9 @@ namespace Gamemanager
         public IObservable<ItemAddedToBagEvent> OnItemAddedToBagEvent => getSubject<ItemAddedToBagEvent>();
         
         public IObservable<ItemDroppedInWorldEvent> OnItemDroppedInWorldEvent => getSubject<ItemDroppedInWorldEvent>();
-
+        public IObservable<InventoryDumpTriggeredEvent> OnInventoryDumpTriggeredEvent => getSubject<InventoryDumpTriggeredEvent>();
+        
+        
         // ======================
         // Store Event Streams
         // ======================

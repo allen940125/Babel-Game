@@ -450,8 +450,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  specificParts: []
+  includeChildren: 1
   ghostMaterial: {fileID: 2100000, guid: 65e2fe4bea7b9f34fafc31f02b20ab55, type: 2}
-  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.2}
+  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.5882353}
   distanceGap: 0.5
   ghostLifetime: 0.2
   posOffset: {x: 0, y: 0, z: 0.1}

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8145778959566773442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8061802643837021493}
+  m_Layer: 9
+  m_Name: DumpPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8061802643837021493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8145778959566773442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5002613315394042445}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1445794569281168047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,8 +162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  specificParts: []
+  includeChildren: 1
   ghostMaterial: {fileID: 2100000, guid: 65e2fe4bea7b9f34fafc31f02b20ab55, type: 2}
-  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.2}
+  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.5882353}
   distanceGap: 0.5
   ghostLifetime: 0.2
   posOffset: {x: 0, y: 0, z: 0.1}
@@ -244,6 +277,9 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 725789283853132222, guid: f297860abed8db24d868ce783605d27d, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8061802643837021493}
     - targetCorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: 0
       addedObject: {fileID: 1412661324026742084}
@@ -254,7 +290,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4782083447503122920}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3407173943800677800}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4693641154600429197}
   m_SourcePrefab: {fileID: 100100000, guid: f297860abed8db24d868ce783605d27d, type: 3}
+--- !u!4 &5002613315394042445 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
+  m_PrefabInstance: {fileID: 6253997465621198878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6551326216179761002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}
@@ -302,3 +349,47 @@ MonoBehaviour:
   minMoveDistance: 0.1
   ghostLifetime: 0.2
   shrink: 0
+--- !u!114 &3407173943800677800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315006209478061913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49e5567581feae4a9c51b44ace9cc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvertDumpSensor3D
+  localUpAxis: {x: 0, y: 1, z: 0}
+  dumpThreshold: 0.7
+  cooldownTime: 1
+  continuousDump: 1
+  OnDumpTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4693641154600429197}
+        m_TargetAssemblyTypeName: BagDumpBroadcaster, Assembly-CSharp
+        m_MethodName: BroadcastDump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4693641154600429197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315006209478061913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2815ab2c7c2612243a15cc6c1eb2c60c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BagDumpBroadcaster
+  dropOrigin: {fileID: 8061802643837021493}

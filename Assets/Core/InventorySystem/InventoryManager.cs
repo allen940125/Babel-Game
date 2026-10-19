@@ -262,6 +262,40 @@ public class InventoryManager : Singleton<InventoryManager>
             Destroy(parent.GetChild(i).gameObject);
         }
     }
+    
+    /// <summary>
+    /// 隨機取得背包裡的一個有效物品 (數量 > 0)
+    /// </summary>
+    public InventoryItemRuntimeData GetRandomNonEmptyItem()
+    {
+        if (CurrentInventory == null || CurrentInventory.categoryGroups == null)
+            return null;
+
+        List<InventoryItemRuntimeData> validItems = new List<InventoryItemRuntimeData>();
+
+        // 遍歷所有分類
+        foreach (var category in CurrentInventory.categoryGroups)
+        {
+            if (category.items != null)
+            {
+                // 遍歷分類中的所有物品
+                foreach (var item in category.items)
+                {
+                    if (item != null && item.quantity > 0)
+                    {
+                        validItems.Add(item);
+                    }
+                }
+            }
+        }
+
+        // 如果背包全空
+        if (validItems.Count == 0) return null;
+
+        // 隨機抽一個
+        int randomIndex = UnityEngine.Random.Range(0, validItems.Count);
+        return validItems[randomIndex];
+    }
 }
 
 [Serializable]

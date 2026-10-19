@@ -15,18 +15,18 @@ MonoBehaviour:
   m_GroupName: Items
   m_GUID: 45f77f2d2627ba541b6b915aaf1cb058
   m_SerializeEntries:
-  - m_GUID: 5a02e3cf22020994983a71109225f8bb
+  - m_GUID: 3511964f8b8938f47b14c8198f6b3f9e
     m_Address: Items/HealthPotion
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7078da32127ee9842bf02e7625220973
-    m_Address: Items/ManaPotion
+  - m_GUID: 3f3d1bbc17f3d7044804c2fb0ef59272
+    m_Address: Items/Money
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab8d136d204c1d9438962fe08ee23cac
-    m_Address: Items/Money
+  - m_GUID: d866788e458d6a94e8c7590c8c8b68d6
+    m_Address: Items/ManaPotion
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

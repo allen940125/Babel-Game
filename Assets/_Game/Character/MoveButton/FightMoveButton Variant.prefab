@@ -303,7 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RammingWeaponBehavior3D
   targetLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 8384
   minImpactSpeed: 5
   rammingCooldown: 0.8
   isArmed: 0

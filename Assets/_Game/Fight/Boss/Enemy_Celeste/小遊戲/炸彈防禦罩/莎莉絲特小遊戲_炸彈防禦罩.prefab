@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d162d8d46b63a9409066081cf7ec2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossMiniGame_GapCircleArray
-  nodePrefab: {fileID: 895752809694477435, guid: e38c33700f80f084c83664c09a4c92a0, type: 3}
+  nodePrefab: {fileID: 6142162680793957835, guid: 8f0b0ea3ab25ae94783ce820931913fb, type: 3}
   centerPoint: {fileID: 8019509905123308613}
   radius: 5
   nodeCount: 20
