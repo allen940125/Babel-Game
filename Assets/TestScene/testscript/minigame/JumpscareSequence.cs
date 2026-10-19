@@ -206,10 +206,10 @@ public class JumpscareSequence : MonoBehaviour
         switch (afterAction)
         {
             case AfterAction.ReloadScene:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneTransition.Reload().Forget();
                 break;
             case AfterAction.LoadScene:
-                if (!string.IsNullOrEmpty(sceneName)) SceneManager.LoadScene(sceneName);
+                if (!string.IsNullOrEmpty(sceneName)) SceneTransition.Load(sceneName).Forget();
                 else Debug.LogWarning("[JumpscareSequence] After Action 選了 LoadScene，但 Scene Name 是空的。", this);
                 break;
         }

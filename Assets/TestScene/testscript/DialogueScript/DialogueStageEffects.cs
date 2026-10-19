@@ -71,6 +71,9 @@ public class DialogueStageEffects : MonoBehaviour
         if (version != blackVersion) return;
         SetAlpha(blackCover, target);
         if (!on) blackCover.gameObject.SetActive(false);
+
+        // 對話框自己的黑底已經完全蓋上了 → 放開前一個階段（例如開場音效）的黑幕
+        if (on && ScreenBlackout.IsHolding) ScreenBlackout.Release();
     }
 
     // ───────────── 道具展示 ─────────────

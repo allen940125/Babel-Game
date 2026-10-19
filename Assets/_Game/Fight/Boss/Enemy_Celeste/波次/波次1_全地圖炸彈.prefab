@@ -179,7 +179,7 @@ MonoBehaviour:
   destroyOnFinish: 1
   snapToWorldOrigin: 0
   useWarning: 0
-  warningTime: 1
+  warningTime: 1.5
   warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 577304817499354446}
@@ -302,7 +302,7 @@ MonoBehaviour:
   spawnInterval: 0.05
   patternDamageMultiplier: 1
   patternType: 3
-  bulletCount: 500
+  bulletCount: 300
   spawnAreaSize: {x: 37.3, y: 20.9}
   circleRadius: 0
   circleStartAngle: 0

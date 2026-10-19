@@ -21,9 +21,9 @@ MonoBehaviour:
     m_Bits: 64
   damageShape:
     shapeType: 2
-    radius: 0.14
+    radius: 0.18
     boxSize: {x: 0, y: 0}
-    capsuleLength: 1.45
+    capsuleLength: 1.81
     zThickness: 5
     shapeRotationOffset: {x: 0, y: 0, z: 0}
   hitEffectPrefab: {fileID: 8955939593327333646, guid: ec4e1949ec5a8e84eacb12963b718741, type: 3}

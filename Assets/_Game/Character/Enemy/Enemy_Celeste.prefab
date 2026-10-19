@@ -284,7 +284,7 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}
+      patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: 3f71ebd89bec6264289070f49c4698a1, type: 3}
+      patternPrefab: {fileID: 9036664765759256070, guid: 2e71dd01dc988da42acf75c5c95417a9, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
@@ -309,6 +309,18 @@ MonoBehaviour:
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    healthThreshold: 0
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 9036664765759256070, guid: 3f71ebd89bec6264289070f49c4698a1, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    healthThreshold: 0
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
       delayBeforeNext: 0
   _currentPhase: 0
   _phaseTimerDisplay: 0

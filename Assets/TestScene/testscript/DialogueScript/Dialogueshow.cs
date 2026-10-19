@@ -58,8 +58,14 @@ public class Dialogueshow : BasePanel
     private Image lastActivePortrait;
 
     private readonly Dictionary<Image, int> portraitFadeVersion = new();
+
+    // 對話開始後的第一次 ContinueStory 期間為 true：第一句的 bg: black 會「立刻」變黑（不淡入），
+    // 避免開場時從別的畫面接過來會閃一下背景 / 立繪。
+    private bool isFirstAdvance;
+
     public void Init()
     {
+        isFirstAdvance = true;
         Debug.Log("[Dialogue] Init() 被呼叫");
 
         portraitMap = new Dictionary<string, Sprite>();
@@ -139,6 +145,8 @@ public class Dialogueshow : BasePanel
             FinishAdvancingToChoicesOrEnd();
         }
         //打字機
+
+        isFirstAdvance = false;
     }
 
     private void OnTypewriterFinished()
@@ -306,7 +314,7 @@ public class Dialogueshow : BasePanel
             }
             else if (tag.StartsWith("bg:"))
             {
-                stage?.SetBlack(tag.Substring("bg:".Length).Trim() == "black");
+                stage?.SetBlack(tag.Substring("bg:".Length).Trim() == "black", instant: isFirstAdvance);
             }
             else if (tag.StartsWith("relic:"))
             {
