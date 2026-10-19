@@ -26,7 +26,7 @@ MonoBehaviour:
     capsuleLength: 1.91
     zThickness: 5
     shapeRotationOffset: {x: 0, y: 0, z: 0}
-  hitEffectPrefab: {fileID: 8955939593327333646, guid: ec4e1949ec5a8e84eacb12963b718741, type: 3}
+  hitEffectPrefab: {fileID: 8955939593327333646, guid: 8acad41762316b34b899d04bc3b8e13a, type: 3}
   enableCameraShake: 1
   shakeIntensity: 0.15
   shakeDuration: 0.1
