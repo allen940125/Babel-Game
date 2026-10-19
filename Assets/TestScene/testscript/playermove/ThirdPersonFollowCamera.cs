@@ -112,6 +112,7 @@ public class ThirdPersonFollowCamera : MonoBehaviour
                        && Mouse.current != null
                        && Time.timeScale > 0f
                        && !ShowcaseOverlay.IsShowing
+                       && !FullscreenImage.IsShowing
                        && !IsDialoguePlaying();
 
         bool wantRotate = allowed && (!holdRightMouseToRotate || Mouse.current.rightButton.isPressed);
