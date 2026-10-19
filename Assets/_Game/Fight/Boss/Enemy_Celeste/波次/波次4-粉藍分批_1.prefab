@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &239108958743032252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 445034051214121093}
+  - component: {fileID: 2281466833010853799}
+  m_Layer: 0
+  m_Name: GameObject (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &445034051214121093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239108958743032252}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2281466833010853799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239108958743032252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 20
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 0
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
 --- !u!1 &276537532958039101
 GameObject:
   m_ObjectHideFlags: 0
@@ -26,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 276537532958039101}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.26, y: -0.88, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54,9 +118,9 @@ MonoBehaviour:
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
+  circleRadius: 3
   circleStartAngle: 0
   spreadAngle: 0
   sniperSpreadAngle: 5
@@ -64,7 +128,7 @@ MonoBehaviour:
   aimAtPlayer: 1
   fixedAngle: 270
   fireInwardToCenter: 0
---- !u!1 &693735761805086961
+--- !u!1 &830646214140958194
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,37 +136,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 994721007375396589}
-  - component: {fileID: 7760117402337053494}
+  - component: {fileID: 5214524941998224157}
+  - component: {fileID: 3161995206554579944}
   m_Layer: 0
-  m_Name: GameObject (7)
+  m_Name: GameObject (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &994721007375396589
+--- !u!4 &5214524941998224157
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 693735761805086961}
+  m_GameObject: {fileID: 830646214140958194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: -0.8799999, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7760117402337053494
+--- !u!114 &3161995206554579944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 693735761805086961}
+  m_GameObject: {fileID: 830646214140958194}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
@@ -118,17 +182,17 @@ MonoBehaviour:
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 30
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
-  circleStartAngle: 12
-  spreadAngle: 10
+  circleRadius: 3
+  circleStartAngle: 0
+  spreadAngle: 0
   sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
   fireInwardToCenter: 0
---- !u!1 &1201410468653956447
+--- !u!1 &1010896886694913702
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,8 +200,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3778111468914719491}
-  - component: {fileID: 7494222722642062470}
+  - component: {fileID: 5813625864302174598}
+  - component: {fileID: 5159400107697085388}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -145,28 +209,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3778111468914719491
+--- !u!4 &5813625864302174598
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201410468653956447}
+  m_GameObject: {fileID: 1010896886694913702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: -0.88, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7494222722642062470
+--- !u!114 &5159400107697085388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201410468653956447}
+  m_GameObject: {fileID: 1010896886694913702}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
@@ -179,20 +243,20 @@ MonoBehaviour:
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
-  spawnInterval: 0
+  spawnInterval: 0.1
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
-  circleStartAngle: 0
+  circleRadius: 3
+  circleStartAngle: 30
   spreadAngle: 0
   sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
   fireInwardToCenter: 0
---- !u!1 &2539503655813369475
+--- !u!1 &1439181124377897420
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,37 +264,101 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 619488674831900572}
-  - component: {fileID: 3990018729439416154}
+  - component: {fileID: 3633885198291850217}
+  - component: {fileID: 8857566178570485914}
   m_Layer: 0
-  m_Name: GameObject (4)
+  m_Name: GameObject (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &619488674831900572
+--- !u!4 &3633885198291850217
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2539503655813369475}
+  m_GameObject: {fileID: 1439181124377897420}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.26, y: -0.88, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3990018729439416154
+--- !u!114 &8857566178570485914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2539503655813369475}
+  m_GameObject: {fileID: 1439181124377897420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 20
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 30
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &2505714792311581721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580302685399733663}
+  - component: {fileID: 8808515688742901155}
+  m_Layer: 0
+  m_Name: GameObject (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1580302685399733663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505714792311581721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8808515688742901155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505714792311581721}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
@@ -246,9 +374,9 @@ MonoBehaviour:
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
+  circleRadius: 3
   circleStartAngle: 0
   spreadAngle: 0
   sniperSpreadAngle: 5
@@ -256,7 +384,7 @@ MonoBehaviour:
   aimAtPlayer: 1
   fixedAngle: 270
   fireInwardToCenter: 0
---- !u!1 &3509939130095558852
+--- !u!1 &2993022458667436842
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,8 +392,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5553888785374817844}
-  - component: {fileID: 3502086821891190655}
+  - component: {fileID: 6309134746745450204}
+  - component: {fileID: 1759986499514767513}
   m_Layer: 0
   m_Name: GameObject (6)
   m_TagString: Untagged
@@ -273,28 +401,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5553888785374817844
+--- !u!4 &6309134746745450204
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3509939130095558852}
+  m_GameObject: {fileID: 2993022458667436842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: -0.88, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3502086821891190655
+--- !u!114 &1759986499514767513
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3509939130095558852}
+  m_GameObject: {fileID: 2993022458667436842}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
@@ -310,75 +438,11 @@ MonoBehaviour:
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
+  circleRadius: 3
   circleStartAngle: 0
   spreadAngle: 0
-  sniperSpreadAngle: 5
-  useRandomDirection: 0
-  aimAtPlayer: 1
-  fixedAngle: 270
-  fireInwardToCenter: 0
---- !u!1 &4134209425334437465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5518504924588941994}
-  - component: {fileID: 6703893030674777479}
-  m_Layer: 0
-  m_Name: GameObject (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5518504924588941994
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4134209425334437465}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.26, y: -0.8799999, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1630128575821445075}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6703893030674777479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4134209425334437465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
-  destroyOnFinish: 1
-  snapToWorldOrigin: 0
-  useWarning: 0
-  warningTime: 1
-  warningPrefab: {fileID: 0}
-  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
-  baseSpeed: 5
-  spawnInterval: 0
-  patternDamageMultiplier: 1
-  patternType: 0
-  bulletCount: 15
-  spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
-  circleStartAngle: 12
-  spreadAngle: 10
   sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
@@ -410,7 +474,7 @@ Transform:
   m_GameObject: {fileID: 5740307588683169567}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.26, y: -0.8799999, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -433,22 +497,22 @@ MonoBehaviour:
   useWarning: 0
   warningTime: 1
   warningPrefab: {fileID: 0}
-  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
-  circleStartAngle: 12
-  spreadAngle: 10
+  circleRadius: 3
+  circleStartAngle: 0
+  spreadAngle: 0
   sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
   fixedAngle: 270
   fireInwardToCenter: 0
---- !u!1 &8246586694466525702
+--- !u!1 &5990501390769564624
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -456,37 +520,101 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7733656158599458621}
-  - component: {fileID: 5210609644365929784}
+  - component: {fileID: 437990243184913414}
+  - component: {fileID: 8912758327127137783}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: GameObject (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7733656158599458621
+--- !u!4 &437990243184913414
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8246586694466525702}
+  m_GameObject: {fileID: 5990501390769564624}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: -0.8799999, z: 0}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1630128575821445075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5210609644365929784
+--- !u!114 &8912758327127137783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8246586694466525702}
+  m_GameObject: {fileID: 5990501390769564624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 25
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 0
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &6979468375107513989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1133343446579037924}
+  - component: {fileID: 2696793888554337006}
+  m_Layer: 0
+  m_Name: GameObject (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1133343446579037924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6979468375107513989}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.47000003, y: 3.3199997, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2696793888554337006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6979468375107513989}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
@@ -502,11 +630,75 @@ MonoBehaviour:
   spawnInterval: 0
   patternDamageMultiplier: 1
   patternType: 0
-  bulletCount: 15
+  bulletCount: 20
   spawnAreaSize: {x: 0, y: 0}
-  circleRadius: 5
-  circleStartAngle: 12
-  spreadAngle: 10
+  circleRadius: 3
+  circleStartAngle: 30
+  spreadAngle: 0
+  sniperSpreadAngle: 5
+  useRandomDirection: 0
+  aimAtPlayer: 1
+  fixedAngle: 270
+  fireInwardToCenter: 0
+--- !u!1 &8394841098666220301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3206896914332351462}
+  - component: {fileID: 4996785925947837446}
+  m_Layer: 0
+  m_Name: GameObject (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3206896914332351462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394841098666220301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.47, y: 3.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630128575821445075}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4996785925947837446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394841098666220301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+  destroyOnFinish: 1
+  snapToWorldOrigin: 0
+  useWarning: 0
+  warningTime: 1
+  warningPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
+  baseSpeed: 5
+  spawnInterval: 0.1
+  patternDamageMultiplier: 1
+  patternType: 0
+  bulletCount: 25
+  spawnAreaSize: {x: 0, y: 0}
+  circleRadius: 3
+  circleStartAngle: 15
+  spreadAngle: 0
   sniperSpreadAngle: 5
   useRandomDirection: 0
   aimAtPlayer: 1
@@ -523,7 +715,7 @@ GameObject:
   - component: {fileID: 1630128575821445075}
   - component: {fileID: 3794737390528050008}
   m_Layer: 0
-  m_Name: "\u5074\u908A\u767C\u5C04\u5C0E\u5F48"
+  m_Name: "\u6CE2\u6B214-\u7C89\u85CD\u5206\u6279_1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,14 +734,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 629926017486707592}
   - {fileID: 6687242886216284363}
-  - {fileID: 3778111468914719491}
-  - {fileID: 7733656158599458621}
-  - {fileID: 619488674831900572}
-  - {fileID: 5518504924588941994}
-  - {fileID: 5553888785374817844}
-  - {fileID: 994721007375396589}
+  - {fileID: 629926017486707592}
+  - {fileID: 1133343446579037924}
+  - {fileID: 445034051214121093}
+  - {fileID: 6309134746745450204}
+  - {fileID: 1580302685399733663}
+  - {fileID: 5813625864302174598}
+  - {fileID: 3633885198291850217}
+  - {fileID: 437990243184913414}
+  - {fileID: 3206896914332351462}
+  - {fileID: 5214524941998224157}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3794737390528050008
@@ -571,18 +766,24 @@ MonoBehaviour:
   warningPrefab: {fileID: 0}
   steps:
   - pattern: {fileID: 3161254999720578782}
-    delayBefore: 0
+    delayBefore: 0.5
   - pattern: {fileID: 8456667680948330304}
+    delayBefore: 1
+  - pattern: {fileID: 8808515688742901155}
+    delayBefore: 1
+  - pattern: {fileID: 1759986499514767513}
+    delayBefore: 1
+  - pattern: {fileID: 2696793888554337006}
+    delayBefore: 0.5
+  - pattern: {fileID: 2281466833010853799}
     delayBefore: 0
-  - pattern: {fileID: 7494222722642062470}
-    delayBefore: 3
-  - pattern: {fileID: 5210609644365929784}
-    delayBefore: 0
-  - pattern: {fileID: 3990018729439416154}
-    delayBefore: 3
-  - pattern: {fileID: 6703893030674777479}
-    delayBefore: 0
-  - pattern: {fileID: 3502086821891190655}
-    delayBefore: 3
-  - pattern: {fileID: 7760117402337053494}
-    delayBefore: 0
+  - pattern: {fileID: 5159400107697085388}
+    delayBefore: 1
+  - pattern: {fileID: 8857566178570485914}
+    delayBefore: 1.5
+  - pattern: {fileID: 8912758327127137783}
+    delayBefore: 0.5
+  - pattern: {fileID: 4996785925947837446}
+    delayBefore: 0.5
+  - pattern: {fileID: 3161995206554579944}
+    delayBefore: 3.5
