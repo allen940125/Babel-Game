@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e758af3bbe074498933781794a9713, type: 3}
   m_Name: "\u7279\u6B8A\u653B\u64CA Delayed AoE Data"
   m_EditorClassIdentifier: Assembly-CSharp::DelayedAoEDataSO
-  damageMultiplier: 2.5
+  damageMultiplier: 5
   ignoreInvincibility: 0
   useDamageTick: 0
   damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
-    m_Bits: 8256
+    m_Bits: 8768
   damageShape:
     shapeType: 0
     radius: 7.38

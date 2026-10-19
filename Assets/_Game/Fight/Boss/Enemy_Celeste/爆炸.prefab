@@ -251,7 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
   enableDebug: 0
   _snapshottedIgnoreInvincibility: 0
-  _snapshottedDamage: 15
+  _snapshottedDamage: 30
   _snapshottedCritRate: 0
   _snapshottedCritMultiplier: 1.5
 --- !u!114 &4631411528473053403
