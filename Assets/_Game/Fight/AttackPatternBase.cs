@@ -131,6 +131,8 @@ public abstract class AttackPatternBase : MonoBehaviour
     {
         public Vector2 position;
         public Vector2 direction;
+        // ★ 新增：這顆子彈未來的預測軌跡點 (由發射器算好塞進來)
+        public Vector3[] predictedTrajectory; 
     }
     
     // ==========================================
@@ -146,36 +148,31 @@ public abstract class AttackPatternBase : MonoBehaviour
     {
         if (!useWarning || warningTime <= 0f || warningPrefab == null || spawnDataList.Count == 0) 
         {
-            yield break; // 沒開警告，直接跳過不等待
+            yield break;
         }
 
         List<GameObject> activeWarnings = new List<GameObject>();
 
-        // 1. 在每個預定發射點生成警告圖示
         foreach (var data in spawnDataList)
         {
             GameObject warningObj = Instantiate(warningPrefab, data.position, Quaternion.identity);
             
-            // 將警告圖示旋轉至與子彈同向 (如果你有需要旋轉驚嘆號或特效面片)
             float angle = Mathf.Atan2(data.direction.y, data.direction.x) * Mathf.Rad2Deg;
             warningObj.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
             
-            // ★ 關鍵對接：找出預警物件身上的畫筆，命令它畫出反彈預測線！
             TrajectoryVisualizer visualizer = warningObj.GetComponentInChildren<TrajectoryVisualizer>();
             if (visualizer != null)
             {
-                // 餵入算好的起點與方向。第三個參數傳 null，代表預警階段不加入隨機擾動，顯示為完美直線。
-                Vector3 dir3D = new Vector3(data.direction.x, data.direction.y, 0f);
-                visualizer.DrawTrajectory(data.position, dir3D, null);
+                // ★ 完美對接：把發射器已經算好的軌跡點陣列，直接交給畫筆！
+                // Visualizer 拿到陣列後，就會照著裡面的點畫出折線 (反彈) 或 曲線 (導彈)
+                visualizer.DrawTrajectory(data.predictedTrajectory);
             }
 
             activeWarnings.Add(warningObj);
         }
 
-        // 2. 嚴格鎖死等待時間
         yield return new WaitForSeconds(warningTime);
 
-        // 3. 時間一到，強制抹殺所有警告，確保與下一行發射子彈的程式碼絕對同步
         foreach (var w in activeWarnings)
         {
             if (w != null) Destroy(w);

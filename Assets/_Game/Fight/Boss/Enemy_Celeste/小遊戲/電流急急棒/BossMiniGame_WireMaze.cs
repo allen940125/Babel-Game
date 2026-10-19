@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BombMiniGameManager : MonoBehaviour
+public class BossMiniGame_WireMaze : MonoBehaviour
 {
     [Header("炸彈設定")]
     public FollowBomb bombPrefab;

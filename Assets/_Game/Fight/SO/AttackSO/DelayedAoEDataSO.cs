@@ -6,5 +6,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Delayed AoE Data", menuName = "Combat/Delayed AoE Data")]
 public class DelayedAoEDataSO : AttackDataSO
 {
-
+    
 }

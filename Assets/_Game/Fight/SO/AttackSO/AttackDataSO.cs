@@ -30,4 +30,10 @@ public abstract class AttackDataSO : ScriptableObject
     public bool enableCameraShake = true;
     public float shakeIntensity = 0.15f;
     public float shakeDuration = 0.1f;
+    
+    // ★ 新增：強迫所有子彈、導彈、雷射都必須實作自己的預測方法！
+    public virtual Vector3[] CalculatePredictedTrajectory(Vector3 startPos, Vector3 direction)
+    {
+        return new Vector3[0]; 
+    }
 }

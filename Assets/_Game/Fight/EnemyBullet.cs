@@ -51,6 +51,11 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
     [SerializeField] private float debug_AttackPattern_damageMultiplier;
     [SerializeField] private float debug_actualMultiplier;
 
+    private void OnDestroy()
+    {
+        if (ownerBoss != null) ownerBoss.UnregisterActiveBullet(this.gameObject);
+    }
+    
     // ==================================================
     // ★ 職責 1：覆寫基類，只處理「數值、狀態與記憶體初始化」
     // ==================================================
@@ -86,6 +91,8 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
     // ==================================================
     // ★ 職責 2：實作 IProjectile，專職處理「飛行物理軌跡」
     // ==================================================
+    // 把原本那個 _precalculatedTrajectory 變數刪掉，我們不需要記住舊軌跡了！
+
     public void SetTrajectory(Vector3 direction, float speed)
     {
         _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
@@ -94,26 +101,24 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
         Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
         UpdateVelocityAndRotation();
         
-        // ★ 物理設定完畢後，才允許 FixedUpdate 開始進行 Cast 運算
         _isInitialized = true; 
-    }
-
-    private void OnDestroy()
-    {
-        if (ownerBoss != null) ownerBoss.UnregisterActiveBullet(this.gameObject);
     }
 
     private void FixedUpdate()
     {
         if (!_isInitialized) return;
-        if (transform.position.z != 0f) transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-
         MoveAndCollide();
 
-        // ★ 新增：每一幀子彈移動後，把「我真正在飛的方向」餵給畫線工具
-        if (_visualizer != null)
+        // ==========================================
+        // ★ 核心修復：雷射車頭燈模式 (即時動態預測)
+        // ==========================================
+        if (_visualizer != null && bulletData != null)
         {
-            _visualizer.DrawTrajectory(transform.position, _currentDirection, _bounceJitterOffsets);
+            // 每一幀都從「子彈當下的位置」與「當下的方向」，重新往未來發射虛擬射線！
+            // 這樣算出來的點，永遠是精確的「接下來會去哪裡」
+            Vector3[] futurePoints = bulletData.CalculatePredictedTrajectory(transform.position, _currentDirection);
+            
+            _visualizer.DrawTrajectory(futurePoints);
         }
     }
 

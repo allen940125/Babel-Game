@@ -5,15 +5,15 @@ public class LaserTripwire : MonoBehaviour
     [Header("除錯設定")]
     public bool enableDebug = true;
 
-    private BombMiniGameManager _manager;
+    private BossMiniGame_WireMaze _wireMaze;
 
     private void Start()
     {
-        _manager = GetComponentInParent<BombMiniGameManager>();
+        _wireMaze = GetComponentInParent<BossMiniGame_WireMaze>();
         
-        if (enableDebug && _manager == null)
+        if (enableDebug && _wireMaze == null)
         {
-            Debug.LogError($"[絆線致命錯誤] {gameObject.name} 無法在父節點找到 BombMiniGameManager！");
+            Debug.LogError($"[絆線致命錯誤] {gameObject.name} 無法在父節點找到 BossMiniGame_WireMaze！");
         }
     }
 
@@ -36,9 +36,9 @@ public class LaserTripwire : MonoBehaviour
             }
 
             // 3. 呼叫總管
-            if (_manager != null)
+            if (_wireMaze != null)
             {
-                _manager.ReportTripwireBreached();
+                _wireMaze.ReportTripwireBreached();
             }
             else
             {
