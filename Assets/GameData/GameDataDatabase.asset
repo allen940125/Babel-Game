@@ -33,6 +33,10 @@ MonoBehaviour:
     <Name>k__BackingField: GameEndMenu
     <UIGroup>k__BackingField: Menu
     <PrefabPath>k__BackingField: UI/Menus/GameEndMenu
+  - <Id>k__BackingField: 160
+    <Name>k__BackingField: SpatialBagMenu
+    <UIGroup>k__BackingField: Menu
+    <PrefabPath>k__BackingField: UI/Menus/SpatialBagMenu
   - <Id>k__BackingField: 210
     <Name>k__BackingField: SceneLoadingTransitionPanel
     <UIGroup>k__BackingField: Popup

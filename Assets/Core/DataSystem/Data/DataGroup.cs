@@ -93,6 +93,7 @@ public enum UIType
     StoreMenu = 130,             //商店選單
     GameOverMenu = 140,
     GameEndMenu = 150,
+    SpatialBagMenu = 160,
 
     SceneLoadingTransitionPanel = 210,
     GameStartTransitionPanel = 220,

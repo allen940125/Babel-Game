@@ -296,6 +296,39 @@ public class InventoryManager : Singleton<InventoryManager>
         int randomIndex = UnityEngine.Random.Range(0, validItems.Count);
         return validItems[randomIndex];
     }
+    
+    /// <summary>
+    /// 提供給 UI 獲取背包資料的唯一合法接口
+    /// </summary>
+    public List<InventoryItemRuntimeData> GetPlayerItems(ItemControllerType filterType)
+    {
+        List<InventoryItemRuntimeData> result = new List<InventoryItemRuntimeData>();
+        
+        // 這裡從你 private 暫存的變數，或向 SaveManager 拿資料
+        InventoryRuntimeData inventoryData = SaveManager.Instance.CurrentSaveData.InventoryData;
+
+        if (inventoryData == null || inventoryData.categoryGroups == null)
+            return result;
+
+        // 遍歷分類並攤平資料
+        foreach (var group in inventoryData.categoryGroups)
+        {
+            // 如果是 All 就全拿，否則只拿對應分類的物品
+            if (filterType == ItemControllerType.All || group.categoryName == filterType)
+            {
+                // 排除無效資料與數量小於等於 0 的物品
+                foreach (var item in group.items)
+                {
+                    if (item != null && item.quantity > 0)
+                    {
+                        result.Add(item);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 [Serializable]

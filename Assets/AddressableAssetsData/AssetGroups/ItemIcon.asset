@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: e40ca44d731997b4480a1c58ab430961
   m_SerializeEntries:
   - m_GUID: 1a47bdc34223e5a44add86548fc87b9b
-    m_Address: Icons/HealthPotionIcon
+    m_Address: Icons/HealthPotionIconTest
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -30,8 +30,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a24aa0685dccdfd4fbd633210d29dc31
+  - m_GUID: 5b7dce6237a578346b6b4ccd6bdc8b49
     m_Address: Icons/ManaPotionIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a24aa0685dccdfd4fbd633210d29dc31
+    m_Address: Icons/ManaPotionIconTest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb9318f681a2e134bbd5b5bbdb825fb2
+    m_Address: Icons/HealthPotionIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

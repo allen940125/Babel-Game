@@ -14,7 +14,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Dialogue
   m_GUID: f113f5d80e377d947b1e1972748d2c88
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 2aff94d0b843d2046ab4221b58d32626
+    m_Address: INK/ExploreIntro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31bc2cd2cc803ba4c9135493c9c2bd14
+    m_Address: INK/Opening
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57865864f4522684a9fc841592073d62
+    m_Address: INK/Tracks
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cc641e1e18cecb4dbc0a21622941ed3
+    m_Address: INK/Fisherman
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d79d4a23c4e32e45880b26343e85dea
+    m_Address: INK/Transition
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6c5c02af8b6d02499d779928ed77887
+    m_Address: INK/Sky
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cde2b72ad4c6ce843a3db7b4589fc6fd
+    m_Address: INK/GuideDialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3321c740d8dfe7429daf7f895edd5da
+    m_Address: INK/Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b5cdafeb7534d5a429d7ab1a8ddc61f8, type: 2}
   m_SchemaSet:
