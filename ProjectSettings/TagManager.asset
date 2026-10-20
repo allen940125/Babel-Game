@@ -23,8 +23,8 @@ TagManager:
   - PlayerButton
   - SceneOutlined
   - NoPostFX
-  - EnemyButton
-  - 
+  - EnemyProjectile
+  - DestructibleMap
   - 
   - 
   - 

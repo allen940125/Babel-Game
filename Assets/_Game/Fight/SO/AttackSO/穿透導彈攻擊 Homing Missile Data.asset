@@ -32,7 +32,7 @@ MonoBehaviour:
   shakeDuration: 0.1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   speed: 15
   homingStrength: 0
   lifeTime: 5
@@ -43,3 +43,5 @@ MonoBehaviour:
   arcToRight: 1
   bezierArcOffset: 5
   randomBezierFlip: 1
+  showTrajectory: 1
+  previewDistance: 25

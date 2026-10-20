@@ -55,6 +55,17 @@ public class InventoryPanelController
     
     public void RefreshPlayerBagItem(ItemControllerType itemControllerType)
     {
+        // ==========================================
+        // ★ 核心防呆：檢查 UI 是否真的存在且開啟中？
+        // ==========================================
+        // 如果 _slotGrid 是 null (還沒綁定)，或者 UI 目前是隱藏狀態
+        // 就直接 return 中斷！因為玩家沒打開背包，不需要在背景浪費效能畫格子。
+        if (_slotGrid == null || !_slotGrid.activeInHierarchy)
+        {
+            // Debug.Log("背包沒打開，跳過 UI 刷新。資料已在背景更新完畢。");
+            return;
+        }
+        
         InventoryManager.Instance.ClearChildObjects(_slotGrid.transform);
         InventoryManager.Instance.curCategoryTypeName = itemControllerType;
 

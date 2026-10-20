@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAction_SpawnPrefab
   targetPhase: 0
-  skipFirstNTriggers: 1
+  skipFirstNTriggers: 0
   maxTriggerCount: 0
   prefabToSpawn: {fileID: 2505757577525824719, guid: 759a71e8cbef2ce4fb7a3c0780c62350, type: 3}
   spawnPoint: {fileID: 5230917466619845570}

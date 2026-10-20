@@ -51,6 +51,11 @@ namespace Gamemanager
         public InventoryItemRuntimeData ItemData;
         public Vector3 DropPosition;
     }
+    
+    public class InventoryDumpTriggeredEvent : GameEventMessageBase
+    {
+        public Vector3 dumpPosition;
+    }
 
     // ======================
     // Store Event Streams

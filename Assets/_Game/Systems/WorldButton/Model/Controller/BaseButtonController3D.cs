@@ -14,6 +14,13 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
     public UnityEvent OnExhausted; // 新增：次數耗盡時觸發
     public UnityEvent OnReset;     // 新增：階段重置時觸發
     
+    // ==========================================
+    // ★ 新增：開放給外部 (如中介層 Adapter) 控制的純粹開關
+    // 按鈕本身不知道為什麼被鎖，也不知道為什麼效能被打折，它只看這兩個值辦事。
+    // ==========================================
+    public bool IsExternallyLocked { get; set; } = false;
+    public float EfficiencyMultiplier { get; set; } = 1.0f;
+    
     private bool _isPhaseLocked = false;
     private int _currentUses = 0; 
 
@@ -21,12 +28,21 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
 
     public void OnClick()
     {
+        // 1. 檢查是否被 Boss 階段鎖定
         if (_isPhaseLocked)
         {
             Debug.LogWarning($"[按鈕鎖定] {gameObject.name} 在 Boss 攻擊階段無法使用！");
             return;
         }
+
+        // ★ 2. 新增：檢查是否被外部 (如損壞中介層) 強制鎖定
+        if (IsExternallyLocked)
+        {
+            Debug.LogWarning($"[按鈕鎖定] {gameObject.name} 目前處於外部鎖定狀態 (可能已損壞)！");
+            return;
+        }
         
+        // 3. 檢查次數
         if (maxUsesPerPhase > 0 && _currentUses >= maxUsesPerPhase)
         {
             Debug.LogWarning($"[按鈕鎖定] {gameObject.name} 本階段使用次數已達上限！");
@@ -35,12 +51,12 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
 
         if (commandToExecute != null)
         {
+            // 將自己傳入，指令腳本可以透過 instigator.GetComponent<BaseButtonController3D>().EfficiencyMultiplier 取得打折係數
             commandToExecute.Execute(this.gameObject);
             _currentUses++;
 
             if (maxUsesPerPhase > 0 && _currentUses >= maxUsesPerPhase)
             {
-                //SetInteractable(false, false); 
                 OnExhausted?.Invoke();
             }
         }
