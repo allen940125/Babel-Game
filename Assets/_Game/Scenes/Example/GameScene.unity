@@ -2669,6 +2669,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd2733aff9500f448224acc6c695b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
+--- !u!1001 &1180585574
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630128575821445075, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_Name
+      value: "\u6CE2\u6B216_\u5074\u908A\u767C\u5C04\u9032\u968E"
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
 --- !u!1 &1188420741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5588,6 +5649,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1559578510}
     m_Modifications:
+    - target: {fileID: 333034399730057047, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3377424527203689095, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
       propertyPath: m_Name
       value: Player_Entity Variant
@@ -5602,7 +5667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4651392618386843807, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4651392618386843807, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5632,6 +5697,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6421976096791384220, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8666283760570376120, guid: 031e39c2948b7ad419263cb163ae685c, type: 3}
     - target: {fileID: 7565474240781694120, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
       propertyPath: enableDebug
       value: 0
@@ -6370,3 +6439,4 @@ SceneRoots:
   - {fileID: 1290941685}
   - {fileID: 1027860793}
   - {fileID: 648163905}
+  - {fileID: 1180585574}
