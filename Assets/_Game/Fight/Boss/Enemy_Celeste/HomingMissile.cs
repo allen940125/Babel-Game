@@ -27,6 +27,9 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
     private float _curveLength = 1f; // 曲線總長度
     
     private readonly RaycastHit[] _hitBuffer = new RaycastHit[4];
+    
+    // ★ 1. 宣告畫筆
+    private TrajectoryVisualizer _visualizer;
 
     public override void Initialize(BossStateMachine boss, float damageMultiplier = 1f, bool ignoreInvincibility = false)
     {
@@ -41,52 +44,27 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
 
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null) _target = playerObj.transform;
+
+        // ★ 2. 抓取畫筆組件
+        _visualizer = GetComponentInChildren<TrajectoryVisualizer>();
     }
-
-    public void SetTrajectory(Vector3 direction, float speed)
-    {
-        if (missileData == null) return;
-        
-        _lastPosition = transform.position;
-
-        if (missileData.launchMode == HomingMissileDataSO.LaunchMode.AngleSpread)
-        {
-            // --- 模式 A：角度散射 ---
-            float angleOffset = missileData.initialArcAngle;
-            if (missileData.randomArcDirection) angleOffset *= (Random.value > 0.5f) ? 1f : -1f;
-            else angleOffset *= missileData.arcToRight ? -1f : 1f; 
-
-            Vector3 rotatedDir = Quaternion.Euler(0, 0, angleOffset) * direction;
-            _currentVelocity = rotatedDir.normalized * missileData.speed;
-        }
-        else
-        {
-            // --- 模式 B：貝茲曲線 ---
-            _p0 = transform.position;
-            _p2 = (_target != null) ? new Vector3(_target.position.x, _target.position.y, 0f) : _p0 + direction.normalized * 10f;
-            
-            Vector3 midPoint = (_p0 + _p2) / 2f;
-            Vector3 dirToTarget = (_p2 - _p0).normalized;
-            Vector3 perpendicular = new Vector3(-dirToTarget.y, dirToTarget.x, 0f);
-
-            float actualOffset = missileData.bezierArcOffset;
-            if (missileData.randomBezierFlip && Random.value > 0.5f) actualOffset = -actualOffset;
-            
-            _p1 = midPoint + perpendicular * actualOffset;
-
-            // ★ 新增：估算二次貝茲曲線的總長度 (弦長與控制網的平均值，效能極佳的逼近法)
-            float chord = Vector3.Distance(_p0, _p2);
-            float contNet = Vector3.Distance(_p0, _p1) + Vector3.Distance(_p1, _p2);
-            _curveLength = (chord + contNet) / 2f;
-            _bezierT = 0f; // 歸零進度
-        }
-        
-        Destroy(gameObject, missileData.lifeTime);
-    }
-
+    
     private void FixedUpdate()
     {
         if (_hasExploded || missileData == null) return;
+
+        // ==========================================
+        // ★ 3. 雷射車頭燈模式：每一幀重新預測未來軌跡
+        // ==========================================
+        if (_visualizer != null)
+        {
+            // 將導彈「當下的位置」與「當下實際飛行的方向」餵給 SO 算軌跡
+            Vector3 currentDir = _currentVelocity.normalized;
+            if (currentDir.sqrMagnitude < 0.001f) currentDir = transform.up;
+
+            Vector3[] futurePoints = missileData.CalculatePredictedTrajectory(transform.position, currentDir);
+            _visualizer.DrawTrajectory(futurePoints);
+        }
 
         _timer += Time.fixedDeltaTime;
 
@@ -182,6 +160,47 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
                 _lastSafeAngle = smoothedAngle;
             }
         }
+    }
+
+    public void SetTrajectory(Vector3 direction, float speed)
+    {
+        if (missileData == null) return;
+        
+        _lastPosition = transform.position;
+
+        if (missileData.launchMode == HomingMissileDataSO.LaunchMode.AngleSpread)
+        {
+            // --- 模式 A：角度散射 ---
+            float angleOffset = missileData.initialArcAngle;
+            if (missileData.randomArcDirection) angleOffset *= (Random.value > 0.5f) ? 1f : -1f;
+            else angleOffset *= missileData.arcToRight ? -1f : 1f; 
+
+            Vector3 rotatedDir = Quaternion.Euler(0, 0, angleOffset) * direction;
+            _currentVelocity = rotatedDir.normalized * missileData.speed;
+        }
+        else
+        {
+            // --- 模式 B：貝茲曲線 ---
+            _p0 = transform.position;
+            _p2 = (_target != null) ? new Vector3(_target.position.x, _target.position.y, 0f) : _p0 + direction.normalized * 10f;
+            
+            Vector3 midPoint = (_p0 + _p2) / 2f;
+            Vector3 dirToTarget = (_p2 - _p0).normalized;
+            Vector3 perpendicular = new Vector3(-dirToTarget.y, dirToTarget.x, 0f);
+
+            float actualOffset = missileData.bezierArcOffset;
+            if (missileData.randomBezierFlip && Random.value > 0.5f) actualOffset = -actualOffset;
+            
+            _p1 = midPoint + perpendicular * actualOffset;
+
+            // ★ 新增：估算二次貝茲曲線的總長度 (弦長與控制網的平均值，效能極佳的逼近法)
+            float chord = Vector3.Distance(_p0, _p2);
+            float contNet = Vector3.Distance(_p0, _p1) + Vector3.Distance(_p1, _p2);
+            _curveLength = (chord + contNet) / 2f;
+            _bezierT = 0f; // 歸零進度
+        }
+        
+        Destroy(gameObject, missileData.lifeTime);
     }
 
     private void ApplyHomingDynamics()

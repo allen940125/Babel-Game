@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntroNarrationTrigger
   InkId: 1001
-  explorationSceneName: OpeningScene
+  explorationSceneName: BlackSheepfight
 --- !u!4 &423019199
 Transform:
   m_ObjectHideFlags: 0

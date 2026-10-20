@@ -9198,6 +9198,7 @@ GameObject:
   - component: {fileID: 1071766595}
   - component: {fileID: 1071766594}
   - component: {fileID: 1071766593}
+  - component: {fileID: 1071766597}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -9325,6 +9326,63 @@ Transform:
   - {fileID: 798474931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 6, y: 110, z: 0}
+--- !u!114 &1071766597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071766592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4372cb97c7710488783af363a72d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonFollowCamera
+  target: {fileID: 1829660387}
+  distance: 1.5
+  height: 0.8
+  yaw: 270
+  mouseLook: 1
+  holdRightMouseToRotate: 0
+  mouseSensitivity: 0.15
+  invertHorizontal: 0
+  limitRotation: 1
+  yawLimit: 22.5
+  lockCursorWhileRotating: 1
+  lookHeight: 0.25
+  followSharpness: 8
+  obstacleMode: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4087
+  obstacleRadius: 0.25
+  minDistance: 0.5
+--- !u!1 &1079306576 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8732678372520500552, guid: e685fabff9c90aa4dbeeba6c538eb6d2, type: 3}
+  m_PrefabInstance: {fileID: 2000873208039561777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1079306580
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079306576}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0071879034, y: 0.020665467, z: 0.014710671}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1092310320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13556,6 +13614,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 705618953581997041, guid: d46fd273d8f05514392864814c41681c, type: 3}
   m_PrefabInstance: {fileID: 760441266}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1591984634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1591984636}
+  - component: {fileID: 1591984635}
+  m_Layer: 0
+  m_Name: TransitionCutscene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1591984635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591984634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3ef856d9c623c4faf7ad6a43c391ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TransitionCutsceneTrigger
+  scriptsToDisableDuringCutscene:
+  - {fileID: 1829660388}
+  - {fileID: 1326209296}
+  - {fileID: 1249601440}
+  - {fileID: 1808271646}
+  - {fileID: 404376878}
+  sceneViewDelay: 4
+  blackBG: {fileID: 0}
+  narrationInkId: 1003
+  guideDialogueInkId: 1004
+--- !u!4 &1591984636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591984634}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00858, y: 3.41928, z: -0.33699}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1594428231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15328,7 +15440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExplorationController
   moveSpeed: 2
   cameraRelative: 1
-  wTowardCamera: 1
+  wTowardCamera: 0
   cameraOverride: {fileID: 1071766596}
   faceMoveDirection: 0
   turnSpeed: 720
@@ -17806,6 +17918,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 111295896}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8732678372520500552, guid: e685fabff9c90aa4dbeeba6c538eb6d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1079306580}
     - targetCorrespondingSourceObject: {fileID: 4464471413170717216, guid: e685fabff9c90aa4dbeeba6c538eb6d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1334157757}
@@ -18189,3 +18304,4 @@ SceneRoots:
   - {fileID: 1326209295}
   - {fileID: 1808271647}
   - {fileID: 404376882}
+  - {fileID: 1591984636}

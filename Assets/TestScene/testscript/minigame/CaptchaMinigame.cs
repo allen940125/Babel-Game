@@ -21,6 +21,7 @@ public class CaptchaOption
 [Serializable]
 public class CaptchaRound
 {
+    [Tooltip("題目文字。用 {{ }} 包起來的部分會不停閃爍變成亂碼，例如：請點擊您認為是 {{人類}} 的東西")]
     [TextArea] public string prompt = "請點擊您認為是人類的東西";
     [Tooltip("答對後顯示的訊息（會取代題目文字，停留 Success Hold Seconds 秒）。\n用 {{ }} 包起來的文字會變成不停變化的亂碼，例如：[恭喜您，平行現實座標已確立，{{■★◇}}周目 即將開啟]（括號裡有幾個字就會是幾個亂碼字）")]
     [TextArea] public string successMessage;
@@ -71,8 +72,10 @@ public class CaptchaMinigame : MonoBehaviour
     [SerializeField] private float endScale = 2.2f;
     [Tooltip("橫軸 = 時間進度 0~1，縱軸 = 放大進度 0~1。想要越到後面越快，就拉成往上彎的曲線")]
     [SerializeField] private AnimationCurve approachCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-    [Tooltip("時間到（jumpscare 預留）")]
+    [Tooltip("時間到時觸發（在 Jumpscare 之前）")]
     [SerializeField] private UnityEvent onTimeUp;
+    [Tooltip("時間到（圖片逼近到最大）時播放的驚嚇演出。留空 = 時間到什麼都不會發生（只會觸發上面的事件）。")]
+    [SerializeField] private JumpscareSequence jumpscare;
 
     [Header("兩側黑畫面（黑羊）")]
     [SerializeField] private GameObject sideBlackRoot;
@@ -101,6 +104,8 @@ public class CaptchaMinigame : MonoBehaviour
     [SerializeField] private float scrambleCharWidthEm = 1f;
     [Tooltip("亂碼每隔幾秒換一次")]
     [SerializeField] private float scrambleInterval = 0.06f;
+    [Tooltip("題目裡 {{ }} 包起來的字，每次閃爍時顯示『原本的字』的機率（0~1）。\n0 = 完全是亂碼（玩家看不到題目寫什麼，不建議）；1 = 完全不閃；0.5 = 一半時間看得到原本的字。\n只影響題目，答對訊息的亂碼仍然是全隨機。")]
+    [SerializeField, Range(0f, 1f)] private float promptRealCharChance = 0.5f;
     [SerializeField] private UnityEvent onWrongClick;
 
     [Header("題目")]
@@ -121,6 +126,7 @@ public class CaptchaMinigame : MonoBehaviour
     private UniTaskCompletionSource<CaptchaCell> pendingClick;
     private Color promptBaseColor = Color.white;
     private bool timerRunning;
+    private bool jumpscareStarted;
     private bool sharedTimerStarted;
     private bool blackSheepActive;
     private float elapsed;
@@ -178,8 +184,16 @@ public class CaptchaMinigame : MonoBehaviour
             if (!TimedOut && elapsed >= currentTimeLimit)
             {
                 TimedOut = true;
-                Debug.Log("[CaptchaMinigame] 時間到（jumpscare 預留點）");
+                Debug.Log("[CaptchaMinigame] 時間到");
                 onTimeUp?.Invoke();
+
+                if (jumpscare != null)
+                {
+                    jumpscareStarted = true;
+                    timerRunning = false;
+                    SetCellsInteractable(false);
+                    jumpscare.Play().Forget();
+                }
             }
         }
     }
@@ -194,6 +208,7 @@ public class CaptchaMinigame : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
 
         TimedOut = false;
+        jumpscareStarted = false;
         BlackSheepClicked = false;
         WrongClickCount = 0;
         timerRunning = false;
@@ -213,7 +228,7 @@ public class CaptchaMinigame : MonoBehaviour
         onCompleted?.Invoke();
 
         if (!string.IsNullOrEmpty(nextSceneName))
-            SceneManager.LoadScene(nextSceneName);
+            SceneTransition.Load(nextSceneName).Forget();
     }
 
     private async UniTask RunRound(CaptchaRound round, CancellationToken token)
@@ -222,12 +237,22 @@ public class CaptchaMinigame : MonoBehaviour
         promptText.maxVisibleCharacters = 99999; // 還原打字機造成的字數限制
         if (successText != null) successText.gameObject.SetActive(false);
         promptText.color = promptBaseColor;
-        promptText.text = round.prompt;
+
+        // 題目裡的 {{ }} 會持續閃爍成亂碼（直到答對）
+        promptScrambleVersion++;
+        bool promptScrambles = !string.IsNullOrEmpty(round.prompt) && round.prompt.Contains("{{");
+        promptText.text = promptScrambles ? BuildScrambledMessage(round.prompt, promptRealCharChance) : round.prompt;
+        if (promptScrambles) ScramblePromptLoop(round.prompt, promptScrambleVersion).Forget();
+
         SetBlackSheep(round.showBlackSheepOnSides);
         StartRoundTimer(round);
 
         while (true)
         {
+            // 驚嚇演出開始後，遊戲就停在這裡，不再接受點擊（等場景重載或其他後續動作）
+            if (jumpscareStarted)
+                await UniTask.WaitUntil(() => false, cancellationToken: token);
+
             if (!BuildGrid(round)) return; // 題目資料不完整，略過這一輪
 
             SetCellsInteractable(true);
@@ -239,6 +264,7 @@ public class CaptchaMinigame : MonoBehaviour
             {
                 // 獨立計時：答對後暫停，成功訊息停留期間不會繼續放大。共用計時：照常往下走。
                 if (independentTimerPerRound) timerRunning = false;
+                promptScrambleVersion++; // 停止題目的亂碼閃爍
                 clicked.SetTint(correctColor);
                 await ShowSuccessMessage(round.successMessage, token);
 
@@ -258,7 +284,26 @@ public class CaptchaMinigame : MonoBehaviour
             await ShakeGrid(token);
         }
 
+        promptScrambleVersion++;
         SetBlackSheep(false);
+    }
+
+    private int promptScrambleVersion;
+
+    /// <summary>題目裡 {{ }} 包起來的部分，每隔 scrambleInterval 重新洗一次，直到這一輪結束（版本號改變）。</summary>
+    private async UniTaskVoid ScramblePromptLoop(string prompt, int version)
+    {
+        var token = this.GetCancellationTokenOnDestroy();
+        try
+        {
+            while (version == promptScrambleVersion)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(Mathf.Max(0.01f, scrambleInterval)), cancellationToken: token);
+                if (version != promptScrambleVersion) break;
+                promptText.text = BuildScrambledMessage(prompt, promptRealCharChance);
+            }
+        }
+        catch (OperationCanceledException) { }
     }
 
     /// <summary>
@@ -336,7 +381,7 @@ public class CaptchaMinigame : MonoBehaviour
         target.maxVisibleCharacters = 99999;
     }
 
-    private string BuildScrambledMessage(string message)
+    private string BuildScrambledMessage(string message, float realCharChance = 0f)
     {
         string pool = string.IsNullOrEmpty(scrambleCharacters) ? "■" : scrambleCharacters;
         var sb = new System.Text.StringBuilder();
@@ -361,7 +406,13 @@ public class CaptchaMinigame : MonoBehaviour
                 sb.Append("<mspace=").Append(scrambleCharWidthEm.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)).Append("em>");
 
             for (int k = 0; k < length; k++)
-                sb.Append(pool[UnityEngine.Random.Range(0, pool.Length)]);
+            {
+                // realCharChance > 0：有機率顯示原本的字（用在題目，讓玩家仍然看得到題目寫什麼）
+                if (realCharChance > 0f && UnityEngine.Random.value < realCharChance)
+                    sb.Append(message[start + 2 + k]);
+                else
+                    sb.Append(pool[UnityEngine.Random.Range(0, pool.Length)]);
+            }
 
             if (fixedWidth) sb.Append("</mspace>");
 

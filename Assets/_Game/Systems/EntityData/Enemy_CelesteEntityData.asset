@@ -15,7 +15,7 @@ MonoBehaviour:
   battlePrefab: {fileID: 4602923930814331091, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
   maxHealth: 100
   attackPower: 20
-  defense: 3
+  defense: 6
   critRate: 0
   critMultiplier: 1.5
   traits:

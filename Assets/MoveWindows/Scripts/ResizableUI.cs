@@ -137,7 +137,7 @@ public class ResizableUI : MonoBehaviour
             _resizableObjects.Add(resizableUIObject);
         }
     }
-    
+#if UNITY_EDITOR
    [ContextMenu("🔍 一鍵完整檢查 Resizable UI")]
     public void CheckEnvironment()
     {
@@ -361,4 +361,5 @@ public class ResizableUI : MonoBehaviour
             );
         }
     }
+#endif
 }

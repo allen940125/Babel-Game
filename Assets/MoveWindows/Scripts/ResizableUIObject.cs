@@ -5,7 +5,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public enum ResizableUIDraggableIds
 {
@@ -149,7 +152,7 @@ public class ResizableUIObject : MonoBehaviour
 
         Debug.Log($"[ResizableUIObject] 📐 縮放執行完畢 | 節點: {draggable.DraggableID} | 修改前 Min/Max: {offsetMin}/{offsetMax} | 修改後 Min/Max: {_rectTransform.offsetMin}/{_rectTransform.offsetMax}");
     }
-    
+#if UNITY_EDITOR
     [ContextMenu("Debug: 嚴格檢查節點與排版結構")]
     public void CheckSetup()
     {
@@ -252,4 +255,5 @@ public class ResizableUIObject : MonoBehaviour
         
         Debug.Log("--- 檢查結束 ---");
     }
+#endif
 }

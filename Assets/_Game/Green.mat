@@ -98,7 +98,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FillAmount: 0.851
+    - _FillAmount: 1
     - _FillMode: 1
     - _GlossMapScale: 0
     - _Glossiness: 0

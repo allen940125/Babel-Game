@@ -19,6 +19,9 @@ public class MainGameMediator
     [field: SerializeField] 
     public EntityRuntime CurrentBossRuntime { get; private set; }
 
+    // ★ 1. 新增：Boss 註冊完畢的廣播頻道
+    public event Action<EntityRuntime> OnBossRegisteredEvent;
+    
     public void MainGameMediatorInit()
     {
         RealTimePlayerData = GameContainer.Get<DataManager>().realTimePlayerData;
@@ -31,6 +34,7 @@ public class MainGameMediator
     { 
         CurrentBossRuntime = bossRuntime; 
         Debug.Log("<color=red>[系統] Boss 實體已向中繼站報到！</color>");
+        OnBossRegisteredEvent?.Invoke(bossRuntime);
     }
     public void UnregisterCurrentBoss() { CurrentBossRuntime = null; }
 

@@ -189,6 +189,8 @@ GameObject:
   - component: {fileID: 5018938130355998823}
   - component: {fileID: 3755704224224232043}
   - component: {fileID: 3252278024596057481}
+  - component: {fileID: 7026818615791713177}
+  - component: {fileID: 6860925700303123727}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -281,6 +283,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c32a2db4e1606d479000cadda34e8fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7026818615791713177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376877183433635412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d168eb1654e1b9643882353714c82b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RenderFeatureController
+  rendererData: {fileID: 11400000, guid: 83bb1a173b66d6c4995eccc0ad5e4945, type: 2}
+  featureName: FullScreenPassRendererFeature
+  idleColor: {r: 1, g: 1, b: 1, a: 1}
+  attackingColor: {r: 0.1254902, g: 0.4509804, b: 0.11372549, a: 1}
+--- !u!114 &6860925700303123727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376877183433635412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b730ee154867f4286fda7b5e2128e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostInstancedManager
 --- !u!1 &1533485286208890757
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,6 +49,18 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
     // ==========================================
     // 覆寫父類別的事件處理 (完美融合)
     // ==========================================
+
+    // ★ 新增：處理轉場時的按鈕鎖定
+    protected override void OnBossTransition(BossEnterTransitionPhaseEvent evt)
+    {
+        base.OnBossTransition(evt); 
+        
+        if (!ignorePhaseLock) 
+        {
+            _isPhaseLocked = true; // 轉場一開始，立刻讓按鈕點不下去
+        }
+    }
+    
     protected override void OnBossAttacking(BossEnterAttackingPhaseEvent evt)
     {
         // 1. 呼叫 base，讓父類別去關閉拖曳跟旋轉

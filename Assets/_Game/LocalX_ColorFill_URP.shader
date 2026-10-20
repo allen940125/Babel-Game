@@ -14,8 +14,8 @@ Shader "Custom/Local_ColorFill_NPR_URP"
         _ShadowSmoothness ("Shadow Smoothness", Range(0, 0.5)) = 0.05
         
         [Header(Fill Control)]
-        // 提供材質面板下拉選單
-        [KeywordEnum(Overwrite, Multiply, Add, AlphaBlend)] _FillMode("Fill Blend Mode", Float) = 0
+        // ★ 1. 新增 ReplaceBase (替換底色，保留光影) 模式
+        [KeywordEnum(Overwrite, Multiply, Add, AlphaBlend, ReplaceBase)] _FillMode("Fill Blend Mode", Float) = 0
         
         _FillColor ("Fill Color (A for AlphaBlend Mode)", Color) = (1,0,0,1)
         _FillAmount ("Fill Amount", Range(0, 1)) = 0.0
@@ -37,8 +37,8 @@ Shader "Custom/Local_ColorFill_NPR_URP"
             #pragma vertex vert
             #pragma fragment frag
             
-            // 定義 Local Shader Features (避免占用全域 Keyword 數量)
-            #pragma shader_feature_local _FILLMODE_OVERWRITE _FILLMODE_MULTIPLY _FILLMODE_ADD _FILLMODE_ALPHABLEND
+            // ★ 2. 註冊新的 Keyword
+            #pragma shader_feature_local _FILLMODE_OVERWRITE _FILLMODE_MULTIPLY _FILLMODE_ADD _FILLMODE_ALPHABLEND _FILLMODE_REPLACEBASE
             
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -94,60 +94,63 @@ Shader "Custom/Local_ColorFill_NPR_URP"
 
                 return output;
             }
-
+            
             half4 frag(Varyings input) : SV_Target
             {
-                // 1. BaseMap & Color
-                half4 albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv) * _BaseColor;
+                // ★ 1. 【拆解動作】：只取樣最原始的貼圖 (不乘上任何顏色)
+                half4 rawTexture = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
 
-                // 2. Normal Mapping
-                half4 normalSample = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, input.uv);
-                float3 normalTS = UnpackNormalScale(normalSample, _BumpScale);
-                float3x3 tbn = float3x3(input.tangentWS, input.bitangentWS, input.normalWS);
-                float3 normalWS = normalize(mul(normalTS, tbn));
-
-                // // 3. NPR Cel-Shading Lighting
-                // Light mainLight = GetMainLight();
-                // float NdotL = dot(normalWS, mainLight.direction);
-                // float lightIntensity = smoothstep(_ShadowThreshold - _ShadowSmoothness, _ShadowThreshold + _ShadowSmoothness, NdotL);
-                // half3 litColor = lerp(albedo.rgb * _ShadowColor.rgb, albedo.rgb * mainLight.color, lightIntensity);
-
-                // 3. NPR Cel-Shading Lighting
-                Light mainLight = GetMainLight();
-                float NdotL = dot(normalWS, mainLight.direction);
-
-                // 二階陰影切分
-                float lightIntensity = smoothstep(_ShadowThreshold - 0.01, _ShadowThreshold + 0.01, NdotL);
-
-                // 【關鍵修改】：完全放棄 BaseMap 的亮度，直接使用 _ShadowColor 作為陰影
-                half3 shadowAreaColor = _ShadowColor.rgb; 
-
-                // 受光區保留 BaseMap 原色，陰影區強制變成 _ShadowColor (設為白色就是純白)
-                half3 litColor = lerp(shadowAreaColor, albedo.rgb * mainLight.color, lightIntensity);
-                
-                // 4. Fill Mask Calculation
+                // 2. 提前計算 Fill Mask
                 float3 dir = normalize(_FillDirection.xyz);
                 float projectedVal = dot(input.positionOS, dir);
                 float normalizedVal = saturate((projectedVal - _MinBound) / (_MaxBound - _MinBound));
                 float fillMask = step(normalizedVal, _FillAmount);
 
-                // 5. Fill Color Blending (依據 Shader Feature 在編譯期決定路徑)
+                // ==========================================
+                // ★ 3. 核心邏輯：決定「底色」到底是誰？
+                // ==========================================
+                half3 activeBaseColor = _BaseColor.rgb; // 預設使用原本的 BaseColor
+
+                #if defined(_FILLMODE_REPLACEBASE)
+                    // 如果開啟了 ReplaceBase，在這個區域內，BaseColor 的身分直接被 _FillColor 搶走！
+                    activeBaseColor = lerp(_BaseColor.rgb, _FillColor.rgb, fillMask);
+                #endif
+
+                // ★ 4. 結算最終的 Albedo (原始貼圖 * 當下掌權的底色)
+                half4 albedo = half4(rawTexture.rgb * activeBaseColor, rawTexture.a * _BaseColor.a);
+
+
+                // 5. Normal Mapping (法線運算保持不變)
+                half4 normalSample = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, input.uv);
+                float3 normalTS = UnpackNormalScale(normalSample, _BumpScale);
+                float3x3 tbn = float3x3(input.tangentWS, input.bitangentWS, input.normalWS);
+                float3 normalWS = normalize(mul(normalTS, tbn));
+
+                // 6. NPR 賽璐璐陰影計算
+                Light mainLight = GetMainLight();
+                float NdotL = dot(normalWS, mainLight.direction);
+                float lightIntensity = smoothstep(_ShadowThreshold - 0.01, _ShadowThreshold + 0.01, NdotL);
+                
+                // 陰影顏色與目前的 albedo 完美融合
+                half3 shadowAreaColor = albedo.rgb * _ShadowColor.rgb; 
+                half3 litColor = lerp(shadowAreaColor, albedo.rgb * mainLight.color, lightIntensity);
+                
+                // 7. 後期混合 (處理 ReplaceBase 以外的其他模式)
                 half3 finalColor = litColor;
 
                 #if defined(_FILLMODE_MULTIPLY)
-                    // 正片疊底：適合做燒焦、毒液侵蝕、血跡疊加，保留底圖細節與明暗
                     finalColor = lerp(litColor, litColor * _FillColor.rgb, fillMask);
                 #elif defined(_FILLMODE_ADD)
-                    // 線性發光：適合做能量充能、過載發光、護盾效果
                     finalColor = lerp(litColor, litColor + _FillColor.rgb, fillMask);
                 #elif defined(_FILLMODE_ALPHABLEND)
-                    // 透明度混合：使用 _FillColor 的 Alpha 通道決定疊加濃度
                     half3 blendColor = lerp(litColor, _FillColor.rgb, _FillColor.a);
                     finalColor = lerp(litColor, blendColor, fillMask);
-                #else
-                    // 預設覆蓋 (Overwrite)：完全無視底圖光影，直接取代為純色
+                #elif defined(_FILLMODE_OVERWRITE)
                     finalColor = lerp(litColor, _FillColor.rgb, fillMask);
                 #endif
+                
+                // 注意：_FILLMODE_REPLACEBASE 在步驟 3 就已經處理完了，
+                // 所以它來到這裡時，litColor 已經是完美的狀態，直接通過。
 
                 return half4(finalColor, albedo.a);
             }

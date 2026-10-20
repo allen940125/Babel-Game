@@ -609,7 +609,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 799614136306252304, guid: 1259d2d8075d20544b150bed05060312, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1664420855766335368}
+    - targetCorrespondingSourceObject: {fileID: 43389867384781538, guid: 1259d2d8075d20544b150bed05060312, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5031757366695570631}
   m_SourcePrefab: {fileID: 100100000, guid: 1259d2d8075d20544b150bed05060312, type: 3}
+--- !u!1 &2692571752769446517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 43389867384781538, guid: 1259d2d8075d20544b150bed05060312, type: 3}
+  m_PrefabInstance: {fileID: 2722365933388617879}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5031757366695570631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692571752769446517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  specificParts: []
+  includeChildren: 1
+  ghostMaterial: {fileID: 2100000, guid: 65e2fe4bea7b9f34fafc31f02b20ab55, type: 2}
+  ghostColor: {r: 0.34901962, g: 0.64705884, b: 0.3529412, a: 0.5882353}
+  distanceGap: 0.5
+  ghostLifetime: 0.2
+  posOffset: {x: 0, y: 0, z: 0.1}
+  autoAntiZFighting: 1
+  overrideTexture: {fileID: 0}
 --- !u!1 &3377424527203689095 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 799614136306252304, guid: 1259d2d8075d20544b150bed05060312, type: 3}
@@ -628,7 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaVisualFeedback
   _sr: {fileID: 0}
-  _lowStaminaColor: {r: 1, g: 0, b: 0, a: 1}
+  _lowStaminaColor: {r: 0.116193905, g: 0.20011939, b: 0.78616345, a: 1}
   _normalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &4931809886150494722
 MonoBehaviour:

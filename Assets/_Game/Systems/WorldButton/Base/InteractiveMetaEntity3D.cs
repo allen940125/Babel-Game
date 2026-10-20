@@ -29,9 +29,11 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
         SetupComponentsAutomagically();
         ApplyToggles();
 
-        // ★ 父類別自動訂閱戰鬥階段事件！
         if (GameManager.Instance?.MainGameEvent != null)
         {
+            // ★ 新增：訂閱轉場事件
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterTransitionPhaseEvent, OnBossTransition);
+            
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterAttackingPhaseEvent, OnBossAttacking);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterIdlePhaseEvent, OnBossIdle);
         }
@@ -39,9 +41,11 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        // ★ 嚴格記憶體釋放合約
         if (GameManager.Instance?.MainGameEvent != null)
         {
+            // ★ 新增：解除訂閱轉場事件
+            GameManager.Instance.MainGameEvent.Unsubscribe<BossEnterTransitionPhaseEvent>(OnBossTransition);
+            
             GameManager.Instance.MainGameEvent.Unsubscribe<BossEnterAttackingPhaseEvent>(OnBossAttacking);
             GameManager.Instance.MainGameEvent.Unsubscribe<BossEnterIdlePhaseEvent>(OnBossIdle);
         }
@@ -105,25 +109,47 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
         ApplyToggles();
     }
 
-    // ==========================================
-    // ★ 核心落實：階段切換自動仲裁
-    // ==========================================
-    // ★ 改成 protected virtual，開放給子類別擴充
-    protected virtual void OnBossAttacking(BossEnterAttackingPhaseEvent evt)
+    protected virtual void OnBossTransition(BossEnterTransitionPhaseEvent evt)
     {
         if (!ignorePhaseLock)
         {
-            Debug.Log($"<color=orange>[掩體鎖定] {gameObject.name} 進入防禦態，鎖死拖曳旋轉！</color>");
+            Debug.Log($"<color=orange>[權限沒收] {gameObject.name} 進入轉場，提前鎖死玩家操作，但允許被擊飛！</color>");
+            
+            // ★ 1. 關閉「禁用時鎖死物理」的保護機制
+            if (_draggable != null)
+            {
+                _draggable.LockPhysicsWhenDisabled = false; 
+            }
+            
+            // ★ 2. 沒收玩家滑鼠權限 (因為上面關了保護，所以剛體不會變成 Kinematic，依然可以被炸飛)
             SetInteractable(false, false);
         }
     }
 
-    // ★ 改成 protected virtual
+    protected virtual void OnBossAttacking(BossEnterAttackingPhaseEvent evt)
+    {
+        if (!ignorePhaseLock)
+        {
+            Debug.Log($"<color=orange>[掩體鎖定] {gameObject.name} 進入防禦態，徹底鎖死！</color>");
+            
+            // ★ 1. 開啟保護機制
+            if (_draggable != null)
+            {
+                _draggable.LockPhysicsWhenDisabled = true; 
+            }
+            
+            // ★ 2. 雙重確認沒收權限，此時剛體會立刻變成 isKinematic = true
+            SetInteractable(false, false);
+        }
+    }
+
     protected virtual void OnBossIdle(BossEnterIdlePhaseEvent evt)
     {
         if (!ignorePhaseLock)
         {
             Debug.Log($"<color=cyan>[武器解鎖] {gameObject.name} 進入休眠態，開啟權限！</color>");
+            
+            // 恢復玩家權限，拖曳腳本會自動接管物理狀態
             SetInteractable(true, true);
         }
     }

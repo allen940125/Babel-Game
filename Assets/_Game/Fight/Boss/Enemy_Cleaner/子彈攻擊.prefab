@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063408003699528985}
   - component: {fileID: 2967103170809650411}
+  - component: {fileID: 8959209481337463846}
   m_Layer: 0
   m_Name: Ani
   m_TagString: Untagged
@@ -91,6 +92,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &8959209481337463846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3135643600819890580}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8bda1cd27b22d438261e04e9dac267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstancedGhostReporter
+  ghostMaterial: {fileID: 2100000, guid: c3ea8663696d8104f9dbd43b910ee330, type: 2}
+  ghostColor: {r: 0.3, g: 0.8, b: 1, a: 0.2}
+  distanceGap: 0.5
+  ghostLifetime: 0.1
+  posOffset: {x: 0, y: 0, z: 0.1}
+  autoAntiZFighting: 1
+  overrideTexture: {fileID: 0}
 --- !u!1 &6541086227026742445
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
   _snapshottedIgnoreInvincibility: 0
   _snapshottedDamage: 15
   _snapshottedCritRate: 0
