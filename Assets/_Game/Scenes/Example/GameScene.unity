@@ -4583,7 +4583,7 @@ MonoBehaviour:
   dialogueUI: {fileID: 2110070343}
   enableOpeningDialogue: 0
   openingDialogueNode: Boss_Opening
-  debugBossBlueprint: {fileID: 11400000, guid: 34c7c94623f0100438b24abb069c0544, type: 2}
+  debugBossBlueprint: {fileID: 11400000, guid: 1215c0d69b9ebef45849462743aaacfc, type: 2}
 --- !u!4 &2046034635
 Transform:
   m_ObjectHideFlags: 0
