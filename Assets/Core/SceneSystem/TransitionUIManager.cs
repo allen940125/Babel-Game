@@ -38,7 +38,7 @@ namespace Game.UI
 
         private void HideTransitionUI()
         {
-            //GameManager.Instance.UIManager.CloseAllPanels();
+            GameManager.Instance.UIManager.CloseAllPanels();
         }
     }
 }

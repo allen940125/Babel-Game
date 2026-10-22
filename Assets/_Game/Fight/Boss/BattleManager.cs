@@ -1,3 +1,4 @@
+using Gamemanager;
 using UnityEngine;
 
 public enum BattleState { Dialogue, PlayerMove, PlayerFight, BossDecide, Win, Lose }
@@ -40,7 +41,16 @@ public class BattleManager : MonoBehaviour
 
     private System.Collections.IEnumerator EvaluateOpeningFlowRoutine()
     {
-        // ★ 關鍵：等待一幀，確保場景上所有剛 Instantiate 出來的物件都跑完了 Start()
+        // ★ 核心修復：在單一場景測試時，等待大管家的非同步資料載入完成！
+        if (GameManager.Instance != null)
+        {
+            while (!GameManager.Instance.IsInitialized)
+            {
+                yield return null; // 如果資料還沒載完，就一直等
+            }
+        }
+
+        // 確保場景上所有剛 Instantiate 出來的物件都跑完了 Start()
         yield return null;
 
         if (enableOpeningDialogue && dialogueUI != null)
@@ -53,7 +63,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            // 大家都準備好了，再正式開打
+            // 大家都準備好了，資料庫也有了，再正式開打
             ChangeState(BattleState.PlayerFight);
         }
     }
@@ -120,6 +130,7 @@ public class BattleManager : MonoBehaviour
 
     public void ChangeState(BattleState newState)
     {
+        Debug.Log("[BattleManager] ChangeState: " + newState);
         currentState = newState;
         switch (currentState)
         {
@@ -130,6 +141,11 @@ public class BattleManager : MonoBehaviour
 
             case BattleState.PlayerFight:
                 Debug.Log("開始戰鬥" + currentBoss.bossName);
+                // ★ 在這裡發送「開戰信號」
+                if (GameManager.Instance?.MainGameEvent != null)
+                {
+                    GameManager.Instance.MainGameEvent.Send(new BattleInitiatedEvent());
+                }
                 if (currentBoss != null) currentBoss.StartBattle();
                 Debug.Log("正式開始戰鬥" + currentBoss.bossName);
                 break;

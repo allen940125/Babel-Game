@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using TMPro;
@@ -87,6 +88,37 @@ namespace Datamanager
 
             Debug.LogError($"[DataManager] 查無此型別的資料庫路由: {type}");
             return null;
+        }
+        
+        // ==========================================
+        // ★ 新增：獲取該型別的所有資料清單 (GetAllData)
+        // ==========================================
+        public List<T> GetAllData<T>() where T : class
+        {
+            if (Database == null) return new List<T>();
+
+            Type type = typeof(T);
+
+            if (type == typeof(ItemDataBaseTemplete))
+            {
+                // 因為 C# 泛型的限制，這裡可以用 as 轉型返回原本的 List
+                return Database.ItemDatabase as List<T>;
+            }
+            else if (type == typeof(UIDataBaseTemplete))
+            {
+                return Database.UIDatabase as List<T>;
+            }
+            else if (type == typeof(StoreDataBaseTemplete))
+            {
+                return Database.StoreDatabase as List<T>;
+            }
+            else if (type == typeof(DialogueDataBaseTemplete))
+            {
+                return Database.DialogueDataBase as List<T>;
+            }
+
+            Debug.LogError($"[DataManager] 查無此型別的資料庫路由: {type}");
+            return new List<T>();
         }
     }
 }

@@ -1,5 +1,10 @@
 ﻿Id,Name,PrefabPath,IconPath,ItemDescription,ItemControllerType,ItemRarityType,ItemUseTimes,LifeTime,Value,BuffPrefabPath
-100,Money,Items/Money,Icons/Money,世界通用貨幣,Material,Common,0,0,1,Buffs/HealthBoost
-101,HealthPotion,Items/HealthPotion,Icons/HealthPotionIcon,紅藥水用於回復血量,Consumable,Common,1,10,50,Buffs/HealthBoost
-102,ManaPotion,Items/ManaPotion,Icons/ManaPotionIcon,藍藥水用於回復魔力,Consumable,Poor,1,10,30,Buffs/ManaBoost
-103,AdvancedMedicalSyringe,Items/AdvancedMedicalSyringe,Icons/AdvancedMedicalSyringe,高級醫療注射器回復血量跟魔力,Consumable,Uncommon,1,10,100,Buffs/AdvancedMedicalSyringe
+3001,Money,Items/Money,Icons/Money,世界通用貨幣,Material,Common,0,0,1,Buffs/HealthBoost
+2001,HealthPotion,Items/HealthPotion,Icons/HealthPotionIcon,紅藥水用於回復血量,Consumable,Common,1,10,50,Buffs/HealthBoost
+2002,ManaPotion,Items/ManaPotion,Icons/ManaPotionIcon,藍藥水用於回復魔力,Consumable,Poor,1,10,30,Buffs/ManaBoost
+2003,AdvancedMedicalSyringe,Items/AdvancedMedicalSyringe,Icons/AdvancedMedicalSyringe,高級醫療注射器,Consumable,Uncommon,1,10,100,Buffs/AdvancedMedicalSyringe
+9001,Pen1,Items/Pen1,Icons/Pen1,一支普通的原子筆。,Junk,Poor,0,0,0,
+9002,Pen2,Items/Pen2,Icons/Pen2,看起來有點貴的鋼筆。,Junk,Common,0,0,0,
+9003,Notebook,Items/Notebook,Icons/Notebook,寫著不明筆記的本子。,Junk,Poor,0,0,0,
+9004,IDCard,Items/IDCard,Icons/IDCard,某人的員工識別證。,Junk,Common,0,0,0,
+9005,Lighter,Items/Lighter,Icons/Lighter,一個快沒瓦斯的打火機。,Junk,Poor,0,0,0,
