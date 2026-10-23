@@ -77,7 +77,7 @@ public class OpenBagpackAction : ICommandAction
     public void Invoke(CommandContext context)
     {
         Debug.Log($"發送：背包打開指令");
-        GameManager.Instance.UIManager.OpenPanel<BagMenu>(UIType.BagMenu);
+        GameManager.Instance.UIManager.OpenPanel<SpatialBagMenu>(UIType.SpatialBagMenu);
     }
 }
 

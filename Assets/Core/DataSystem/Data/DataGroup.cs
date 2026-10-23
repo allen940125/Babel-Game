@@ -93,6 +93,7 @@ public enum UIType
     StoreMenu = 130,             //商店選單
     GameOverMenu = 140,
     GameEndMenu = 150,
+    SpatialBagMenu = 160,
 
     SceneLoadingTransitionPanel = 210,
     GameStartTransitionPanel = 220,
@@ -190,6 +191,9 @@ public enum ItemControllerType
     Material = 30,
     [Description("重要物品")]
     KeyItem = 40,
+    // ★ 新增：專門用來處理戰鬥掉落物理互動的雜物
+    [Description("雜物")]
+    Junk = 90,
 }
 
 /// <summary>

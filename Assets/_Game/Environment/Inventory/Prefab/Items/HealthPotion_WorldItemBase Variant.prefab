@@ -57,6 +57,10 @@ PrefabInstance:
       value: 1.72
       objectReference: {fileID: 0}
     - target: {fileID: 5334727121182909904, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334727121182909904, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: m_Center.x
       value: 0.47
       objectReference: {fileID: 0}
@@ -67,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 7178593935378907489, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1a47bdc34223e5a44add86548fc87b9b, type: 3}
+      objectReference: {fileID: -8358056221056269851, guid: bb9318f681a2e134bbd5b5bbdb825fb2, type: 3}
     - target: {fileID: 7178593935378907489, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -83,5 +87,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7040019828199806088, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 541968870757684678}
   m_SourcePrefab: {fileID: 100100000, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+--- !u!1 &792128151883177541 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7040019828199806088, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+  m_PrefabInstance: {fileID: 7731863488202214093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &541968870757684678
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792128151883177541}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.84, y: 2.8, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

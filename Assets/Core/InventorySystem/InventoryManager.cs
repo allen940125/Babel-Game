@@ -53,6 +53,9 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnItemAddedToBagEvent, OnItemAddedToBagEvent);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnInventoryItemClickedEvent, OnInventoryItemClickedEvent);
+        
+        // ★ 新增：監聽戰鬥開始事件
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBattleInitiatedEvent, OnBattleInitiated);
     }
 
     private void UnsubscribeFromEvents()
@@ -61,6 +64,8 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             GameManager.Instance.MainGameEvent.Unsubscribe<ItemAddedToBagEvent>(OnItemAddedToBagEvent);
             GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemClickedEvent>(OnInventoryItemClickedEvent);
+            
+            GameManager.Instance.MainGameEvent.Unsubscribe<BattleInitiatedEvent>(OnBattleInitiated);
         }
     }
     
@@ -98,9 +103,9 @@ public class InventoryManager : Singleton<InventoryManager>
         if (Keyboard.current != null && Keyboard.current.oKey.wasPressedThisFrame)
         {
             Debug.Log("鍵盤上的 O 鍵被按下了 (Was Pressed This Frame)！");
-            AddItem(100, initializeMoney);
-            AddItem(101, 120);  // 測試加入 120 個 ID 為 101 的物品
-            AddItem(102, 50);   // 測試加入 50 個 ID 為 102 的物品
+            AddItem(3001, initializeMoney);
+            AddItem(2001, 120);  // 測試加入 120 個 ID 為 101 的物品
+            AddItem(2002, 50);   // 測試加入 50 個 ID 為 102 的物品
             PrintInventory();
         }
         
@@ -295,6 +300,91 @@ public class InventoryManager : Singleton<InventoryManager>
         // 隨機抽一個
         int randomIndex = UnityEngine.Random.Range(0, validItems.Count);
         return validItems[randomIndex];
+    }
+    
+    /// <summary>
+    /// 提供給 UI 獲取背包資料的唯一合法接口
+    /// </summary>
+    public List<InventoryItemRuntimeData> GetPlayerItems(ItemControllerType filterType)
+    {
+        List<InventoryItemRuntimeData> result = new List<InventoryItemRuntimeData>();
+        
+        // 這裡從你 private 暫存的變數，或向 SaveManager 拿資料
+        InventoryRuntimeData inventoryData = SaveManager.Instance.CurrentSaveData.InventoryData;
+
+        if (inventoryData == null || inventoryData.categoryGroups == null)
+            return result;
+
+        // 遍歷分類並攤平資料
+        foreach (var group in inventoryData.categoryGroups)
+        {
+            // 如果是 All 就全拿，否則只拿對應分類的物品
+            if (filterType == ItemControllerType.All || group.categoryName == filterType)
+            {
+                // 排除無效資料與數量小於等於 0 的物品
+                foreach (var item in group.items)
+                {
+                    if (item != null && item.quantity > 0)
+                    {
+                        result.Add(item);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+    
+    // 當戰鬥正式開打時，重置雜物
+    private void OnBattleInitiated(BattleInitiatedEvent evt)
+    {
+        ResetJunkForNewBattle();
+    }
+    
+    /// <summary>
+    /// 確保每場戰鬥開始時，所有「雜物」都會重置為 1
+    /// </summary>
+    public void ResetJunkForNewBattle()
+    {
+        // 1. 透過我們剛寫好的 GetAllData 拿到整包物品藍圖
+        List<ItemDataBaseTemplete> allItems = GameContainer.Get<DataManager>().GetAllData<ItemDataBaseTemplete>();
+
+        if (allItems == null) return;
+
+        bool hasAnyJunk = false;
+
+        // 2. 遍歷所有的物品資料
+        foreach (var itemTemplate in allItems)
+        {
+            // ★ 找到分類是 Junk 的物品
+            if (itemTemplate.ItemControllerType == ItemControllerType.Junk)
+            {
+                int junkID = itemTemplate.Id;
+                
+                // 去玩家的背包裡找這個雜物
+                InventoryItemRuntimeData existingJunk = GetInventoryData(junkID);
+
+                // 如果背包裡有，並且數量 > 0，強制設為 1
+                if (existingJunk != null && existingJunk.quantity > 0)
+                {
+                    existingJunk.quantity = 1; 
+                }
+                else
+                {
+                    // 如果沒有，無中生有塞 1 個進去
+                    AddItem(junkID, 1); 
+                }
+                
+                hasAnyJunk = true;
+            }
+        }
+
+        // 3. 如果真的有發配雜物，就發送 UI 刷新事件
+        if (hasAnyJunk)
+        {
+            Debug.Log("<color=cyan>[背包初始化]</color> 偵測到新戰鬥，所有雜物已重置為 1 個！");
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.All });
+        }
     }
 }
 

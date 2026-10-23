@@ -160,6 +160,11 @@ namespace Gamemanager
         public SceneType BattleScene; // 使用你已定義的 SceneType
     }
     
+    public class BattleInitiatedEvent : GameEventMessageBase
+    {
+        
+    }
+    
     public class FightButtonClickEvent : GameEventMessageBase
     {
 
