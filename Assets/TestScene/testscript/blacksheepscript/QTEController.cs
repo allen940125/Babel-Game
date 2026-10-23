@@ -26,10 +26,9 @@ public class QTEController : MonoBehaviour
 
     [Header("判定")]
     [Tooltip("這些鍵按了不算按錯（用來放移動鍵，避免閃避時誤判失敗）")]
-    [SerializeField]
-    private Key[] ignoredKeys =
+    [SerializeField] private Key[] ignoredKeys =
     {
-        Key.W, Key.A, Key.S, Key.D,
+        Key.W, Key.A, Key.S, Key.D, Key.Space,
         Key.UpArrow, Key.DownArrow, Key.LeftArrow, Key.RightArrow
     };
 
@@ -38,6 +37,9 @@ public class QTEController : MonoBehaviour
 
     /// <summary>每次 QTE 結束時觸發（true = 成功）。想加音效或特效可以訂閱這個。</summary>
     public event Action<bool> OnQTEFinished;
+
+    /// <summary>結果一決定就觸發（成功或失敗的那一瞬間），不會等結果畫面顯示完。需要即時反應時訂閱這個。</summary>
+    public event Action<bool> OnQTEResolved;
 
     private void Awake()
     {
@@ -89,6 +91,7 @@ public class QTEController : MonoBehaviour
 
         if (success) SuccessCount++; else FailCount++;
         SetColor(success ? successColor : failColor);
+        OnQTEResolved?.Invoke(success);
 
         await UniTask.Delay(TimeSpan.FromSeconds(resultShowSeconds), cancellationToken: token);
         qteRoot.SetActive(false);

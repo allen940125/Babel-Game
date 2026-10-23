@@ -16,6 +16,18 @@ public class Dialogueshow : BasePanel
     [SerializeField] private TextMeshProUGUI bodyText;
     [SerializeField] private TypewriterComponent typewriter;
 
+    [Header("旁白（Ink 裡 # speaker: 後面留空的那幾句）")]
+    [Tooltip("speaker 的名字等於這裡任何一個，就視為旁白（留空的 speaker 也一律算旁白）。")]
+    [SerializeField] private string[] narrationSpeakerNames = { "旁白" };
+    [Tooltip("旁白時，名字欄顯示的符號。請確認字型有這個字。")]
+    [SerializeField] private string narrationSpeakerSymbol = "■";
+    [Tooltip("旁白時要抖動的物件。留空 = 只抖名字文字；拖入名牌（NameBox）= 整個名牌一起抖。")]
+    [SerializeField] private RectTransform narrationShakeTarget;
+    [Tooltip("抖動幅度（像素）")]
+    [SerializeField] private float narrationShakeStrength = 3f;
+    [Tooltip("每隔幾秒換一次抖動位置，越小越快")]
+    [SerializeField] private float narrationShakeInterval = 0.04f;
+
     [Header("Choices")]
     [SerializeField] private GameObject[] choiceButtons;
     [SerializeField] private TextMeshProUGUI[] choiceTexts;
@@ -66,6 +78,7 @@ public class Dialogueshow : BasePanel
     public void Init()
     {
         isFirstAdvance = true;
+        StopNarrationShake();
         Debug.Log("[Dialogue] Init() 被呼叫");
 
         portraitMap = new Dictionary<string, Sprite>();
@@ -303,7 +316,7 @@ public class Dialogueshow : BasePanel
 
             if (tag.StartsWith("speaker:"))
             {
-                speakerNameText.text = tag.Substring("speaker:".Length).Trim();
+                ApplySpeaker(tag.Substring("speaker:".Length).Trim());
             }
             else if (tag.StartsWith("portrait:"))
             {
@@ -322,6 +335,65 @@ public class Dialogueshow : BasePanel
             }
         }
         //檢查INK的內容，是在說話還是立繪
+    }
+
+    // ---------- 說話者 / 旁白 ----------
+
+    /// <summary>speaker 有名字 = 正常顯示；留空 = 旁白：顯示符號並持續抖動。</summary>
+    private void ApplySpeaker(string speaker)
+    {
+        bool narration = string.IsNullOrWhiteSpace(speaker) || IsNarrationName(speaker);
+        speakerNameText.text = narration ? narrationSpeakerSymbol : speaker;
+
+        if (narration) StartNarrationShake();
+        else StopNarrationShake();
+    }
+
+    private bool IsNarrationName(string speaker)
+    {
+        if (narrationSpeakerNames == null) return false;
+        foreach (var n in narrationSpeakerNames)
+            if (!string.IsNullOrWhiteSpace(n) && n.Trim() == speaker) return true;
+        return false;
+    }
+
+    private bool narrationShaking;
+    private int narrationShakeVersion;
+    private Vector2 narrationShakeOrigin;
+    private RectTransform narrationShakeTargetInUse;
+
+    private void StartNarrationShake()
+    {
+        if (narrationShaking) return;
+
+        narrationShakeTargetInUse = narrationShakeTarget != null ? narrationShakeTarget : speakerNameText.rectTransform;
+        narrationShakeOrigin = narrationShakeTargetInUse.anchoredPosition;
+        narrationShaking = true;
+
+        NarrationShakeLoop(++narrationShakeVersion).Forget();
+    }
+
+    private void StopNarrationShake()
+    {
+        if (!narrationShaking) return;
+
+        narrationShaking = false;
+        narrationShakeVersion++;
+        if (narrationShakeTargetInUse != null)
+            narrationShakeTargetInUse.anchoredPosition = narrationShakeOrigin;
+    }
+
+    private async UniTaskVoid NarrationShakeLoop(int version)
+    {
+        var token = this.GetCancellationTokenOnDestroy();
+        var target = narrationShakeTargetInUse;
+
+        while (version == narrationShakeVersion && target != null)
+        {
+            target.anchoredPosition = narrationShakeOrigin + Random.insideUnitCircle * narrationShakeStrength;
+            await UniTask.Delay(System.TimeSpan.FromSeconds(Mathf.Max(0.01f, narrationShakeInterval)),
+                ignoreTimeScale: true, cancellationToken: token);
+        }
     }
 
     private Image GetPortraitSlot(string side)
