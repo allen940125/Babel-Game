@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
-  m_Name: Spine_SkeletonData
+  m_Name: Anim_Cleaner_AllPSD_SkeletonData
   m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonDataAsset
-  atlasAssets: []
+  atlasAssets:
+  - {fileID: 11400000, guid: ff93e73641269534796af93ecf04fcf0, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: 16553678299a4e14aa4cdbe1ca879c0c, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 9b47dc8eea020bb4caaf65d0c84f0c71, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 0
@@ -26,5 +27,5 @@ MonoBehaviour:
   fromAnimation: []
   toAnimation: []
   duration: []
-  defaultMix: 0
+  defaultMix: 0.2
   controller: {fileID: 0}

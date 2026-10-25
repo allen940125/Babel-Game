@@ -75,6 +75,8 @@ public abstract class BossStateMachine : MonoBehaviour
     // ★ 放棄直接序列化 EntityRuntime，改為從 EntityCore 借用
     private EntityRuntime _bossData;
     
+    public EntityRuntime BossRuntimeData => _bossData;
+    
     // ★ 開放給子類別 (如 BossCleaner) 讀取的通道
     protected EntityRuntime BossData => _bossData;
 

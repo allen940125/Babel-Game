@@ -403,7 +403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &30279909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e075b9a3e08e2f74fbd651c858ab16ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 4ab0340fb2577ff408874751e31544f2, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 47cad9bc0a10a6a408573579e4de1248, type: 2}
   initialSkinName: Idle_LowHP
   initialFlipX: 0
   initialFlipY: 0
@@ -535,7 +535,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a18f6319e2ee7a740962af5645b6a9f3, type: 2}
+  - {fileID: 2100000, guid: e574e6a25353d7f4fb981e8c572a7a17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1257,7 +1257,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 474254236526940092, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1117667003}
+    - targetCorrespondingSourceObject: {fileID: 474254236526940092, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1117667002}
   m_SourcePrefab: {fileID: 100100000, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
 --- !u!4 &458833756 stripped
 Transform:
@@ -2863,6 +2869,47 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3852846174955805376, guid: 424cd06ab5fa32649af7a55a8ca6cc39, type: 3}
   m_PrefabInstance: {fileID: 1087057441}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1117666990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 474254236526940092, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+  m_PrefabInstance: {fileID: 458833755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1117667002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117666990}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bddc17f4c7f874aa043b164aac5463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RammingWeaponBehavior3D
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 8384
+  minImpactSpeed: 5
+  rammingCooldown: 0.8
+  isArmed: 0
+  damageDealer: {fileID: 1117667003}
+--- !u!114 &1117667003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117666990}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
+  _snapshottedIgnoreInvincibility: 0
+  _snapshottedDamage: 15
+  _snapshottedCritRate: 0
+  _snapshottedCritMultiplier: 1.5
 --- !u!1001 &1118948156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4857,7 +4904,7 @@ MonoBehaviour:
   dialogueUI: {fileID: 2110070343}
   enableOpeningDialogue: 0
   openingDialogueNode: Boss_Opening
-  debugBossBlueprint: {fileID: 11400000, guid: 34c7c94623f0100438b24abb069c0544, type: 2}
+  debugBossBlueprint: {fileID: 11400000, guid: 1215c0d69b9ebef45849462743aaacfc, type: 2}
 --- !u!4 &2046034635
 Transform:
   m_ObjectHideFlags: 0

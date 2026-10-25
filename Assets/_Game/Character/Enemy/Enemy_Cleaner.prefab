@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
+  enableDebug: 0
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
