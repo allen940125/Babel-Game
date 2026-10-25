@@ -55,6 +55,7 @@ namespace Gamemanager
     public class InventoryDumpTriggeredEvent : GameEventMessageBase
     {
         public Vector3 dumpPosition;
+        public Vector3 dumpVelocity; // ★ 新增這個欄位
     }
 
     // ======================
