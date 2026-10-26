@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1063820537091418739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.29, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 2989709211211277993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 3, z: -3}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 8904701173922721843}
   - component: {fileID: 2827459188753664686}
   - component: {fileID: 8549461977727155928}
+  - component: {fileID: 3938075396051188632}
   m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
@@ -379,7 +380,19 @@ MonoBehaviour:
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3938075396051188632}
+        m_TargetAssemblyTypeName: SimpleSpriteHitFlash, Assembly-CSharp
+        m_MethodName: TriggerFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &394807870137289584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,6 +470,21 @@ MonoBehaviour:
   prefabToSpawn: {fileID: 2505757577525824719, guid: 759a71e8cbef2ce4fb7a3c0780c62350, type: 3}
   spawnPoint: {fileID: 5230917466619845570}
   destroyOnPhaseExit: 1
+--- !u!114 &3938075396051188632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602923930814331091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360e454b5e6cee341ab619eb63dcc2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleSpriteHitFlash
+  targetSprite: {fileID: 5091263194332035573}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.15
 --- !u!1 &8741007040038431807
 GameObject:
   m_ObjectHideFlags: 0
