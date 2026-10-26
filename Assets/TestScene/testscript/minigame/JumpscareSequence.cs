@@ -24,7 +24,8 @@ public class JumpscareSequence : MonoBehaviour
     {
         Nothing,      // 什麼都不做，畫面停在黑色（由 On Finished 事件接手）
         ReloadScene,  // 重新載入目前場景（重來）
-        LoadScene     // 載入下面指定的場景
+        LoadScene,    // 載入下面指定的場景
+        Resume        // 演出結束後遊戲繼續（畫面停在黑色，等呼叫端準備好再用 Dismiss() 淡出）
     }
 
     [Header("圖片與音效")]
@@ -72,6 +73,8 @@ public class JumpscareSequence : MonoBehaviour
     [SerializeField] private string sceneName;
     [Tooltip("演出播完後觸發（在 After Action 之前）。")]
     [SerializeField] private UnityEvent onFinished;
+    [Tooltip("After Action 選 Resume 時，黑畫面淡出（露出遊戲）花多久。")]
+    [SerializeField] private float resumeFadeSeconds = 0.5f;
     [SerializeField] private bool hideCursorDuringScare = true;
 
     [Header("測試")]
@@ -79,6 +82,9 @@ public class JumpscareSequence : MonoBehaviour
     [SerializeField] private Key testKey = Key.J;
 
     public bool IsPlaying { get; private set; }
+
+    /// <summary>After Action 是否為 Resume（演出結束後遊戲繼續，而不是重載或換場景）。</summary>
+    public bool ResumesGame => afterAction == AfterAction.Resume;
 
     private Canvas canvas;
     private Image blackImage;
@@ -212,10 +218,22 @@ public class JumpscareSequence : MonoBehaviour
                 if (!string.IsNullOrEmpty(sceneName)) SceneTransition.Load(sceneName).Forget();
                 else Debug.LogWarning("[JumpscareSequence] After Action 選了 LoadScene，但 Scene Name 是空的。", this);
                 break;
+            case AfterAction.Resume:
+                break; // 畫面維持全黑，呼叫端準備好之後再呼叫 Dismiss()
         }
 
         if (hideCursorDuringScare) Cursor.visible = true;
         IsPlaying = false;
+    }
+
+    /// <summary>Resume 模式用：把停在畫面上的黑色淡出，露出遊戲，然後關閉演出畫布。</summary>
+    public async UniTask Dismiss()
+    {
+        if (canvas == null || !canvas.gameObject.activeSelf) return;
+
+        var token = this.GetCancellationTokenOnDestroy();
+        await FadeAlpha(blackImage, 1f, 0f, resumeFadeSeconds, token);
+        canvas.gameObject.SetActive(false);
     }
 
     private void ApplyCreep(float t)

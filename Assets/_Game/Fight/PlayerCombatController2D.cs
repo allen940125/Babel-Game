@@ -12,7 +12,10 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
     [Header("操控與硬核生存參數")]
     public float smoothTime = 0.08f;
     public float staminaRegenDelay = 0.8f;
-    
+
+    [Header("逃跑用速度")]
+    public float MoveSpeedMultiplier = 1f;
+
     private bool _isDashCooldown = false;
     private float _lastStaminaConsumeTime;
     
@@ -125,7 +128,7 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
         }
         else if (CanMove())
         {
-            float moveSpd = _staminaTrait != null ? _staminaTrait.moveSpeed : 5f;
+            float moveSpd = (_staminaTrait != null ? _staminaTrait.moveSpeed : 5f) * MoveSpeedMultiplier;
             Vector3 targetVelocity = _currentInput * moveSpd;
             _rb.linearVelocity = Vector3.SmoothDamp(_rb.linearVelocity, targetVelocity, ref _currentVelocity, smoothTime);
         }
