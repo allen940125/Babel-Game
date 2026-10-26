@@ -410,7 +410,7 @@ public abstract class BossStateMachine : MonoBehaviour
     
     private void ExecuteAttackSequence()
     {
-        if (_activeBullets.Count > 0 || _activePatterns.Count > 0) return;
+        //if (_activeBullets.Count > 0 || _activePatterns.Count > 0) return;
         if (_waveDelayTimer > 0) { _waveDelayTimer -= Time.deltaTime; return; }
 
         if (_waveQueue.Count > 0)

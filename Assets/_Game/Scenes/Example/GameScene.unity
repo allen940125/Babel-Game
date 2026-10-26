@@ -5760,6 +5760,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[0].waveList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[1].waveList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5067782035025927125, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[1].waveList.Array.data[1].patternPrefab
+      value: 
+      objectReference: {fileID: 4989275966189868475, guid: 7eeca4fe6f1be0140a7556e199a465da, type: 3}
     - target: {fileID: 8646368430223423122, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5930,6 +5942,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5031757366695570631, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
+      propertyPath: specificParts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5031757366695570631, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
+      propertyPath: 'specificParts.Array.data[0]'
+      value: 
+      objectReference: {fileID: 759041722}
     - target: {fileID: 6421976096791384220, guid: 9b7a23c75db2611498700632df5056f7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6192,7 +6212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4602923930814331091, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7011712891635095239, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
       propertyPath: m_LocalPosition.x
