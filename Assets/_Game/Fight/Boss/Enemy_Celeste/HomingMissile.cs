@@ -162,7 +162,7 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
         }
     }
 
-    public void SetTrajectory(Vector3 direction, float speed)
+    public void SetTrajectory(Vector3 direction, float speed, bool autoDestroy = true)
     {
         if (missileData == null) return;
         

@@ -316,7 +316,7 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: dd4a5141906990941be5a14457c54dc1, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
@@ -340,12 +340,6 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}
-      delayBeforeNext: 0
-  - label: 
-    healthThreshold: 0
-    waveList:
-    - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: 3f71ebd89bec6264289070f49c4698a1, type: 3}
       delayBeforeNext: 0
   - label: 
@@ -353,6 +347,15 @@ MonoBehaviour:
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    healthThreshold: 0
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 9036664765759256070, guid: 7a7d1ee6c4db4f9408a8550e2b295467, type: 3}
+      delayBeforeNext: 0
+    - note: 
+      patternPrefab: {fileID: 4989275966189868475, guid: 5a2d70432807ee6409ec596aea682c3b, type: 3}
       delayBeforeNext: 0
   _currentPhase: 0
   _phaseTimerDisplay: 0
@@ -372,6 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
+  enableDebug: 0
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:

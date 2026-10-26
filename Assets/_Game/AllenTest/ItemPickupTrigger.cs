@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class ItemPickupTrigger : MonoBehaviour
 {
     [Header("觸發條件")]
-    public List<string> triggerTags = new List<string> { "Player", "Boss" }; // 記得把 Boss 的 Tag 加上去
+    public List<string> triggerTags = new List<string> { "Player" }; // 記得把 Boss 的 Tag 加上去
 
     [Header("撿起時觸發的命令 (可放入多個)")]
     public GameCommandSO[] onPickupCommands;

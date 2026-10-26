@@ -20,14 +20,23 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
     private Vector3 _currentVelocity;
     private Vector3 _dashDirection;
     
+    // 在變數宣告區加入 Animator
     private Rigidbody _rb;
+    private Animator _animator; // ★ 新增這行
 
+    [Header("視覺設定")]
+    [Tooltip("把你的 3D 模型或圖片物件 (Visual_Pivot) 拖進來")]
+    public Transform visualPivot;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        
+        // ★ 抓取子物件 (Visual_Pivot) 身上的 Animator
+        _animator = GetComponentInChildren<Animator>(); 
+        
         _rb.useGravity = false;
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        // 鎖定 Z 軸，確立其 2D 物理本質
         _rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 
@@ -134,15 +143,50 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
         _lastStaminaConsumeTime = Time.time;
 
         if (_staminaTrait != null) 
-        {
-            // ★ 解耦修正：同上，只負責消耗數值，不再插手 UI 廣播
             _staminaTrait.ConsumeStamina(_staminaTrait.dashCost);
-        }
 
         _dashDirection = _currentInput;
-
         float duration = _staminaTrait != null ? _staminaTrait.dashDuration : 0.2f;
-        yield return new WaitForSeconds(duration);
+
+        // ==========================================
+        // ★ 開始硬寫：視覺 360 度旋轉邏輯
+        // ==========================================
+        if (visualPivot != null)
+        {
+            // 決定旋轉方向：如果向左衝(x < 0)，轉 +360 度；向右衝轉 -360 度
+            float spinDirection = (_currentInput.x < 0) ? 1f : -1f;
+            
+            // 記錄轉動前的原始角度，確保轉完不會歪掉
+            Quaternion startRotation = visualPivot.localRotation;
+            
+            float elapsed = 0f;
+            
+            // 在 duration (衝刺時間) 內，每一幀去旋轉它
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                // 計算當前時間的進度百分比 (0.0 ~ 1.0)
+                float percent = elapsed / duration;
+                
+                // 算出當下應該轉幾度
+                float currentAngle = Mathf.Lerp(0f, 360f * spinDirection, percent);
+                
+                // 套用到 Z 軸 (2.5D 通常是轉 Z 軸，如果是 3D 往前翻跟斗可能是轉 X 軸，可自行修改)
+                visualPivot.localRotation = startRotation * Quaternion.Euler(0, 0, currentAngle);
+                
+                // 暫停一幀，下一幀繼續迴圈
+                yield return null; 
+            }
+            
+            // 衝刺結束，強制精準歸位，防止小數點誤差導致模型稍微傾斜
+            visualPivot.localRotation = startRotation;
+        }
+        else
+        {
+            // 如果沒綁定模型，就乖乖等時間過去
+            yield return new WaitForSeconds(duration);
+        }
+        // ==========================================
 
         _entityData.RemoveState(EntityStateFlags.Dashing | EntityStateFlags.Invincible);
         _rb.linearVelocity = Vector3.zero;
