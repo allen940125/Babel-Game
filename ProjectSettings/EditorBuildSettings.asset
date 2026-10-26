@@ -35,9 +35,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TestScene/testprops.unity
     guid: 901ecbf8dccad7149aaa4d718908ff96
-  - enabled: 1
+  - enabled: 0
     path: Assets/TestScene/BlackSheepfight.unity
     guid: 38b9460e2e65ff44ba1eb9282fe4fd35
+  - enabled: 1
+    path: Assets/_Game/Scenes/Example/allentestprops.unity
+    guid: 1b14708a641facd419ca9406d61cebdc
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 414bc7810d40acd47b38d662b2372b55, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
