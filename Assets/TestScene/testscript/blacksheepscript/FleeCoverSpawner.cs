@@ -23,7 +23,12 @@ public class FleeCoverSpawner : MonoBehaviour
     [Tooltip("生成的高度（畫面比例）。大於 1 = 畫面上方之外。")]
     [SerializeField] private float topViewportY = 1.15f;
 
+    [Tooltip("掩體生成時的 Z 位置。0 = 跟玩家同一個平面。想讓掩體在玩家前面（鏡頭那一側）可以微調，例如 -0.3。")]
+    [SerializeField] private float coverZ = 0f;
+
     [SerializeField] private Camera targetCamera;
+
+    public Camera TargetCamera => targetCamera;
 
     private int loopVersion;
     private bool running;
@@ -52,10 +57,16 @@ public class FleeCoverSpawner : MonoBehaviour
         var prefab = PickPrefab();
         if (prefab == null) return null;
 
-        worldPosition.z = 0f;
+        worldPosition.z = coverZ;
         var cover = Instantiate(prefab, worldPosition, Quaternion.identity);
         cover.Setup(background, coverSpeedMultiplier, targetCamera);
         return cover;
+    }
+
+    /// <summary>在畫面上方、指定的水平位置（0~1）生成一個掩體。時間軸用它做「有規律」的出現。</summary>
+    public FleeCover SpawnAtViewport(float viewportX)
+    {
+        return SpawnAt(FleeView.ViewportToPlane(targetCamera, viewportX, topViewportY));
     }
 
     private async UniTaskVoid Loop(int version)
