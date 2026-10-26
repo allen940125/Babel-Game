@@ -13,6 +13,7 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
     [Header("★ 視覺與狀態事件")]
     public UnityEvent OnExhausted; // 新增：次數耗盡時觸發
     public UnityEvent OnReset;     // 新增：階段重置時觸發
+    public UnityEvent OnCommandExecuted; // ★ 新增：廣播按鈕成功執行
     
     // ==========================================
     // ★ 新增：開放給外部 (如中介層 Adapter) 控制的純粹開關
@@ -55,6 +56,8 @@ public class BaseButtonController3D : InteractiveMetaEntity3D, IPointerClickHand
             commandToExecute.Execute(this.gameObject);
             _currentUses++;
 
+            OnCommandExecuted?.Invoke(); // ★ 新增：廣播給外部中介腳本知道
+            
             if (maxUsesPerPhase > 0 && _currentUses >= maxUsesPerPhase)
             {
                 OnExhausted?.Invoke();

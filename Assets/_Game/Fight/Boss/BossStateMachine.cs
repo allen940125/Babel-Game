@@ -7,7 +7,7 @@ using UnityEngine;
 // ★ 職責精簡：本類別絕對不處理扣血，只負責「狀態切換」、「彈幕發射」與「階段計時」
 public abstract class BossStateMachine : MonoBehaviour
 {
-    public enum BossPhase { Idle, Transition, Attacking, WaitingForBullets }
+    public enum BossPhase { Idle, Transition, Attacking, WaitingForBullets, Dead }
 
     // ★ 定義狀態切換的事件廣播
     public event Action<BossPhase> OnPhaseEntered;
@@ -58,6 +58,9 @@ public abstract class BossStateMachine : MonoBehaviour
 
     [Header("即時觀察數據 (唯讀)")]
     [SerializeField] protected BossPhase _currentPhase = BossPhase.Attacking;
+
+    public BossPhase CurrentPhase => _currentPhase;
+    
     [SerializeField] protected float _phaseTimerDisplay;
     [SerializeField] protected bool _isProvoked = false;
     private bool _isBattleActive = false;
@@ -140,10 +143,11 @@ public abstract class BossStateMachine : MonoBehaviour
         }
     }
     
+    // 3. 修改 Die 方法，讓它正式進入死亡階段
     protected virtual void Die() 
     { 
-        Debug.Log("Boss 死亡！"); 
-        //Destroy(gameObject); 
+        Debug.Log($"<color=red>[{bossName}] 死亡！</color>"); 
+        EnterPhase(BossPhase.Dead); 
     }
 
     /// <summary>
@@ -205,7 +209,7 @@ public abstract class BossStateMachine : MonoBehaviour
     
     protected virtual void Update()
     {
-        if (!_isBattleActive) return;
+        if (!_isBattleActive || _currentPhase == BossPhase.Dead) return; // ★ 如果死了就停止任何邏輯
         
         _phaseTimerDisplay = phaseTimer;
 
