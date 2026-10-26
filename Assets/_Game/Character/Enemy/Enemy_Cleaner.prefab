@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5330a98f5754fc47a34715497606d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanerBoss
-  progressionMode: 0
+  progressionMode: 1
   roundEndBehavior: 0
   _currentRoundIndex: 0
   bossName: Cleaner
@@ -249,37 +249,37 @@ MonoBehaviour:
   attackPhaseDuration: 12
   phaseConfigs:
   - label: 
-    healthThreshold: 1
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: e7f6062b1b491404a90953f64d360b53, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.9
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 24fd601cec89b9345b7b11ecf2bfd20c, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.7
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 8e3d20c7fbd8b6b4bab142edd0915827, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.5
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 7eeca4fe6f1be0140a7556e199a465da, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.3
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: e30bc24317eca464b958eeb32e06a8cb, type: 3}
       delayBeforeNext: 0
   - label: 
-    healthThreshold: 0.1
+    healthThreshold: 0
     waveList:
     - note: 
       patternPrefab: {fileID: 4989275966189868475, guid: 4ee6964d790535948a83a842bc67d7d9, type: 3}
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
+  enableDebug: 0
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
