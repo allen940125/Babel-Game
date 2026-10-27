@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 2827459188753664686}
   - component: {fileID: 8549461977727155928}
   - component: {fileID: 3938075396051188632}
+  - component: {fileID: -602034473800748824}
   m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
@@ -485,6 +486,25 @@ MonoBehaviour:
   targetSprite: {fileID: 5091263194332035573}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.15
+--- !u!114 &-602034473800748824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602923930814331091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5918d22d36ed54ca08926c0ed89761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_PlayAttackSfx
+  targetPhase: 2
+  skipFirstNTriggers: 0
+  maxTriggerCount: 0
+  customSfx:
+    audioClip: {fileID: 8300000, guid: d0029ad441eeb854d88d3379aa754c0f, type: 3}
+  repeatCount: 0
+  interval: -1
 --- !u!1 &8741007040038431807
 GameObject:
   m_ObjectHideFlags: 0
