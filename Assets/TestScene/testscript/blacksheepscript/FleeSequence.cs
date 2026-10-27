@@ -48,6 +48,14 @@ public class FleeSequence : MonoBehaviour
         public float hideSeconds = 3f;
         [Tooltip("這個步驟結束後再等幾秒。")]
         public float afterSeconds = 1f;
+
+        [Header("Attack 專用：掩體（有規律的出現）")]
+        [Tooltip("勾選：先在畫面上方生成一個掩體，等它捲到下面指定的高度，攻擊與 QTE 才開始。掩體捲動速度固定，所以每次的時機都一樣。")]
+        public bool spawnCover = true;
+        [Tooltip("掩體出現的水平位置（0 = 最左、1 = 最右）。")]
+        [Range(0f, 1f)] public float coverViewportX = 0.3f;
+        [Tooltip("掩體捲到畫面這個高度時，攻擊與 QTE 才開始（0 = 畫面底、1 = 畫面頂）。")]
+        [Range(0f, 1f)] public float coverTriggerViewportY = 0.5f;
     }
 
     [SerializeField] private FleeAttackDirector director;
@@ -58,10 +66,8 @@ public class FleeSequence : MonoBehaviour
     [SerializeField] private FleeSceneController controller;
 
     [Header("躲避設定")]
-    [Tooltip("QTE 成功時，離玩家這個距離內有掩體就躲進去；沒有就在玩家旁邊生一個。")]
+    [Tooltip("步驟沒有生成專屬掩體時，QTE 成功會躲進離玩家這個距離內最近的掩體；沒有就不躲。")]
     [SerializeField] private float maxCoverDistance = 4f;
-    [Tooltip("附近沒有掩體時，新生成的掩體離玩家多遠（左右隨機一側）。")]
-    [SerializeField] private float emergencyCoverOffset = 1.5f;
 
     [Header("時間軸")]
     [SerializeField] private Step[] steps;
@@ -114,6 +120,20 @@ public class FleeSequence : MonoBehaviour
 
     private async UniTask RunAttack(Step step, CancellationToken token)
     {
+        // 先生成這次要躲的掩體，等它捲到指定高度（捲動速度固定 → 時機固定）
+        FleeCover cover = null;
+        if (step.spawnCover && coverSpawner != null)
+        {
+            cover = coverSpawner.SpawnAtViewport(step.coverViewportX);
+            var cam = coverSpawner.TargetCamera;
+            if (cover != null && cam != null)
+            {
+                await UniTask.WaitUntil(
+                    () => cover == null || cam.WorldToViewportPoint(cover.transform.position).y <= step.coverTriggerViewportY,
+                    cancellationToken: token);
+            }
+        }
+
         var attack = director != null ? director.SpawnAttack(step.attack, step.spawnMode) : null;
         float hideTime = step.hideSeconds;
 
@@ -134,7 +154,7 @@ public class FleeSequence : MonoBehaviour
             if (success)
             {
                 onDodgeSuccess?.Invoke();
-                hideTask = Hide(hideTime);
+                hideTask = Hide(cover, hideTime);
             }
             else
             {
@@ -154,10 +174,11 @@ public class FleeSequence : MonoBehaviour
             await UniTask.Delay(TimeSpan.FromSeconds(step.afterSeconds), cancellationToken: token);
     }
 
-    private async UniTask Hide(float seconds)
+    private async UniTask Hide(FleeCover cover, float seconds)
     {
-        var cover = FindCover();
-        if (cover == null || dodge == null) return;
+        if (cover == null) cover = FindCover();
+        if (cover == null) { Debug.LogWarning("[FleeSequence] QTE 成功，但找不到掩體可以躲（掩體可能已經被銷毀，或 Cover Prefabs 是空的）。", this); return; }
+        if (dodge == null) { Debug.LogWarning("[FleeSequence] Dodge 欄位沒有指定 FleeDodge。", this); return; }
         await dodge.HideIn(cover, seconds);
     }
 
@@ -175,11 +196,6 @@ public class FleeSequence : MonoBehaviour
             float d = Vector2.Distance(c.HidePosition, p);
             if (d <= bestDist) { best = c; bestDist = d; }
         }
-        if (best != null) return best;
-
-        // 附近沒有：在玩家旁邊生成一個
-        if (coverSpawner == null) return null;
-        float side = UnityEngine.Random.value < 0.5f ? -1f : 1f;
-        return coverSpawner.SpawnAt(p + new Vector3(side * emergencyCoverOffset, 0f, 0f));
+        return best;
     }
 }

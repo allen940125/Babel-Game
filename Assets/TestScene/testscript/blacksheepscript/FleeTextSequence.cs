@@ -35,9 +35,15 @@ public class FleeTextSequence : MonoBehaviour
 
     private int version;
 
-    private void Start()
+    // 清空文字放在 Awake：Awake 一定比任何腳本的 Start 早，
+    // 這樣 FleeSceneController 在自己的 Start 裡立刻播第一句時，不會被這裡清掉。
+    private void Awake()
     {
         if (text != null) text.text = "";
+    }
+
+    private void Start()
+    {
         if (playOnStart) Play();
     }
 
