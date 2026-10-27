@@ -18,6 +18,10 @@ public class BossSpineVisualController : MonoBehaviour
         [Header("視覺模式")]
         public VisualType visualType;
 
+        [Header("★ 顏色與速度設定")]
+        public Color targetColor;
+        [Range(0f, 5f)] public float animationSpeed;
+
         [Header("Spine 設定")]
         [SpineSkin] public string skinName;
         [SpineAnimation] public string animationName;
@@ -68,6 +72,8 @@ public class BossSpineVisualController : MonoBehaviour
     [Header("★ 測試專區")]
     public KeyCode testKey = KeyCode.T;
     public VisualType testVisualType = VisualType.Spine;
+    public Color testColor = Color.white;
+    public float testAnimationSpeed = 1f;
     [SpineSkin] public string testSkinName;
     [SpineAnimation] public string testAnimationName;
     public Sprite testSprite;
@@ -77,8 +83,8 @@ public class BossSpineVisualController : MonoBehaviour
     private Dictionary<BossStateMachine.BossPhase, PhaseSpineConfig> _phaseDict;
     private Dictionary<string, CustomSpineAction> _customActionDict;
     private Coroutine _hitCoroutine;
-    private bool _isFlashing = false; // ★ 新增：閃爍保護鎖
-    private BossStateMachine.BossPhase _pendingPhase; // ★ 新增：暫存最新階段
+    private bool _isFlashing = false;
+    private BossStateMachine.BossPhase _pendingPhase;
 
     // ==========================================
     // 3. 初始化與事件綁定
@@ -124,7 +130,6 @@ public class BossSpineVisualController : MonoBehaviour
     // ==========================================
     private void HandlePhaseChanged(BossStateMachine.BossPhase newPhase)
     {
-        // ★ 死亡是最高優先級：無視閃爍鎖，強制中斷受擊協程，立刻呈現死亡外觀
         if (newPhase == BossStateMachine.BossPhase.Dead)
         {
             if (_hitCoroutine != null) StopCoroutine(_hitCoroutine);
@@ -133,7 +138,6 @@ public class BossSpineVisualController : MonoBehaviour
         }
         else if (_isFlashing)
         {
-            // 如果正在閃爍，不要馬上切換外觀，而是把新階段「記下來」
             _pendingPhase = newPhase;
             return;
         }
@@ -145,10 +149,8 @@ public class BossSpineVisualController : MonoBehaviour
     }
 
     // ==========================================
-    // 5. 受擊閃爍邏輯 (修復死亡卡圖 Bug)
+    // 5. 受擊閃爍邏輯 
     // ==========================================
-    // ... HandleDamageTaken 保留不變 ...
-
     private IEnumerator HitFlashRoutine()
     {
         _isFlashing = true; 
@@ -170,6 +172,8 @@ public class BossSpineVisualController : MonoBehaviour
         if (finalHitSprite != null)
         {
             staticHitSprite.sprite = finalHitSprite;
+            // 受擊強制設為純白，避免吃到其他變體的染色
+            staticHitSprite.color = Color.white; 
             staticHitSprite.gameObject.SetActive(true);
             if (skeletonAnimation != null) skeletonAnimation.gameObject.SetActive(false);
         }
@@ -178,30 +182,23 @@ public class BossSpineVisualController : MonoBehaviour
 
         _isFlashing = false; 
         
-        // ★ 無論生死，閃爍結束就是必須關掉受擊圖片
         if (staticHitSprite != null) staticHitSprite.gameObject.SetActive(false);
 
-        // 如果還活著，就接續執行被打斷的階段
         if (stateMachine.BossRuntimeData.CurrentHealth > 0)
         {
             HandlePhaseChanged(_pendingPhase); 
         }
     }
 
-    // ==========================================
-    // 5. 受擊閃爍邏輯 (防彈版)
-    // ==========================================
     private void HandleDamageTaken(int damage)
     {
         if (staticHitSprite == null) 
         {
-            // ★ 防呆：檢查是否拖錯成 Prefab
             Debug.LogError("[視覺控制器] staticHitSprite 遺失！");
             return;
         }
         if (staticHitSprite.gameObject.scene.rootCount == 0)
         {
-            // ★ 防呆：如果你拖到 Project 裡的檔案，這個會擋下來警告你
             Debug.LogError("[視覺控制器] 嚴重錯誤：你把 Project 資料夾裡的 Prefab 拖進 staticHitSprite 了！請從 Hierarchy 拖曳子物件！");
             return;
         }
@@ -243,6 +240,15 @@ public class BossSpineVisualController : MonoBehaviour
             {
                 skeletonAnimation.gameObject.SetActive(true);
                 
+                // ★ 注入速度
+                skeletonAnimation.timeScale = variant.animationSpeed;
+                
+                // ★ 注入顏色 (若 skeleton 已建立)
+                if (skeletonAnimation.skeleton != null)
+                {
+                    skeletonAnimation.skeleton.SetColor(variant.targetColor);
+                }
+
                 if (!string.IsNullOrEmpty(variant.skinName))
                 {
                     var renderer = skeletonAnimation.GetComponent<SkeletonRenderer>();
@@ -250,6 +256,9 @@ public class BossSpineVisualController : MonoBehaviour
                     {
                         renderer.initialSkinName = variant.skinName;
                         renderer.Initialize(true);
+                        
+                        // 初始化 Skin 可能會重置底層狀態，確保顏色被正確賦予
+                        skeletonAnimation.skeleton.SetColor(variant.targetColor);
                     }
                 }
                 
@@ -266,6 +275,8 @@ public class BossSpineVisualController : MonoBehaviour
             {
                 staticHitSprite.gameObject.SetActive(true);
                 staticHitSprite.sprite = variant.targetSprite;
+                // ★ 注入靜態圖顏色
+                staticHitSprite.color = variant.targetColor;
             }
         }
     }
@@ -280,6 +291,8 @@ public class BossSpineVisualController : MonoBehaviour
         SpineVisualVariant dummyVariant = new SpineVisualVariant
         {
             visualType = testVisualType,
+            targetColor = testColor,
+            animationSpeed = testAnimationSpeed,
             skinName = testSkinName,
             animationName = testAnimationName,
             targetSprite = testSprite

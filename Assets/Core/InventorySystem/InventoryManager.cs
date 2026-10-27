@@ -104,8 +104,8 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             Debug.Log("鍵盤上的 O 鍵被按下了 (Was Pressed This Frame)！");
             AddItem(3001, initializeMoney);
-            AddItem(2001, 120);  // 測試加入 120 個 ID 為 101 的物品
-            AddItem(2002, 50);   // 測試加入 50 個 ID 為 102 的物品
+            AddItem(2001, 1);  // 測試加入 120 個 ID 為 101 的物品
+            AddItem(2002, 1);   // 測試加入 50 個 ID 為 102 的物品
             PrintInventory();
         }
         

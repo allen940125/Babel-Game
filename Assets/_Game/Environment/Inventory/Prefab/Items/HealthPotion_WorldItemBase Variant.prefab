@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7978696706541609194, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: 'onPickupCommands.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
+      objectReference: {fileID: 11400000, guid: bcea43c8813cd69469c3a63078fbbdad, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
