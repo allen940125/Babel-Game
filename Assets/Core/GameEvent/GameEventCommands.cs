@@ -55,6 +55,7 @@ namespace Gamemanager
     public class InventoryDumpTriggeredEvent : GameEventMessageBase
     {
         public Vector3 dumpPosition;
+        public Vector3 dumpVelocity; // ★ 新增這個欄位
     }
 
     // ======================
@@ -158,6 +159,11 @@ namespace Gamemanager
     {
         public EntityRuntime EnemyData; 
         public SceneType BattleScene; // 使用你已定義的 SceneType
+    }
+    
+    public class BattleInitiatedEvent : GameEventMessageBase
+    {
+        
     }
     
     public class FightButtonClickEvent : GameEventMessageBase

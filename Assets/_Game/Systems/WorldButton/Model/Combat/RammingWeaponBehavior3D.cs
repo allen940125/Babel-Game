@@ -1,6 +1,7 @@
 using System.Collections;
 using Gamemanager;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 // ★ 強制要求這個武器必須掛載 DamageDealer (傷害發送器)
@@ -18,6 +19,8 @@ public class RammingWeaponBehavior3D : MonoBehaviour
 
     // ★ 徹底替換：武器只需要 DamageDealer 來發送傷害，不需要知道 Health
     [SerializeField] private DamageDealer damageDealer;
+    
+    public UnityEvent<GameObject> OnRammingSuccess; // ★ 新增：廣播物理撞擊成功
 
     private Vector3 _lastPosition;
     private float _currentInstantSpeed;
@@ -127,7 +130,10 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         }
 
         // 將最新快照的傷害灌給目標
+// 將最新快照的傷害灌給目標
         damageDealer.DealDamageTo(target);
+        
+        OnRammingSuccess?.Invoke(target); // ★ 新增：把撞到的對象廣播出去
     
         StartCoroutine(CooldownRoutine());
     }

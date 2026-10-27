@@ -289,9 +289,6 @@ PrefabInstance:
       addedObject: {fileID: 7561018975824572170}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4782083447503122920}
-    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3407173943800677800}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
@@ -331,24 +328,6 @@ MonoBehaviour:
   enterEase: 6
   exitEase: 7
   clickParticle: {fileID: 0}
---- !u!114 &4782083447503122920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8315006209478061913}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8546d84342fb49c469c574dffd4d46da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragAfterimage
-  ghostMaterial: {fileID: 2100000, guid: c3ea8663696d8104f9dbd43b910ee330, type: 2}
-  ghostColor: {r: 0.3494268, g: 0.645283, b: 0.3540744, a: 0.2}
-  spawnInterval: 0.03
-  minMoveDistance: 0.1
-  ghostLifetime: 0.2
-  shrink: 0
 --- !u!114 &3407173943800677800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,17 +340,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49e5567581feae4a9c51b44ace9cc11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvertDumpSensor3D
-  localUpAxis: {x: 0, y: 1, z: 0}
-  dumpThreshold: 0.7
+  linearSpeedThreshold: 4
+  angularSpeedThreshold: 360
   cooldownTime: 1
-  continuousDump: 1
   OnDumpTriggered:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4693641154600429197}
         m_TargetAssemblyTypeName: BagDumpBroadcaster, Assembly-CSharp
         m_MethodName: BroadcastDump
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

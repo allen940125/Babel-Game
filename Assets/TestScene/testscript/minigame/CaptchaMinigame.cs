@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [Serializable]
@@ -18,95 +20,122 @@ public class CaptchaOption
     public Color color = new Color(0.8f, 0.8f, 0.8f);
 }
 
+/// <summary>點錯或時間到時要發生什麼。</summary>
+public enum FailBehavior
+{
+    Jumpscare,   // 播放驚嚇演出（CaptchaMinigame 的 Jumpscare 欄位）
+    ShowMessage  // 顯示失敗訊息（Fail Message），再依 After Fail 決定重來或繼續
+}
+
+/// <summary>失敗訊息顯示完之後。</summary>
+public enum AfterFail
+{
+    Continue,  // 這一輪結束，進入下一輪（或全部結束）
+    Retry      // 這一輪重來（重新洗牌、重新計時）
+}
+
 [Serializable]
 public class CaptchaRound
 {
+    [Header("題目")]
     [Tooltip("題目文字。用 {{ }} 包起來的部分會不停閃爍變成亂碼，例如：請點擊您認為是 {{人類}} 的東西")]
     [TextArea] public string prompt = "請點擊您認為是人類的東西";
-    [Tooltip("答對後顯示的訊息（會取代題目文字，停留 Success Hold Seconds 秒）。\n用 {{ }} 包起來的文字會變成不停變化的亂碼，例如：[恭喜您，平行現實座標已確立，{{■★◇}}周目 即將開啟]（括號裡有幾個字就會是幾個亂碼字）")]
+    [Tooltip("答對後顯示的訊息。用 {{ }} 包起來的文字會變成不停變化的亂碼。")]
     [TextArea] public string successMessage;
 
-    [Tooltip("正確答案的候選（每次洗牌會從中抽 1 個放進九宮格）")]
+    [Header("九宮格")]
+    [Tooltip("正確答案的候選（每次洗牌抽 1 個放進九宮格）")]
     public List<CaptchaOption> correctOptions = new List<CaptchaOption>();
-    [Tooltip("錯誤選項的候選（每次洗牌會抽 8 個填滿其餘格子）")]
+    [Tooltip("錯誤選項的候選（每次洗牌抽 8 個填滿其餘格子）")]
     public List<CaptchaOption> wrongOptions = new List<CaptchaOption>();
 
-    [Tooltip("勾選後，這一輪兩側黑畫面會出現像人又不像人的東西（黑羊），記錄玩家有沒有去點它")]
-    public bool showBlackSheepOnSides;
-
+    [Header("時間")]
     [Tooltip("這一輪的逼近時間（秒）。0 = 使用 CaptchaMinigame 上的預設值。每一輪都會重新計時。")]
     public float timeLimitSeconds = 0f;
+
+    [Header("額外要點擊的東西（除了九宮格的正確答案以外）")]
+    [Tooltip("勾選：題目裡 {{ }} 那個閃爍的字也要被點擊。順序不拘。")]
+    public bool requirePromptClick;
+    [Tooltip("勾選：右下角的確認按鈕（HumanCheck）也要被點擊。")]
+    public bool requireHumanCheckClick;
+    [Tooltip("這一輪右下角按鈕上的文字（例如：人類）。留空 = 維持原本的文字。")]
+    public string humanCheckLabel;
+
+    [Header("失敗處理")]
+    [Tooltip("第幾次點錯才算失敗。1 = 第一次就失敗；2 = 第一次點錯只有懲罰，第二次才失敗。")]
+    public int wrongClicksBeforeFail = 1;
+    [Tooltip("還沒到失敗次數的點錯，會讓計時瞬間快轉這麼多秒（圖片瞬間逼近）。0 = 沒有懲罰。")]
+    public float wrongClickPenaltySeconds = 0f;
+    [Tooltip("達到失敗次數時")]
+    public FailBehavior wrongClickBehavior = FailBehavior.Jumpscare;
+    [Tooltip("時間到時")]
+    public FailBehavior timeUpBehavior = FailBehavior.Jumpscare;
+    [Tooltip("失敗時顯示的文字（只在選 ShowMessage 時使用）。用 {{ }} 包起來的會變亂碼。")]
+    [TextArea] public string failMessage;
+    [Tooltip("失敗訊息顯示完之後：Continue = 往下走；Retry = 這一輪重來")]
+    public AfterFail afterFail = AfterFail.Continue;
 }
 
 /// <summary>
 /// 前導小遊戲：機器人檢查（九宮格 CAPTCHA）。
-/// 每一輪九宮格裡有 1 個正確答案，點對就進下一輪；點錯會抖動、重新洗牌再試。
-/// 每一輪都會各自重新計時，九宮格會隨時間越來越大（越來越逼近鏡頭），時間到會觸發 On Time Up
-/// （jumpscare 之後掛在這個事件上）。
+///
+/// 每一輪：九宮格有 1 個正確答案；可另外要求點「題目裡閃爍的字」與「右下角確認按鈕」，全部完成才算過。
+/// 九宮格隨時間逼近（放大），每一輪各自計時。
+/// 點錯：可設定幾次後才失敗，之前的點錯只會讓計時快轉；失敗與時間到各自可選驚嚇演出或顯示文字。
 ///
 /// 放法：掛在 Canvas 底下一個「永遠啟用」的空物件上；Root 要指向它的子物件（會被開關）。
 /// </summary>
 public class CaptchaMinigame : MonoBehaviour
 {
     [Header("版面")]
-    [Tooltip("整個小遊戲的根物件（全螢幕）。不能是掛這支腳本的同一個物件。")]
+    [Tooltip("整個小遊戲的根物件。不能是掛這支腳本的同一個物件。")]
     [SerializeField] private GameObject root;
-    [Tooltip("會隨時間放大的區塊（題目 + 九宮格 + 背景）。Pivot 請設在中心。")]
+    [Tooltip("會隨時間放大的區塊（九宮格）。Pivot 請設在中心。")]
     [SerializeField] private RectTransform approachRoot;
-    [SerializeField] private TextMeshProUGUI promptText;
-    [Tooltip("選填：答對訊息顯示在這個文字上，可以擺在跟題目不同的位置。留空則沿用 Prompt Text。")]
-    [SerializeField] private TextMeshProUGUI successText;
-    [Tooltip("有設定 Success Text 時，答對後是否隱藏題目文字")]
-    [SerializeField] private bool hidePromptOnSuccess = true;
     [Tooltip("放九宮格的容器，上面要有 Grid Layout Group（3 欄）")]
     [SerializeField] private RectTransform gridRoot;
     [SerializeField] private CaptchaCell cellPrefab;
     [SerializeField] private int cellCount = 9;
+    [SerializeField] private TextMeshProUGUI promptText;
+    [Tooltip("選填：答對／失敗訊息顯示在這個文字上（顯示時會隱藏題目）。留空則沿用 Prompt Text。")]
+    [SerializeField] private TextMeshProUGUI successText;
 
-    [Header("逼近鏡頭（越來越近）")]
-    [Tooltip("勾選：每一輪各自重新計時，第一輪花多久都不影響第二輪。\n取消勾選：所有輪共用同一個計時，第一輪花越久，第二輪剩下的時間越少（此時只看下面的預設時間，Rounds 裡個別的時間會被忽略）。")]
-    [SerializeField] private bool independentTimerPerRound = true;
-    [Tooltip("每一輪的預設時間（秒），每一輪都從頭計時。可在 Rounds 的個別題目裡覆寫。0 = 不逼近、不倒數")]
-    [SerializeField] private float timeLimitSeconds = 60f;
+    [Header("右下角確認按鈕（HumanCheck）")]
+    [SerializeField] private Button humanCheckButton;
+    [Tooltip("按鈕上的文字（HumanCheck 底下的 Text (TMP)）")]
+    [SerializeField] private TextMeshProUGUI humanCheckLabel;
+
+    [Header("逼近")]
+    [Tooltip("每一輪的預設時間（秒）。可在 Rounds 的個別題目裡覆寫。0 = 不逼近、不倒數")]
+    [SerializeField] private float timeLimitSeconds = 15f;
     [SerializeField] private float startScale = 0.6f;
     [SerializeField] private float endScale = 2.2f;
-    [Tooltip("橫軸 = 時間進度 0~1，縱軸 = 放大進度 0~1。想要越到後面越快，就拉成往上彎的曲線")]
+    [Tooltip("橫軸 = 時間進度 0~1，縱軸 = 放大進度 0~1")]
     [SerializeField] private AnimationCurve approachCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-    [Tooltip("時間到時觸發（在 Jumpscare 之前）")]
-    [SerializeField] private UnityEvent onTimeUp;
-    [Tooltip("時間到（圖片逼近到最大）時播放的驚嚇演出。留空 = 時間到什麼都不會發生（只會觸發上面的事件）。")]
+    [Tooltip("驚嚇演出。只要有一輪選 Jumpscare 就必須指定。")]
     [SerializeField] private JumpscareSequence jumpscare;
-
-    [Header("兩側黑畫面（黑羊）")]
-    [SerializeField] private GameObject sideBlackRoot;
-    [Tooltip("兩側黑畫面裡那些『像人又不像人』的按鈕")]
-    [SerializeField] private Button[] blackSheepButtons;
-    [SerializeField] private UnityEvent onBlackSheepClicked;
 
     [Header("回饋")]
     [SerializeField] private Color correctColor = new Color(0.4f, 1f, 0.4f);
     [SerializeField] private Color wrongColor = new Color(1f, 0.3f, 0.3f);
     [SerializeField] private float wrongShakeSeconds = 0.35f;
     [SerializeField] private float shakeStrength = 12f;
-    [Tooltip("答對訊息『打完字之後』再停留幾秒")]
-    [SerializeField] private float successHoldSeconds = 1.5f;
 
-    [Header("答對訊息（打字機）")]
-    [Tooltip("答對訊息每個字出現的間隔（秒）")]
-    [SerializeField] private float successCharInterval = 0.08f;
-    [Tooltip("答對訊息收起後，等幾秒才出現下一輪的題目（只在有設定 Success Text 時生效）")]
+    [Header("訊息（打字機）")]
+    [SerializeField] private float charInterval = 0.08f;
+    [Tooltip("訊息『打完字之後』再停留幾秒")]
+    [SerializeField] private float holdSeconds = 1.5f;
+    [Tooltip("訊息收起後，等幾秒才出現下一輪的題目（只在有設定 Success Text 時生效）")]
     [SerializeField] private float nextPromptDelay = 0.3f;
 
-    [Header("亂碼文字（訊息裡用 {{ }} 包起來的部分）")]
-    [Tooltip("亂碼會從這些字元裡隨機抽。請確認 TextMeshPro 的字型有這些字，否則會顯示成方框。\n建議只放寬度相近的全形符號（■□▲△●○◆◇★☆※）；英文字母、數字、# @ % & 比較窄，就算固定間距也會看起來有空隙。")]
+    [Header("亂碼文字（{{ }} 包起來的部分）")]
+    [Tooltip("亂碼從這些字元裡隨機抽。請確認字型有這些字。")]
     [SerializeField] private string scrambleCharacters = "■□▲△●○◆◇★☆※";
-    [Tooltip("亂碼每個字元固定佔的寬度（單位：字高的倍數，em）。全形字約 1。0 = 不固定（文字會隨字元變寬變窄而晃動）。")]
+    [Tooltip("每個亂碼字元固定佔的寬度（em）。0 = 不固定。")]
     [SerializeField] private float scrambleCharWidthEm = 1f;
-    [Tooltip("亂碼每隔幾秒換一次")]
     [SerializeField] private float scrambleInterval = 0.06f;
-    [Tooltip("題目裡 {{ }} 包起來的字，每次閃爍時顯示『原本的字』的機率（0~1）。\n0 = 完全是亂碼（玩家看不到題目寫什麼，不建議）；1 = 完全不閃；0.5 = 一半時間看得到原本的字。\n只影響題目，答對訊息的亂碼仍然是全隨機。")]
+    [Tooltip("題目裡閃爍的字，每次顯示『原本的字』的機率（0~1）。")]
     [SerializeField, Range(0f, 1f)] private float promptRealCharChance = 0.5f;
-    [SerializeField] private UnityEvent onWrongClick;
 
     [Header("題目")]
     [SerializeField] private List<CaptchaRound> rounds = new List<CaptchaRound>();
@@ -116,45 +145,66 @@ public class CaptchaMinigame : MonoBehaviour
     [SerializeField] private float startDelay = 0.5f;
     [Tooltip("全部通過後要切去的場景。留空就只觸發 On Completed。")]
     [SerializeField] private string nextSceneName;
+
+    [Header("事件")]
+    [Tooltip("時間到時觸發（不論該輪選哪種失敗處理）")]
+    [SerializeField] private UnityEvent onTimeUp;
+    [Tooltip("點錯九宮格時觸發。可接 RandomSpriteSwapper.SwapNow。")]
+    [SerializeField] private UnityEvent onWrongClick;
     [SerializeField] private UnityEvent onCompleted;
 
     public bool TimedOut { get; private set; }
-    public bool BlackSheepClicked { get; private set; }
     public int WrongClickCount { get; private set; }
 
+    private enum ClickKind { Cell, Prompt, Check, TimeUp }
+    private struct ClickEvent { public ClickKind kind; public CaptchaCell cell; }
+    private enum AttemptResult { Passed, FailedContinue, Retry }
+
     private readonly List<CaptchaCell> cells = new List<CaptchaCell>();
-    private UniTaskCompletionSource<CaptchaCell> pendingClick;
+    private readonly Queue<ClickEvent> events = new Queue<ClickEvent>();
+    private readonly StringBuilder sb = new StringBuilder();
+    private UniTaskCompletionSource signal;
+    private bool acceptingInput;
+
+    private CaptchaRound currentRound;
     private Color promptBaseColor = Color.white;
+    private Color checkBaseColor = Color.white;
+    private string checkOriginalLabel;
+    private string mspaceOpenTag = "";
+
     private bool timerRunning;
-    private bool jumpscareStarted;
-    private bool sharedTimerStarted;
-    private bool blackSheepActive;
+    private bool pendingJumpscareDismiss; // 驚嚇演出（Resume）結束後，黑畫面還蓋著，等下一輪準備好再淡出
     private float elapsed;
     private float currentTimeLimit;
+    private int promptScrambleVersion;
+
+    // ───────────── 初始化 ─────────────
 
     private void Awake()
     {
         if (promptText != null) promptBaseColor = promptText.color;
         if (successText != null) successText.gameObject.SetActive(false);
 
+        if (scrambleCharWidthEm > 0f)
+            mspaceOpenTag = "<mspace=" + scrambleCharWidthEm.ToString("0.###", CultureInfo.InvariantCulture) + "em>";
+
         for (int i = 0; i < cellCount; i++)
         {
             var cell = Instantiate(cellPrefab, gridRoot);
             cell.name = $"Cell {i + 1}";
             cell.Init();
-            cell.Clicked += OnCellClicked;
+            cell.Clicked += c => Post(new ClickEvent { kind = ClickKind.Cell, cell = c });
             cells.Add(cell);
         }
 
-        foreach (var b in blackSheepButtons)
+        if (humanCheckButton != null)
         {
-            if (b == null) continue;
-            var captured = b;
-            b.onClick.AddListener(() => OnBlackSheepButton(captured));
+            if (humanCheckButton.targetGraphic != null) checkBaseColor = humanCheckButton.targetGraphic.color;
+            humanCheckButton.onClick.AddListener(() => Post(new ClickEvent { kind = ClickKind.Check }));
         }
+        if (humanCheckLabel != null) checkOriginalLabel = humanCheckLabel.text;
 
         root.SetActive(false);
-        if (sideBlackRoot != null) sideBlackRoot.SetActive(false);
     }
 
     private void Start()
@@ -169,51 +219,60 @@ public class CaptchaMinigame : MonoBehaviour
         await Play();
     }
 
+    // ───────────── 每幀 ─────────────
+
     private void Update()
     {
-        if (!timerRunning) return;
-
-        elapsed += Time.deltaTime;
-
-        if (currentTimeLimit > 0f)
-        {
-            float t = Mathf.Clamp01(elapsed / currentTimeLimit);
-            float scale = Mathf.LerpUnclamped(startScale, endScale, approachCurve.Evaluate(t));
-            approachRoot.localScale = new Vector3(scale, scale, 1f);
-
-            if (!TimedOut && elapsed >= currentTimeLimit)
-            {
-                TimedOut = true;
-                Debug.Log("[CaptchaMinigame] 時間到");
-                onTimeUp?.Invoke();
-
-                if (jumpscare != null)
-                {
-                    jumpscareStarted = true;
-                    timerRunning = false;
-                    SetCellsInteractable(false);
-                    jumpscare.Play().Forget();
-                }
-            }
-        }
+        CheckPromptClick();
+        if (timerRunning) TickApproach();
     }
 
-    /// <summary>開始小遊戲。可以由別的流程呼叫並 await，通過全部題目後才會結束。</summary>
+    /// <summary>點擊題目裡閃爍的字（用 TMP 的 &lt;link&gt; 偵測）。</summary>
+    private void CheckPromptClick()
+    {
+        if (!acceptingInput || currentRound == null || !currentRound.requirePromptClick) return;
+        if (Mouse.current == null || !Mouse.current.leftButton.wasPressedThisFrame) return;
+        if (!promptText.gameObject.activeInHierarchy) return;
+
+        if (TMP_TextUtilities.FindIntersectingLink(promptText, Mouse.current.position.ReadValue(), null) != -1)
+            Post(new ClickEvent { kind = ClickKind.Prompt });
+    }
+
+    private void TickApproach()
+    {
+        elapsed += Time.deltaTime;
+        if (currentTimeLimit <= 0f) return;
+
+        float t = Mathf.Clamp01(elapsed / currentTimeLimit);
+        SetApproachScale(Mathf.LerpUnclamped(startScale, endScale, approachCurve.Evaluate(t)));
+
+        if (TimedOut || elapsed < currentTimeLimit) return;
+
+        TimedOut = true;
+        timerRunning = false;
+        onTimeUp?.Invoke();
+        Post(new ClickEvent { kind = ClickKind.TimeUp }); // 交給 RunAttempt 依該輪的 Time Up Behavior 處理
+    }
+
+    private void SetApproachScale(float s) => approachRoot.localScale = new Vector3(s, s, 1f);
+
+    // ───────────── 流程 ─────────────
+
+    /// <summary>開始小遊戲，通過全部題目後才會結束。</summary>
     public async UniTask Play()
     {
         var token = this.GetCancellationTokenOnDestroy();
 
-        // 小遊戲需要滑鼠
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
         TimedOut = false;
-        jumpscareStarted = false;
-        BlackSheepClicked = false;
         WrongClickCount = 0;
+        pendingJumpscareDismiss = false;
         timerRunning = false;
-        sharedTimerStarted = false;
-        approachRoot.localScale = new Vector3(startScale, startScale, 1f);
+        acceptingInput = false;
+        events.Clear();
+        SetApproachScale(startScale);
 
         root.SetActive(true);
         await UniTask.Yield(token); // 等剛啟用的物件完成 OnEnable
@@ -221,156 +280,304 @@ public class CaptchaMinigame : MonoBehaviour
         foreach (var round in rounds)
             await RunRound(round, token);
 
+        if (pendingJumpscareDismiss) // 最後一輪失敗後沒有下一輪可以接，直接淡出
+        {
+            pendingJumpscareDismiss = false;
+            jumpscare.Dismiss().Forget();
+        }
+
         timerRunning = false;
+        currentRound = null;
         root.SetActive(false);
-        if (sideBlackRoot != null) sideBlackRoot.SetActive(false);
 
         onCompleted?.Invoke();
-
         if (!string.IsNullOrEmpty(nextSceneName))
             SceneTransition.Load(nextSceneName).Forget();
     }
 
     private async UniTask RunRound(CaptchaRound round, CancellationToken token)
     {
-        promptText.gameObject.SetActive(true);
-        promptText.maxVisibleCharacters = 99999; // 還原打字機造成的字數限制
-        if (successText != null) successText.gameObject.SetActive(false);
-        promptText.color = promptBaseColor;
-
-        // 題目裡的 {{ }} 會持續閃爍成亂碼（直到答對）
-        promptScrambleVersion++;
-        bool promptScrambles = !string.IsNullOrEmpty(round.prompt) && round.prompt.Contains("{{");
-        promptText.text = promptScrambles ? BuildScrambledMessage(round.prompt, promptRealCharChance) : round.prompt;
-        if (promptScrambles) ScramblePromptLoop(round.prompt, promptScrambleVersion).Forget();
-
-        SetBlackSheep(round.showBlackSheepOnSides);
-        StartRoundTimer(round);
+        currentRound = round;
 
         while (true)
         {
-            // 驚嚇演出開始後，遊戲就停在這裡，不再接受點擊（等場景重載或其他後續動作）
-            if (jumpscareStarted)
-                await UniTask.WaitUntil(() => false, cancellationToken: token);
+            PrepareRoundUI(round);
 
-            if (!BuildGrid(round)) return; // 題目資料不完整，略過這一輪
+            var result = await RunAttempt(round, token);
+            acceptingInput = false;
+            promptScrambleVersion++;
 
-            SetCellsInteractable(true);
-            pendingClick = new UniTaskCompletionSource<CaptchaCell>();
-            var clicked = await pendingClick.Task.AttachExternalCancellation(token);
-            SetCellsInteractable(false);
+            if (result == AttemptResult.Retry) continue;
 
-            if (clicked.IsCorrect)
+            if (result == AttemptResult.Passed)
             {
-                // 獨立計時：答對後暫停，成功訊息停留期間不會繼續放大。共用計時：照常往下走。
-                if (independentTimerPerRound) timerRunning = false;
-                promptScrambleVersion++; // 停止題目的亂碼閃爍
-                clicked.SetTint(correctColor);
-                await ShowSuccessMessage(round.successMessage, token);
-
-                if (successText != null)
-                {
-                    successText.gameObject.SetActive(false);
-                    if (nextPromptDelay > 0f)
-                        await UniTask.Delay(TimeSpan.FromSeconds(nextPromptDelay), cancellationToken: token);
-                }
-                break;
+                timerRunning = false; // 成功訊息停留期間不再繼續逼近
+                await ShowMessage(round.successMessage, token);
             }
-
-            // 點錯：標紅、抖動、重新洗牌再試
-            WrongClickCount++;
-            clicked.SetTint(wrongColor);
-            onWrongClick?.Invoke();
-            await ShakeGrid(token);
+            return;
         }
-
-        promptScrambleVersion++;
-        SetBlackSheep(false);
     }
 
-    private int promptScrambleVersion;
+    /// <summary>每次（重）開始一輪時：還原題目、按鈕文字與顏色。</summary>
+    private void PrepareRoundUI(CaptchaRound round)
+    {
+        SetApproachScale(startScale);
+        promptText.gameObject.SetActive(true);
+        promptText.maxVisibleCharacters = int.MaxValue;
+        promptText.color = promptBaseColor;
+        if (successText != null) successText.gameObject.SetActive(false);
 
-    /// <summary>題目裡 {{ }} 包起來的部分，每隔 scrambleInterval 重新洗一次，直到這一輪結束（版本號改變）。</summary>
-    private async UniTaskVoid ScramblePromptLoop(string prompt, int version)
+        promptScrambleVersion++;
+        bool scrambles = !string.IsNullOrEmpty(round.prompt) && round.prompt.Contains("{{");
+        promptText.text = scrambles ? Scramble(round.prompt, promptRealCharChance, round.requirePromptClick) : round.prompt;
+        if (scrambles) ScramblePromptLoop(round, promptScrambleVersion).Forget();
+
+        if (humanCheckLabel != null)
+            humanCheckLabel.text = string.IsNullOrEmpty(round.humanCheckLabel) ? checkOriginalLabel : round.humanCheckLabel;
+        SetCheckTint(checkBaseColor);
+    }
+
+    private void StartRoundTimer(CaptchaRound round)
+    {
+        elapsed = 0f;
+        TimedOut = false;
+        currentTimeLimit = round.timeLimitSeconds > 0f ? round.timeLimitSeconds : timeLimitSeconds;
+        SetApproachScale(startScale);
+        timerRunning = true;
+    }
+
+    /// <summary>一次嘗試：九宮格答對 + 該輪要求的額外點擊都完成才算通過。</summary>
+    private async UniTask<AttemptResult> RunAttempt(CaptchaRound round, CancellationToken token)
+    {
+        bool gridDone = false;
+        bool promptDone = !round.requirePromptClick;
+        bool checkDone = !round.requireHumanCheckClick;
+        int wrongCount = 0;
+
+        if (!BuildGrid(round)) return AttemptResult.FailedContinue;
+
+        // 上一輪的驚嚇演出還蓋著黑畫面：這一輪的畫面都準備好後才淡出，淡出完才開始計時
+        if (pendingJumpscareDismiss)
+        {
+            pendingJumpscareDismiss = false;
+            await jumpscare.Dismiss();
+        }
+
+        StartRoundTimer(round);
+        OpenInput();
+
+        while (true)
+        {
+            var ev = await NextEvent(token);
+
+            switch (ev.kind)
+            {
+                case ClickKind.Cell:
+                    if (gridDone) break;
+
+                    if (ev.cell.IsCorrect)
+                    {
+                        gridDone = true;
+                        ev.cell.SetTint(correctColor);
+                        SetCellsInteractable(false);
+                        break;
+                    }
+
+                    // 點錯
+                    WrongClickCount++;
+                    wrongCount++;
+                    ev.cell.SetTint(wrongColor);
+                    onWrongClick?.Invoke();
+
+                    // 選了 Jumpscare 卻沒指定演出時，永遠不會失敗，只有懲罰與重新洗牌
+                    bool noJumpscare = round.wrongClickBehavior == FailBehavior.Jumpscare && jumpscare == null;
+                    if (!noJumpscare && wrongCount >= Mathf.Max(1, round.wrongClicksBeforeFail))
+                    {
+                        // 顯示文字前先給點錯的回饋（紅色 + 抖動）；驚嚇演出則立刻開始
+                        if (round.wrongClickBehavior == FailBehavior.ShowMessage)
+                        {
+                            acceptingInput = false;
+                            await ShakeGrid(token);
+                        }
+                        return await HandleFail(round, round.wrongClickBehavior, token);
+                    }
+
+                    // 還沒到失敗次數：懲罰（計時快轉）+ 抖動 + 重新洗牌
+                    ApplyWrongPenalty(round);
+                    acceptingInput = false;
+                    SetCellsInteractable(false);
+                    await ShakeGrid(token);
+
+                    if (!BuildGrid(round)) return AttemptResult.FailedContinue;
+                    gridDone = false;
+                    OpenInput(keepTimeUp: true);
+                    continue;
+
+                case ClickKind.Prompt:
+                    if (promptDone) break;
+                    promptDone = true;
+                    promptScrambleVersion++; // 停止閃爍，顯示原本的字
+                    promptText.text = round.prompt.Replace("{{", "").Replace("}}", "");
+                    promptText.color = correctColor;
+                    break;
+
+                case ClickKind.Check:
+                    if (checkDone) break;
+                    checkDone = true;
+                    SetCheckTint(correctColor);
+                    break;
+
+                case ClickKind.TimeUp:
+                    return await HandleFail(round, round.timeUpBehavior, token);
+            }
+
+            if (gridDone && promptDone && checkDone)
+                return AttemptResult.Passed;
+        }
+    }
+
+    private async UniTask<AttemptResult> HandleFail(CaptchaRound round, FailBehavior behavior, CancellationToken token)
+    {
+        acceptingInput = false;
+        SetCellsInteractable(false);
+
+        if (behavior == FailBehavior.Jumpscare)
+        {
+            if (jumpscare == null)
+            {
+                Debug.LogWarning("[CaptchaMinigame] 選了 Jumpscare，但 Jumpscare 欄位是空的。", this);
+                return AttemptResult.FailedContinue;
+            }
+
+            timerRunning = false;
+            await jumpscare.Play();
+
+            // After Action = Resume：演出結束後接下一輪；其他（重載、換場景）則停在這裡等它處理
+            if (!jumpscare.ResumesGame) await WaitForever(token);
+
+            pendingJumpscareDismiss = true;
+            return AttemptResult.FailedContinue;
+        }
+
+        timerRunning = false;
+        await ShowMessage(round.failMessage, token);
+        return round.afterFail == AfterFail.Retry ? AttemptResult.Retry : AttemptResult.FailedContinue;
+    }
+
+    /// <summary>點錯的懲罰：計時瞬間快轉，九宮格立刻逼近。</summary>
+    private void ApplyWrongPenalty(CaptchaRound round)
+    {
+        if (round.wrongClickPenaltySeconds > 0f && timerRunning && currentTimeLimit > 0f)
+            elapsed += round.wrongClickPenaltySeconds;
+    }
+
+    private static UniTask WaitForever(CancellationToken token) =>
+        UniTask.WaitUntil(() => false, cancellationToken: token);
+
+    // ───────────── 點擊事件佇列 ─────────────
+
+    /// <summary>開放點擊並清掉排隊中的事件（keepTimeUp：保留『時間到』，避免洗牌期間剛好時間到被吃掉）。</summary>
+    private void OpenInput(bool keepTimeUp = false)
+    {
+        bool hadTimeUp = false;
+        if (keepTimeUp)
+            foreach (var e in events)
+                if (e.kind == ClickKind.TimeUp) { hadTimeUp = true; break; }
+
+        events.Clear();
+        if (hadTimeUp) events.Enqueue(new ClickEvent { kind = ClickKind.TimeUp });
+
+        acceptingInput = true;
+        SetCellsInteractable(true);
+    }
+
+    private void Post(ClickEvent e)
+    {
+        if (e.kind != ClickKind.TimeUp && !acceptingInput) return;
+        events.Enqueue(e);
+        signal?.TrySetResult();
+    }
+
+    private async UniTask<ClickEvent> NextEvent(CancellationToken token)
+    {
+        while (events.Count == 0)
+        {
+            signal = new UniTaskCompletionSource();
+            await signal.Task.AttachExternalCancellation(token);
+            signal = null;
+        }
+        return events.Dequeue();
+    }
+
+    // ───────────── 文字 ─────────────
+
+    private async UniTaskVoid ScramblePromptLoop(CaptchaRound round, int version)
     {
         var token = this.GetCancellationTokenOnDestroy();
+        var delay = TimeSpan.FromSeconds(Mathf.Max(0.01f, scrambleInterval));
         try
         {
-            while (version == promptScrambleVersion)
+            while (true)
             {
-                await UniTask.Delay(TimeSpan.FromSeconds(Mathf.Max(0.01f, scrambleInterval)), cancellationToken: token);
-                if (version != promptScrambleVersion) break;
-                promptText.text = BuildScrambledMessage(prompt, promptRealCharChance);
+                await UniTask.Delay(delay, cancellationToken: token);
+                if (version != promptScrambleVersion) return;
+                promptText.text = Scramble(round.prompt, promptRealCharChance, round.requirePromptClick);
             }
         }
         catch (OperationCanceledException) { }
     }
 
-    /// <summary>
-    /// 顯示答對訊息：先以打字機效果一個字一個字打出來，打完再停留 successHoldSeconds 秒。
-    /// 訊息裡用 {{ }} 包起來的部分會不停變成隨機字元（亂碼效果），打字與亂碼可以同時進行。
-    /// 這裡用 TextMeshPro 的 maxVisibleCharacters 自己做打字機，
-    /// 因為亂碼需要每隔一小段時間重設文字，會讓 Text Animator 的打字機從頭重打。
-    /// </summary>
-    private async UniTask ShowSuccessMessage(string message, CancellationToken token)
+    /// <summary>顯示訊息（答對或失敗）：打字機，打完停留 holdSeconds 秒，再收起。</summary>
+    private async UniTask ShowMessage(string message, CancellationToken token)
     {
         if (string.IsNullOrEmpty(message))
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(successHoldSeconds), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(holdSeconds), cancellationToken: token);
             return;
         }
 
-        // 有獨立的 Success Text 就顯示在那裡，並先關掉題目；否則沿用題目文字
-        TextMeshProUGUI target = promptText;
+        var target = promptText;
         if (successText != null)
         {
             target = successText;
-            if (hidePromptOnSuccess) promptText.gameObject.SetActive(false);
+            promptText.gameObject.SetActive(false);
             successText.gameObject.SetActive(true);
         }
 
         bool hasScramble = message.Contains("{{");
-
         target.maxVisibleCharacters = 0;
-        target.text = BuildScrambledMessage(message);
+        target.text = Scramble(message);
         target.ForceMeshUpdate();
         int totalChars = target.textInfo.characterCount;
 
         int visible = 0;
-        float typeTimer = 0f;
-        float scrambleTimer = 0f;
-        float holdTimer = 0f;
+        float typeTimer = 0f, scrambleTimer = 0f, holdTimer = 0f;
+        float typeStep = Mathf.Max(0.01f, charInterval);
+        float scrambleStep = Mathf.Max(0.01f, scrambleInterval);
 
-        while (true)
+        // 這裡自己用 maxVisibleCharacters 做打字機，因為亂碼要不停重設文字，
+        // 若用 Text Animator 的打字機會被一直打斷、從頭重打。
+        while (holdTimer < holdSeconds)
         {
             float dt = Time.deltaTime;
 
-            // 打字機：每隔 successCharInterval 多顯示一個字
             if (visible < totalChars)
             {
                 typeTimer += dt;
-                float interval = Mathf.Max(0.01f, successCharInterval);
-                while (visible < totalChars && typeTimer >= interval)
-                {
-                    visible++;
-                    typeTimer -= interval;
-                }
+                while (visible < totalChars && typeTimer >= typeStep) { visible++; typeTimer -= typeStep; }
             }
             else
             {
-                // 全部打完後才開始算停留時間
-                holdTimer += dt;
-                if (holdTimer >= successHoldSeconds) break;
+                holdTimer += dt; // 全部打完後才開始算停留時間
             }
 
-            // 亂碼：每隔 scrambleInterval 換一次字元（長度不變，所以打字進度不受影響）
             if (hasScramble)
             {
                 scrambleTimer += dt;
-                if (scrambleTimer >= Mathf.Max(0.01f, scrambleInterval))
+                if (scrambleTimer >= scrambleStep)
                 {
                     scrambleTimer = 0f;
-                    target.text = BuildScrambledMessage(message);
+                    target.text = Scramble(message); // 字元數不變，打字進度不受影響
                 }
             }
 
@@ -378,95 +585,70 @@ public class CaptchaMinigame : MonoBehaviour
             await UniTask.Yield(token);
         }
 
-        target.maxVisibleCharacters = 99999;
+        target.maxVisibleCharacters = int.MaxValue;
+
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+            if (nextPromptDelay > 0f)
+                await UniTask.Delay(TimeSpan.FromSeconds(nextPromptDelay), cancellationToken: token);
+        }
     }
 
-    private string BuildScrambledMessage(string message, float realCharChance = 0f)
+    /// <summary>
+    /// 把 {{ }} 包起來的部分換成亂碼。
+    /// realCharChance &gt; 0：每個字有機率顯示原本的字（題目用）。
+    /// wrapLink：把亂碼段包進 &lt;link&gt;，讓 CheckPromptClick 能偵測點擊。
+    /// </summary>
+    private string Scramble(string message, float realCharChance = 0f, bool wrapLink = false)
     {
         string pool = string.IsNullOrEmpty(scrambleCharacters) ? "■" : scrambleCharacters;
-        var sb = new System.Text.StringBuilder();
+        sb.Clear();
         int i = 0;
 
         while (i < message.Length)
         {
             int start = message.IndexOf("{{", i, StringComparison.Ordinal);
-            if (start < 0) { sb.Append(message, i, message.Length - i); break; }
-
-            int end = message.IndexOf("}}", start + 2, StringComparison.Ordinal);
+            int end = start < 0 ? -1 : message.IndexOf("}}", start + 2, StringComparison.Ordinal);
             if (end < 0) { sb.Append(message, i, message.Length - i); break; }
 
             sb.Append(message, i, start - i);
+            if (wrapLink) sb.Append("<link=\"human\">");
+            sb.Append(mspaceOpenTag); // 固定字寬，亂碼怎麼換整句長度都不變
 
-            int length = end - (start + 2);
-
-            // 用 TextMeshPro 的 <mspace> 讓亂碼每個字元佔一樣的寬度，
-            // 這樣字元怎麼換，整句話的長度都不會變。標籤本身不算可見字元，不影響打字機。
-            bool fixedWidth = scrambleCharWidthEm > 0f;
-            if (fixedWidth)
-                sb.Append("<mspace=").Append(scrambleCharWidthEm.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)).Append("em>");
-
-            for (int k = 0; k < length; k++)
+            for (int k = start + 2; k < end; k++)
             {
-                // realCharChance > 0：有機率顯示原本的字（用在題目，讓玩家仍然看得到題目寫什麼）
-                if (realCharChance > 0f && UnityEngine.Random.value < realCharChance)
-                    sb.Append(message[start + 2 + k]);
-                else
-                    sb.Append(pool[UnityEngine.Random.Range(0, pool.Length)]);
+                bool real = realCharChance > 0f && UnityEngine.Random.value < realCharChance;
+                sb.Append(real ? message[k] : pool[UnityEngine.Random.Range(0, pool.Length)]);
             }
 
-            if (fixedWidth) sb.Append("</mspace>");
-
+            if (mspaceOpenTag.Length > 0) sb.Append("</mspace>");
+            if (wrapLink) sb.Append("</link>");
             i = end + 2;
         }
         return sb.ToString();
     }
 
-    /// <summary>每一輪開始時：計時歸零、畫面縮回起始大小、重新套用這一輪的時間。</summary>
-    private void StartRoundTimer(CaptchaRound round)
-    {
-        if (!independentTimerPerRound)
-        {
-            // 共用計時：只在第一輪開始時啟動，之後的輪次接著算
-            if (sharedTimerStarted) return;
-            sharedTimerStarted = true;
-
-            elapsed = 0f;
-            TimedOut = false;
-            currentTimeLimit = timeLimitSeconds;
-            approachRoot.localScale = new Vector3(startScale, startScale, 1f);
-            timerRunning = true;
-            return;
-        }
-
-        elapsed = 0f;
-        TimedOut = false;
-        currentTimeLimit = round.timeLimitSeconds > 0f ? round.timeLimitSeconds : timeLimitSeconds;
-        approachRoot.localScale = new Vector3(startScale, startScale, 1f);
-        timerRunning = true;
-    }
-
-    // ───────────── 九宮格 ─────────────
+    // ───────────── 九宮格與回饋 ─────────────
 
     private bool BuildGrid(CaptchaRound round)
     {
         if (round.correctOptions == null || round.correctOptions.Count == 0 ||
             round.wrongOptions == null || round.wrongOptions.Count == 0)
         {
-            Debug.LogError("[CaptchaMinigame] 這一輪的正確選項或錯誤選項是空的，請在 Inspector 補上。");
+            Debug.LogError("[CaptchaMinigame] 這一輪的正確選項或錯誤選項是空的，請在 Inspector 補上。", this);
             return false;
         }
 
-        var entries = new List<(CaptchaOption option, bool correct)>();
+        var entries = new List<(CaptchaOption option, bool correct)>(cells.Count)
+        {
+            (round.correctOptions[UnityEngine.Random.Range(0, round.correctOptions.Count)], true)
+        };
 
-        // 1 個正確答案
-        var correct = round.correctOptions[UnityEngine.Random.Range(0, round.correctOptions.Count)];
-        entries.Add((correct, true));
-
-        // 其餘填錯誤選項（不夠就循環使用）
         var wrongPool = new List<CaptchaOption>(round.wrongOptions);
         Shuffle(wrongPool);
         for (int i = 0; i < cells.Count - 1; i++)
-            entries.Add((wrongPool[i % wrongPool.Count], false));
+            entries.Add((wrongPool[i % wrongPool.Count], false)); // 不夠就循環使用
 
         Shuffle(entries);
 
@@ -483,49 +665,21 @@ public class CaptchaMinigame : MonoBehaviour
         foreach (var c in cells) c.SetInteractable(value);
     }
 
-    private void OnCellClicked(CaptchaCell cell)
+    private void SetCheckTint(Color color)
     {
-        if (pendingClick == null) return;
-        var p = pendingClick;
-        pendingClick = null;
-        p.TrySetResult(cell);
+        if (humanCheckButton != null && humanCheckButton.targetGraphic != null)
+            humanCheckButton.targetGraphic.color = color;
     }
 
     private async UniTask ShakeGrid(CancellationToken token)
     {
         Vector2 origin = gridRoot.anchoredPosition;
-        float t = 0f;
-        while (t < wrongShakeSeconds)
+        for (float t = 0f; t < wrongShakeSeconds; t += Time.deltaTime)
         {
-            t += Time.deltaTime;
             gridRoot.anchoredPosition = origin + UnityEngine.Random.insideUnitCircle * shakeStrength;
             await UniTask.Yield(token);
         }
         gridRoot.anchoredPosition = origin;
-    }
-
-    // ───────────── 黑羊 ─────────────
-
-    private void SetBlackSheep(bool show)
-    {
-        blackSheepActive = show;
-        if (sideBlackRoot == null) return;
-
-        sideBlackRoot.SetActive(show);
-        if (!show) return;
-
-        foreach (var b in blackSheepButtons)
-            if (b != null) b.gameObject.SetActive(true);
-    }
-
-    private void OnBlackSheepButton(Button button)
-    {
-        if (!blackSheepActive) return;
-
-        BlackSheepClicked = true;
-        button.gameObject.SetActive(false); // 被點到就消失
-        Debug.Log("[CaptchaMinigame] 玩家點了黑羊");
-        onBlackSheepClicked?.Invoke();
     }
 
     private static void Shuffle<T>(IList<T> list)

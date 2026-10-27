@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6
+      value: -7.01
       objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -117,6 +117,7 @@ MonoBehaviour:
   fullColor: {r: 0, g: 1, b: 0, a: 1}
   emptyColor: {r: 1, g: 0, b: 0, a: 1}
   targetRenderer: {fileID: 5957524749939666402}
+  invertFill: 0
 --- !u!4 &3097958790958211047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}

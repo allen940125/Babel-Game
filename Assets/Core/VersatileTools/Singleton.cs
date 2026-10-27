@@ -1,81 +1,172 @@
+
 using UnityEngine;
 
 /// <summary>
 /// 通用 MonoBehaviour 單例基類。
-/// 確保只有一個實例存在，並能在未實例化時動態創建（如果需要）。
+/// 負責實例查找、唯一性檢查與必要時的動態建立。
+/// 不負責跨場景生命週期管理。
 /// </summary>
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour
+    where T : MonoBehaviour
 {
-    // 靜態實例欄位
     protected static T _instance;
+    private static bool _isQuitting;
 
-    // 用於線程安全的鎖定物件 (防止多線程同時訪問，Unity中較少見但仍是好習慣)
-    private static readonly object _lock = new object();
-
-    // 應用程式是否正在退出 (避免退出時，其他物件再次嘗試訪問 Instance 造成新的實例被創建)
-    private static bool _isQuitting = false;
+    [Header("Singleton Debug")]
+    [SerializeField]
+    private bool enableSingletonDebug = true;
 
     public static T Instance
     {
         get
         {
+            // Unity 退出期間，不再建立或取得新的實例。
             if (_isQuitting)
-            {
-                // 如果應用程式正在退出，不要創建或返回實例
-                Debug.LogWarning($"[Singleton<{typeof(T).Name}>] 應用正在退出，實例返回 null。");
                 return null;
-            }
 
-            // 1. 如果已經有實例，直接返回
-            if (_instance == null)
+            if (_instance != null)
+                return _instance;
+
+            // 先尋找場景中已存在的實例，包含未啟用物件。
+            _instance = Object.FindAnyObjectByType<T>(
+                FindObjectsInactive.Include
+            );
+
+            if (_instance != null)
             {
-                // 2. 進行鎖定，確保線程安全
-                lock (_lock)
-                {
-                    // 3. 嘗試在場景中找到現有實例
-                    _instance = FindObjectOfType<T>();
-
-                    // 4. 如果仍未找到，且遊戲正在運行，則動態創建一個
-                    if (_instance == null && Application.isPlaying)
-                    {
-                        GameObject singletonObject = new GameObject($"[Singleton] {typeof(T).Name}");
-                        _instance = singletonObject.AddComponent<T>();
-                        
-                        // 【註】動態創建時，我們仍在這裡執行 DDOL，以確保這個自動生成的物件不會被銷毀
-                        DontDestroyOnLoad(singletonObject);
-                        Debug.Log($"[Singleton<{typeof(T).Name}>] 動態創建 Singleton：{singletonObject.name}");
-                    }
-                }
+                LogFoundInstance(_instance);
+                return _instance;
             }
+
+            // 非 Play Mode 不自動建立物件。
+            if (!Application.isPlaying)
+                return null;
+
+            // 找不到時才動態建立。
+            GameObject singletonObject =
+                new GameObject($"[Singleton] {typeof(T).Name}");
+
+            _instance = singletonObject.AddComponent<T>();
+
+            LogCreatedInstance(_instance);
+
+            // 注意：不在這裡呼叫 DontDestroyOnLoad。
+            // 跨場景生命週期交由 Bootstrap 或子類別管理。
+
             return _instance;
         }
     }
 
     /// <summary>
-    /// 在實例被喚醒時調用，用於檢查單例的唯一性。
+    /// 檢查唯一性並註冊目前實例。
+    /// 子類別若覆寫 Awake，必須呼叫 base.Awake()。
     /// </summary>
     protected virtual void Awake()
     {
         if (_instance != null && _instance != this)
         {
-            // 如果場景中已經有一個實例，則銷毀這個重複的物件
-            Debug.LogWarning($"[Singleton<{typeof(T).Name}>] 偵測到重複實例，銷毀物件：{gameObject.name}");
+            Debug.LogWarning(
+                $"[Singleton] 偵測到重複實例！\n" +
+                $"類型：{typeof(T).Name}\n" +
+                $"保留：{GetHierarchyPath(_instance.transform)}\n" +
+                $"銷毀：{GetHierarchyPath(transform)}\n" +
+                $"場景：{gameObject.scene.name}",
+                gameObject
+            );
+
             Destroy(gameObject);
             return;
         }
 
-        // 將當前物件設置為實例
         _instance = this as T;
 
-        // 【重要】移除：DontDestroyOnLoad(gameObject);
-        // 這將交由 GameManager 或 Bootstrap 腳本來決定。
+        Log(
+            $"實例已註冊。\n" +
+            $"類型：{typeof(T).Name}\n" +
+            $"物件：{GetHierarchyPath(transform)}\n" +
+            $"場景：{gameObject.scene.name}"
+        );
     }
 
     /// <summary>
-    /// 在應用程式退出時設置標誌，防止在退出過程中意外創建新的實例。
+    /// 只有目前註冊的實例被銷毀時，才清除靜態引用。
+    /// </summary>
+    protected virtual void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            Log(
+                $"實例已銷毀。\n" +
+                $"類型：{typeof(T).Name}\n" +
+                $"物件：{GetHierarchyPath(transform)}"
+            );
+
+            _instance = null;
+        }
+    }
+
+    /// <summary>
+    /// 防止退出流程中再次建立 Singleton。
     /// </summary>
     protected virtual void OnApplicationQuit()
     {
         _isQuitting = true;
+    }
+
+    private static void LogFoundInstance(T instance)
+    {
+        var singleton = instance as Singleton<T>;
+
+        if (singleton == null ||
+            !singleton.enableSingletonDebug)
+            return;
+
+        Debug.Log(
+            $"[Singleton] 找到既有實例：{typeof(T).Name}\n" +
+            $"物件：{GetHierarchyPath(instance.transform)}\n" +
+            $"場景：{instance.gameObject.scene.name}",
+            instance.gameObject
+        );
+    }
+
+    private static void LogCreatedInstance(T instance)
+    {
+        var singleton = instance as Singleton<T>;
+
+        if (singleton == null ||
+            !singleton.enableSingletonDebug)
+            return;
+
+        Debug.Log(
+            $"[Singleton] 已動態建立實例：{typeof(T).Name}\n" +
+            $"物件：{GetHierarchyPath(instance.transform)}\n" +
+            $"場景：{instance.gameObject.scene.name}",
+            instance.gameObject
+        );
+    }
+
+    private void Log(string message)
+    {
+        if (!enableSingletonDebug)
+            return;
+
+        Debug.Log($"[Singleton] {message}", gameObject);
+    }
+
+    private static string GetHierarchyPath(Transform target)
+    {
+        if (target == null)
+            return "<null>";
+
+        string path = target.name;
+        Transform parent = target.parent;
+
+        while (parent != null)
+        {
+            path = $"{parent.name}/{path}";
+            parent = parent.parent;
+        }
+
+        return path;
     }
 }

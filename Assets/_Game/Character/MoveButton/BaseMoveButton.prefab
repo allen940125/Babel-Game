@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 1622223137183768661}
   - component: {fileID: 1137605864647446437}
   - component: {fileID: 3195122920545628251}
-  - component: {fileID: 4194743993941043934}
   - component: {fileID: 6421792317839229550}
   - component: {fileID: 2620100792044405252}
   - component: {fileID: 1500938279006529584}
@@ -192,20 +191,6 @@ MonoBehaviour:
   validTags:
   - EnemyBullet
   smashHitbox: {fileID: 1048701681975731250}
---- !u!114 &4194743993941043934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2715247920081278791}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f318672b55aa8534992e91fb709f9186, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoverScaleVisualizer3D
-  targetTransform: {fileID: 0}
-  hoverScale: {x: 5.5, y: 3.3, z: 2.2}
 --- !u!114 &6421792317839229550
 MonoBehaviour:
   m_ObjectHideFlags: 0

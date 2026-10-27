@@ -15,6 +15,16 @@ MonoBehaviour:
   m_GroupName: Items
   m_GUID: 45f77f2d2627ba541b6b915aaf1cb058
   m_SerializeEntries:
+  - m_GUID: 1ddf7416bcc1bfb459f206184506dc7a
+    m_Address: Items/IDCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d7a4bb1f7ab044780910b1b968799d
+    m_Address: Items/Lighter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3511964f8b8938f47b14c8198f6b3f9e
     m_Address: Items/HealthPotion
     m_ReadOnly: 0
@@ -22,6 +32,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f3d1bbc17f3d7044804c2fb0ef59272
     m_Address: Items/Money
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9002ea2d463a3c743836d0fa028aceb9
+    m_Address: Items/Pen1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af928e65b919ff44ea99add500141cbe
+    m_Address: Items/Notebook
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd185c338982c9d4f93cef4514eb43a3
+    m_Address: Items/Pen2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

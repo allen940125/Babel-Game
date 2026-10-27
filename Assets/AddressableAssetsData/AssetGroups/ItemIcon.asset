@@ -20,6 +20,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2086f8473a2f7734f9e5a3ade64539b5
+    m_Address: Icons/Pen1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 367d50b181403244da3dd688788b03b6
+    m_Address: Icons/IDCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 461e078bded7d104ca483425e26823cd
     m_Address: Icons/AdvancedMedicalSyringe
     m_ReadOnly: 0
@@ -30,13 +40,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 514f4e77c3efc034c94cd1e05f3c11f9
+    m_Address: Icons/Lighter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5b7dce6237a578346b6b4ccd6bdc8b49
     m_Address: Icons/ManaPotionIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 647d971eec3a1fc449039fb8e76097e9
+    m_Address: Icons/Notebook
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a24aa0685dccdfd4fbd633210d29dc31
     m_Address: Icons/ManaPotionIconTest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3d7f5a41bd7feb4a8387a83c65e1dda
+    m_Address: Icons/Pen2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

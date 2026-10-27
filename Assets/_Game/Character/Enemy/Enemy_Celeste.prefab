@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1063820537091418739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.29, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 2989709211211277993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 3, z: -3}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 8904701173922721843}
   - component: {fileID: 2827459188753664686}
   - component: {fileID: 8549461977727155928}
+  - component: {fileID: 3938075396051188632}
   m_Layer: 7
   m_Name: Enemy_Celeste
   m_TagString: Boss
@@ -316,7 +317,7 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      patternPrefab: {fileID: 4989275966189868475, guid: dd4a5141906990941be5a14457c54dc1, type: 3}
       delayBeforeNext: 0
   - label: 
     healthThreshold: 0
@@ -340,12 +341,6 @@ MonoBehaviour:
     healthThreshold: 0
     waveList:
     - note: 
-      patternPrefab: {fileID: 9036664765759256070, guid: c73b694a7e5247c4fb659c03ad47b947, type: 3}
-      delayBeforeNext: 0
-  - label: 
-    healthThreshold: 0
-    waveList:
-    - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: 3f71ebd89bec6264289070f49c4698a1, type: 3}
       delayBeforeNext: 0
   - label: 
@@ -353,6 +348,15 @@ MonoBehaviour:
     waveList:
     - note: 
       patternPrefab: {fileID: 9036664765759256070, guid: b1b0beb95e576ca44b8a94b6b02e13b9, type: 3}
+      delayBeforeNext: 0
+  - label: 
+    healthThreshold: 0
+    waveList:
+    - note: 
+      patternPrefab: {fileID: 9036664765759256070, guid: 7a7d1ee6c4db4f9408a8550e2b295467, type: 3}
+      delayBeforeNext: 0
+    - note: 
+      patternPrefab: {fileID: 4989275966189868475, guid: 5a2d70432807ee6409ec596aea682c3b, type: 3}
       delayBeforeNext: 0
   _currentPhase: 0
   _phaseTimerDisplay: 0
@@ -372,10 +376,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5618b6910a5c74e9d6b7ede2a5223c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthComponent
+  enableDebug: 0
   invincibilityDuration: 1.5
   onTakeDamageVisuals:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3938075396051188632}
+        m_TargetAssemblyTypeName: SimpleSpriteHitFlash, Assembly-CSharp
+        m_MethodName: TriggerFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &394807870137289584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +470,21 @@ MonoBehaviour:
   prefabToSpawn: {fileID: 2505757577525824719, guid: 759a71e8cbef2ce4fb7a3c0780c62350, type: 3}
   spawnPoint: {fileID: 5230917466619845570}
   destroyOnPhaseExit: 1
+--- !u!114 &3938075396051188632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602923930814331091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360e454b5e6cee341ab619eb63dcc2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleSpriteHitFlash
+  targetSprite: {fileID: 5091263194332035573}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.15
 --- !u!1 &8741007040038431807
 GameObject:
   m_ObjectHideFlags: 0

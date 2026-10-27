@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2488952125506188522}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.54, y: -0.76, z: 0}
+  m_LocalPosition: {x: 16.56, y: -0.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55,7 +55,7 @@ MonoBehaviour:
   patternDamageMultiplier: 1
   patternType: 5
   bulletCount: 1
-  spawnAreaSize: {x: 0, y: 20}
+  spawnAreaSize: {x: 0, y: 18}
   circleRadius: 0
   circleStartAngle: 0
   spreadAngle: 90
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 2766443923345929140}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18, y: -0.76, z: 0}
+  m_LocalPosition: {x: -17.44, y: -0.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,7 +119,7 @@ MonoBehaviour:
   patternDamageMultiplier: 1
   patternType: 5
   bulletCount: 2
-  spawnAreaSize: {x: 0, y: 20}
+  spawnAreaSize: {x: 0, y: 18}
   circleRadius: 0
   circleStartAngle: 0
   spreadAngle: 90
@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 7778121070583451365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.37314975, w: -0.92777115}
-  m_LocalPosition: {x: -17.72, y: -10.14, z: 0}
+  m_LocalPosition: {x: -16.31, y: -8.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

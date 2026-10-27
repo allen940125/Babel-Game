@@ -10,18 +10,21 @@ public class GameFlowManager : MonoBehaviour
     // 跨場景暫存區 (Gameplay 專用)
     public static EntityRuntime PendingBattleEnemyData { get; private set; }
 
-    // 這裡我們不需要被 Core 初始化，我們利用 Unity 的生命週期自己啟動
     private void Start()
     {
-        // ★ 主動去 Core 的事件中心訂閱「戰鬥觸發事件」
-        // Core 完全不知道 GameFlowManager 的存在，是 GameFlowManager 自己貼上去聽的！
+        Debug.Log("<color=yellow>[GameFlowManager] 啟動！準備訂閱戰鬥事件...</color>");
+        
         if (GameManager.Instance?.MainGameEvent != null)
         {
             GameManager.Instance.MainGameEvent.SetSubscribe(
                 GameManager.Instance.MainGameEvent.OnStartBattleEvent, 
                 HandleStartBattle
             );
-            Debug.Log("[GameFlowManager] 成功訂閱戰鬥事件。");
+            Debug.Log("<color=yellow>[GameFlowManager] 成功訂閱戰鬥事件！等待碰撞發生...</color>");
+        }
+        else
+        {
+            Debug.LogError("<color=red>[GameFlowManager] 致命錯誤：找不到 GameManager 或 MainGameEvent，訂閱失敗！</color>");
         }
     }
 
@@ -35,12 +38,15 @@ public class GameFlowManager : MonoBehaviour
 
     private void HandleStartBattle(StartBattleEvent evt)
     {
-        Debug.Log($"[GameFlow] 準備切換至 {evt.BattleScene}，目標 Boss: {evt.EnemyData.Blueprint.name}");
+        string bossName = (evt.EnemyData != null && evt.EnemyData.Blueprint != null) 
+            ? evt.EnemyData.Blueprint.name 
+            : "未知(Blueprint為Null)";
+            
+        Debug.Log($"<color=cyan>[GameFlow] 收到 StartBattleEvent！準備切換至 {evt.BattleScene}，目標 Boss: {bossName}</color>");
 
         PendingBattleEnemyData = evt.EnemyData;
 
         // ★ 主動呼叫 Core 的轉場管理器
-        // 假設你的 GameManager 有提供取得 SceneTransitionManager 的方法，或者它是單例
         GameManager.Instance.SceneTransitionManager.LoadScene(evt.BattleScene);
     }
 }

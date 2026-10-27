@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Gamemanager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyBullet : EnemyAttackBase, IProjectile
@@ -33,8 +34,8 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
     [SerializeField] private BulletStats stats;
     [SerializeField] private VFXConfig vfx;
 
-    private Vector3 _currentDirection;
-    private float _currentSpeed;
+    public Vector3 currentDirection;
+    public float currentSpeed;
     private Rigidbody _rb;
     private bool _isInitialized = false;
     private readonly RaycastHit[] _hitBuffer = new RaycastHit[16];
@@ -93,14 +94,19 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
     // ==================================================
     // 把原本那個 _precalculatedTrajectory 變數刪掉，我們不需要記住舊軌跡了！
 
-    public void SetTrajectory(Vector3 direction, float speed)
+// 新增一個 autoDestroy 參數，預設為 true 保留敵人子彈原本的行為
+    public void SetTrajectory(Vector3 direction, float speed, bool autoDestroy = true)
     {
-        _currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
-        _currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
-        
-        Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
+        currentSpeed = Random.Range(stats.speedRange.x, stats.speedRange.y) * speed;
+        currentDirection = new Vector3(direction.x, direction.y, 0f).normalized;
+    
+        // ★ 只有敵人的子彈會自爆，玩家的投擲物傳入 false 就不會消失了！
+        if (autoDestroy)
+        {
+            Destroy(gameObject, Random.Range(stats.lifeTimeRange.x, stats.lifeTimeRange.y));
+        }
+    
         UpdateVelocityAndRotation();
-        
         _isInitialized = true; 
     }
 
@@ -116,7 +122,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
         {
             // 每一幀都從「子彈當下的位置」與「當下的方向」，重新往未來發射虛擬射線！
             // 這樣算出來的點，永遠是精確的「接下來會去哪裡」
-            Vector3[] futurePoints = bulletData.CalculatePredictedTrajectory(transform.position, _currentDirection);
+            Vector3[] futurePoints = bulletData.CalculatePredictedTrajectory(transform.position, currentDirection);
             
             _visualizer.DrawTrajectory(futurePoints);
         }
@@ -127,7 +133,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
 
     private void MoveAndCollide()
     {
-        float remainingDistance = _currentSpeed * Time.fixedDeltaTime;
+        float remainingDistance = currentSpeed * Time.fixedDeltaTime;
 
         for (int bounceStep = 0; bounceStep < MAX_BOUNCES_PER_FRAME; bounceStep++)
         {
@@ -138,7 +144,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
             // 1. 找牆壁 (★ 實體物理的唯一標準)
             // ==================================================
             int bounceHitCount = ShapeCastUtility.PerformCast(
-                currentPos, _currentDirection, remainingDistance,
+                currentPos, currentDirection, remainingDistance,
                 _hitBuffer, bulletData.bounceShape, bulletData.bounceLayer, enableDeepDebug);
             
             RaycastHit nearestWallHit = default;
@@ -164,7 +170,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
             // 2. 找玩家 (★ 純結算傷害，不影響物理軌跡)
             // ==================================================
             int damageHitCount = ShapeCastUtility.PerformCast(
-                currentPos, _currentDirection, remainingDistance,
+                currentPos, currentDirection, remainingDistance,
                 _hitBuffer, bulletData.damageShape, bulletData.damageLayer, enableDeepDebug);
 
             if (damageHitCount > 0)
@@ -199,7 +205,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
             // 3. 移動與反彈結算
             // ==================================================
             // 子彈瞬間走到決定好的位置
-            transform.position = currentPos + _currentDirection * travelDistance;
+            transform.position = currentPos + currentDirection * travelDistance;
             remainingDistance -= travelDistance;
 
             if (hasWallHit)
@@ -212,7 +218,7 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
 
                 // 處理反彈，並把子彈稍微推離牆壁一點點避免卡死
                 ProcessBounceTarget(nearestWallHit);
-                transform.position += _currentDirection * COLLISION_SKIN;
+                transform.position += currentDirection * COLLISION_SKIN;
                 remainingDistance = Mathf.Max(0f, remainingDistance - COLLISION_SKIN);
             }
             else
@@ -234,20 +240,20 @@ public class EnemyBullet : EnemyAttackBase, IProjectile
         Vector3 flatNormal = new Vector3(hit.normal.x, hit.normal.y, 0f).normalized;
         float jitter = (_bounceCount < _bounceJitterOffsets.Length) ? _bounceJitterOffsets[_bounceCount] : 0f;
 
-        Vector3 pureReflection = Vector3.Reflect(_currentDirection, flatNormal).normalized;
+        Vector3 pureReflection = Vector3.Reflect(currentDirection, flatNormal).normalized;
         Vector3 newDir = Quaternion.Euler(0f, 0f, jitter) * pureReflection;
 
         if (Vector3.Dot(newDir, flatNormal) <= 0.087f) newDir = pureReflection;
 
         SpawnHitEffect(hit.point, flatNormal, newDir);
-        _currentDirection = newDir.normalized;
+        currentDirection = newDir.normalized;
         _bounceCount++;
         UpdateVelocityAndRotation();
     }
 
     private void UpdateVelocityAndRotation()
     {
-        float angle = Mathf.Atan2(_currentDirection.y, _currentDirection.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
         _rb.linearVelocity = Vector3.zero;
     }

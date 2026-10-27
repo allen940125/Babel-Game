@@ -26,6 +26,7 @@ namespace Game.UI
         [SerializeField] private Image tooltipItemIcon;
         [SerializeField] private TMP_Text tooltipItemName;
         [SerializeField] private TMP_Text tooltipItemDescription;
+        [SerializeField] private TMP_Text tooltipItemQuantity;
         [Tooltip("滑鼠游標與面板的預設距離 (X往右，Y往下通常設負值)")]
         [SerializeField] private Vector2 floatingtooltipOffset = new Vector2(15f, -15f);
 
@@ -113,6 +114,7 @@ namespace Game.UI
             tooltipItemIcon.LoadSpriteAsync(data.BaseTemplete.ItemIconPath);
             tooltipItemName.text = data.BaseTemplete.Name;
             tooltipItemDescription.text = data.BaseTemplete.ItemDescription;
+            tooltipItemQuantity.text = data.quantity.ToString();
 
             _isTooltipActive = true;
             UpdateTooltipPosition(); // 立刻更新一次位置防閃爍

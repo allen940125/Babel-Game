@@ -18,7 +18,9 @@ namespace Game.SceneManagement
         
         AdventureScene,
         // --- 用於配置查找的「虛擬」場景類型 ---
-        Persistent // 代表「常駐 UI」，例如 HUD
+        Persistent, // 代表「常駐 UI」，例如 HUD
+        
+        allentestprops
     }
 
     /// <summary>

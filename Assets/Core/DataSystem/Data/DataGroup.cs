@@ -191,6 +191,9 @@ public enum ItemControllerType
     Material = 30,
     [Description("重要物品")]
     KeyItem = 40,
+    // ★ 新增：專門用來處理戰鬥掉落物理互動的雜物
+    [Description("雜物")]
+    Junk = 90,
 }
 
 /// <summary>

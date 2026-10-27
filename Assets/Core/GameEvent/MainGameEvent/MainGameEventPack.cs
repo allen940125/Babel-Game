@@ -66,7 +66,7 @@ namespace Gamemanager
         // ======================
         
         public IObservable<StartBattleEvent> OnStartBattleEvent => getSubject<StartBattleEvent>();
-
+        public IObservable<BattleInitiatedEvent> OnBattleInitiatedEvent => getSubject<BattleInitiatedEvent>();
         public IObservable<FightButtonClickEvent> OnFightButtonClickEvent => getSubject<FightButtonClickEvent>();
 
         public IObservable<ItemButtonClickEvent> OnItemButtonClickEvent => getSubject<ItemButtonClickEvent>();
