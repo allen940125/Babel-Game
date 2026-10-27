@@ -1730,7 +1730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FleeSceneController
   playerTag: Player
-  playerSpeedMultiplier: 0.3
+  playerSpeedMultiplier: 0.2
   forceDefeatAfterSeconds: 0
   killDelaySeconds: 2
   onFinaleStarted:
