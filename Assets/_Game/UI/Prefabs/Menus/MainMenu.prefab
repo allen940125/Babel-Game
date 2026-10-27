@@ -1318,6 +1318,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -1381,4 +1382,4 @@ MonoBehaviour:
   startButton: {fileID: 5748075337319988914}
   settingsButton: {fileID: 868090394254840202}
   exitButton: {fileID: 413216570135219570}
-  sceneType: 3
+  sceneType: 6
