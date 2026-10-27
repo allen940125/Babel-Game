@@ -136,10 +136,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShockwaveEffect
   explosionRadius: 6
-  explosionForce: 30
+  explosionForce: 60
   targetLayer:
     serializedVersion: 2
     m_Bits: 8183
+  delayBeforeExplosion: 1
   enableDebugLog: 1
 --- !u!1 &6652428769473877405
 GameObject:

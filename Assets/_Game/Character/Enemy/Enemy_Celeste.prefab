@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 596268360878207582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1063820537091418739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: -1.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -450,7 +450,7 @@ MonoBehaviour:
   skipFirstNTriggers: 0
   maxTriggerCount: 0
   prefabToSpawn: {fileID: 6131491893710041281, guid: ae0a0bec20803424887409dff177d917, type: 3}
-  spawnPoint: {fileID: 7011712891635095239}
+  spawnPoint: {fileID: 5230917466619845570}
   destroyOnPhaseExit: 1
 --- !u!114 &8549461977727155928
 MonoBehaviour:

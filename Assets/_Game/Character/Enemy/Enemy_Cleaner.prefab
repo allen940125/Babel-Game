@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &473761215360577973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7974269408807771766}
+  m_Layer: 7
+  m_Name: BossAction_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7974269408807771766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473761215360577973}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.71, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2780442333805136373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966956311643476073
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +189,8 @@ MonoBehaviour:
   customActions: []
   testKey: 116
   testVisualType: 0
+  testColor: {r: 1, g: 1, b: 1, a: 1}
+  testAnimationSpeed: 1
   testSkinName: 
   testAnimationName: 
   testSprite: {fileID: 0}
@@ -205,6 +238,7 @@ Transform:
   - {fileID: 2681117233847771794}
   - {fileID: 5592938500503793605}
   - {fileID: 415678399330180059}
+  - {fileID: 7974269408807771766}
   - {fileID: 3156734772444844333}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -367,7 +401,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992103494201206248}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82cad58e03ef81a4699964e609957985, type: 3}
   m_Name: 
@@ -412,7 +446,7 @@ MonoBehaviour:
   skipFirstNTriggers: 0
   maxTriggerCount: 0
   prefabToSpawn: {fileID: 6131491893710041281, guid: ae0a0bec20803424887409dff177d917, type: 3}
-  spawnPoint: {fileID: 2780442333805136373}
+  spawnPoint: {fileID: 7974269408807771766}
   destroyOnPhaseExit: 1
 --- !u!114 &5442447739557394286
 MonoBehaviour:
@@ -441,11 +475,15 @@ MonoBehaviour:
     variants:
     - healthThreshold: 1
       visualType: 0
+      targetColor: {r: 0.9924528, g: 0.9924528, b: 0.9924528, a: 1}
+      animationSpeed: 1
       skinName: Idle_N
       animationName: Idle_N
       targetSprite: {fileID: 0}
     - healthThreshold: 0.5
       visualType: 0
+      targetColor: {r: 1, g: 0.8509433, b: 0.8509433, a: 1}
+      animationSpeed: 1.2
       skinName: Idle_LowHP
       animationName: Idle_LowHP
       targetSprite: {fileID: 0}
@@ -454,11 +492,15 @@ MonoBehaviour:
     variants:
     - healthThreshold: 1
       visualType: 0
+      targetColor: {r: 1, g: 1, b: 1, a: 1}
+      animationSpeed: 1.5
       skinName: Fire_N
       animationName: Fire_N
       targetSprite: {fileID: 0}
     - healthThreshold: 0.5
       visualType: 0
+      targetColor: {r: 1, g: 0.8509433, b: 0.8509433, a: 1}
+      animationSpeed: 1.8
       skinName: Fire_LowHP
       animationName: Fire_LowHP
       targetSprite: {fileID: 0}
@@ -467,11 +509,15 @@ MonoBehaviour:
     variants:
     - healthThreshold: 1
       visualType: 0
+      targetColor: {r: 1, g: 1, b: 1, a: 1}
+      animationSpeed: 2
       skinName: RaiseGun_N
       animationName: RaiseGun_N
       targetSprite: {fileID: 0}
     - healthThreshold: 0.5
       visualType: 0
+      targetColor: {r: 1, g: 0.8509433, b: 0.8509433, a: 1}
+      animationSpeed: 2
       skinName: RaiseGun_LowHP
       animationName: RaiseGun_LowHP
       targetSprite: {fileID: 0}
@@ -480,12 +526,16 @@ MonoBehaviour:
     variants:
     - healthThreshold: 0
       visualType: 0
+      targetColor: {r: 0, g: 0, b: 0, a: 0}
+      animationSpeed: 0
       skinName: Death
       animationName: Death
       targetSprite: {fileID: 0}
   customActions: []
   testKey: 116
   testVisualType: 0
+  testColor: {r: 1, g: 1, b: 1, a: 1}
+  testAnimationSpeed: 1
   testSkinName: 
   testAnimationName: 
   testSprite: {fileID: 0}
