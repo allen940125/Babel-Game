@@ -224,9 +224,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6670690023586690943}
-    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2528486199599528653}
     - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1330843881419120047}
@@ -305,24 +302,6 @@ MonoBehaviour:
   enterEase: 6
   exitEase: 7
   clickParticle: {fileID: 0}
---- !u!114 &2528486199599528653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5711616338272804815}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8546d84342fb49c469c574dffd4d46da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragAfterimage
-  ghostMaterial: {fileID: 2100000, guid: c3ea8663696d8104f9dbd43b910ee330, type: 2}
-  ghostColor: {r: 0.3494268, g: 0.645283, b: 0.3540744, a: 0.2}
-  spawnInterval: 0.03
-  minMoveDistance: 0.1
-  ghostLifetime: 0.2
-  shrink: 0
 --- !u!4 &7407742577477357564 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}

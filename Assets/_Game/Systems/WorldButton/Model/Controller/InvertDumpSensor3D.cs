@@ -1,76 +1,70 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// 翻轉傾倒感測器：當物件被倒轉超過特定角度時，觸發事件 (例如：背包掉落物品)
-/// </summary>
-public class InvertDumpSensor3D : MonoBehaviour
+public class KineticDumpSensor3D : MonoBehaviour
 {
-    [Header("傾倒判定設定")]
-    [Tooltip("要偵測的軸向。通常是物件的上方 (Transform.up)")]
-    public Vector3 localUpAxis = Vector3.up;
-
-    [Tooltip("傾倒的臨界值 (0 ~ 1)。\n1 代表完全倒立 (180度)\n0.7 代表傾斜約 135 度")]
-    [Range(0f, 1f)]
-    public float dumpThreshold = 0.7f;
+    [Header("動能判定設定 (靈敏度)")]
+    public float linearSpeedThreshold = 4.0f; 
+    public float angularSpeedThreshold = 360.0f;
 
     [Header("冷卻與頻率")]
-    [Tooltip("觸發後要冷卻多久才能再次觸發 (秒)")]
-    public float cooldownTime = 1.0f;
-    [Tooltip("是否在倒轉狀態下持續觸發？(例如：一直倒著就一直掉東西)")]
-    public bool continuousDump = false;
+    public float cooldownTime = 0.5f;
 
     [Header("事件觸發")]
-    [Tooltip("當物件被倒轉時觸發的事件")]
-    public UnityEvent OnDumpTriggered;
+    // ★ 變更：改用帶 Vector3 參數的 UnityEvent，用來傳遞甩動的慣性向量
+    public UnityEvent<Vector3> OnDumpTriggered;
 
+    private Vector3 _lastPosition;
+    private Quaternion _lastRotation;
     private float _lastDumpTime = -999f;
-    private bool _isCurrentlyUpsideDown = false;
+
+    private void Start() => UpdateLastTransforms();
 
     private void Update()
     {
-        CheckInvertStatus();
+        if (Time.time < _lastDumpTime + cooldownTime)
+        {
+            UpdateLastTransforms();
+            return;
+        }
+        CheckKineticEnergy();
     }
 
-    private void CheckInvertStatus()
+    private void CheckKineticEnergy()
     {
-        // 1. 將本地的上方軸 (通常是 Transform.up) 轉換為世界座標的方向
-        Vector3 worldUpOfObject = transform.TransformDirection(localUpAxis);
+        // ★ 變更：不只算距離，我們直接算出帶有方向的「速度向量 (Velocity)」
+        Vector3 linearVelocity = (transform.position - _lastPosition) / Time.deltaTime;
+        float currentLinearSpeed = linearVelocity.magnitude;
 
-        // 2. 計算它與「世界正下方 (Vector3.down)」的重合程度
-        // Dot 內積結果：
-        // 1.0 = 完全倒立 (指向正下方)
-        // 0.0 = 平躺 (指向側邊 90 度)
-        // -1.0 = 正向朝上 (指向正上方)
-        float dotProduct = Vector3.Dot(worldUpOfObject, Vector3.down);
+        float angleChanged = Quaternion.Angle(transform.rotation, _lastRotation);
+        float currentAngularSpeed = angleChanged / Time.deltaTime;
 
-        // 3. 判斷是否超過臨界值
-        bool isUpsideDown = dotProduct >= dumpThreshold;
+        bool isFlinging = currentLinearSpeed >= linearSpeedThreshold;
+        bool isSpinning = currentAngularSpeed >= angularSpeedThreshold;
 
-        // 4. 處理事件觸發邏輯
-        if (isUpsideDown)
+        if (isFlinging || isSpinning)
         {
-            if (!_isCurrentlyUpsideDown || continuousDump)
-            {
-                if (Time.time >= _lastDumpTime + cooldownTime)
-                {
-                    TriggerDump();
-                }
-            }
+            // 如果是純原地自轉，給一個隨機向外噴發的速度；如果是甩動，就用甩動的速度
+            Vector3 finalEjectVelocity = isFlinging ? linearVelocity : (Random.insideUnitSphere * 5f);
+            
+            TriggerDump(finalEjectVelocity, currentLinearSpeed, currentAngularSpeed);
         }
 
-        _isCurrentlyUpsideDown = isUpsideDown;
+        UpdateLastTransforms();
     }
 
-    private void TriggerDump()
+    private void UpdateLastTransforms()
+    {
+        _lastPosition = transform.position;
+        _lastRotation = transform.rotation;
+    }
+
+    private void TriggerDump(Vector3 ejectVelocity, float linearSpeed, float angularSpeed)
     {
         _lastDumpTime = Time.time;
-        
-        Debug.Log($"<color=orange>[傾倒感測器] {gameObject.name} 被倒過來了！觸發掉落事件！</color>");
-        
         if (OnDumpTriggered != null)
         {
-            OnDumpTriggered.Invoke();
+            OnDumpTriggered.Invoke(ejectVelocity);
         }
     }
 }

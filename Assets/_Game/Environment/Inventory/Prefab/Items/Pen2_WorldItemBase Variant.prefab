@@ -77,18 +77,31 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7978696706541609194, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      propertyPath: triggerTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978696706541609194, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: onPickupCommands.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7978696706541609194, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       propertyPath: 'onPickupCommands.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
+      objectReference: {fileID: 11400000, guid: c23e5a61cfe59654eaf08cdb154cc990, type: 2}
     m_RemovedComponents:
     - {fileID: 5334727121182909904, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4423794633339259293, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 563112654349215436}
+    - targetCorrespondingSourceObject: {fileID: 4423794633339259293, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3613861942256836957}
+    - targetCorrespondingSourceObject: {fileID: 4423794633339259293, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2450699263952825370}
     - targetCorrespondingSourceObject: {fileID: 7040019828199806088, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
       insertIndex: -1
       addedObject: {fileID: 541968870757684678}
@@ -119,3 +132,66 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.25572282, y: 3.0655808, z: 1}
   m_Center: {x: 0.0044263005, y: -0.0044263005, z: 0}
+--- !u!1 &6208600382603281232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4423794633339259293, guid: 5cd0a4a1362b293428cb3b936adaaf63, type: 3}
+  m_PrefabInstance: {fileID: 7731863488202214093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &563112654349215436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208600382603281232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de31ad036704da34ebe2f079a5b56268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  enableDebug: 0
+  _snapshottedIgnoreInvincibility: 0
+  _snapshottedDamage: 15
+  _snapshottedCritRate: 0
+  _snapshottedCritMultiplier: 1.5
+--- !u!114 &-3613861942256836957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208600382603281232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba49f7d5b267131448dd8bbf68318356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
+  bulletData: {fileID: 11400000, guid: 3a29531a737202c499ca8b134241beb9, type: 2}
+  enableDeepDebug: 0
+  stats:
+    speedRange: {x: 5, y: 12}
+    lifeTimeRange: {x: 15, y: 25}
+  vfx:
+    showHitEffect: 1
+    hitEffectPrefab: {fileID: 8955939593327333646, guid: ff667f27759274d4bad9568d664bba74, type: 3}
+    rotationMode: 1
+  currentDirection: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
+  debug_bulletData_damageMultiplier: 0
+  debug_AttackPattern_damageMultiplier: 0
+  debug_actualMultiplier: 0
+--- !u!114 &2450699263952825370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208600382603281232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49da45617dffc5469aab0b13cebe335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerThrowableController
+  activeDuration: 2
+  airFriction: 15
+  dropSpeedThreshold: 2

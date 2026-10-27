@@ -22,4 +22,4 @@ MonoBehaviour:
     - rid: 1507063330796208243
       type: {class: SwitchSceneAction, ns: , asm: Assembly-CSharp}
       data:
-        LoadSceneType: 4
+        LoadSceneType: 6

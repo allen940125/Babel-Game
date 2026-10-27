@@ -80,4 +80,51 @@ public class BulletDataSO : AttackDataSO
 
         return points.ToArray();
     }
+    
+    // 寫在 BulletDataSO 裡面
+#if UNITY_EDITOR
+    [ContextMenu("★ 從場景中選取的物件讀取 Collider 數值")]
+    public void SyncFromSelectedObject()
+    {
+        GameObject selectedObj = UnityEditor.Selection.activeGameObject;
+        if (selectedObj == null)
+        {
+            Debug.LogWarning("請先在場景或 Hierarchy 中選取一個帶有 Collider 的物件！");
+            return;
+        }
+
+        Collider col = selectedObj.GetComponent<Collider>();
+        if (col == null)
+        {
+            Debug.LogWarning("選取的物件身上沒有 Collider！");
+            return;
+        }
+
+        UnityEditor.Undo.RecordObject(this, "Sync Collider Data");
+
+        if (col is SphereCollider sc)
+        {
+            bounceShape.shapeType = BulletShapeType.Circle;
+            bounceShape.radius = sc.radius * Mathf.Max(selectedObj.transform.lossyScale.x, selectedObj.transform.lossyScale.y);
+        }
+        else if (col is BoxCollider bc)
+        {
+            bounceShape.shapeType = BulletShapeType.Box;
+            bounceShape.boxSize = new Vector2(bc.size.x * selectedObj.transform.lossyScale.x, bc.size.y * selectedObj.transform.lossyScale.y);
+            bounceShape.zThickness = bc.size.z * selectedObj.transform.lossyScale.z;
+        }
+        else if (col is CapsuleCollider cc)
+        {
+            bounceShape.shapeType = BulletShapeType.Capsule;
+            bounceShape.radius = cc.radius * Mathf.Max(selectedObj.transform.lossyScale.x, selectedObj.transform.lossyScale.z);
+            bounceShape.capsuleLength = cc.height * selectedObj.transform.lossyScale.y;
+        }
+
+        // 將 Damage 形狀也同步 (視你的需求而定)
+        damageShape = bounceShape;
+
+        UnityEditor.EditorUtility.SetDirty(this);
+        Debug.Log($"<color=#4EC9B0>[SO 更新成功]</color> 已成功從 {selectedObj.name} 擷取 Collider 資料寫入 SO！建議現在將該物件身上的 Collider 移除。");
+    }
+#endif
 }
