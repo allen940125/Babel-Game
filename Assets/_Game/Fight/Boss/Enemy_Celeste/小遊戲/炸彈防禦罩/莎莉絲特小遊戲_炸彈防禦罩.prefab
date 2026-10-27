@@ -48,6 +48,6 @@ MonoBehaviour:
   centerPoint: {fileID: 3122847779160573887}
   radius: 5
   nodeCount: 20
-  gapAngleRange: {x: 60, y: 60}
+  gapAngleRange: {x: 35, y: 35}
   gapDirectionRange: {x: 45, y: 135}
   lookAtCenter: 1

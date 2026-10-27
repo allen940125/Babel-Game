@@ -158,7 +158,7 @@ public class HealAction : ICommandAction // 拿掉 Player 前綴，因為現在�
             Debug.LogError($"<color=#F44747>[HealAction 失敗]</color> 目標實體缺少 RuntimeAnchorTrait，無法分發 TryHeal！");
         }
     }
-
+    
     // ★ 將尋找目標的邏輯完全封裝，根據企劃選的 Enum 來決定怎麼找大腦
     private EntityRuntime GetTargetEntity(CommandContext context)
     {
@@ -180,6 +180,60 @@ public class HealAction : ICommandAction // 拿掉 Player 前綴，因為現在�
             case CommandTargetType.CurrentBoss:
                 // 無視是誰踩的，直接找全局 GameManager 要 Boss 大腦
                 // (假設你的 Mediator 有提供 CurrentBossRuntime)
+                return GameManager.Instance.MainGameMediator.CurrentBossRuntime; 
+
+            default:
+                return null;
+        }
+    }
+}
+
+[Serializable]
+public class DamageAction : ICommandAction
+{
+    [Header("目標與預設值")]
+    public CommandTargetType targetType = CommandTargetType.TriggerSource;
+    public int defaultDamage = 10;
+
+    public void Invoke(CommandContext context)
+    {
+        EntityRuntime targetData = GetTargetEntity(context);
+        if (targetData == null) return;
+
+        // 讀取 CSV 中的 BaseValue 當作傷害值
+        int finalDamage = defaultDamage;
+        if (context != null && context.TryGetPayload<InventoryItemRuntimeData>(out var itemData))
+        {
+            finalDamage = itemData.BaseTemplete.BaseValue; 
+        }
+
+        // ★ 簡化：直接呼叫 Anchor 的 TryDamage，它內部會安全地轉發給 IDamageable
+        if (targetData.TryGetTrait(out RuntimeAnchorTrait anchor))
+        {
+            anchor.TryDamage(new DamagePayload() { Damage = finalDamage, Source = null });
+            
+            // 安全的 Null 檢查印出 Debug
+            string targetName = targetData.Blueprint != null ? targetData.Blueprint.name : "未知目標";
+            Debug.Log($"[DamageAction] 對 {targetName} 造成 {finalDamage} 點傷害。");
+        }
+    }
+    
+    private EntityRuntime GetTargetEntity(CommandContext context)
+    {
+        switch (targetType)
+        {
+            case CommandTargetType.TriggerSource:
+                if (context != null && context.TriggerSource != null)
+                {
+                    EntityCore core = context.TriggerSource.GetComponentInParent<EntityCore>();
+                    if (core != null) return core.RuntimeData;
+                }
+                return null;
+
+            case CommandTargetType.MainPlayer:
+                return GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+
+            case CommandTargetType.CurrentBoss:
                 return GameManager.Instance.MainGameMediator.CurrentBossRuntime; 
 
             default:

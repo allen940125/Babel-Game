@@ -167,23 +167,26 @@ public class RuntimeAnchorTrait : EntityTrait
 {
     [NonSerialized] private IHealable activeHealable;
     [NonSerialized] private IDamageable activeDamageable;
+    
+    // ★ 新增：將 GameObject 存起來並公開為唯讀屬性，讓外部 (如 DamageAction) 可以存取
+    [NonSerialized] private GameObject _entityGameObject;
+    public GameObject EntityGameObject => _entityGameObject;
 
-    // ★ 必須加上 override
     public override EntityTrait Clone()
     {
         return new RuntimeAnchorTrait();
     }
     
-    // ★ 必須加上 override 與參數
     public override void Initialize(EntityRuntime owner)
     {
         activeHealable = null;
         activeDamageable = null;
+        _entityGameObject = null;
     }
 
-    // ... 註冊與觸發邏輯保持不變 ...
     public void RegisterEntity(GameObject entityObj)
     {
+        _entityGameObject = entityObj; // ★ 記住傳進來的 GameObject
         activeHealable = entityObj.GetComponent<IHealable>();
         activeDamageable = entityObj.GetComponent<IDamageable>();
     }
@@ -191,12 +194,12 @@ public class RuntimeAnchorTrait : EntityTrait
     public void TryHeal(HealPayload payload)
     {
         if (activeHealable != null) activeHealable.ReceiveHeal(payload);
-        else Debug.LogWarning("嘗試治療，但實體錨點為空！");
+        else Debug.LogWarning("嘗試治療，但實體錨點為空或目標沒有實作 IHealable！");
     }
 
     public void TryDamage(DamagePayload payload)
     {
         if (activeDamageable != null) activeDamageable.TakeDamage(payload);
-        else Debug.LogWarning("嘗試傷害，但實體錨點為空！");
+        else Debug.LogWarning("嘗試傷害，但實體錨點為空或目標沒有實作 IDamageable！");
     }
 }
