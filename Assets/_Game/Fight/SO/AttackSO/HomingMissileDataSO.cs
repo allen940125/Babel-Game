@@ -54,7 +54,7 @@ public class HomingMissileDataSO : AttackDataSO
         int resolution = 15; 
         
         // ★ 核心修正：把牆壁與玩家的 Layer 加起來，用作軌跡阻擋判定
-        LayerMask blockMask = obstacleLayer | damageLayer;
+        LayerMask blockMask = obstacleLayer;
 
         if (launchMode == LaunchMode.BezierArc)
         {

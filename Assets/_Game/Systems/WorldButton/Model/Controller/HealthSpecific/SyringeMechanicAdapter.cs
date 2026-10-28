@@ -89,8 +89,8 @@ public class SyringeMechanicAdapter : MonoBehaviour
 
     private void ResetSyringeForNewPhase(BossEnterIdlePhaseEvent evt)
     {
-        _currentHealCount = 0;
-        _hasBlood = true;
+        // _currentHealCount = 0;
+        // _hasBlood = true;
         UpdateSyringeState();
     }
 

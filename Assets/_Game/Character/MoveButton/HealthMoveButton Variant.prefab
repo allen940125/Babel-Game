@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: maxUsesPerPhase
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: commandToExecute
       value: 
-      objectReference: {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: OnExhausted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: OnExhausted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -180,6 +180,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1029565506842799720}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5682315019083791000}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7344568588085204699}
     - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8582963597501717037}
@@ -246,13 +252,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bddc17f4c7f874aa043b164aac5463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RammingWeaponBehavior3D
-  targetLayer:
+  damageLayer:
     serializedVersion: 2
-    m_Bits: 8384
-  minImpactSpeed: 5
+    m_Bits: 8320
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  minLinearSpeed: 20
+  minAngularSpeed: 300
   rammingCooldown: 0.8
   isArmed: 0
   damageDealer: {fileID: 3955955412494983622}
+  OnRammingSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7344568588085204699}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnInteractionHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7344568588085204699}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5682315019083791000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474254236526940092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f1e5a86fc9db845aba2dc3a2142e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KinematicTracker3D
+  trackLinearX: 1
+  trackLinearY: 1
+  trackLinearZ: 0
+  trackAngularX: 1
+  trackAngularY: 1
+  trackAngularZ: 1
+  currentLinearVelocity: {x: 0, y: 0, z: 0}
+  currentLinearSpeed: 0
+  currentAngularVelocity: {x: 0, y: 0, z: 0}
+  currentAngularSpeed: 0
+--- !u!114 &7344568588085204699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474254236526940092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fbbdde88e8b80458b392601b012aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SyringeMechanicAdapter
+  maxCyclesPerPhase: 2
+  healCommand: {fileID: 11400000, guid: c4cfa6bbc73ae5743b0252f09aa60bae, type: 2}
+  fillVisualizer: {fileID: 213224090989395269}
 --- !u!4 &3394247212340600719 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 873792838055380852, guid: f297860abed8db24d868ce783605d27d, type: 3}

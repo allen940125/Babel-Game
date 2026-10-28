@@ -261,6 +261,9 @@ PrefabInstance:
       addedObject: {fileID: 1346005515604451165}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4484577287623478923}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 8366625988773795626}
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
@@ -298,13 +301,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bddc17f4c7f874aa043b164aac5463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RammingWeaponBehavior3D
-  targetLayer:
+  damageLayer:
     serializedVersion: 2
     m_Bits: 8384
-  minImpactSpeed: 5
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  minLinearSpeed: 20
+  minAngularSpeed: 300
   rammingCooldown: 0.8
   isArmed: 0
   damageDealer: {fileID: 8366625988773795626}
+  OnRammingSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInteractionHit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4484577287623478923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913403208673973236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f1e5a86fc9db845aba2dc3a2142e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KinematicTracker3D
+  trackLinearX: 1
+  trackLinearY: 1
+  trackLinearZ: 0
+  trackAngularX: 1
+  trackAngularY: 1
+  trackAngularZ: 1
+  currentLinearVelocity: {x: 0, y: 0, z: 0}
+  currentLinearSpeed: 0
+  currentAngularVelocity: {x: 0, y: 0, z: 0}
+  currentAngularSpeed: 0
 --- !u!114 &8366625988773795626
 MonoBehaviour:
   m_ObjectHideFlags: 0

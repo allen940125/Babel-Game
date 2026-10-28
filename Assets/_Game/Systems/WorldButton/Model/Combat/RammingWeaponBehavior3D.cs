@@ -5,35 +5,38 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(DamageDealer))] 
+[RequireComponent(typeof(KinematicTracker3D))] // ★ 強制掛載速度追蹤器
 public class RammingWeaponBehavior3D : MonoBehaviour
 {
-    [Header("★ 物理撞擊設定 (完全由 Inspector 控制)")]
-    [Tooltip("會受到真實傷害的目標層級 (例如 Enemy, Boss)")]
+    [Header("★ 物理撞擊設定")]
     [SerializeField] private LayerMask damageLayer; 
-    
-    [Tooltip("不會受到傷害，但會觸發特殊互動事件的目標層級 (例如 Player)")]
     [SerializeField] private LayerMask interactionLayer; 
     
-    [SerializeField] private float minImpactSpeed = 5.0f;
+    [Header("★ 動能閾值 (滿足其一即可判定為攻擊)")]
+    [Tooltip("直線揮擊的最小速度")]
+    [SerializeField] private float minLinearSpeed = 3.0f;
+    [Tooltip("轉手腕甩動的最小角速度 (度/秒)")]
+    [SerializeField] private float minAngularSpeed = 300.0f; 
+
+    [Header("★ 狀態設定")]
     [SerializeField] private float rammingCooldown = 0.8f;
     [SerializeField] private bool isArmed = false;
 
     [SerializeField] private DamageDealer damageDealer;
     
     [Header("★ 事件廣播")]
-    public UnityEvent<GameObject> OnRammingSuccess; // 扎到敵人 (Damage Layer)
-    public UnityEvent<GameObject> OnInteractionHit; // 扎到互動目標 (Interaction Layer)
+    public UnityEvent<GameObject> OnRammingSuccess; 
+    public UnityEvent<GameObject> OnInteractionHit; 
 
-    private Vector3 _lastPosition;
-    private float _currentInstantSpeed;
+    private KinematicTracker3D _tracker; // ★ 速度資料來源
     private bool _isOnCooldown = false;
     private GlowBehavior3D _glow;
 
     private void Awake()
     {
+        _tracker = GetComponent<KinematicTracker3D>(); // 抓取追蹤器
         if (damageDealer == null) damageDealer = GetComponent<DamageDealer>();
         _glow = GetComponent<GlowBehavior3D>();
-        _lastPosition = transform.position;
 
         if (GameManager.Instance?.MainGameEvent != null)
         {
@@ -51,12 +54,6 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        _currentInstantSpeed = (transform.position - _lastPosition).magnitude / Time.deltaTime;
-        _lastPosition = transform.position;
-    }
-
     private void OnCollisionEnter(Collision collision) => TryExecuteRamming(collision.collider.gameObject);
     
     private void OnTriggerEnter(Collider other) => TryExecuteRamming(other.gameObject);
@@ -65,31 +62,33 @@ public class RammingWeaponBehavior3D : MonoBehaviour
     {
         if (target == this.gameObject) return;
 
-        // 檢查是否在冷卻或未武裝
-        if (!isArmed || _isOnCooldown || _currentInstantSpeed < minImpactSpeed || damageDealer == null)
+        // 1. 基礎防呆
+        if (!isArmed || _isOnCooldown || damageDealer == null) return;
+
+        // 2. ★ 動能檢定 (向 Tracker 索取數據)
+        bool isFastEnough = _tracker.LinearSpeed >= minLinearSpeed || _tracker.AngularSpeed >= minAngularSpeed;
+        
+        if (!isFastEnough)
         {
-            return;
+            // 動能不足，判定為輕輕碰到，不構成攻擊
+            return; 
         }
 
         // ==========================================
-        // 1. 檢查是否屬於「互動目標 (Interaction Layer)」
+        // 3. 處理 Interaction Layer (互動：例如扎玩家補血)
         // ==========================================
         if ((interactionLayer.value & (1 << target.layer)) != 0)
         {
-            Debug.Log($"<color=cyan>[武器] 撞擊 Interaction Layer 目標: {target.name}！觸發專屬事件。</color>");
-            
             OnInteractionHit?.Invoke(target); 
             StartCoroutine(CooldownRoutine());
-            return; // 互動目標絕對不扣血，直接結束
+            return; 
         }
 
         // ==========================================
-        // 2. 檢查是否屬於「傷害目標 (Damage Layer)」
+        // 4. 處理 Damage Layer (傷害：例如扎敵人抽血)
         // ==========================================
         if ((damageLayer.value & (1 << target.layer)) != 0)
         {
-            Debug.Log($"<color=green>[武器] 撞擊 Damage Layer 目標: {target.name}！準備造成傷害。</color>");
-            
             var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
             if (playerRuntime != null)
             {
@@ -97,13 +96,11 @@ public class RammingWeaponBehavior3D : MonoBehaviour
             }
 
             damageDealer.DealDamageTo(target);
-            OnRammingSuccess?.Invoke(target); // 廣播撞擊成功
+            OnRammingSuccess?.Invoke(target); 
         
             StartCoroutine(CooldownRoutine());
             return;
         }
-
-        // 如果兩個 Layer 都沒中，就不做任何事 (例如撞到牆壁或地板)
     }
 
     private IEnumerator CooldownRoutine()

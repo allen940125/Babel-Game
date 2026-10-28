@@ -77,8 +77,17 @@ public class HoverFloat : MonoBehaviour
     private void OnMouseDown()
     {
         if (IsButtonLocked()) return;
-        clickParticle.transform.position = visual.position;
-        clickParticle.Play();
+        // ★ 安全檢查：只有在 clickParticle 有被賦值的情況下才執行特效
+        if (clickParticle != null) 
+        {
+            clickParticle.transform.position = visual.position;
+            clickParticle.Play();
+        }
+        else
+        {
+            // 如果你希望在 Console 看到提示，可以把這行打開
+            // Debug.LogWarning($"[HoverFloat] {gameObject.name} 的 clickParticle 沒有在 Inspector 中設定！");
+        }
     }
 
     private void OnDisable()

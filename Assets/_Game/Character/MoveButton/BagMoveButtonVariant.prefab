@@ -293,6 +293,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4693641154600429197}
+    - targetCorrespondingSourceObject: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8749159204876593523}
   m_SourcePrefab: {fileID: 100100000, guid: f297860abed8db24d868ce783605d27d, type: 3}
 --- !u!4 &5002613315394042445 stripped
 Transform:
@@ -340,8 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49e5567581feae4a9c51b44ace9cc11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvertDumpSensor3D
-  linearSpeedThreshold: 4
-  angularSpeedThreshold: 360
+  linearSpeedThreshold: 30
+  angularSpeedThreshold: 180
   cooldownTime: 1
   OnDumpTriggered:
     m_PersistentCalls:
@@ -371,3 +374,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BagDumpBroadcaster
   dropOrigin: {fileID: 8061802643837021493}
+--- !u!114 &8749159204876593523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315006209478061913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f1e5a86fc9db845aba2dc3a2142e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KinematicTracker3D
+  trackLinearX: 1
+  trackLinearY: 1
+  trackLinearZ: 0
+  trackAngularX: 1
+  trackAngularY: 1
+  trackAngularZ: 1
+  currentLinearVelocity: {x: 0, y: 0, z: 0}
+  currentLinearSpeed: 0
+  currentAngularVelocity: {x: 0, y: 0, z: 0}
+  currentAngularSpeed: 0
