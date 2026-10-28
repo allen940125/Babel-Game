@@ -526,8 +526,8 @@ MonoBehaviour:
     variants:
     - healthThreshold: 0
       visualType: 0
-      targetColor: {r: 0, g: 0, b: 0, a: 0}
-      animationSpeed: 0
+      targetColor: {r: 1, g: 1, b: 1, a: 1}
+      animationSpeed: 1
       skinName: Death
       animationName: Death
       targetSprite: {fileID: 0}
