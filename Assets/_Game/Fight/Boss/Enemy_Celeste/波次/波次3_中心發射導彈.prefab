@@ -48,7 +48,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
@@ -176,7 +176,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
   spawnInterval: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
   baseSpeed: 5
   spawnInterval: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0
@@ -432,7 +432,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 1
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
   baseSpeed: 5
   spawnInterval: 0.1
@@ -503,7 +503,7 @@ MonoBehaviour:
   snapToWorldOrigin: 0
   useWarning: 0
   warningTime: 1
-  warningPrefab: {fileID: 0}
+  warningPrefab: {fileID: 2247925641671823325, guid: 8fe0c761aad3db444bb8e2cb8795dfc5, type: 3}
   steps:
   - pattern: {fileID: 3161254999720578782}
     delayBefore: 0
