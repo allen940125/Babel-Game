@@ -1170,6 +1170,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4484577287623478923, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: trackAngularX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484577287623478923, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: trackAngularY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484577287623478923, guid: 5edfd2937baf56145af55541fff13e7d, type: 3}
+      propertyPath: trackAngularZ
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1230,6 +1242,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3502938418701245096, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682315019083791000, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: trackAngularX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682315019083791000, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: trackAngularY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682315019083791000, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: trackAngularZ
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
