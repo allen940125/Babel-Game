@@ -5687,10 +5687,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Cleaner
       objectReference: {fileID: 0}
-    - target: {fileID: 1992103494201206248, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2780442333805136373, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5730,6 +5726,10 @@ PrefabInstance:
     - target: {fileID: 2780442333805136373, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5442447739557394286, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: phaseConfigs.Array.data[3].variants.Array.data[0].targetColor.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8646368430223423122, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_Mesh
