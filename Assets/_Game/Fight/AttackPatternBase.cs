@@ -148,6 +148,7 @@ public abstract class AttackPatternBase : MonoBehaviour
     {
         if (!useWarning || warningTime <= 0f || warningPrefab == null || spawnDataList.Count == 0) 
         {
+            Debug.LogWarning($"<color=orange>[預警攔截]</color> {gameObject.name} 沒顯示預警。原因檢查：useWarning={useWarning}, time={warningTime}, prefab={(warningPrefab!=null?"有":"無")}, 數量={spawnDataList.Count}");
             yield break;
         }
 
@@ -156,6 +157,9 @@ public abstract class AttackPatternBase : MonoBehaviour
         foreach (var data in spawnDataList)
         {
             GameObject warningObj = Instantiate(warningPrefab, data.position, Quaternion.identity);
+            
+            // ★ 加這行，只要有印出來，代表 100% 有生成在場景裡，絕對是被擋住或太小！
+            Debug.Log($"<color=green>[預警生成]</color> 已在 {data.position} 生成預警物件：{warningObj.name}");
             
             float angle = Mathf.Atan2(data.direction.y, data.direction.x) * Mathf.Rad2Deg;
             warningObj.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
