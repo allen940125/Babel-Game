@@ -1200,6 +1200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthMoveButton Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1029565506842799720, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 8320
+      objectReference: {fileID: 0}
     - target: {fileID: 3238944301535713118, guid: ff0c6f25f89b9b748be00cd9769336ac, type: 3}
       propertyPath: maxUsesPerPhase
       value: 0
@@ -2684,7 +2688,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3407173943800677800, guid: 22dff400f4ff292428f6b03f6e17a1ba, type: 3}
       propertyPath: linearSpeedThreshold
-      value: 30
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3407173943800677800, guid: 22dff400f4ff292428f6b03f6e17a1ba, type: 3}
       propertyPath: angularSpeedThreshold
@@ -4769,7 +4773,7 @@ MonoBehaviour:
   dialogueUI: {fileID: 2110070343}
   enableOpeningDialogue: 0
   openingDialogueNode: Boss_Opening
-  debugBossBlueprint: {fileID: 11400000, guid: 1215c0d69b9ebef45849462743aaacfc, type: 2}
+  debugBossBlueprint: {fileID: 11400000, guid: 34c7c94623f0100438b24abb069c0544, type: 2}
 --- !u!4 &2046034635
 Transform:
   m_ObjectHideFlags: 0
@@ -5687,6 +5691,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Cleaner
       objectReference: {fileID: 0}
+    - target: {fileID: 1992103494201206248, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2780442333805136373, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5726,10 +5734,6 @@ PrefabInstance:
     - target: {fileID: 2780442333805136373, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5442447739557394286, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
-      propertyPath: phaseConfigs.Array.data[3].variants.Array.data[0].targetColor.a
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8646368430223423122, guid: 10b297e2ff86540469d75d47f74eb5f8, type: 3}
       propertyPath: m_Mesh
@@ -6161,10 +6165,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1559578510}
     m_Modifications:
-    - target: {fileID: 4022618160246116208, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.46
-      objectReference: {fileID: 0}
     - target: {fileID: 4602923930814331091, guid: d2923f532d5684f4a94f22772cdbdda1, type: 3}
       propertyPath: m_Name
       value: Enemy_Celeste

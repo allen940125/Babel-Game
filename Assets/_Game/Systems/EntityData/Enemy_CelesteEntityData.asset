@@ -20,9 +20,13 @@ MonoBehaviour:
   critMultiplier: 1.5
   traits:
   - rid: 1686755775413485664
+  - rid: 716083970389835916
   references:
     version: 2
     RefIds:
+    - rid: 716083970389835916
+      type: {class: RuntimeAnchorTrait, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 1686755775413485664
       type: {class: TimerTrait, ns: , asm: Assembly-CSharp}
       data:

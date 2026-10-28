@@ -285,6 +285,7 @@ public abstract class BossStateMachine : MonoBehaviour
             case BossPhase.Idle:
                 _isProvoked = false;
                 _bossData?.RemoveState(EntityStateFlags.Invincible);
+                ClearAllActiveProjectiles();
                 GameManager.Instance.MainGameEvent.Send(new BossEnterIdlePhaseEvent());
                 if (animator) animator.Play("Idle");
                 if (_bossData != null && _bossData.TryGetTrait(out TimerTrait idleTimer)) idleTimer.StartTimer(0f);

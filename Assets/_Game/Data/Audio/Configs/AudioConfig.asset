@@ -27,3 +27,7 @@ MonoBehaviour:
     startBGMData:
     - audioClip: {fileID: 8300000, guid: 201c1a831820d8f4b8f261e38bfe648b, type: 3}
     startSFXData: []
+  - sceneType: 6
+    startBGMData:
+    - audioClip: {fileID: 8300000, guid: ec3855fe1addae14ead487da1c20e978, type: 3}
+    startSFXData: []
