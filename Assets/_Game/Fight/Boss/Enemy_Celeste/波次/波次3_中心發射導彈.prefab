@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 7152de0b9b86ead4aa212d8d49ca448c, type: 3}
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneralAttackPattern
   destroyOnFinish: 1
   snapToWorldOrigin: 0
-  useWarning: 0
+  useWarning: 1
   warningTime: 1
   warningPrefab: {fileID: 0}
   bulletPrefab: {fileID: 8034763294956535289, guid: 4055ac328b794a545ae94c4f078bc33d, type: 3}
