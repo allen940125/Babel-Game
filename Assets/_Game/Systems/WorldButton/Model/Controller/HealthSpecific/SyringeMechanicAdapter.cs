@@ -1,6 +1,6 @@
 using UnityEngine;
+using Gamemanager; 
 
-[RequireComponent(typeof(BaseButtonController3D))]
 [RequireComponent(typeof(RammingWeaponBehavior3D))]
 public class SyringeMechanicAdapter : MonoBehaviour
 {
@@ -8,85 +8,96 @@ public class SyringeMechanicAdapter : MonoBehaviour
     [Tooltip("每個階段最多可以吸血/補血的總循環次數")]
     [SerializeField] private int maxCyclesPerPhase = 2;
     
+    [Tooltip("★ 當扎到 Interaction Layer (玩家) 時執行的指令")]
+    [SerializeField] private GameCommandSO healCommand;
+    
     [Header("★ 視覺控制 (Shader Fill)")]
-    [Tooltip("拖入掛有 ShaderFillVisualizer 的模型物件")]
     [SerializeField] private ShaderFillVisualizer fillVisualizer;
     
-    private BaseButtonController3D _button;
     private RammingWeaponBehavior3D _weapon;
     
     private int _currentHealCount = 0;
-    private bool _hasBlood = true; // 預設一開始裡面是有血(綠色)的
+    private bool _hasBlood = true; 
 
     private void Awake()
     {
-        _button = GetComponent<BaseButtonController3D>();
         _weapon = GetComponent<RammingWeaponBehavior3D>();
 
-        // 訂閱事件
-        _button.OnCommandExecuted.AddListener(HandleHealUsed);
+        // 訂閱武器的兩個新事件
+        _weapon.OnInteractionHit.AddListener(HandleInteractionHit);
         _weapon.OnRammingSuccess.AddListener(HandleEnemyStabbed);
-        _button.OnReset.AddListener(ResetSyringeForNewPhase);
+        
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.SetSubscribe(
+                GameManager.Instance.MainGameEvent.OnBossEnterIdlePhaseEvent, 
+                ResetSyringeForNewPhase
+            );
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Unsubscribe<BossEnterIdlePhaseEvent>(ResetSyringeForNewPhase);
+        }
     }
 
     private void Start()
     {
-        // 遊戲一開始，強制重置狀態與視覺
         UpdateSyringeState();
     }
 
     // ==========================================
-    // 1. 打針 (消耗血)
+    // 1. 扎入互動目標 (玩家)
     // ==========================================
-    private void HandleHealUsed()
+    private void HandleInteractionHit(GameObject targetObject)
     {
         if (_hasBlood)
         {
             _hasBlood = false;
             _currentHealCount++;
             
-            Debug.Log($"<color=cyan>[針筒] 已注射！目前使用次數: {_currentHealCount}/{maxCyclesPerPhase}</color>");
+            Debug.Log($"<color=cyan>[針筒] 注射成功！目標: {targetObject.name}。次數: {_currentHealCount}/{maxCyclesPerPhase}</color>");
+            
+            if (healCommand != null)
+            {
+                healCommand.Execute(targetObject); // 對目標執行指令
+            }
+            
             UpdateSyringeState();
+        }
+        else
+        {
+            Debug.Log($"<color=gray>[針筒] 空的！對 {targetObject.name} 扎針無效。</color>");
         }
     }
 
     // ==========================================
-    // 2. 刺敵人 (抽血)
+    // 2. 扎入傷害目標 (敵人)
     // ==========================================
-    private void HandleEnemyStabbed(GameObject target)
+    private void HandleEnemyStabbed(GameObject targetEnemy)
     {
         if (!_hasBlood && _currentHealCount < maxCyclesPerPhase)
         {
             _hasBlood = true;
-            Debug.Log($"<color=green>[針筒] 成功從 {target.name} 抽出鮮血！</color>");
+            Debug.Log($"<color=green>[針筒] 成功從 {targetEnemy.name} 抽出鮮血！針筒變綠！</color>");
             UpdateSyringeState();
         }
     }
 
-    // ==========================================
-    // 3. Boss 切換階段 (重置)
-    // ==========================================
-    private void ResetSyringeForNewPhase()
+    private void ResetSyringeForNewPhase(BossEnterIdlePhaseEvent evt)
     {
         _currentHealCount = 0;
         _hasBlood = true;
         UpdateSyringeState();
     }
 
-    // ==========================================
-    // ★ 核心狀態與 Shader 視覺更新
-    // ==========================================
     private void UpdateSyringeState()
     {
-        // 1. 邏輯鎖定：沒血了，或是次數用光了，就鎖死按鈕
-        bool shouldLock = !_hasBlood || (_currentHealCount >= maxCyclesPerPhase);
-        _button.IsExternallyLocked = shouldLock;
-
-        // 2. 視覺更新：呼叫 ShaderFillVisualizer
         if (fillVisualizer != null)
         {
-            // 如果有血，FillAmount 設為 1.0 (滿的)
-            // 如果沒血，FillAmount 設為 0.0 (空的)
             float targetFill = _hasBlood ? 1.0f : 0.0f;
             fillVisualizer.SetFillAmount(targetFill);
         }

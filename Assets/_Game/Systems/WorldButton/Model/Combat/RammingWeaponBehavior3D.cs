@@ -4,23 +4,25 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
-// ★ 強制要求這個武器必須掛載 DamageDealer (傷害發送器)
 [RequireComponent(typeof(DamageDealer))] 
 public class RammingWeaponBehavior3D : MonoBehaviour
 {
-    [Header("★ 物理撞擊設定 (只管物理，不管數值！)")]
-    [Tooltip("允許造成傷害的目標層級 (例如 Enemy, Boss)")]
-    [SerializeField] private LayerMask targetLayer; // ★ 新增此欄位
+    [Header("★ 物理撞擊設定 (完全由 Inspector 控制)")]
+    [Tooltip("會受到真實傷害的目標層級 (例如 Enemy, Boss)")]
+    [SerializeField] private LayerMask damageLayer; 
     
-    [Tooltip("滑鼠拖曳甩動的最小速度閾值")]
+    [Tooltip("不會受到傷害，但會觸發特殊互動事件的目標層級 (例如 Player)")]
+    [SerializeField] private LayerMask interactionLayer; 
+    
     [SerializeField] private float minImpactSpeed = 5.0f;
     [SerializeField] private float rammingCooldown = 0.8f;
     [SerializeField] private bool isArmed = false;
 
-    // ★ 徹底替換：武器只需要 DamageDealer 來發送傷害，不需要知道 Health
     [SerializeField] private DamageDealer damageDealer;
     
-    public UnityEvent<GameObject> OnRammingSuccess; // ★ 新增：廣播物理撞擊成功
+    [Header("★ 事件廣播")]
+    public UnityEvent<GameObject> OnRammingSuccess; // 扎到敵人 (Damage Layer)
+    public UnityEvent<GameObject> OnInteractionHit; // 扎到互動目標 (Interaction Layer)
 
     private Vector3 _lastPosition;
     private float _currentInstantSpeed;
@@ -29,20 +31,14 @@ public class RammingWeaponBehavior3D : MonoBehaviour
 
     private void Awake()
     {
-        // 1. 自動抓取本物件上的傷害發送器
         if (damageDealer == null) damageDealer = GetComponent<DamageDealer>();
         _glow = GetComponent<GlowBehavior3D>();
         _lastPosition = transform.position;
 
-        // 2. 訂閱事件
         if (GameManager.Instance?.MainGameEvent != null)
         {
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterAttackingPhaseEvent, OnBossAttacking);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterIdlePhaseEvent, OnBossIdle);
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] 找不到 GameManager.Instance.MainGameEvent，事件訂閱失敗！");
         }
     }
 
@@ -61,81 +57,53 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         _lastPosition = transform.position;
     }
 
-    // ★ 修正：傳入 collision.collider.gameObject (精準的子物件)，而不是 collision.gameObject (父剛體)
     private void OnCollisionEnter(Collision collision) => TryExecuteRamming(collision.collider.gameObject);
     
-    // OnTriggerEnter 本來就是回傳 Collider，所以寫法不變
     private void OnTriggerEnter(Collider other) => TryExecuteRamming(other.gameObject);
 
     private void TryExecuteRamming(GameObject target)
     {
-        // ★ 物理過濾：不要打到自己，也不要打到沒有實體的東西
         if (target == this.gameObject) return;
 
-        // ★ 物理過濾 2：Layer 檢測 (利用位元運算比對 LayerMask)
-        // 如果目標的 Layer 不在 targetLayer 的允許範圍內，直接捨棄，不產生任何後續運算
-        if ((targetLayer.value & (1 << target.layer)) == 0)
+        // 檢查是否在冷卻或未武裝
+        if (!isArmed || _isOnCooldown || _currentInstantSpeed < minImpactSpeed || damageDealer == null)
         {
-            return; 
-        }
-        
-        Debug.Log($"<color=white>[物理接觸] 撞擊到了: {target.name} | 當前甩動速度: {_currentInstantSpeed:.00} m/s</color>");
-
-        // 檢查閘門 1：武裝狀態
-        if (!isArmed)
-        {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 1] {gameObject.name} 目前並未武裝！請檢查 Boss 是否已進入 Idle 階段！</color>");
             return;
         }
 
-        // 檢查閘門 2：攻擊冷卻中
-        if (_isOnCooldown)
-        {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 2] {gameObject.name} 目前正在撞擊冷卻中！</color>");
-            return;
-        }
-
-        // 檢查閘門 3：速度不夠快
-        if (_currentInstantSpeed < minImpactSpeed)
-        {
-            Debug.LogWarning($"<color=orange>[攻擊攔截 3] 甩動速度不足！當前速度 ({_currentInstantSpeed:.00} m/s) < 最小閾值 ({minImpactSpeed} m/s)</color>");
-            return;
-        }
-
-        // 檢查閘門 4：確保有傷害發送器
-        if (damageDealer == null)
-        {
-            Debug.LogError($"<color=red>[致命錯誤 4] {gameObject.name} 找不到 DamageDealer 組件！</color>");
-            return;
-        }
-
-        // --- 進入結算 ---
-        Debug.Log($"<color=green>[條件全過！] 準備調用 damageDealer.DealDamageTo({target.name})！</color>");
-        
         // ==========================================
-        // ★ 核心修正：撞擊瞬間，才向玩家索取「當下最新」的面板數值進行快照
+        // 1. 檢查是否屬於「互動目標 (Interaction Layer)」
         // ==========================================
-        var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
-        if (playerRuntime != null)
+        if ((interactionLayer.value & (1 << target.layer)) != 0)
         {
-            damageDealer.InjectSnapshot(
-                playerRuntime.TotalAttackPower, 
-                playerRuntime.TotalCritRate, 
-                playerRuntime.TotalCritMultiplier
-            );
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] 找不到玩家資料，將使用 DamageDealer 的預設固定傷害！");
+            Debug.Log($"<color=cyan>[武器] 撞擊 Interaction Layer 目標: {target.name}！觸發專屬事件。</color>");
+            
+            OnInteractionHit?.Invoke(target); 
+            StartCoroutine(CooldownRoutine());
+            return; // 互動目標絕對不扣血，直接結束
         }
 
-        // 將最新快照的傷害灌給目標
-// 將最新快照的傷害灌給目標
-        damageDealer.DealDamageTo(target);
+        // ==========================================
+        // 2. 檢查是否屬於「傷害目標 (Damage Layer)」
+        // ==========================================
+        if ((damageLayer.value & (1 << target.layer)) != 0)
+        {
+            Debug.Log($"<color=green>[武器] 撞擊 Damage Layer 目標: {target.name}！準備造成傷害。</color>");
+            
+            var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+            if (playerRuntime != null)
+            {
+                damageDealer.InjectSnapshot(playerRuntime.TotalAttackPower, playerRuntime.TotalCritRate, playerRuntime.TotalCritMultiplier);
+            }
+
+            damageDealer.DealDamageTo(target);
+            OnRammingSuccess?.Invoke(target); // 廣播撞擊成功
         
-        OnRammingSuccess?.Invoke(target); // ★ 新增：把撞到的對象廣播出去
-    
-        StartCoroutine(CooldownRoutine());
+            StartCoroutine(CooldownRoutine());
+            return;
+        }
+
+        // 如果兩個 Layer 都沒中，就不做任何事 (例如撞到牆壁或地板)
     }
 
     private IEnumerator CooldownRoutine()
@@ -147,15 +115,8 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         if (isArmed && _glow != null) _glow.enabled = true;
     }
 
-    private void OnBossAttacking(BossEnterAttackingPhaseEvent evt) 
-    {
-        SetArmedState(false);
-    }
-
-    private void OnBossIdle(BossEnterIdlePhaseEvent evt) 
-    {
-        SetArmedState(true);
-    }
+    private void OnBossAttacking(BossEnterAttackingPhaseEvent evt) => SetArmedState(false);
+    private void OnBossIdle(BossEnterIdlePhaseEvent evt) => SetArmedState(true);
 
     public void SetArmedState(bool armed)
     {
