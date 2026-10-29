@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHomingMissile : EnemyAttackBase, IProjectile
 {
     [Header("★ 導彈資料配置")]
-    [SerializeField] private HomingMissileDataSO missileData;
+    [SerializeField] public HomingMissileDataSO missileData;
     
     [Header("★ 旋轉平滑度")] 
     [SerializeField] private float rotationSmoothSpeed = 15f; // 數值越大轉越快，但能完美過濾瞬間抖動（建議 15 - 30 之間）

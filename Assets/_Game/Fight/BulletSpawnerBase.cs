@@ -38,10 +38,48 @@ public abstract class BulletSpawnerBase : AttackPatternBase
 
     private IEnumerator ExecuteSpawnerSequence(BossStateMachine boss, float speed)
     {
-        // 階段 1：呼叫子類別的數學運算，取得所有彈幕資料
+        // 階段 1：呼叫子類別 (例如 GeneralAttackPattern) 的數學運算，取得基本的位置與方向
         List<SpawnData> dataList = CalculateAllSpawnData();
 
-        // 階段 2：呼叫最底層 AttackPatternBase 的預警系統，並等待它結束
+        // =========================================================
+        // ★ 核心修補：在預警之前，先去 Prefab 身上把 SO 挖出來算軌跡！
+        // =========================================================
+        if (bulletPrefab != null)
+        {
+            // 狀況 A：如果這是一顆普通子彈 (EnemyBullet)
+            if (bulletPrefab.TryGetComponent<EnemyBullet>(out var bullet))
+            {
+                if (bullet.bulletData != null)
+                {
+                    for (int i = 0; i < dataList.Count; i++)
+                    {
+                        var data = dataList[i];
+                        // 呼叫 BulletDataSO 來算軌跡
+                        data.predictedTrajectory = bullet.bulletData.CalculatePredictedTrajectory(data.position, data.direction);
+                        dataList[i] = data; // Struct 必須覆寫回去
+                    }
+                }
+            }
+            // 狀況 B：如果這是一發導彈 (EnemyHomingMissile)
+            else if (bulletPrefab.TryGetComponent<EnemyHomingMissile>(out var missile))
+            {
+                // ★ 注意：這裡需要去 EnemyHomingMissile 腳本中，
+                // 把 missileData 改成 public 才能存取 (public HomingMissileDataSO missileData;)
+                if (missile.missileData != null)
+                {
+                    for (int i = 0; i < dataList.Count; i++)
+                    {
+                        var data = dataList[i];
+                        // 呼叫 HomingMissileDataSO 來算軌跡
+                        data.predictedTrajectory = missile.missileData.CalculatePredictedTrajectory(data.position, data.direction);
+                        dataList[i] = data; 
+                    }
+                }
+            }
+        }
+        // =========================================================
+
+        // 階段 2：呼叫最底層 AttackPatternBase 的預警系統 (現在 dataList 裡面有軌跡點了！)
         yield return StartCoroutine(ShowWarningsAndWait(dataList));
 
         // 階段 3：照著同一份資料發射子彈
