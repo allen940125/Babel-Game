@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 1037243244524593051}
   - component: {fileID: 6765935621440539412}
   - component: {fileID: 5442447739557394286}
+  - component: {fileID: 6711851928096927710}
   m_Layer: 7
   m_Name: Enemy_Cleaner
   m_TagString: Boss
@@ -540,6 +541,25 @@ MonoBehaviour:
   testAnimationName: 
   testSprite: {fileID: 0}
   testLoop: 0
+--- !u!114 &6711851928096927710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992103494201206248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5918d22d36ed54ca08926c0ed89761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAction_PlayAttackSfx
+  targetPhase: 2
+  skipFirstNTriggers: 0
+  maxTriggerCount: 0
+  customSfx:
+    audioClip: {fileID: 8300000, guid: ed54aa686ad88b14d84bb1f0cf8837dd, type: 3}
+  repeatCount: 0
+  interval: -1
 --- !u!1 &4478290565785337126
 GameObject:
   m_ObjectHideFlags: 0
