@@ -9145,7 +9145,7 @@ MonoBehaviour:
   obstacleMode: 1
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 4087
+    m_Bits: 2039
   obstacleRadius: 0.25
   minDistance: 0.5
 --- !u!1 &1079306576 stripped

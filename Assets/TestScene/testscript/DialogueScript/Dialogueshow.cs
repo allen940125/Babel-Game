@@ -333,6 +333,18 @@ public class Dialogueshow : BasePanel
             {
                 pendingRelicKey = tag.Substring("relic:".Length).Trim();
             }
+            else if (tag.StartsWith("sfx:"))
+            {
+                SfxLibrary.PlayKey(tag.Substring("sfx:".Length).Trim());          // # sfx: phone
+            }
+            else if (tag.StartsWith("loopstop:"))
+            {
+                SceneLoopSfx.StopKey(tag.Substring("loopstop:".Length).Trim());   // # loopstop: wave
+            }
+            else if (tag.StartsWith("loop:"))
+            {
+                SceneLoopSfx.PlayKey(tag.Substring("loop:".Length).Trim());       // # loop: wave
+            }
         }
         //檢查INK的內容，是在說話還是立繪
     }
