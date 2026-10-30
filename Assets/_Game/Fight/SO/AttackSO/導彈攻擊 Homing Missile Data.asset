@@ -18,7 +18,7 @@ MonoBehaviour:
   damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   damageShape:
     shapeType: 2
     radius: 0.18
@@ -43,3 +43,5 @@ MonoBehaviour:
   arcToRight: 1
   bezierArcOffset: 5
   randomBezierFlip: 0
+  showTrajectory: 1
+  previewDistance: 25

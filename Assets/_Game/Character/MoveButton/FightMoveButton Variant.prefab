@@ -167,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: commandToExecute
       value: 
-      objectReference: {fileID: 11400000, guid: d24619a5c262fd14497a38d3a3a59671, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -224,6 +224,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2620100792044405252, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: invincibilityDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: FightMoveButton Variant
@@ -234,15 +238,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4082847034539799924, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4082847034539799924, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4082847034539799924, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4082847034539799924, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -283,6 +287,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3894694127786538015}
+    - targetCorrespondingSourceObject: {fileID: 8807953298321465338, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5763442624481590534}
   m_SourcePrefab: {fileID: 100100000, guid: f297860abed8db24d868ce783605d27d, type: 3}
 --- !u!1 &1913403208673973236 stripped
 GameObject:
@@ -310,7 +317,7 @@ MonoBehaviour:
   minLinearSpeed: 20
   minAngularSpeed: 300
   rammingCooldown: 0.8
-  isArmed: 0
+  isArmed: 1
   damageDealer: {fileID: 8366625988773795626}
   OnRammingSuccess:
     m_PersistentCalls:
@@ -333,9 +340,9 @@ MonoBehaviour:
   trackLinearX: 1
   trackLinearY: 1
   trackLinearZ: 0
-  trackAngularX: 1
-  trackAngularY: 1
-  trackAngularZ: 1
+  trackAngularX: 0
+  trackAngularY: 0
+  trackAngularZ: 0
   currentLinearVelocity: {x: 0, y: 0, z: 0}
   currentLinearSpeed: 0
   currentAngularVelocity: {x: 0, y: 0, z: 0}
@@ -452,8 +459,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.570191, y: 1.7060454, z: 0.58}
-  m_Center: {x: 0.85258317, y: -0.019982457, z: 0}
+  m_Size: {x: 3.6013107, y: 1.3670576, z: 0.6}
+  m_Center: {x: 0.62443876, y: 0.0048229992, z: 0}
 --- !u!65 &3894694127786538015
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -473,5 +480,17 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5595064, y: 5.1296997, z: 0.59}
-  m_Center: {x: -2.2694716, y: -0.0133218765, z: 0}
+  m_Size: {x: 1.2142162, y: 4.149094, z: 0.6}
+  m_Center: {x: -1.7960105, y: 0.0089643, z: 0}
+--- !u!114 &5763442624481590534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980870514955557705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ba5065362b42b4ab66e2dfce961dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColliderWatcher

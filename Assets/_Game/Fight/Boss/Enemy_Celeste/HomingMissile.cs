@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Gamemanager;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
     private float _curveLength = 1f; // 曲線總長度
     
     private readonly RaycastHit[] _hitBuffer = new RaycastHit[4];
+    
+    // 改為這行：紀錄上一次對該目標造成傷害的時間
+    private Dictionary<GameObject, float> _lastDamageTimes = new Dictionary<GameObject, float>();
     
     // ★ 1. 宣告畫筆
     private TrajectoryVisualizer _visualizer;
@@ -97,12 +101,11 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
         }
 
         // ==========================================
-        // 2. 實體撞擊掃描 (★ 牆壁與玩家合併掃描)
+        // 2. 實體撞擊掃描 (合併單次穿透與持續切割)
         // ==========================================
         float distanceThisFrame = _currentVelocity.magnitude * Time.fixedDeltaTime;
         Vector3 moveDir = _currentVelocity.normalized;
 
-        // ★ 把傷害層(玩家)與障礙物層(牆壁)加在一起，只要撞到任何一個都會有反應
         LayerMask combinedMask = missileData.damageLayer | missileData.obstacleLayer;
 
         int hitCount = ShapeCastUtility.PerformCast(
@@ -112,24 +115,58 @@ public class EnemyHomingMissile : EnemyAttackBase, IProjectile
 
         if (hitCount > 0)
         {
+            bool shouldExplode = false;
+
             for (int i = 0; i < hitCount; i++)
             {
                 Collider hitCol = _hitBuffer[i].collider;
-                if (hitCol != null)
+                if (hitCol == null) continue;
+
+                // 狀況 A：撞到傷害目標 (玩家)
+                if ((missileData.damageLayer.value & (1 << hitCol.gameObject.layer)) != 0)
                 {
-                    // ★ 檢查撞到的這個東西，是不是屬於「要扣血的目標 (damageLayer)」？
-                    // 使用位元運算來極速比對 Layer
-                    if ((missileData.damageLayer.value & (1 << hitCol.gameObject.layer)) != 0)
+                    GameObject targetObj = hitCol.gameObject;
+                    
+                    // 檢查是否開啟持續傷害 (Tick)
+                    if (missileData.useDamageTick)
                     {
-                        damageDealer.DealDamageTo(hitCol.gameObject);
-                        break; // 扣到一次血就中斷，避免一發導彈扣兩次血
+                        if (_lastDamageTimes.TryGetValue(targetObj, out float lastTime))
+                        {
+                            if (Time.time < lastTime + missileData.damageTickInterval)
+                                continue; // 冷卻中，跳過不扣血
+                        }
+                        _lastDamageTimes[targetObj] = Time.time;
+                        damageDealer.DealDamageTo(targetObj);
                     }
+                    else
+                    {
+                        // 單次傷害模式：只打一次，紀錄極大值讓他永不冷卻
+                        if (!_lastDamageTimes.ContainsKey(targetObj))
+                        {
+                            damageDealer.DealDamageTo(targetObj);
+                            _lastDamageTimes[targetObj] = float.MaxValue; 
+                        }
+                    }
+
+                    // 如果沒有開啟貫穿，打到人就要爆炸
+                    if (!missileData.canPierce) 
+                    {
+                        shouldExplode = true;
+                    }
+                }
+
+                // 狀況 B：撞到牆壁 (障礙物)
+                if ((missileData.obstacleLayer.value & (1 << hitCol.gameObject.layer)) != 0)
+                {
+                    shouldExplode = true; // 撞牆無條件爆炸
                 }
             }
 
-            // 不管是撞到玩家還是撞到牆壁，導彈最終都會引爆並銷毀
-            TriggerPayload();
-            return;
+            if (shouldExplode)
+            {
+                TriggerPayload();
+                return;
+            }
         }
 
         // ==========================================

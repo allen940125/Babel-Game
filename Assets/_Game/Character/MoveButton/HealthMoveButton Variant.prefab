@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2620100792044405252, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: invincibilityDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
       value: HealthMoveButton Variant
@@ -261,7 +265,7 @@ MonoBehaviour:
   minLinearSpeed: 20
   minAngularSpeed: 300
   rammingCooldown: 0.8
-  isArmed: 0
+  isArmed: 1
   damageDealer: {fileID: 3955955412494983622}
   OnRammingSuccess:
     m_PersistentCalls:
@@ -308,9 +312,9 @@ MonoBehaviour:
   trackLinearX: 1
   trackLinearY: 1
   trackLinearZ: 0
-  trackAngularX: 1
-  trackAngularY: 1
-  trackAngularZ: 1
+  trackAngularX: 0
+  trackAngularY: 0
+  trackAngularZ: 0
   currentLinearVelocity: {x: 0, y: 0, z: 0}
   currentLinearSpeed: 0
   currentAngularVelocity: {x: 0, y: 0, z: 0}

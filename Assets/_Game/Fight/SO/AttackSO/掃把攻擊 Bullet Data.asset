@@ -18,7 +18,7 @@ MonoBehaviour:
   damageTickInterval: 0.25
   damageLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   damageShape:
     shapeType: 0
     radius: 3.5

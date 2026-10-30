@@ -8,7 +8,11 @@ public class HomingMissileDataSO : AttackDataSO
         AngleSpread, // 傳統的給定一個角度往外射
         BezierArc    // 完美的貝茲曲線外拋
     }
-
+    
+    [Header("★ 貫穿設定")]
+    [Tooltip("勾選後，導彈會穿透玩家(DamageLayer)，但撞到牆壁(ObstacleLayer)依然會爆炸")]
+    public bool canPierce = false;
+    
     [Header("★ 障礙物與撞牆判定")]
     [Tooltip("導彈撞到這些 Layer (例如牆壁、地板) 會直接引爆，但不會算傷害")]
     public LayerMask obstacleLayer;

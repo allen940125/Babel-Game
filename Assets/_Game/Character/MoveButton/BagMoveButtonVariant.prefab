@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 1137605864647446437, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: commandToExecute
       value: 
-      objectReference: {fileID: 11400000, guid: 94a302902e9f27c45bdd7c4e550706e1, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -262,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 1415946407637418579, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2620100792044405252, guid: f297860abed8db24d868ce783605d27d, type: 3}
+      propertyPath: invincibilityDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2715247920081278791, guid: f297860abed8db24d868ce783605d27d, type: 3}
       propertyPath: m_Name
