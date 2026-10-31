@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2DPlayerButtonEntityData
   m_EditorClassIdentifier: Assembly-CSharp::EntityBlueprintSO
   battlePrefab: {fileID: 0}
-  maxHealth: 1
+  maxHealth: 1000
   attackPower: 0
   defense: 0
   critRate: 0.2

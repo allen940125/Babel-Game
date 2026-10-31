@@ -2,6 +2,7 @@ using System;
 using Game.SceneManagement;
 using Game.UI;
 using Gamemanager;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,9 +24,55 @@ public interface ICommandAction
     void Invoke(CommandContext context);
 }
 
+[Serializable]
+public class OneTurnSpeedBuffAction : ICommandAction
+{
+    [Header("單回合加速設定")]
+    public float speedMultiplier = 1.5f;
+
+    public void Invoke(CommandContext context)
+    {
+        var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+        if (playerRuntime == null) return;
+
+        // ★ 把這個拋棄式腳本隨便掛在 GameManager 身上 (或任何不會死掉的空物件)
+        // 因為它現在純粹操作資料，根本不需要掛在玩家模型上！
+        var buffManager = new GameObject("Temp_SpeedBuff").AddComponent<OneTurnSpeedModifier>();
+        buffManager.ApplyBuff(playerRuntime, speedMultiplier);
+                
+        Debug.Log($"[指令] 玩家單回合加速 {speedMultiplier} 倍，資料已注入！");
+    }
+}
+
 // ==========================================
 // 具體行為
 // ==========================================
+
+[Serializable]
+public class EndPlayerTurnAction : ICommandAction
+{
+    [Header("回合結算設定")]
+    [Tooltip("開啟以供除錯時確認是否正確發送事件")]
+    public bool enableDebug = true;
+
+    public void Invoke(CommandContext context)
+    {
+        if (enableDebug)
+        {
+            Debug.Log($"<color=cyan>[EndPlayerTurnAction]</color> 玩家動作結算完成，發送回合結束訊號給 Boss！");
+        }
+
+        // 發送事件，通知 Boss (BossStateMachine 收到後會觸發 Transition 反擊)
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerActionCompletedEvent());
+        }
+        else
+        {
+            Debug.LogWarning("[EndPlayerTurnAction] 找不到 GameManager 或 MainGameEvent，無法發送訊號！");
+        }
+    }
+}
 
 [Serializable]
 public class FightAction : ICommandAction

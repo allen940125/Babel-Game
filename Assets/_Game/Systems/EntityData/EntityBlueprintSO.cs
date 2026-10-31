@@ -48,6 +48,10 @@ public class EntityRuntime
     // ==========================================
     [SerializeField] private int _bonusAttackPower = 0;
     [SerializeField] private int _bonusDefense = 0;
+    [SerializeField] private float _moveSpeedMultiplier = 1.0f;
+    
+    // ★ 開放屬性供外部讀取
+    public float MoveSpeedMultiplier => _moveSpeedMultiplier;
     // 如果要支援百分比加成，可以再加欄位如 _percentAttackPower = 0f;
 
     [SerializeReference] private List<EntityTrait> _runtimeTraits = new List<EntityTrait>();
@@ -100,6 +104,7 @@ public class EntityRuntime
         // 初始化時，Buff 歸零
         _bonusAttackPower = 0;
         _bonusDefense = 0;
+        _moveSpeedMultiplier = 1.0f; // ★ 初始化為 1
 
         _runtimeTraits.Clear();
         foreach (var trait in blueprint.traits)
@@ -113,6 +118,11 @@ public class EntityRuntime
     // ==========================================
     // Buff 系統操作接口
     // ==========================================
+    // ★ 新增：提供給外部掛載速度 Buff 的方法 (用乘法疊加)
+    public void MultiplyMoveSpeed(float multiplier)
+    {
+        _moveSpeedMultiplier *= multiplier;
+    }
     public void AddAttackBuff(int amount)
     {
         _bonusAttackPower += amount;

@@ -70,7 +70,9 @@ namespace Gamemanager
         public IObservable<FightButtonClickEvent> OnFightButtonClickEvent => getSubject<FightButtonClickEvent>();
 
         public IObservable<ItemButtonClickEvent> OnItemButtonClickEvent => getSubject<ItemButtonClickEvent>();
-
+        
+        public IObservable<PlayerActionCompletedEvent> OnPlayerActionCompletedEvent => getSubject<PlayerActionCompletedEvent>();
+        
         public IObservable<BossEnterIdlePhaseEvent> OnBossEnterIdlePhaseEvent => getSubject<BossEnterIdlePhaseEvent>();
 
         public IObservable<BossEnterTransitionPhaseEvent> OnBossEnterTransitionPhaseEvent => getSubject<BossEnterTransitionPhaseEvent>();

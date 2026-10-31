@@ -40,6 +40,8 @@ namespace Game.UI
             InitializeCommonButtons();
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBagRefreshedEvent, OnBagRefreshed);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnInventoryItemHoveredEvent, OnInventoryItemHoveredEvent);
+            // ★ 新增：當 Boss 開始準備反擊時，強制關閉背包
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterTransitionPhaseEvent, ForceCloseMenu);
         }
 
         protected override void OnDestroy()
@@ -47,6 +49,8 @@ namespace Game.UI
             base.OnDestroy();
             GameManager.Instance.MainGameEvent.Unsubscribe<PlayerBagRefreshedEvent>(OnBagRefreshed);
             GameManager.Instance.MainGameEvent.Unsubscribe<InventoryItemHoveredEvent>(OnInventoryItemHoveredEvent);
+            // ★ 新增：解除訂閱
+            GameManager.Instance.MainGameEvent.Unsubscribe<BossEnterTransitionPhaseEvent>(ForceCloseMenu);
         }
 
         protected override void Start()
@@ -62,6 +66,12 @@ namespace Game.UI
             {
                 UpdateTooltipPosition();
             }
+        }
+        
+        private void ForceCloseMenu(BossEnterTransitionPhaseEvent evt)
+        {
+            Debug.Log("[SpatialBagMenu] Boss 回合開始，強制關閉背包UI！");
+            RequestClose(); // 呼叫你原本 BasePanel 裡的關閉方法
         }
         
         private void OnBagRefreshed(PlayerBagRefreshedEvent cmd)

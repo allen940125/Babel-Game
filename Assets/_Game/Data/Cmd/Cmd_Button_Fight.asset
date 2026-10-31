@@ -17,6 +17,7 @@ MonoBehaviour:
   actions:
   - rid: 1507063330796208241
   - rid: 1507063887740010641
+  - rid: 1507063887740010806
   references:
     version: 2
     RefIds:
@@ -28,3 +29,7 @@ MonoBehaviour:
       data:
         targetType: 2
         defaultDamage: 10
+    - rid: 1507063887740010806
+      type: {class: EndPlayerTurnAction, ns: , asm: Assembly-CSharp}
+      data:
+        enableDebug: 1

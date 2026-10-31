@@ -128,8 +128,13 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
         }
         else if (CanMove())
         {
-            float moveSpd = (_staminaTrait != null ? _staminaTrait.moveSpeed : 5f) * MoveSpeedMultiplier;
-            Vector3 targetVelocity = _currentInput * moveSpd;
+            // ★ 修改：從 _entityData 裡面讀取 MoveSpeedMultiplier
+            float buffMultiplier = _entityData != null ? _entityData.MoveSpeedMultiplier : 1.0f;
+            float baseMoveSpd = _staminaTrait != null ? _staminaTrait.moveSpeed : 5f;
+            
+            float finalMoveSpd = baseMoveSpd * buffMultiplier; // ★ 計算最終速度
+            Vector3 targetVelocity = _currentInput * finalMoveSpd;
+            
             _rb.linearVelocity = Vector3.SmoothDamp(_rb.linearVelocity, targetVelocity, ref _currentVelocity, smoothTime);
         }
         else

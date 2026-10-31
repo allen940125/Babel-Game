@@ -43,6 +43,15 @@ public class WorldItemSpawner : MonoBehaviour
     {
         // ★ 修改：滑鼠靜態丟棄沒有動能，傳入 Vector3.zero
         SpawnRealItemAsync(cmd.ItemData, cmd.DropPosition, false, Vector3.zero);
+
+        // ★ 新增：這是玩家在戰鬥中的實際動作，消耗一個回合，通知 Boss 攻擊
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerActionCompletedEvent 
+            { 
+                //TriggerSource = $"UI 拖曳丟棄 ({cmd.ItemData.BaseTemplete.Name})" 
+            });
+        }
     }
 
     // ==========================================
