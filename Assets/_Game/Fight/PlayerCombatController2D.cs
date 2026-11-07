@@ -107,7 +107,7 @@ public class PlayerCombatController2D : MonoBehaviour, IEntityRuntimeDependent
             _currentInput = new Vector3(x, y, 0f).normalized;
         }
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && CanDash())
+        if (Keyboard.current.shiftKey.wasPressedThisFrame && CanDash())
         {
             StartCoroutine(DashRoutine());
         }
