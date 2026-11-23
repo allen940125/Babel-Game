@@ -15,11 +15,16 @@ MonoBehaviour:
   commandName: Cmd_Button_Run
   description: "\u9003\u8DD1\u6309\u9215"
   actions:
-  - rid: 1507063330796208243
+  - rid: 1507063887740010805
+  - rid: 1507063914442784859
   references:
     version: 2
     RefIds:
-    - rid: 1507063330796208243
-      type: {class: SwitchSceneAction, ns: , asm: Assembly-CSharp}
+    - rid: 1507063887740010805
+      type: {class: EndPlayerTurnAction, ns: , asm: Assembly-CSharp}
       data:
-        LoadSceneType: 6
+        enableDebug: 1
+    - rid: 1507063914442784859
+      type: {class: OneTurnSpeedBuffAction, ns: , asm: Assembly-CSharp}
+      data:
+        speedMultiplier: 2

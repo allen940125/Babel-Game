@@ -1,5 +1,15 @@
 {
   "dependencies": {
+    "com.allen.entity-gas": {
+      "version": "https://github.com/allen940125/Entity_Ability_System.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.inputsystem": "1.19.0",
+        "com.unity.cinemachine": "3.1.7"
+      },
+      "hash": "a568be5c5d629ac0a66acee75fae9c99edd8d0d9"
+    },
     "com.esotericsoftware.spine.urp-shaders": {
       "version": "file:com.esotericsoftware.spine.urp-shaders-4.3-2019.1",
       "depth": 0,
@@ -13,6 +23,13 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.inspiaaa.unityhfsm": {
+      "version": "https://github.com/Inspiaaa/UnityHFSM.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f8fdc2efb862522acd26fab6cd940886c84cde37"
     },
     "com.unity.2d.animation": {
       "version": "14.0.4",
@@ -374,12 +391,6 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
-    },
-    "dev.yarnspinner.unity": {
-      "version": "file:../Assets/Plugins/YarnSpinner-Unity-3.1.1",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

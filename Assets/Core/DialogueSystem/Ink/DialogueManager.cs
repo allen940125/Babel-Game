@@ -19,16 +19,16 @@ public class DialogueManager : Singleton<DialogueManager>
     {
         #region 測試用
 
-        if (Keyboard.current != null && Keyboard.current.jKey.wasPressedThisFrame && !DialogueManager.Instance.DialogueIsPlaying)
-        {
-            Debug.Log("鍵盤上的 J 鍵被按下了 (Was Pressed This Frame)！");
-            DialogueManager.Instance.StartDialogue("Test1002", inkTestAsset0002).Forget();
-        }
-        if (Keyboard.current != null && Keyboard.current.gKey.wasPressedThisFrame && !DialogueManager.Instance.DialogueIsPlaying)
-        {
-            Debug.Log("鍵盤上的 G 鍵被按下了 (Was Pressed This Frame)！");
-            DialogueManager.Instance.StartDialogue("Test1001", inkTestAsset0001).Forget();
-        }
+        // if (Keyboard.current != null && Keyboard.current.jKey.wasPressedThisFrame && !DialogueManager.Instance.DialogueIsPlaying)
+        // {
+        //     Debug.Log("鍵盤上的 J 鍵被按下了 (Was Pressed This Frame)！");
+        //     DialogueManager.Instance.StartDialogue("Test1002", inkTestAsset0002).Forget();
+        // }
+        // if (Keyboard.current != null && Keyboard.current.gKey.wasPressedThisFrame && !DialogueManager.Instance.DialogueIsPlaying)
+        // {
+        //     Debug.Log("鍵盤上的 G 鍵被按下了 (Was Pressed This Frame)！");
+        //     DialogueManager.Instance.StartDialogue("Test1001", inkTestAsset0001).Forget();
+        // }
 
         #endregion
     }

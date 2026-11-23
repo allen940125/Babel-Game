@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PlayerButtonEntityData
   m_EditorClassIdentifier: Assembly-CSharp::EntityBlueprintSO
   battlePrefab: {fileID: 0}
-  maxHealth: 5000
+  maxHealth: 1000
   attackPower: 0
-  defense: 0
+  defense: 20
   critRate: 0.2
   critMultiplier: 1.5
   traits:

@@ -16,6 +16,7 @@ MonoBehaviour:
   description: "\u56DE\u8840"
   actions:
   - rid: 1507063330796208273
+  - rid: 1507063887740010804
   references:
     version: 2
     RefIds:
@@ -24,3 +25,7 @@ MonoBehaviour:
       data:
         targetType: 1
         healAmount: 30
+    - rid: 1507063887740010804
+      type: {class: EndPlayerTurnAction, ns: , asm: Assembly-CSharp}
+      data:
+        enableDebug: 1

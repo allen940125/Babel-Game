@@ -8,7 +8,7 @@
 是啊，忙著在家。
 # speaker: ？
 # portrait: center unknow
-哎呀呀，多謝撥冗。這次想拜託你的是件麻煩事。
+哎呀呀，多謝撥冗。這次想拜託你的是件麻煩事。 #sfx: pen
 // 玩家點擊後播放按原子筆音效
 # speaker: 主角
 # portrait: center maincharacter

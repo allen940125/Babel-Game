@@ -11,6 +11,10 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
     [SerializeField] protected bool canBeRotated = true;
     [SerializeField] protected bool canBlockBullets = true;
     
+    [Header("★ 物理寬容度設定")]
+    [Tooltip("勾選後，若碰撞體 Z 軸過薄，系統將自動加厚以防止射線穿透與物理穿模。若此物件為精密物理機關請取消勾選。")]
+    [SerializeField] protected bool autoFixThinCollider = false; // ★ 新增序列化開關
+    
     [Header("★ 戰鬥階段鎖定設定")]
     [Tooltip("如果為 true，Boss 攻擊時此物件不會被鎖死 (例如：暫停按鈕、設定視窗)")]
     [SerializeField] protected bool ignorePhaseLock = false;
@@ -56,27 +60,30 @@ public abstract class InteractiveMetaEntity3D : MonoBehaviour
     /// </summary>
     private void SetupComponentsAutomagically()
     {
-        // ★ 核心修復：改用 GetComponentInChildren，它會先找自己，沒有的話會自動往下層子物件找
         _boxCollider = GetComponentInChildren<BoxCollider>();
         
         _draggable = GetComponent<DraggableBehavior3D>();
         _rotatable = GetComponent<RotatableBehavior3D>();
         _glow = GetComponent<GlowBehavior3D>();
 
-        if (_boxCollider != null && _boxCollider.size.z < 1.0f)
+        if (_boxCollider != null)
         {
-            Vector3 newSize = _boxCollider.size;
-            newSize.z = 5.0f;
-            _boxCollider.size = newSize;
-            _boxCollider.isTrigger = false;
+            // ★ 檢查開關是否開啟
+            if (autoFixThinCollider && _boxCollider.size.z < 1.0f)
+            {
+                Vector3 newSize = _boxCollider.size;
+                newSize.z = 5.0f;
+                _boxCollider.size = newSize;
+                _boxCollider.isTrigger = false;
+                
+                Debug.Log($"[系統自動修復] {_boxCollider.gameObject.name} 的 Z 軸過薄，已加厚至 5.0 以防穿透。");
+            }
         }
-        else if (_boxCollider == null)
+        else 
         {
-            // 防呆警告：萬一你子物件也忘記掛 Collider，要在這裡報錯
             Debug.LogError($"[架構錯誤] {gameObject.name} 及其子物件中都找不到 BoxCollider！");
         }
     }
-
     /// <summary>
     /// 即時套用功能開關
     /// </summary>

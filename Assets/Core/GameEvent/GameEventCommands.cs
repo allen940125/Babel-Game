@@ -177,6 +177,11 @@ namespace Gamemanager
 
     }
 
+    public class PlayerActionCompletedEvent : GameEventMessageBase
+    {
+
+    }
+    
     public class BossEnterIdlePhaseEvent : GameEventMessageBase
     {
 

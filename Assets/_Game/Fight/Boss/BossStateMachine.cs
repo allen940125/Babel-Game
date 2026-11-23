@@ -92,25 +92,33 @@ public abstract class BossStateMachine : MonoBehaviour
 
     protected virtual void Start()
     {
-        // 1. 拿大腦資料
         var core = GetComponent<EntityCore>();
         if (core != null) _bossData = core.RuntimeData;
         
-        // 2. 尋找通用的 HealthComponent，並注入 Boss 專屬邏輯
         var healthComp = GetComponent<EntityHealthComponent>();
         if (healthComp != null)
         {
-            // ★ 刪除這行！我們現在改用標籤系統了，不需要這個掛鉤了！
-            // healthComp.OnCheckInvincibility += IsInvinciblePhase;
-            
-            // ★ 這行保留！這才是負責觸發反擊的通知
+            // 保留扣血事件，因為還是要判斷死亡
             healthComp.OnDamageTaken += HandleBossDamaged;
         }
-        else
-        {
-            Debug.LogError($"[致命錯誤] {bossName} 缺少 EntityHealthComponent！");
-        }
+
         GameManager.Instance.MainGameMediator.RegisterCurrentBoss(_bossData);
+
+        // ★ 新增：訂閱玩家動作完成事件
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.SetSubscribe(
+                GameManager.Instance.MainGameEvent.OnPlayerActionCompletedEvent, OnPlayerActionCompleted);
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // ★ 新增：記得解除訂閱
+        if (GameManager.Instance?.MainGameEvent != null)
+        {
+            GameManager.Instance.MainGameEvent.Unsubscribe<PlayerActionCompletedEvent>(OnPlayerActionCompleted);
+        }
     }
     
     // 2. 修改觸發點 (將原本直接進入 Attacking 改為先進入 Transition)
@@ -129,7 +137,7 @@ public abstract class BossStateMachine : MonoBehaviour
     // ==========================================
     
     
-    // 提供給 HealthComponent 扣完血後執行的邏輯
+    // 管道 A：受傷觸發 (保留你原本的設計)
     private void HandleBossDamaged(int finalDamage)
     {
         if (_bossData.CurrentHealth <= 0)
@@ -138,9 +146,28 @@ public abstract class BossStateMachine : MonoBehaviour
         }
         else
         {
-            // 觸發反擊
+            // 受傷依然會觸發反擊
             ProvokeToCounterAttack();
         }
+    }
+
+    // 管道 B：事件觸發 (處理玩家喝水、使用道具等沒有造成傷害的動作)
+    private void OnPlayerActionCompleted(PlayerActionCompletedEvent evt)
+    {
+        ProvokeToCounterAttack();
+    }
+
+    // ★ 統一的入口與防呆鎖定
+    public void ProvokeToCounterAttack()
+    {
+        // 【核心防呆】如果 Boss 已經不是在 Idle 發呆階段，或者已經死了，就直接忽略！
+        // 這可以完美防止「玩家攻擊造成傷害(觸發管道A) + 系統發送回合結束(觸發管道B)」造成的重複呼叫。
+        if (_currentPhase != BossPhase.Idle || _bossData.CurrentHealth <= 0) 
+            return;
+
+        _isProvoked = true;
+        Debug.Log($"<color=green>[{bossName}] 結束休眠！展開下一輪大範圍攻擊！</color>");
+        EnterPhase(BossPhase.Transition);
     }
     
     // 3. 修改 Die 方法，讓它正式進入死亡階段
@@ -148,16 +175,6 @@ public abstract class BossStateMachine : MonoBehaviour
     { 
         Debug.Log($"<color=red>[{bossName}] 死亡！</color>"); 
         EnterPhase(BossPhase.Dead); 
-    }
-
-    /// <summary>
-    /// 讓受擊腳本通知：扣血成功，請立即啟動反擊！
-    /// </summary>
-    public void ProvokeToCounterAttack()
-    {
-        _isProvoked = true;
-        Debug.Log($"<color=green>[{bossName}] 休眠中被物理痛毆！立刻展開下一輪大範圍攻擊！</color>");
-        EnterPhase(BossPhase.Transition);
     }
 
     // ==========================================

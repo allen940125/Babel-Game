@@ -30,7 +30,7 @@ public struct CollisionShapeConfig
         // 改變全域矩陣，這樣畫出來的基礎形狀就會自動帶有位置與旋轉
         Matrix4x4 oldMatrix = Gizmos.matrix;
         Gizmos.matrix = Matrix4x4.TRS(position, finalRot, Vector3.one);
-
+        
         switch (shapeType)
         {
             case BulletShapeType.Circle:

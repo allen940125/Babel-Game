@@ -5,15 +5,25 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
     [Header("旋轉模式")]
     [SerializeField] private bool useArcball = true;
 
+    [Header("軸向鎖定控制 (打勾代表允許旋轉)")]
+    [SerializeField] private bool allowRotateX = true;
+    [SerializeField] private bool allowRotateY = true;
+    [SerializeField] private bool allowRotateZ = true;
+
     [Header("傳統繞軸設定 (Yaw/Pitch)")]
+    [Tooltip("反轉水平滑動的旋轉方向")]
     [SerializeField] private bool invertX = false;
+    [Tooltip("反轉垂直滑動的旋轉方向")]
     [SerializeField] private bool invertY = false;
     [SerializeField] private Vector3 yawAxis = Vector3.up;
     [SerializeField] private Vector3 pitchAxis = Vector3.right;
     [SerializeField] private float sensitivity = 0.5f;
 
-    // ---- Arcball 核心狀態 ----
+    // ---- 核心狀態 ----
     private Quaternion _initialRotation; // 右鍵按下瞬間的原始旋轉絕對值
+    private Vector3 _initialEulerAngles; // 記錄初始歐拉角，用於鎖定軸向
+
+    // ---- Arcball 專用狀態 ----
     private Vector3 _arcballStartVector; // 從物體中心指向點擊點的初始單位向量
     private float _arcballRadius;        // 虛擬旋轉球的半徑
 
@@ -21,8 +31,9 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
     {
         if (!enabled) return;
 
-        // 1. 永遠記錄按下瞬間的絕對旋轉值，防止 Delta 累加造成的幾何級數暴走
+        // 1. 永遠記錄按下瞬間的絕對旋轉值
         _initialRotation = transform.rotation;
+        _initialEulerAngles = transform.rotation.eulerAngles;
 
         if (useArcball)
         {
@@ -37,6 +48,8 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
     {
         if (!enabled) return;
 
+        Quaternion targetRotation = transform.rotation;
+
         if (useArcball)
         {
             // 透過射線與虛擬球體交點，取得當前滑鼠在球面上的目標向量 V1
@@ -45,8 +58,8 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
             // 計算從 V0 到 V1 的四元數旋轉差
             Quaternion deltaRot = Quaternion.FromToRotation(_arcballStartVector, currentVec);
             
-            // ★ 嚴格數學規則：總差值 (deltaRot) 必須乘上初始狀態 (_initialRotation)，絕對不能乘 transform.rotation！
-            transform.rotation = deltaRot * _initialRotation;
+            // 算出未鎖定的目標旋轉
+            targetRotation = deltaRot * _initialRotation;
         }
         else
         {
@@ -56,8 +69,33 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
             float yawAmount = -screenDelta.x * dirX * sensitivity;
             float pitchAmount = screenDelta.y * dirY * sensitivity;
 
-            transform.Rotate(yawAxis, yawAmount, Space.World);
-            transform.Rotate(pitchAxis, pitchAmount, Space.World);
+            // 先在當前旋轉基礎上疊加變化
+            Quaternion tempRot = transform.rotation;
+            tempRot *= Quaternion.AngleAxis(yawAmount, yawAxis);
+            tempRot *= Quaternion.AngleAxis(pitchAmount, pitchAxis);
+            targetRotation = tempRot;
+        }
+
+        // ==========================================
+        // ★ 核心：過濾被鎖定的軸
+        // ==========================================
+        // 如果全部允許，直接套用，省效能
+        if (allowRotateX && allowRotateY && allowRotateZ)
+        {
+            transform.rotation = targetRotation;
+        }
+        else
+        {
+            // 將目標旋轉轉為歐拉角
+            Vector3 targetEuler = targetRotation.eulerAngles;
+
+            // 如果該軸不允許轉動，就強迫把它變回剛按下滑鼠時的初始角度
+            float finalX = allowRotateX ? targetEuler.x : _initialEulerAngles.x;
+            float finalY = allowRotateY ? targetEuler.y : _initialEulerAngles.y;
+            float finalZ = allowRotateZ ? targetEuler.z : _initialEulerAngles.z;
+
+            // 重新組合成四元數並套用
+            transform.rotation = Quaternion.Euler(finalX, finalY, finalZ);
         }
     }
 
@@ -76,7 +114,6 @@ public class RotatableBehavior3D : MonoBehaviour, IRotateHandler3D
         if (discriminant < 0)
         {
             // 【邊緣保護機制】當滑鼠移出虛擬球體外時，將點投影到球體對著攝影機的輪廓邊緣
-            // 避免判別式為負數時旋轉卡死，維持 Trackball 的連續操作體驗
             float tClosest = -b / (2.0f * a);
             Vector3 closestPointOnRay = ray.origin + ray.direction * tClosest;
             return (closestPointOnRay - transform.position).normalized;

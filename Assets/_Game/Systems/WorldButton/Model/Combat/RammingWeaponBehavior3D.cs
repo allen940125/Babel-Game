@@ -4,45 +4,44 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
-// ★ 強制要求這個武器必須掛載 DamageDealer (傷害發送器)
 [RequireComponent(typeof(DamageDealer))] 
+[RequireComponent(typeof(KinematicTracker3D))] // ★ 強制掛載速度追蹤器
 public class RammingWeaponBehavior3D : MonoBehaviour
 {
-    [Header("★ 物理撞擊設定 (只管物理，不管數值！)")]
-    [Tooltip("允許造成傷害的目標層級 (例如 Enemy, Boss)")]
-    [SerializeField] private LayerMask targetLayer; // ★ 新增此欄位
+    [Header("★ 物理撞擊設定")]
+    [SerializeField] private LayerMask damageLayer; 
+    [SerializeField] private LayerMask interactionLayer; 
     
-    [Tooltip("滑鼠拖曳甩動的最小速度閾值")]
-    [SerializeField] private float minImpactSpeed = 5.0f;
+    [Header("★ 動能閾值 (滿足其一即可判定為攻擊)")]
+    [Tooltip("直線揮擊的最小速度")]
+    [SerializeField] private float minLinearSpeed = 3.0f;
+    [Tooltip("轉手腕甩動的最小角速度 (度/秒)")]
+    [SerializeField] private float minAngularSpeed = 300.0f; 
+
+    [Header("★ 狀態設定")]
     [SerializeField] private float rammingCooldown = 0.8f;
     [SerializeField] private bool isArmed = false;
 
-    // ★ 徹底替換：武器只需要 DamageDealer 來發送傷害，不需要知道 Health
     [SerializeField] private DamageDealer damageDealer;
     
-    public UnityEvent<GameObject> OnRammingSuccess; // ★ 新增：廣播物理撞擊成功
+    [Header("★ 事件廣播")]
+    public UnityEvent<GameObject> OnRammingSuccess; 
+    public UnityEvent<GameObject> OnInteractionHit; 
 
-    private Vector3 _lastPosition;
-    private float _currentInstantSpeed;
+    private KinematicTracker3D _tracker; // ★ 速度資料來源
     private bool _isOnCooldown = false;
     private GlowBehavior3D _glow;
 
     private void Awake()
     {
-        // 1. 自動抓取本物件上的傷害發送器
+        _tracker = GetComponent<KinematicTracker3D>(); // 抓取追蹤器
         if (damageDealer == null) damageDealer = GetComponent<DamageDealer>();
         _glow = GetComponent<GlowBehavior3D>();
-        _lastPosition = transform.position;
 
-        // 2. 訂閱事件
         if (GameManager.Instance?.MainGameEvent != null)
         {
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterAttackingPhaseEvent, OnBossAttacking);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnBossEnterIdlePhaseEvent, OnBossIdle);
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] 找不到 GameManager.Instance.MainGameEvent，事件訂閱失敗！");
         }
     }
 
@@ -55,87 +54,53 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        _currentInstantSpeed = (transform.position - _lastPosition).magnitude / Time.deltaTime;
-        _lastPosition = transform.position;
-    }
-
-    // ★ 修正：傳入 collision.collider.gameObject (精準的子物件)，而不是 collision.gameObject (父剛體)
     private void OnCollisionEnter(Collision collision) => TryExecuteRamming(collision.collider.gameObject);
     
-    // OnTriggerEnter 本來就是回傳 Collider，所以寫法不變
     private void OnTriggerEnter(Collider other) => TryExecuteRamming(other.gameObject);
 
     private void TryExecuteRamming(GameObject target)
     {
-        // ★ 物理過濾：不要打到自己，也不要打到沒有實體的東西
         if (target == this.gameObject) return;
 
-        // ★ 物理過濾 2：Layer 檢測 (利用位元運算比對 LayerMask)
-        // 如果目標的 Layer 不在 targetLayer 的允許範圍內，直接捨棄，不產生任何後續運算
-        if ((targetLayer.value & (1 << target.layer)) == 0)
+        // 1. 基礎防呆
+        if (!isArmed || _isOnCooldown || damageDealer == null) return;
+
+        // 2. ★ 動能檢定 (向 Tracker 索取數據)
+        bool isFastEnough = _tracker.LinearSpeed >= minLinearSpeed || _tracker.AngularSpeed >= minAngularSpeed;
+        
+        if (!isFastEnough)
         {
+            // 動能不足，判定為輕輕碰到，不構成攻擊
             return; 
         }
-        
-        Debug.Log($"<color=white>[物理接觸] 撞擊到了: {target.name} | 當前甩動速度: {_currentInstantSpeed:.00} m/s</color>");
 
-        // 檢查閘門 1：武裝狀態
-        if (!isArmed)
-        {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 1] {gameObject.name} 目前並未武裝！請檢查 Boss 是否已進入 Idle 階段！</color>");
-            return;
-        }
-
-        // 檢查閘門 2：攻擊冷卻中
-        if (_isOnCooldown)
-        {
-            Debug.LogWarning($"<color=gray>[攻擊攔截 2] {gameObject.name} 目前正在撞擊冷卻中！</color>");
-            return;
-        }
-
-        // 檢查閘門 3：速度不夠快
-        if (_currentInstantSpeed < minImpactSpeed)
-        {
-            Debug.LogWarning($"<color=orange>[攻擊攔截 3] 甩動速度不足！當前速度 ({_currentInstantSpeed:.00} m/s) < 最小閾值 ({minImpactSpeed} m/s)</color>");
-            return;
-        }
-
-        // 檢查閘門 4：確保有傷害發送器
-        if (damageDealer == null)
-        {
-            Debug.LogError($"<color=red>[致命錯誤 4] {gameObject.name} 找不到 DamageDealer 組件！</color>");
-            return;
-        }
-
-        // --- 進入結算 ---
-        Debug.Log($"<color=green>[條件全過！] 準備調用 damageDealer.DealDamageTo({target.name})！</color>");
-        
         // ==========================================
-        // ★ 核心修正：撞擊瞬間，才向玩家索取「當下最新」的面板數值進行快照
+        // 3. 處理 Interaction Layer (互動：例如扎玩家補血)
         // ==========================================
-        var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
-        if (playerRuntime != null)
+        if ((interactionLayer.value & (1 << target.layer)) != 0)
         {
-            damageDealer.InjectSnapshot(
-                playerRuntime.TotalAttackPower, 
-                playerRuntime.TotalCritRate, 
-                playerRuntime.TotalCritMultiplier
-            );
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] 找不到玩家資料，將使用 DamageDealer 的預設固定傷害！");
+            OnInteractionHit?.Invoke(target); 
+            StartCoroutine(CooldownRoutine());
+            return; 
         }
 
-        // 將最新快照的傷害灌給目標
-// 將最新快照的傷害灌給目標
-        damageDealer.DealDamageTo(target);
+        // ==========================================
+        // 4. 處理 Damage Layer (傷害：例如扎敵人抽血)
+        // ==========================================
+        if ((damageLayer.value & (1 << target.layer)) != 0)
+        {
+            var playerRuntime = GameManager.Instance.MainGameMediator.CurrentPlayerRuntime;
+            if (playerRuntime != null)
+            {
+                damageDealer.InjectSnapshot(playerRuntime.TotalAttackPower, playerRuntime.TotalCritRate, playerRuntime.TotalCritMultiplier);
+            }
+
+            damageDealer.DealDamageTo(target);
+            OnRammingSuccess?.Invoke(target); 
         
-        OnRammingSuccess?.Invoke(target); // ★ 新增：把撞到的對象廣播出去
-    
-        StartCoroutine(CooldownRoutine());
+            StartCoroutine(CooldownRoutine());
+            return;
+        }
     }
 
     private IEnumerator CooldownRoutine()
@@ -147,15 +112,8 @@ public class RammingWeaponBehavior3D : MonoBehaviour
         if (isArmed && _glow != null) _glow.enabled = true;
     }
 
-    private void OnBossAttacking(BossEnterAttackingPhaseEvent evt) 
-    {
-        SetArmedState(false);
-    }
-
-    private void OnBossIdle(BossEnterIdlePhaseEvent evt) 
-    {
-        SetArmedState(true);
-    }
+    private void OnBossAttacking(BossEnterAttackingPhaseEvent evt) => SetArmedState(false);
+    private void OnBossIdle(BossEnterIdlePhaseEvent evt) => SetArmedState(true);
 
     public void SetArmedState(bool armed)
     {
